@@ -24,7 +24,7 @@ class ReadContentMessageProcessorTest extends MessageProcessorTestBase {
     @BeforeEach
     void setup() {
         setupBase();
-        Mockito.doNothing().when(readContentUseCase).readContent(
+        Mockito.doNothing().when(readContentInPort).readContent(
                 readContentDto.getContentCoos(),
                 readContentDto.getUser(),
                 readContentDto.getFilePath(),
@@ -47,7 +47,7 @@ class ReadContentMessageProcessorTest extends MessageProcessorTestBase {
     @Test
     void testDmsIntegrationReadContentSuccessfully() {
         messageProcessor.readContent().accept(this.message);
-        verify(readContentUseCase, times(1)).readContent(
+        verify(readContentInPort, times(1)).readContent(
                 readContentDto.getContentCoos(),
                 readContentDto.getUser(),
                 readContentDto.getFilePath(),

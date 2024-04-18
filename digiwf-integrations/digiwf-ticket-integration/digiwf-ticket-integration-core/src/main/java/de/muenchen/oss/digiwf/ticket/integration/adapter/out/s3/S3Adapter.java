@@ -10,7 +10,7 @@ import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageSer
 import de.muenchen.oss.digiwf.s3.integration.client.exception.PropertyNotSetException;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFileRepository;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFolderRepository;
-import de.muenchen.oss.digiwf.ticket.integration.application.port.out.LoadFilePort;
+import de.muenchen.oss.digiwf.ticket.integration.application.port.out.LoadFileOutPort;
 import de.muenchen.oss.digiwf.ticket.integration.domain.model.FileContent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +24,7 @@ import java.util.Set;
 
 @Slf4j
 @RequiredArgsConstructor
-public class S3Adapter implements LoadFilePort {
+public class S3Adapter implements LoadFileOutPort {
 
     private final DocumentStorageFileRepository documentStorageFileRepository;
     private final DocumentStorageFolderRepository documentStorageFolderRepository;
@@ -34,14 +34,15 @@ public class S3Adapter implements LoadFilePort {
     private final String APP_FILE_S3_SYNC_CONFIG = "app_file_s3_sync_config";
 
     @Override
-    public List<FileContent> loadFiles(final List<String> filepaths, final String processDefinition) {
+    public List<FileContent> loadFiles(final List<String> filepaths, final String fileContext, final String processDefinition) {
         final String s3Storage = getDomainSpecificS3Storage(processDefinition).orElse(null);
         final List<FileContent> contents = new ArrayList<>();
         filepaths.forEach(path -> {
-            if (path.endsWith("/")) {
-                contents.addAll(getFilesFromFolder(path, s3Storage));
+            final String fullPath = fileContext + "/" + path;
+            if (fullPath.endsWith("/")) {
+                contents.addAll(getFilesFromFolder(fullPath, s3Storage));
             } else {
-                contents.add(getFile(path, s3Storage));
+                contents.add(getFile(fullPath, s3Storage));
             }
         });
         return contents;

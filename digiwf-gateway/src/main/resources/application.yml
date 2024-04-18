@@ -40,7 +40,11 @@ spring:
       globalcors:
         cors-configurations:
           '[/public/**]':
-            allowedOriginPatterns: ${PUBLIC_ALLOWED_ORIGINS}
+            allowedOriginPatterns: ${ALLOWED_ORIGINS_PUBLIC}
+          '[/clients/**]':
+            allowedOriginPatterns: ${ALLOWED_ORIGINS_CLIENTS}
+            allowedHeaders: "*"
+            allowCredentials: true
 
 server:
   port: ${GATEWAY_SERVER_PORT:8082}

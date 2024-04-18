@@ -8,7 +8,7 @@
         v-bind="attrs"
         v-on="on"
       >
-        <HelpIcon/>
+        <HelpIcon />
       </v-btn>
     </template>
     <v-list>
@@ -16,7 +16,7 @@
         class="max-v-list-item-height"
         @click.stop="changeMode"
       >
-        <HighContrastIcon class="mr-2"/>
+        <HighContrastIcon class="mr-2" />
         Hoher Kontrast
         <v-switch
           class="ml-2"
@@ -53,7 +53,7 @@
         class="max-v-list-item-height"
         @click="$emit('openKeyBindingsDialoge')"
       >
-        <KeyboardAccessibilityIcon class="mr-2"/>
+        <KeyboardAccessibilityIcon class="mr-2" />
         Anleitung öffnen
       </v-list-item>
       <v-list-item
@@ -61,7 +61,7 @@
         class="max-v-list-item-height"
         to="/accessibilitystatement"
       >
-        <StatementIcon class="mr-2"/>
+        <StatementIcon class="mr-2" />
         Barrierefreiheitserklärung
       </v-list-item>
     </v-list>

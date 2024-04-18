@@ -7,7 +7,7 @@
       :show-assignee="true"
       :show-assignee-filter="true"
       :is-loading="isLoading || isRefetching"
-      :errorMessage="errorMessage"
+      :error-message="errorMessage"
       :tag="tag"
       :assignee="assignee"
       :filter="filter"
@@ -47,20 +47,17 @@
 <style scoped></style>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from "vue";
-import { useRouter } from "vue-router/composables";
+import {defineComponent, watch} from "vue";
+import {useRouter} from "vue-router/composables";
 
 import GroupTaskItem from "../components/task/GroupTaskItem.vue";
 import TaskList from "../components/task/TaskList.vue";
 import AppPaginationFooter from "../components/UI/AppPaginationFooter.vue";
 import AppViewLayout from "../components/UI/AppViewLayout.vue";
-import { usePageId } from "../middleware/pageId";
-import { useGetPaginationData } from "../middleware/paginationData";
-import {
-  useAssignedGroupTasksQuery,
-  useAssignTaskToCurrentUserMutation,
-} from "../middleware/tasks/taskMiddleware";
-import { usePageFilters } from "../store/modules/filters";
+import {usePageId} from "../middleware/pageId";
+import {useGetPaginationData} from "../middleware/paginationData";
+import {useAssignedGroupTasksQuery, useAssignTaskToCurrentUserMutation,} from "../middleware/tasks/taskMiddleware";
+import {usePageFilters} from "../store/modules/filters";
 
 export default defineComponent({
   components: { TaskList, AppViewLayout, GroupTaskItem, AppPaginationFooter },

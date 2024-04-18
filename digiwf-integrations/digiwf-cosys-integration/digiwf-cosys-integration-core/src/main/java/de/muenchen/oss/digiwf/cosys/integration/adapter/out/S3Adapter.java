@@ -1,6 +1,6 @@
 package de.muenchen.oss.digiwf.cosys.integration.adapter.out;
 
-import de.muenchen.oss.digiwf.cosys.integration.application.port.out.SaveFileToStoragePort;
+import de.muenchen.oss.digiwf.cosys.integration.application.port.out.SaveFileToStorageOutPort;
 import de.muenchen.oss.digiwf.cosys.integration.model.DocumentStorageUrl;
 import de.muenchen.oss.digiwf.cosys.integration.model.GenerateDocument;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequiredArgsConstructor
-public class S3Adapter implements SaveFileToStoragePort {
+public class S3Adapter implements SaveFileToStorageOutPort {
 
     private final S3FileTransferRepository s3FileTransferRepository;
 

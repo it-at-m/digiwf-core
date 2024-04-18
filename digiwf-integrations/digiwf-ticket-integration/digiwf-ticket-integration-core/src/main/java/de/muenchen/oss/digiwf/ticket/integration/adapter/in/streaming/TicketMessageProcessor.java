@@ -17,11 +17,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.context.annotation.Bean;
 import org.springframework.lang.NonNull;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHeaders;
-import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,7 +29,6 @@ import java.util.function.Consumer;
 import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_PROCESS_DEFINITION;
 
 @Slf4j
-@Component
 @RequiredArgsConstructor
 public class TicketMessageProcessor {
 
@@ -48,7 +45,6 @@ public class TicketMessageProcessor {
      *
      * @return the consumer
      */
-    @Bean
     public Consumer<Message<WriteArticleDto>> writeArticle() {
         return message -> {
             log.info("Processing new request from eventbus");
@@ -58,7 +54,8 @@ public class TicketMessageProcessor {
             try {
                 writeArticleInPort.writeArticle(
                         request.getTicketId(), new Article(request.getArticle(), request.getUserId()),
-                        mapStatus(request.getStatus()), request.getFilepaths(), headers.get(DIGIWF_PROCESS_DEFINITION).toString());
+                        mapStatus(request.getStatus()), request.getFilepaths(), request.getFileContext(),
+                        headers.get(DIGIWF_PROCESS_DEFINITION).toString());
                 correlateProcessMessage(headers, Map.of());
             } catch (ConstraintViolationException cve) {
                 handleBpmnError(headers, new BpmnError(VALIDATION_ERROR_CODE, cve.getMessage()));

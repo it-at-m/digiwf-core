@@ -35,7 +35,7 @@ class CreateDocumentMessageProcessorTest extends MessageProcessorTestBase {
     @BeforeEach
     void setup() {
         setupBase();
-        Mockito.when(createDocumentUseCaseMock.createDocument(
+        Mockito.when(createDocumentInPortMock.createDocument(
                         createDocumentDto.getProcedureCoo(),
                         createDocumentDto.getTitle(),
                         createDocumentDto.getDate(),
@@ -62,7 +62,7 @@ class CreateDocumentMessageProcessorTest extends MessageProcessorTestBase {
     @Test
     void testDmsIntegrationCreateDocumentSuccessfully() {
         messageProcessor.createDocument().accept(this.message);
-        verify(createDocumentUseCaseMock, times(1)).createDocument(
+        verify(createDocumentInPortMock, times(1)).createDocument(
                 createDocumentDto.getProcedureCoo(),
                 createDocumentDto.getTitle(),
                 createDocumentDto.getDate(),
@@ -74,7 +74,7 @@ class CreateDocumentMessageProcessorTest extends MessageProcessorTestBase {
 
     @Test
     void testDmsIntegrationCreateDocumentHandlesValidationException() {
-        Mockito.doThrow(new ValidationException("Test ValidationException")).when(createDocumentUseCaseMock).createDocument(any(), any(), any(), any(), any(), any(), any());
+        Mockito.doThrow(new ValidationException("Test ValidationException")).when(createDocumentInPortMock).createDocument(any(), any(), any(), any(), any(), any(), any());
         messageProcessor.createDocument().accept(this.message);
         final ArgumentCaptor<Map> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
         verify(errorApiMock, times(1)).handleIncident(messageHeaderArgumentCaptor.capture(), any(IncidentError.class));
@@ -84,7 +84,7 @@ class CreateDocumentMessageProcessorTest extends MessageProcessorTestBase {
 
     @Test
     void testDmsCreateDocumentIntegrationHandlesIncidentError() {
-        Mockito.doThrow(new IncidentError("Error Message")).when(createDocumentUseCaseMock).createDocument(any(), any(), any(), any(), any(), any(), any());
+        Mockito.doThrow(new IncidentError("Error Message")).when(createDocumentInPortMock).createDocument(any(), any(), any(), any(), any(), any(), any());
         messageProcessor.createDocument().accept(this.message);
         final ArgumentCaptor<Map> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
         verify(errorApiMock, times(1)).handleIncident(messageHeaderArgumentCaptor.capture(), any(IncidentError.class));

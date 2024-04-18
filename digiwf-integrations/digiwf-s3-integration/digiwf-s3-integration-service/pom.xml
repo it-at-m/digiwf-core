@@ -7,14 +7,14 @@
     <parent>
         <groupId>de.muenchen.oss.digiwf</groupId>
         <artifactId>digiwf-s3-integration</artifactId>
-        <version>1.9.0-SNAPSHOT</version>
+        <version>1.10.3-SNAPSHOT</version>
     </parent>
 
     <artifactId>digiwf-s3-integration-service</artifactId>
     <name>digiwf-s3-integration-service</name>
 
     <properties>
-        <apache.commons.io>2.15.1</apache.commons.io>
+        <apache.commons.io>2.16.1</apache.commons.io>
     </properties>
 
     <dependencies>
@@ -23,7 +23,7 @@
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-s3-integration-starter</artifactId>
-            <version>1.9.0-SNAPSHOT</version>
+            <version>1.10.3-SNAPSHOT</version>
         </dependency>
 
         <!-- Security -->
@@ -36,6 +36,7 @@
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-spring-logging-and-tracing</artifactId>
+            <type>pom</type>
         </dependency>
 
         <!-- Spring Boot -->

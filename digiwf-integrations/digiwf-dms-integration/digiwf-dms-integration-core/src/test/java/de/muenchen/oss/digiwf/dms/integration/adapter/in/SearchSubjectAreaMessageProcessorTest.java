@@ -22,7 +22,7 @@ class SearchSubjectAreaMessageProcessorTest extends MessageProcessorTestBase {
     @BeforeEach
     void setup() {
         setupBase();
-        Mockito.when(searchSubjectAreaUseCase.searchSubjectArea(
+        Mockito.when(searchSubjectAreaInPort.searchSubjectArea(
                 searchSubjectAreaDto.getSearchString(),
                 searchSubjectAreaDto.getUser()
         )).thenReturn("coo");
@@ -43,7 +43,7 @@ class SearchSubjectAreaMessageProcessorTest extends MessageProcessorTestBase {
     @Test
     void testReadFileSuccessfully() {
         messageProcessor.searchSubjectArea().accept(this.message);
-        verify(searchSubjectAreaUseCase, times(1)).searchSubjectArea(
+        verify(searchSubjectAreaInPort, times(1)).searchSubjectArea(
                 searchSubjectAreaDto.getSearchString(),
                 searchSubjectAreaDto.getUser());
     }

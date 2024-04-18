@@ -1,1 +1,3 @@
 de.muenchen.oss.digiwf.example.integration.ExampleIntegrationAutoconfiguration
+de.muenchen.oss.digiwf.example.integration.ExampleIntegrationAdapterInAutoconfiguration
+de.muenchen.oss.digiwf.example.integration.ExampleIntegrationAdapterOutAutoconfiguration

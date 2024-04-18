@@ -7,6 +7,7 @@ import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHeaders;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -24,12 +25,12 @@ class SearchFileMessageProcessorTest extends MessageProcessorTestBase {
     @BeforeEach
     void setup() {
         setupBase();
-        Mockito.when(searchFileUseCase.searchFile(
+        Mockito.when(searchFileInPort.searchFile(
                 searchFileDto.getSearchString(),
                 searchFileDto.getUser(),
                 searchFileDto.getReference(),
                 searchFileDto.getValue()
-        )).thenReturn(Arrays.asList("noFilter"));
+        )).thenReturn(List.of("noFilter"));
 
         this.message = new Message<>() {
             @Override
@@ -47,7 +48,7 @@ class SearchFileMessageProcessorTest extends MessageProcessorTestBase {
     @Test
     void testReadFileSuccessfully() {
         messageProcessor.searchFile().accept(this.message);
-        verify(searchFileUseCase, times(1)).searchFile(
+        verify(searchFileInPort, times(1)).searchFile(
                 searchFileDto.getSearchString(),
                 searchFileDto.getUser(),
                 searchFileDto.getReference(),

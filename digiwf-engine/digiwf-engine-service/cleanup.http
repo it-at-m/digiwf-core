@@ -1,0 +1,71 @@
+### Get all process definitions keys (distinct process definitions)
+GET {{ engine-url }}/admin/process-definitions/key
+Content-Type: application/json
+Authorization: Bearer {{$auth.token("local-keycloak-client-credentials")}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+    console.log(response.body)
+
+    client.test("Find process definition", function () {
+        client.assert(jsonPath(response.body, "size()") > 0, "Expected some process definitions, but didn't get any");
+        client.global.set("processDefinitionKey", "DigitalWFErleben")
+    });
+%}
+
+### Get info on one key
+GET {{ engine-url }}/admin/process-definitions/key/{{ processDefinitionKey }}
+Content-Type: application/json
+Authorization: Bearer {{$auth.token("local-keycloak-client-credentials")}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+        const count = jsonPath(response.body, "size()");
+        client.assert(count > 0, "There should be some process definition ids")
+        client.global.set("processDefinitionIdCount", count);
+    });
+
+%}
+
+### Try to migrate all instances to latest process definition
+POST {{ engine-url }}/admin/process-definitions/key/{{ processDefinitionKey }}/migrate
+Content-Type: application/json
+Authorization: Bearer {{$auth.token("local-keycloak-client-credentials")}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 204, "Response status is not 204");
+    });
+    console.log(response.body)
+%}
+
+### Delete obvious (all definitions with 0 instances older than 185 days)
+DELETE {{ engine-url }}/admin/process-definitions/key/{{ processDefinitionKey }}/obvious?remove-with-historical-process-instances=false
+Content-Type: application/json
+Authorization: Bearer {{$auth.token("local-keycloak-client-credentials")}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 204, "Response status is not 204");
+    });
+    console.log(response.body)
+%}
+
+### Get info on one key again
+GET {{ engine-url }}/admin/process-definitions/key/{{ processDefinitionKey }}
+Content-Type: application/json
+Authorization: Bearer {{$auth.token("local-keycloak-client-credentials")}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+        const countAfterMigration = jsonPath(response.body, "size()");
+        const count = parseInt(client.global.get("processDefinitionIdCount"));
+        client.assert(countAfterMigration > 0, "There should be some process definition ids");
+        client.assert(countAfterMigration <= count, `Migration to latest and deletion should reduce the number of definition ids, but it was ${countAfterMigration} compared to ${count}.`);
+    });
+
+%}

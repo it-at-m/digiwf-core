@@ -1,6 +1,6 @@
 import { PageOfTasks, Task } from "@muenchen/digiwf-task-api-internal";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
-import { computed, inject, ref, Ref } from "vue";
+import { computed, ref, Ref } from "vue";
 
 import { ApiCallError } from "../../api/defaultErrorHandler";
 import {
@@ -15,15 +15,12 @@ import {
   callPostAssignTaskInTaskService,
   callSaveTaskInTaskService,
 } from "../../api/tasks/tasksApiCalls";
-import { useStore } from "../../hooks/store";
 import router from "../../router";
-import store from "../../store";
 import { nullToUndefined } from "../../utils/dataTransformations";
 import { dateToIsoDateTime, getCurrentDate } from "../../utils/time";
 import { Page } from "../commonModels";
 import { queryClient } from "../queryClient";
 import { getUserInfo, useCurrentUserInfo } from "../user/userMiddleware";
-import { User } from "../user/userModels";
 import {
   addAssignedTaskIds,
   addFinishedTaskIds,
@@ -272,139 +269,95 @@ export interface LoadTaskResultData {
   readonly downloadButtonText: string;
 }
 
-export interface LoadTaskResult {
-  readonly data?: LoadTaskResultData;
-  readonly error?: string;
-}
-
-export const loadTask = (taskId: string): Promise<LoadTaskResult> => {
-  return callGetTaskDetailsFromTaskService(taskId)
-    .then((taskResponse) => {
-      return (
-        taskResponse.assignee
-          ? getUserInfo(taskResponse.assignee)
-          : Promise.resolve<undefined>(undefined)
-      ).then((user) => {
-        const taskDetails = mapTaskDetailsFromTaskService(
-          taskResponse,
-          isInFinishedProcesses(taskId),
-          isInAssignedProcesses(taskId),
-          user
-        );
-        return Promise.resolve<LoadTaskResult>({
-          data: {
-            task: taskDetails,
-            hasDownloadButton:
-              taskDetails.form?.buttons?.statusPdf!.showButton || false,
-            model: taskDetails.variables, // FIXME: I guess that is wrong
-            followUpDate: taskDetails.followUpDate!,
-            cancelText:
-              taskDetails.form?.buttons?.cancel!.buttonText || "Task abbrechen",
-            downloadButtonText:
-              taskDetails.form?.buttons?.statusPdf!.buttonText || "",
-          },
+export const useTaskQuery = (taskId: string) => {
+  return useQuery<LoadTaskResultData, string>({
+    queryKey: ["task", taskId],
+    queryFn: () => {
+      return callGetTaskDetailsFromTaskService(taskId)
+        .then((taskResponse) => {
+          return (
+            taskResponse.assignee
+              ? getUserInfo(taskResponse.assignee)
+              : Promise.resolve<undefined>(undefined)
+          ).then((user) => {
+            const taskDetails = mapTaskDetailsFromTaskService(
+              taskResponse,
+              isInFinishedProcesses(taskId),
+              isInAssignedProcesses(taskId),
+              user
+            );
+            return Promise.resolve<LoadTaskResultData>({
+              task: taskDetails,
+              hasDownloadButton:
+                taskDetails.form?.buttons?.statusPdf!.showButton || false,
+              model: taskDetails.variables, // FIXME: I guess that is wrong
+              followUpDate: taskDetails.followUpDate!,
+              cancelText:
+                taskDetails.form?.buttons?.cancel!.buttonText ||
+                "Task abbrechen",
+              downloadButtonText:
+                taskDetails.form?.buttons?.statusPdf!.buttonText || "",
+            });
+          });
+        })
+        .catch((error: ApiCallError) => {
+          if (error.status === 404) {
+            return Promise.reject(
+              "Die Aufgabe oder der zugehörige Vorgang wurden bereits abgeschlossen. Die Aufgabe kann daher nicht mehr angezeigt oder bearbeitet werden."
+            );
+          } else {
+            return Promise.reject("Die Aufgabe konnte nicht geladen werden.");
+          }
         });
-      });
-    })
-    .catch((error: ApiCallError) => {
-      if (error.status === 404) {
-        return Promise.resolve({
-          error:
-            "Die Aufgabe oder der zugehörige Vorgang wurden bereits abgeschlossen. Die Aufgabe kann daher nicht mehr angezeigt oder bearbeitet werden.",
-        });
-      } else {
-        return Promise.resolve({
-          error: "Die Aufgabe konnte nicht geladen werden.",
-        });
-      }
-    });
+    },
+  });
 };
 
-/**
- * requests for TaskDetailsView
- */
-
-export interface CancelTaskResult {
-  readonly isError: boolean;
-  readonly errorMessage?: string;
-}
-
-/**
- * @deprecated
- * @param taskId
- */
-export const cancelTask = (taskId: string): Promise<CancelTaskResult> => {
-  return callCancelTaskInTaskService(taskId)
-    .then(() => {
+export const useCancelTaskMutation = () => {
+  const queryClient = useQueryClient();
+  return useMutation<void, string, string>({
+    mutationFn: (taskId) => {
+      return callCancelTaskInTaskService(taskId).catch(() =>
+        Promise.reject("Die Aufgabe konnte nicht abgebrochen werden.")
+      );
+    },
+    onSuccess: () => {
       queryClient.invalidateQueries([userTasksQueryId]);
       router.push({ path: "/task" });
-
-      return Promise.resolve<CancelTaskResult>({
-        isError: false,
-      });
-    })
-    .catch(() => {
-      return Promise.resolve<CancelTaskResult>({
-        isError: true,
-        errorMessage: "Die Aufgabe konnte nicht abgebrochen werden.",
-      });
-    });
+    },
+  });
 };
 
-interface CompleteTaskResult {
-  readonly errorMessage?: string;
-  readonly isError: boolean;
-}
-
-export const completeTask = (
-  taskId: string,
-  variables: TaskVariables
-): Promise<CompleteTaskResult> => {
-  return callCompleteTaskInTaskService(taskId, variables)
-    .then(() => {
+export const useCompleteTaskMutation = (taskId: string) => {
+  return useMutation<void, string, TaskVariables>({
+    mutationFn: (variables) => {
+      return callCompleteTaskInTaskService(taskId, variables).catch((error) =>
+        Promise.reject(error.message)
+      );
+    },
+    onSuccess: () => {
       addFinishedTaskIds(taskId);
       invalidUserTasks();
-      return Promise.resolve<CompleteTaskResult>({
-        isError: false,
-        errorMessage: undefined,
-      });
-    })
-    .catch((error) => {
-      return Promise.resolve<CompleteTaskResult>({
-        isError: true,
-        errorMessage: error.message,
-      });
-    });
+    },
+  });
 };
 
-interface SetFollowUpResult {
-  readonly errorMessage?: string;
-  readonly isError: boolean;
-}
-
-export const deferTask = (
-  taskId: string,
-  followUp: string
-): Promise<SetFollowUpResult> => {
-  return handleDeferTaskInTaskService(taskId, followUp)
-    .then(() => {
-      invalidUserTasks();
-      router.push({ path: "/task" });
-
-      return Promise.resolve<SetFollowUpResult>({
-        errorMessage: undefined,
-        isError: false,
-      });
-    })
-    .catch((error) => {
-      return Promise.resolve<SetFollowUpResult>({
-        errorMessage:
+export const useDeferTaskMutation = (taskId: string) => {
+  return useMutation<void, string, string>({
+    mutationFn: (followUp: string) => {
+      return handleDeferTaskInTaskService(taskId, followUp).catch((error) => {
+        return Promise.reject(
           error.message === "incorrect date format"
             ? "Ungültiges Format für das Wiedervorlagedatum angegeben"
-            : "Die Aufgabe konnte nicht gespeichert werden.",
-        isError: true,
+            : "Die Aufgabe konnte nicht gespeichert werden."
+        );
       });
-    });
+    },
+    onSuccess: () => {
+      invalidUserTasks();
+      router.push({ path: "/task" });
+    },
+  });
 };
 
 const handleDeferTaskInTaskService = (taskId: string, followUp: string) => {
@@ -417,48 +370,34 @@ const handleDeferTaskInTaskService = (taskId: string, followUp: string) => {
   return callDeferTask(taskId, date);
 };
 
-interface SaveTaskResult {
-  readonly errorMessage?: string;
-  readonly isError: boolean;
-}
-
-export const saveTask = (
-  taskId: string,
-  variables: TaskVariables
-): Promise<SaveTaskResult> => {
-  return callSaveTaskInTaskService(taskId, variables)
-    .then(() =>
-      Promise.resolve({
-        // FIXME: invalide task list?
-        isError: false,
-        errorMessage: undefined,
-      })
-    )
-    .catch((error) =>
-      Promise.resolve({
-        isError: true,
-        errorMessage: error.message,
-      })
-    );
+export const useSaveTaskMutation = (taskId: string) => {
+  return useMutation<void, string, TaskVariables>({
+    mutationFn: (variables) => {
+      return callSaveTaskInTaskService(taskId, variables).catch((error) =>
+        Promise.reject(error.message)
+      );
+    },
+  });
 };
 
-interface AssignTaskResult {
-  readonly isError: boolean;
-}
-
-export const assignTask = (
-  taskId: string,
-  userId: string
-): Promise<AssignTaskResult> => {
-  return callPostAssignTaskInTaskService(taskId, userId)
-    .then(() => {
+export const useAssignTaskMutation = (taskId: string) => {
+  return useMutation<void, void, string>({
+    mutationFn: (userId: string) => {
+      return callPostAssignTaskInTaskService(taskId, userId).catch(() =>
+        Promise.reject("Die Aufgabe konnte nicht zugewiesen werden.")
+      );
+    },
+    onSuccess: () => {
       router.push({ path: "/task/" + taskId });
       invalidUserTasks();
       queryClient.invalidateQueries([openGroupTasksQueryId]);
       queryClient.invalidateQueries([assignedGroupTasksQueryId]);
-      return Promise.resolve({ isError: false });
-    })
-    .catch(() => Promise.resolve({ isError: true }));
+    },
+  });
+};
+
+export const pushRouterPath = (path: string) => {
+  router.push({ path: path });
 };
 
 interface DownloadPdfResult {
