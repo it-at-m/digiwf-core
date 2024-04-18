@@ -6,16 +6,7 @@
         type="error"
       />
     </v-flex>
-    <v-flex
-      v-if="isLoading"
-      justify="center"
-    >
-      <v-progress-circular
-        :size="50"
-        indeterminate
-      ></v-progress-circular>
-    </v-flex>
-    <v-flex v-if="task !== null">
+    <v-flex v-if="task">
       <span class="processName grey--text">{{ task.processName }}</span>
       <h1>{{ task.name }}</h1>
       <p>{{ task.description }}</p>
@@ -48,7 +39,16 @@
         @complete-form="handleCompleteTask"
       />
     </v-flex>
-    <v-flex class="buttonWrapper">
+    <v-flex v-if="isLoading" class="loadingAnimation">
+      <v-progress-circular
+        :size="50"
+        aria-label="Daten werden geladen"
+        color="primary"
+        indeterminate
+        tabindex="0"
+      ></v-progress-circular>
+    </v-flex>
+    <v-flex v-else class="buttonWrapper">
       <v-speed-dial
         direction="bottom"
         fab
@@ -152,6 +152,15 @@
   position: relative;
 }
 
+.loadingAnimation {
+  display: flex;
+  position: absolute;
+  justify-content: center;
+  top: 70px;
+  right: 0;
+  left: 0;
+}
+
 .buttonWrapper {
   position: absolute;
   top: 70px;
@@ -228,7 +237,7 @@ const router = useRouter();
 
 const formFields = ref<any>({});
 
-const isLoading = ref(true);
+const isLoading = ref(false);
 
 /**
  * toggle for showing fab menu
@@ -240,16 +249,6 @@ const {
   error: taskLoadingError,
   refetch: reload
 } = useTaskQuery(taskId);
-
-reload().then(() => {
-  if (taskLoadingResult.value) {
-    loadTask(taskLoadingResult.value);
-  }
-  if (taskLoadingError.value) {
-    errorMessage.value = taskLoadingError.value;
-  }
-  isLoading.value = false;
-});
 
 const loadTask = (data: LoadTaskResultData) => {
   task.value = data.task;
@@ -338,6 +337,19 @@ onMounted(() => {
     .addEventListener("click", (e: Event) => {
       e.stopPropagation();
     });
+
+  isLoading.value = true;
+
+  reload().then(() => {
+    if (taskLoadingResult.value) {
+      loadTask(taskLoadingResult.value);
+    }
+    if (taskLoadingError.value) {
+      errorMessage.value = taskLoadingError.value;
+    }
+    isLoading.value = false;
+  });
+
 });
 
 const handleCompleteTask = (model: any) => {

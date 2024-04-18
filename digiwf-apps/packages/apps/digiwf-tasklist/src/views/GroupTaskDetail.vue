@@ -6,6 +6,15 @@
         type="error"
       />
     </v-flex>
+    <v-flex v-if="isLoading" class="loadingAnimation">
+      <v-progress-circular
+        :size="50"
+        aria-label="Daten werden geladen"
+        color="primary"
+        indeterminate
+        tabindex="0"
+      ></v-progress-circular>
+    </v-flex>
     <v-flex v-if="task">
       <!-- header -->
       <v-flex style="justify-content: space-between">
@@ -96,10 +105,19 @@
   align-items: center;
   margin-bottom: 0.3rem;
 }
+
+.loadingAnimation {
+  display: flex;
+  position: absolute;
+  justify-content: center;
+  top: 70px;
+  right: 0;
+  left: 0;
+}
 </style>
 
 <script lang="ts" setup>
-import {provide, ref} from "vue";
+import {onMounted, provide, ref} from "vue";
 import {useRouter} from "vue-router/composables";
 
 import BaseForm from "@/components/form/BaseForm.vue";
@@ -131,15 +149,10 @@ const showAssignDialog = ref(false);
 const router = useRouter();
 const store = useStore();
 
+const isLoading = ref(false);
+
 const {data: currentUser} = useCurrentUserInfo();
 const {data: taskLoadingResult, error: errorMessage, refetch: reload} = useTaskQuery(taskId);
-
-reload().then(() => {
-  if (taskLoadingResult.value) {
-    console.log("Hier sind hoffentlich die richtigen Daten: ", taskLoadingResult.value);
-    task.value = taskLoadingResult.value.task;
-  }
-});
 
 const {
   mutateAsync: assignTask
@@ -150,6 +163,16 @@ provide("apiEndpoint", ApiConfig.base);
 provide("mucsDmsApiEndpoint", ApiConfig.mucsDmsBase);
 provide("alwDmsApiEndpoint", ApiConfig.alwDmsBase);
 provide("taskServiceApiEndpoint", ApiConfig.tasklistBase);
+
+onMounted(() => {
+  isLoading.value = true;
+  reload().then(() => {
+    if (taskLoadingResult.value) {
+      task.value = taskLoadingResult.value.task;
+    }
+    isLoading.value = false;
+  });
+});
 
 const checkTaskAssignment = () => {
   if (task.value?.assigneeId) {
