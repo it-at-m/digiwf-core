@@ -56,8 +56,6 @@ im `digiwf-s3-integration-client-starter` enthalten, sodass im Idealfall nichts 
 Mail-Server anzubinden. Man erstellt lediglich ein Spring-Boot-Projekt (z. B. über [^3]), bindet
 die Starter ein und kann mit der richtigen Konfiguration sofort arbeiten.
 
-[^1]:
-Siehe [https://docs.camunda.io/docs/components/modeler/desktop-modeler/element-templates/about-templates/](https://docs.camunda.io/docs/components/modeler/desktop-modeler/element-templates/about-templates/)
-[^2]:
-Siehe [https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#using.build-systems.starters](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#using.build-systems.starters)
+[^1]: Siehe [https://docs.camunda.io/docs/components/modeler/desktop-modeler/element-templates/about-templates/](https://docs.camunda.io/docs/components/modeler/desktop-modeler/element-templates/about-templates/)
+[^2]: Siehe [https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#using.build-systems.starters](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#using.build-systems.starters)
 [^3]: Siehe [https://start.spring.io/](https://start.spring.io/)
