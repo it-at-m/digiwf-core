@@ -33,6 +33,7 @@
     "@vue/tsconfig": "^0.5.1",
     "eslint": "^8.57.0",
     "eslint-plugin-vue": "^9.24.1",
+    "keycloak-js": "20.0.3",
     "prettier": "^3.2.5",
     "sass": "^1.74.1",
     "typescript": "^5.4.5",

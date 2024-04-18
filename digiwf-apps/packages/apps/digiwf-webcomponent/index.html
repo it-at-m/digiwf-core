@@ -23,7 +23,10 @@
       src="src/digiwf-hello-world-webcomponent.ts"
       type="module"
     ></script>
-    <script src="http://keycloak:8080/auth/js/keycloak.js"></script>
+    <script
+      src="dev/retrieveAndDispatchAccessToken.ts"
+      type="module"
+    ></script>
   </head>
   <body>
     <noscript>
@@ -37,43 +40,4 @@
       <digiwf-service-instances-webcomponent></digiwf-service-instances-webcomponent>
     </div>
   </body>
-<script type="text/javascript">
-  //Config see /stack
-  const keycloak = Keycloak({
-    "realm": "P82",
-    "url": "http://keycloak:8080/auth",
-    "clientId": 'digitalwfv2'
-  });
-
-  function dispatchAccessTokenEvent() {
-    keycloak.updateToken(10)
-      .then(_ => {
-        document.dispatchEvent(
-          new CustomEvent("access-token-loaded", {
-            detail: {
-              accessToken: keycloak.token,
-            },
-          })
-        );
-      })
-      .catch(() => {
-        console.log('Failed to load Token');
-      });
-  }
-
-  setTimeout(() => {
-    dispatchAccessTokenEvent();
-    setInterval(
-      () => {
-        dispatchAccessTokenEvent();
-      },
-      10 * 1000
-    );
-  }, 5000);
-
-  keycloak.init({ onLoad: 'login-required'}).then(auth => {
-    console.debug('auth', auth);
-    dispatchAccessTokenEvent();
-  })
-</script>
 </html>
