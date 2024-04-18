@@ -14,12 +14,12 @@ public class TaskMetricsProvider implements MetricsProvider {
 
     @Override
     public void updateMetrics() {
-        this.openTasks.labels("assigned").set(this.taskService.createTaskQuery().active().taskAssigned().count());
-        this.openTasks.labels("unassigned").set(this.taskService.createTaskQuery().active().taskUnassigned().count());
-        this.openTasks.labels("hasCandidateGroups").set(this.taskService.createTaskQuery().active().withCandidateGroups().count());
-        this.openTasks.labels("hasCandidateUsers").set(this.taskService.createTaskQuery().active().withCandidateUsers().count());
-        this.openTasks.labels("unassignedWithNoCandidates").set(this.taskService.createTaskQuery().active().taskUnassigned().withoutCandidateGroups().withoutCandidateUsers().count());
-        this.openTasks.labels("total").set(this.taskService.createTaskQuery().active().count());
+        this.openTasks.labels("assigned").set(this.taskService.createTaskQuery().taskAssigned().count());
+        this.openTasks.labels("unassigned").set(this.taskService.createTaskQuery().taskUnassigned().count());
+        this.openTasks.labels("hasCandidateGroups").set(this.taskService.createTaskQuery().withCandidateGroups().count());
+        this.openTasks.labels("hasCandidateUsers").set(this.taskService.createTaskQuery().withCandidateUsers().count());
+        this.openTasks.labels("unassignedWithNoCandidates").set(this.taskService.createTaskQuery().taskUnassigned().withoutCandidateGroups().withoutCandidateUsers().count());
+        this.openTasks.labels("total").set(this.taskService.createTaskQuery().count());
     }
 
     @Override
