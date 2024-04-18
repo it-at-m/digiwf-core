@@ -2,6 +2,7 @@ info:
   application:
     name: '@project.artifactId@'
     version: '@project.version@'
+
 camunda:
   bpm:
     authorization:
@@ -18,12 +19,6 @@ camunda:
         history-removal-time-strategy: end
         history-cleanup-degree-of-parallelism: '4'
         enable-exceptions-after-unhandled-bpmn-error: true
-backend:
-  security:
-    process:
-      deployment:
-        user: ${DEPLOYMENT_USERNAME:digiwf}
-        password: ${DEPLOYMENT_PASSWORD:digiwf}
 
 management:
   server:
@@ -63,6 +58,7 @@ server:
     whitelabel:
       enabled: false
   shutdown: graceful
+
 spring:
   application:
     name: ${info.application.name}

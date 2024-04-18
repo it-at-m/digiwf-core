@@ -9,7 +9,6 @@ import de.muenchen.oss.digiwf.email.model.Mail;
 import de.muenchen.oss.digiwf.process.config.domain.model.ProcessConfig;
 import de.muenchen.oss.digiwf.process.config.domain.service.ProcessConfigService;
 import jakarta.mail.MessagingException;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.apache.logging.log4j.util.Strings;
@@ -33,7 +32,6 @@ import java.util.Map;
  */
 @Slf4j
 @Component
-@RequiredArgsConstructor(onConstructor_ = { @Lazy })
 @EnableConfigurationProperties(IncidentNotificationProperties.class)
 public class IncidentNotifierHandler extends BaseIncidentHandler {
 
@@ -46,6 +44,16 @@ public class IncidentNotifierHandler extends BaseIncidentHandler {
     private final ProcessConfigService processConfigService;
 
     private final IncidentNotificationProperties incidentNotificationProperties;
+
+    public IncidentNotifierHandler(@Lazy final RepositoryService repositoryService, @Lazy final RuntimeService runtimeService,
+            final DigiwfEmailApi digiwfEmailApi, final ProcessConfigService processConfigService,
+            final IncidentNotificationProperties incidentNotificationProperties) {
+        this.repositoryService = repositoryService;
+        this.runtimeService = runtimeService;
+        this.digiwfEmailApi = digiwfEmailApi;
+        this.processConfigService = processConfigService;
+        this.incidentNotificationProperties = incidentNotificationProperties;
+    }
 
     @Override
     public Incident handleIncident(final IncidentContext context, final String message) {
