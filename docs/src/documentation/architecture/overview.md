@@ -104,9 +104,9 @@ erstellen.
 
 ### DigiWF Web Components
 
-DigiWF stellt eigene WebComponents bereit, um diese in Webapplikationen integrieren und somit um DigiWF-Funktionalität erweitern zu können. 
-Diese ermöglichen beispielsweise Funktionen wie den Zugriff auf die Nutzer-eigenen DigiWF-Vorgänge oder Aufgaben
-Detaillierte Informationen zum Thema und ein Überblick über aktuell verfügbare WebComponents kann der [Komponenten-Beschreibung](../components/webcomponents.md) entnommen werden.
+DigiWF bietet eigene WebComponents an, die in Webanwendungen integriert werden können, um DigiWF-Funktionalität hinzuzufügen.
+Diese ermöglichen beispielsweise den Zugriff auf Nutzer-spezifische DigiWF-Vorgänge oder Aufgaben.
+Weitere Informationen zu diesem Thema und eine Übersicht über derzeit verfügbare WebComponents sind in der [Komponenten-Beschreibung](../components/webcomponents.md) zu finden.
 
 ### DigiWF Co-Creation
 
