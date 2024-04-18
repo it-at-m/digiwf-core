@@ -113,7 +113,12 @@ Im Ordner _stack_ ausführen:
 
 Zusätzlich startet man analog wie in Szenario 2 das Tasklist Backend auf die identische Weise.
 
-Anschließend sollte man beim Aufruf von [http://localhost:8082](http://localhost:8083) die Web Component-GUI im Browser angezeigt bekommen.
+Anschließend sollte man beim Aufruf von [http://localhost:8082](http://localhost:8083) auf die Keycloak Loginmaske
+weitergeleitet werden.
+Dort meldet man sich mit dem Nutzernamen "johndoe" und dem Passwort "test" an.
+
+Bei erfolgreicher Anmeldung sind die Web Components zu sehen. Alle Netzwerkrequests sollten ordnungsgemäß
+durchgeführt werden.
 
 **Tipp:** Detailliertere Informationen zur Entwicklung der Web Components kann der technischen [README](https://github.com/it-at-m/digiwf-core/blob/dev/digiwf-apps/packages/apps/digiwf-webcomponent/README.md) auf GitHub entnommen werden.
 
