@@ -1,48 +1,47 @@
 {
-  "key": "check-timer-form",
-  "schema": {
-    "type": "object",
-    "x-display": " ",
-    "allOf": [
-      {
-        "key": "sectionKey1",
-        "title": "Erster Abschnitt",
-        "type": "object",
-        "x-options": {
-          "sectionsTitlesClasses": [
-            "d-none"
-          ]
-        },
-        "allOf": [
-          {
-            "type": "object",
-            "key": "4ee909e5-9901-4e84-8e2b-0b9fd3142e8e",
-            "title": "",
-            "x-options": {
-              "childrenClass": "pr-5 pl-0"
-            },
-            "properties": {
-              "message": {
-                "type": "string",
-                "title": "Message",
-                "key": "message",
-                "x-props": {
-                  "outlined": true,
-                  "dense": true
+  "type": "object",
+  "x-display": "stepper",
+  "allOf": [
+    {
+      "key": "sectionKey1",
+      "title": "Erster Abschnitt",
+      "type": "object",
+      "x-options": {
+        "sectionsTitlesClasses": [
+          "d-none"
+        ]
+      },
+      "allOf": [
+        {
+          "key": "feldgruppe1",
+          "title": "Erste Gruppe",
+          "type": "object",
+          "x-options": {
+            "childrenClass": "pr-5 pl-0"
+          },
+          "properties": {
+            "app_process_start_date": {
+              "fieldType": "text",
+              "title": "Start-Zeit",
+              "type": "string",
+              "key": "app_process_start_date",
+              "readOnly": true,
+              "x-options": {
+                "fieldColProps": {
+                  "cols": 12,
+                  "sm": 12
                 },
-                "x-options": {
-                  "fieldColProps": {
-                    "messages": {}
-                  }
-                },
-                "x-rules": [
-                  "required"
-                ]
-              }
+                "messages": {}
+              },
+              "x-props": {
+                "outlined": true,
+                "dense": false
+              },
+              "x-rules": []
             }
           }
-        ]
-      }
-    ]
-  }
+        }
+      ]
+    }
+  ]
 }

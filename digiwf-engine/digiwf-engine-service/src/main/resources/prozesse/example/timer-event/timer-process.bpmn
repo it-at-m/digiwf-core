@@ -3,15 +3,7 @@
     <bpmn:extensionElements />
     <bpmn:participant id="Participant_1nz00x0" name="Example: Timer Process" processRef="Timer-Process-Example" />
   </bpmn:collaboration>
-  <bpmn:process id="Timer-Process-Example" name="Example: Timer Process" isExecutable="true" camunda:historyTimeToLive="P1D" camunda:isStartableInTasklist="false">
-    <bpmn:endEvent id="End_completed" name="Ended">
-      <bpmn:extensionElements>
-        <camunda:executionListener event="start">
-          <camunda:script scriptFormat="Javascript">process.setStatus("finished");</camunda:script>
-        </camunda:executionListener>
-      </bpmn:extensionElements>
-      <bpmn:incoming>Flow_0n7y5hw</bpmn:incoming>
-    </bpmn:endEvent>
+  <bpmn:process id="Timer-Process-Example" name="Example: Timer Process" isExecutable="true" camunda:candidateStarterGroups="webapp-user" camunda:historyTimeToLive="P1D">
     <bpmn:subProcess id="Activity_000hd7z" triggeredByEvent="true">
       <bpmn:startEvent id="Event_1v0winq" name="1 hour passed">
         <bpmn:outgoing>Flow_1tpc9wl</bpmn:outgoing>
@@ -27,6 +19,7 @@
     <bpmn:intermediateThrowEvent id="Event_StatusGestartetUndBeschreibungSetzen" name="Status setzen">
       <bpmn:extensionElements>
         <camunda:executionListener expression="${process.setStatus(&#39;finished&#39;)}" event="start" />
+        <camunda:executionListener expression="${process.setDescription(execution.getVariable(&#39;app_process_start_date&#39;))}" event="start" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0lnd3z6</bpmn:incoming>
       <bpmn:outgoing>Flow_1jis6kc</bpmn:outgoing>
@@ -34,7 +27,7 @@
     <bpmn:sequenceFlow id="Flow_0lnd3z6" sourceRef="Start_Form" targetRef="Event_StatusGestartetUndBeschreibungSetzen" />
     <bpmn:sequenceFlow id="Flow_1jis6kc" sourceRef="Event_StatusGestartetUndBeschreibungSetzen" targetRef="Activity_1876jk7" />
     <bpmn:sequenceFlow id="Flow_0n7y5hw" sourceRef="Activity_1876jk7" targetRef="End_completed" />
-    <bpmn:userTask id="Activity_1876jk7" name="Check Timer result" camunda:modelerTemplate="de.muenchen.digiwf.templates.Usertask" camunda:assignee="123456789">
+    <bpmn:userTask id="Activity_1876jk7" name="Check Timer result" camunda:modelerTemplate="de.muenchen.digiwf.templates.Usertask" camunda:assignee="" camunda:candidateGroups="webapp-user">
       <bpmn:extensionElements>
         <camunda:inputOutput>
           <camunda:inputParameter name="app_task_description" />
@@ -47,32 +40,40 @@
           <camunda:inputParameter name="mail_bottom_text" />
           <camunda:inputParameter name="app_file_paths" />
           <camunda:inputParameter name="app_file_paths_readonly" />
-          <camunda:inputParameter name="app_task_schema_key">check-timer-form</camunda:inputParameter>
           <camunda:inputParameter name="app_assign_user_to_processinstance">true</camunda:inputParameter>
+          <camunda:inputParameter name="app_task_schema_key">879ce4df-28a4-4d36-bb6a-984e4a20468d</camunda:inputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1jis6kc</bpmn:incoming>
       <bpmn:outgoing>Flow_0n7y5hw</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:startEvent id="Start_Form" name="Started Once after 1 Minute">
+    <bpmn:startEvent id="Start_Form" name="Started every 1 Hours" camunda:asyncAfter="true">
       <bpmn:extensionElements>
         <camunda:failedJobRetryTimeCycle />
       </bpmn:extensionElements>
       <bpmn:outgoing>Flow_0lnd3z6</bpmn:outgoing>
       <bpmn:timerEventDefinition id="TimerEventDefinition_0x01et9">
-        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT1M</bpmn:timeDuration>
+        <bpmn:timeCycle xsi:type="bpmn:tFormalExpression">R/PT1H</bpmn:timeCycle>
       </bpmn:timerEventDefinition>
     </bpmn:startEvent>
+    <bpmn:endEvent id="End_completed" name="Ended">
+      <bpmn:extensionElements>
+        <camunda:executionListener event="start">
+          <camunda:script scriptFormat="Javascript">process.setStatus("finished");</camunda:script>
+        </camunda:executionListener>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0n7y5hw</bpmn:incoming>
+    </bpmn:endEvent>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_test-prozess">
     <bpmndi:BPMNPlane id="BPMNPlane_test-prozess" bpmnElement="Collaboration_0e6ak52">
       <bpmndi:BPMNShape id="Participant_1nz00x0_di" bpmnElement="Participant_1nz00x0" isHorizontal="true" isExpanded="true">
-        <dc:Bounds x="152" y="80" width="508" height="350" />
+        <dc:Bounds x="152" y="80" width="628" height="350" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_0n7y5hw_di" bpmnElement="Flow_0n7y5hw">
         <di:waypoint x="470" y="140" />
-        <di:waypoint x="522" y="140" />
+        <di:waypoint x="632" y="140" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1jis6kc_di" bpmnElement="Flow_1jis6kc">
         <di:waypoint x="328" y="140" />
@@ -82,12 +83,6 @@
         <di:waypoint x="248" y="140" />
         <di:waypoint x="292" y="140" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="Event_17q2n00_di" bpmnElement="End_completed">
-        <dc:Bounds x="522" y="122" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="525" y="165" width="32" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_000hd7z_di" bpmnElement="Activity_000hd7z" isExpanded="true">
         <dc:Bounds x="282" y="240" width="275" height="130" />
       </bpmndi:BPMNShape>
@@ -120,7 +115,13 @@
       <bpmndi:BPMNShape id="Event_0qzxk2p_di" bpmnElement="Start_Form">
         <dc:Bounds x="212" y="122" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="198" y="165" width="68" height="27" />
+          <dc:Bounds x="195" y="165" width="75" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_17q2n00_di" bpmnElement="End_completed">
+        <dc:Bounds x="632" y="122" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="635" y="165" width="33" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>

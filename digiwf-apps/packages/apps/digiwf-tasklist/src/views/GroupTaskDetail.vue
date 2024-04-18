@@ -6,7 +6,16 @@
         type="error"
       />
     </v-flex>
-    <v-flex v-if="task !== null">
+    <v-flex v-if="isLoading" class="loadingAnimation">
+      <v-progress-circular
+        :size="50"
+        aria-label="Daten werden geladen"
+        color="primary"
+        indeterminate
+        tabindex="0"
+      ></v-progress-circular>
+    </v-flex>
+    <v-flex v-if="task">
       <!-- header -->
       <v-flex style="justify-content: space-between">
         <v-row>
@@ -39,8 +48,8 @@
                 Bearbeiten
               </v-btn>
               <v-btn
-                style="margin-left: 5pt"
                 color="primary"
+                style="margin-left: 5pt"
                 @click="openAssignDialog"
               >
                 <v-icon left> mdi-send-outline</v-icon>
@@ -51,17 +60,17 @@
         </v-row>
         <base-form
           v-if="task.form"
-          :readonly-mode="true"
-          class="taskForm"
+          :buttons-disabled="true"
           :form="task.form"
           :init-model="task.variables"
-          :buttons-disabled="true"
+          :readonly-mode="true"
+          class="taskForm"
         />
         <app-json-form
           v-else
           :readonly="true"
-          :value="task.variables"
           :schema="task.schema"
+          :value="task.variables"
         />
         <assign-yourself-dialog
           :assignee-formatted="task.assigneeFormatted || 'Unbekannter Nutzer'"
@@ -72,8 +81,8 @@
         <assign-task-dialog
           v-if="showAssignDialog"
           :open="true"
-          :task-name="task.name"
           :task-id="task.id"
+          :task-name="task.name"
           @close="closeAssignDialog"
           @success="handleSuccessfullyAssignment"
         />
@@ -96,11 +105,19 @@
   align-items: center;
   margin-bottom: 0.3rem;
 }
+
+.loadingAnimation {
+  display: flex;
+  position: absolute;
+  justify-content: center;
+  top: 70px;
+  right: 0;
+  left: 0;
+}
 </style>
 
 <script lang="ts" setup>
-import {UserTO} from "@muenchen/digiwf-engine-api-internal";
-import {provide, ref} from "vue";
+import {onMounted, provide, ref} from "vue";
 import {useRouter} from "vue-router/composables";
 
 import BaseForm from "@/components/form/BaseForm.vue";
@@ -110,9 +127,9 @@ import {ApiConfig} from "../api/ApiConfig";
 import AssignTaskDialog from "../components/task/AssignTaskDialog.vue";
 import AssignYourselfDialog from "../components/task/AssignYourselfDialog.vue";
 import {useStore} from "../hooks/store";
-import {assignTask, loadTask} from "../middleware/tasks/taskMiddleware";
-import {HumanTaskDetails} from "../middleware/tasks/tasksModels";
+import {useAssignTaskMutation, useTaskQuery} from "../middleware/tasks/taskMiddleware";
 import {useCurrentUserInfo} from "../middleware/user/userMiddleware";
+import {HumanTaskDetails} from "../middleware/tasks/tasksModels";
 
 const props = defineProps({
   id: {
@@ -125,17 +142,21 @@ const props = defineProps({
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 const taskId: string = props.id!;
 
-const task = ref<HumanTaskDetails | null>(null);
-const isLoading = ref(false);
-const errorMessage = ref("");
 const showModal = ref(false);
-
+const task = ref<HumanTaskDetails | undefined>(undefined);
 const showAssignDialog = ref(false);
 
 const router = useRouter();
 const store = useStore();
 
+const isLoading = ref(false);
+
 const {data: currentUser} = useCurrentUserInfo();
+const {data: taskLoadingResult, error: errorMessage, refetch: reload} = useTaskQuery(taskId);
+
+const {
+  mutateAsync: assignTask
+} = useAssignTaskMutation(taskId);
 
 provide("formContext", {id: taskId, type: "task"});
 provide("apiEndpoint", ApiConfig.base);
@@ -143,34 +164,28 @@ provide("mucsDmsApiEndpoint", ApiConfig.mucsDmsBase);
 provide("alwDmsApiEndpoint", ApiConfig.alwDmsBase);
 provide("taskServiceApiEndpoint", ApiConfig.tasklistBase);
 
-const onInit = () => {
+onMounted(() => {
   isLoading.value = true;
-  loadTask(taskId).then((result) => {
+  reload().then(() => {
+    if (taskLoadingResult.value) {
+      task.value = taskLoadingResult.value.task;
+    }
     isLoading.value = false;
-    if (result.data) {
-      task.value = result.data.task;
-      errorMessage.value = "";
-    }
-    if (result.error) {
-      errorMessage.value = result.error;
-    }
   });
-};
+});
 
 const checkTaskAssignment = () => {
-  loadTask(taskId).then((result) => {
-    if (result.data?.task?.assigneeId) {
-      const lhmObjectId = currentUser.value?.lhmObjectId;
-      if (task.value?.assigneeId != lhmObjectId) {
-        showModal.value = true;
-        setTimeout(() => (showModal.value = false), 10000);
-      } else {
-        router.push({path: "/task/" + taskId});
-      }
+  if (task.value?.assigneeId) {
+    const lhmObjectId = currentUser.value?.lhmObjectId;
+    if (task.value?.assigneeId != lhmObjectId) {
+      showModal.value = true;
+      setTimeout(() => (showModal.value = false), 10000);
     } else {
-      triggerAssignTask();
+      router.push({path: "/task/" + taskId});
     }
-  });
+  } else {
+    triggerAssignTask();
+  }
 };
 
 const openAssignDialog = () => {
@@ -194,12 +209,11 @@ const triggerAssignTask = () => {
     errorMessage.value = "Nutzerinformationen konnten nicht abgefragt werden";
     return;
   }
-  assignTask(taskId, lhmObjectId).then((result) => {
-    errorMessage.value = result.isError
-      ? "Die Aufgabe konnte nicht zugewiesen werden."
-      : "";
-  });
+  assignTask(lhmObjectId)
+    .then(() => errorMessage.value)
+    .catch((error) => {
+      errorMessage.value = error;
+    });
 };
 
-onInit();
 </script>
