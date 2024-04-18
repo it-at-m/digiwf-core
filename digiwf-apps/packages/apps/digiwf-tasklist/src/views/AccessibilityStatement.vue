@@ -58,8 +58,8 @@
         <h2>Kontaktstelle</h2>
         <p>
           Landeshauptstadt München <br />
-          IT-Referat, Team DigiWF <br />
-          E-Mail: <a href="mailto:digiwf@muenchen.de">digiwf@muenchen.de</a>
+          IT-Referat <br />
+          E-Mail: <a href="mailto:opensource@muenchen.de">opensource@muenchen.de</a>
         </p>
       </div>
     </div>
