@@ -1,6 +1,6 @@
 import Keycloak from "keycloak-js";
 
-import {ACCESS_TOKEN_EVENT_NAME_DEFAULT} from "@/util/constants";
+import { ACCESS_TOKEN_EVENT_NAME_DEFAULT } from "@/util/constants";
 
 const keycloak = new Keycloak({
   realm: import.meta.env.VITE_KEYCLOAK_REALM,
@@ -9,31 +9,41 @@ const keycloak = new Keycloak({
 });
 
 function dispatchAccessTokenEvent() {
-  keycloak.updateToken(import.meta.env.VITE_KEYCLOAK_TOKEN_MIN_VALIDITY_SECONDS).then(() => {
-    document.dispatchEvent(
-      new CustomEvent(ACCESS_TOKEN_EVENT_NAME_DEFAULT, {
-        detail: {
-          accessToken: keycloak.token,
-        },
-      })
-    );
-  })
+  keycloak
+    .updateToken(import.meta.env.VITE_KEYCLOAK_TOKEN_MIN_VALIDITY_SECONDS)
+    .then(() => {
+      document.dispatchEvent(
+        new CustomEvent(ACCESS_TOKEN_EVENT_NAME_DEFAULT, {
+          detail: {
+            accessToken: keycloak.token,
+          },
+        })
+      );
+    })
     .catch((err) => {
       console.error(err);
     });
 }
 
-setTimeout(() => {
-  dispatchAccessTokenEvent();
-  setInterval(() => {
+setTimeout(
+  () => {
     dispatchAccessTokenEvent();
-  }, import.meta.env.VITE_UPDATE_INTERVAL_SECONDS * 1000);
-}, import.meta.env.VITE_DELAY_INTERVAL_SECONDS * 1000);
+    setInterval(
+      () => {
+        dispatchAccessTokenEvent();
+      },
+      import.meta.env.VITE_UPDATE_INTERVAL_SECONDS * 1000
+    );
+  },
+  import.meta.env.VITE_DELAY_INTERVAL_SECONDS * 1000
+);
 
-keycloak.init({ onLoad: "login-required" }).then((auth) => {
-  console.debug("auth", auth);
-  dispatchAccessTokenEvent();
-})
+keycloak
+  .init({ onLoad: "login-required" })
+  .then((auth) => {
+    console.debug("auth", auth);
+    dispatchAccessTokenEvent();
+  })
   .catch((err) => {
     console.error(err);
   });
