@@ -11,9 +11,17 @@ jobs:
       issues: write
     steps:
       - name: 'Auto-assign issue'
-        if: github.event.issue.author_association != 'COLLABORATOR'
-        uses: pozil/auto-assign-issue@v1
+        if: github.event.issue.author_association != 'MEMBER'
         with:
-          teams: digiwf_maintainer
-          numOfAssignee: 2
-          allowSelfAssign: false
+          script: |
+            const { repo, owner } = context.repo;
+            const teamMembers =  await github.rest.teams.listMembersInOrg({
+                owner,
+                team_slug: 'digiwf_maintainer'
+            })
+            await github.rest.issues.addAssignees({
+              owner,
+              repo,
+              issue_number: context.issue.number,
+              assignees: teamMembers,
+            });
