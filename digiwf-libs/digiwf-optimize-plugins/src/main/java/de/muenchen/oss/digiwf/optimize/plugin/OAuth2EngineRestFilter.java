@@ -1,4 +1,4 @@
-package de.muenchen.oss.digiwf.optimize;
+package de.muenchen.oss.digiwf.optimize.plugin;
 
 import jakarta.ws.rs.client.ClientRequestContext;
 import lombok.extern.slf4j.Slf4j;

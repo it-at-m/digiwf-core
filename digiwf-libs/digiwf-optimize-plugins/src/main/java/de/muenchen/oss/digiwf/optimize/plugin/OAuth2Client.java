@@ -1,4 +1,4 @@
-package de.muenchen.oss.digiwf.optimize;
+package de.muenchen.oss.digiwf.optimize.plugin;
 
 import com.nimbusds.oauth2.sdk.*;
 import com.nimbusds.oauth2.sdk.auth.ClientAuthentication;
