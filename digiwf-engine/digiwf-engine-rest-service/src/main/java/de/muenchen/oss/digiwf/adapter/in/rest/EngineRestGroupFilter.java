@@ -27,7 +27,7 @@ public class EngineRestGroupFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        log.info("Filter called");
+        log.debug("EngineRestGroupFilter called");
 
         if (servletRequest instanceof HttpServletRequest && servletResponse instanceof HttpServletResponse response) {
             var params = new HashMap<String, String>();
@@ -40,14 +40,15 @@ public class EngineRestGroupFilter implements Filter {
                     .stream()
                     .map(OptimizeGroupDto::fromGroup)
                     .collect(Collectors.toList());
+            log.info("Resolved user {} to groups: {}", queryDto.getMember(), payload);
 
             response.setStatus(200);
             response.setContentType("application/json");
             objectMapper.writeValue(response.getWriter(), payload);
         } else {
+            log.debug("Skipped filter");
             filterChain.doFilter(servletRequest, servletResponse);
         }
     }
-
 
 }

@@ -2,6 +2,7 @@ package de.muenchen.oss.digiwf.adapter.out.ldap;
 
 import de.muenchen.oss.digiwf.application.port.out.ResolveUserGroupsOutPort;
 import de.muenchen.oss.digiwf.domain.Group;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.lang.NonNull;
@@ -18,6 +19,7 @@ import javax.naming.ldap.Rdn;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 public class LdapOutAdapter extends LdapTemplate implements ResolveUserGroupsOutPort {
     private final LdapProperties properties;
 
@@ -30,12 +32,14 @@ public class LdapOutAdapter extends LdapTemplate implements ResolveUserGroupsOut
     @NonNull
     @Cacheable("userGroups")
     public List<Group> resolveGroups(@NonNull final String username) {
+        log.debug("Resolving groups for user via ldap: {}", username);
         String userDn = resolveUserDn(username);
         // build query
         LdapQuery query = LdapQueryBuilder.query().base(properties.getGroupBase())
                 .where("objectclass").is("group")
                 .and("member").is(userDn);
         // get groups
+        log.trace("Resolving groups for userDn {}", userDn);
         List<List<String>> groupDns = super.search(query, (AttributesMapper<List<String>>) attrs -> {
             val groups = new ArrayList<String>();
             // group cn
@@ -48,8 +52,9 @@ public class LdapOutAdapter extends LdapTemplate implements ResolveUserGroupsOut
             }
             return groups;
         });
+        log.trace("Resolved groupDns for user {}: {}", username, groupDns);
         // map
-        return groupDns.stream()
+        val groups = groupDns.stream()
                 .flatMap(List::stream).distinct().sorted()
                 // map dn to cn
                 .map(str -> {
@@ -66,6 +71,8 @@ public class LdapOutAdapter extends LdapTemplate implements ResolveUserGroupsOut
                 // map to group
                 .map(str -> Group.builder().name(str).build())
                 .toList();
+        log.debug("Resolved groups for user {}: {}", username, groups);
+        return groups;
     }
 
     /**
@@ -75,6 +82,7 @@ public class LdapOutAdapter extends LdapTemplate implements ResolveUserGroupsOut
      * @return The full dn of the user.
      */
     private String resolveUserDn(@NonNull final String username) {
+        log.trace("Resolving dn for user: {}", username);
         LdapQuery query = LdapQueryBuilder.query()
                 .base(properties.getUserBase())
                 .where("objectclass").is("user")
@@ -84,6 +92,8 @@ public class LdapOutAdapter extends LdapTemplate implements ResolveUserGroupsOut
             throw new UsernameNotFoundException(String.format("Username '%s' not found via ldap adapter.", username));
         if (result.size() > 1)
             throw new IllegalStateException(String.format("Multiple users found for username '%s'", username));
-        return result.get(0);
+        val userDn = result.get(0);
+        log.debug("Resolved user {} to dn {}", username, userDn);
+        return userDn;
     }
 }
