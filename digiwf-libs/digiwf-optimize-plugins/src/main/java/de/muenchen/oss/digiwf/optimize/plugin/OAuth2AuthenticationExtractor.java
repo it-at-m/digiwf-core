@@ -47,8 +47,7 @@ public class OAuth2AuthenticationExtractor implements AuthenticationExtractor {
                 val claimsSet = jwtProcessor.process(token.getValue(), null);
                 // extract username
                 val username = claimsSet.getStringClaim("preferred_username");
-                // FIXME change level
-                logger.warn("User logged info {}", username);
+                logger.info("Token username: {}", username);
                 // set authentication
                 result.setAuthenticatedUser(username);
                 result.setAuthenticated(true);
