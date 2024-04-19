@@ -14,13 +14,14 @@
     >
       {{ serviceInstance.definitionName }}
     </dynamic-heading>
-    <p class="mb-1">Erstellt am {{ createdDate }}</p>
     <p
       v-if="serviceInstance.endTime"
       class="mb-1"
     >
-      Abgeschlossen am {{ endedDate }}
+      {{ DefaultStatus.FINISHED }} am {{ endedDate }}
     </p>
+    <p v-else class="mb-1">{{ DefaultStatus.STARTED }} am {{ createdDate }}</p>
+    <p>Status: {{ statusText }}</p>
     <p
       v-if="serviceInstance.description"
       class="mb-0 mt-3"
@@ -32,6 +33,7 @@
 
 <script setup lang="ts">
 import type { ServiceInstanceTO } from "@muenchen/digiwf-engine-api-internal";
+import { DefaultStatus } from "@/types/DefaultStatus";
 
 import { CListGroupItem } from "@coreui/vue";
 import { useDateFormat } from "@vueuse/core";
@@ -41,6 +43,7 @@ import DynamicHeading from "@/components/common/DynamicHeading.vue";
 import { useBaseURL } from "@/composables/useBaseURL";
 import { useNewTabText } from "@/composables/useNewTabText";
 import { DATE_FORMAT, FRONTEND_INSTANCE_PATH } from "@/util/constants";
+import { useStatusText } from "@/composables/useStatusText";
 
 const { baseURL } = useBaseURL();
 
@@ -49,6 +52,7 @@ const props = defineProps<{
 }>();
 
 const { newTabText } = useNewTabText(ref("Vorgang in DigiWF öffnen"));
+const { statusText } = useStatusText(ref(props.serviceInstance.status!));
 
 const createdDate = useDateFormat(props.serviceInstance.startTime, DATE_FORMAT);
 const endedDate = useDateFormat(props.serviceInstance.endTime, DATE_FORMAT);
