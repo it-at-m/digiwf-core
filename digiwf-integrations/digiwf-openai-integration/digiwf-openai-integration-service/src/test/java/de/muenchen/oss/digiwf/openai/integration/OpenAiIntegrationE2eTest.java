@@ -81,7 +81,9 @@ class OpenAiIntegrationE2eTest {
 
         final Map<String, Object> payload = this.digiWFIntegrationE2eTestUtility.runIntegration(promptDto, processInstanceId, "openAiIntegration", "basicChat");
 
-        assertThat(payload).isNotNull();
+        assertThat(payload)
+                .isNotNull()
+                .containsEntry("response", "Hello! Is there anything");
     }
 
 }
