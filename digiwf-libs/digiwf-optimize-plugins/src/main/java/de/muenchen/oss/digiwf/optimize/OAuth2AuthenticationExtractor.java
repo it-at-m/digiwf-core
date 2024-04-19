@@ -21,14 +21,14 @@ import org.slf4j.LoggerFactory;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class OAuthAuthenticationExtractor implements AuthenticationExtractor {
+public class OAuth2AuthenticationExtractor implements AuthenticationExtractor {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final OAuth2ClientProperties properties = OAuth2ClientProperties.fromEnv();
 
     @Override
     public AuthenticationResult extractAuthenticatedUser(HttpServletRequest servletRequest) {
-        logger.debug("Entering OAuthAuthenticationExtractor");
+        logger.debug("Entering OAuth2AuthenticationExtractor");
         AuthenticationResult result = new AuthenticationResult();
         String authorization = servletRequest.getHeader("Authorization");
         if (authorization != null && !authorization.isBlank()) {
@@ -47,6 +47,7 @@ public class OAuthAuthenticationExtractor implements AuthenticationExtractor {
                 val claimsSet = jwtProcessor.process(token.getValue(), null);
                 // extract username
                 val username = claimsSet.getStringClaim("preferred_username");
+                // FIXME change level
                 logger.warn("User logged info {}", username);
                 // set authentication
                 result.setAuthenticatedUser(username);
