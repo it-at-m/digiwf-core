@@ -20,4 +20,8 @@ public record OAuth2ClientProperties(String ssoIssuerUrl, String clientId,
     public String accessTokenUrl() {
         return this.ssoIssuerUrl + "/protocol/openid-connect/token";
     }
+
+    public String jwkCertsUrl() {
+        return this.ssoIssuerUrl + "/protocol/openid-connect/certs";
+    }
 }

@@ -37,9 +37,9 @@ public class OAuth2AuthenticationExtractor implements AuthenticationExtractor {
                 val token = AccessToken.parse(authorization, AccessTokenType.BEARER);
                 // build verifier
                 val jwtProcessor = new DefaultJWTProcessor<>();
-                jwtProcessor.setJWSTypeVerifier(new DefaultJOSEObjectTypeVerifier<>(new JOSEObjectType("at+jwt")));
+                jwtProcessor.setJWSTypeVerifier(new DefaultJOSEObjectTypeVerifier<>(JOSEObjectType.JWT));
                 val keySource = JWKSourceBuilder
-                        .create(new URL(properties.ssoIssuerUrl()))
+                        .create(new URL(properties.jwkCertsUrl()))
                         .retrying(true)
                         .build();
                 jwtProcessor.setJWSKeySelector(new JWSVerificationKeySelector<>(JWSAlgorithm.RS256, keySource));
