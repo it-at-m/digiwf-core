@@ -4,7 +4,12 @@ import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
 import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
 import de.muenchen.oss.digiwf.openai.integration.adapter.in.streaming.MessageProcessor;
 import de.muenchen.oss.digiwf.openai.integration.adapter.in.streaming.OpenAiMapper;
+import de.muenchen.oss.digiwf.openai.integration.adapter.in.streaming.dto.ClassifyDto;
+import de.muenchen.oss.digiwf.openai.integration.adapter.in.streaming.dto.ExtractDataDto;
+import de.muenchen.oss.digiwf.openai.integration.adapter.in.streaming.dto.GenerateMailDto;
 import de.muenchen.oss.digiwf.openai.integration.adapter.in.streaming.dto.PromptDto;
+import de.muenchen.oss.digiwf.openai.integration.adapter.in.streaming.dto.SummarizeDto;
+import de.muenchen.oss.digiwf.openai.integration.adapter.in.streaming.dto.TranslateDto;
 import de.muenchen.oss.digiwf.openai.integration.adapter.out.Assistant;
 import de.muenchen.oss.digiwf.openai.integration.adapter.out.IntegrationOutAdapter;
 import de.muenchen.oss.digiwf.openai.integration.adapter.out.OpenAiClientOutAdapter;
@@ -114,5 +119,30 @@ public class OpenAIIntegrationAutoConfiguration {
     @Bean
     public Consumer<Message<PromptDto>> basicChat(final MessageProcessor messageProcessor) {
         return messageProcessor.basicChat();
+    }
+
+    @Bean
+    public Consumer<Message<TranslateDto>> translate(final MessageProcessor messageProcessor) {
+        return messageProcessor.translate();
+    }
+
+    @Bean
+    public Consumer<Message<SummarizeDto>> summarize(final MessageProcessor messageProcessor) {
+        return messageProcessor.summarize();
+    }
+
+    @Bean
+    public Consumer<Message<GenerateMailDto>> generateMail(final MessageProcessor messageProcessor) {
+        return messageProcessor.generateMail();
+    }
+
+    @Bean
+    public Consumer<Message<ExtractDataDto>> extractData(final MessageProcessor messageProcessor) {
+        return messageProcessor.extractData();
+    }
+
+    @Bean
+    public Consumer<Message<ClassifyDto>> classify(final MessageProcessor messageProcessor) {
+        return messageProcessor.classify();
     }
 }

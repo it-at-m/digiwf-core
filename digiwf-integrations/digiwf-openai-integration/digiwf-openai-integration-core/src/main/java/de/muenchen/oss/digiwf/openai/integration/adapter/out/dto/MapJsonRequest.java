@@ -3,7 +3,8 @@ package de.muenchen.oss.digiwf.openai.integration.adapter.out.dto;
 import lombok.Value;
 
 @Value
-public class OpenAiRequest {
+public class MapJsonRequest {
 
-    private String prompt;
+    private String json;
+    private String type;
 }
