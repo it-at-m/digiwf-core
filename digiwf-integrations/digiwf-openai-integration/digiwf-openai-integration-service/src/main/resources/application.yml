@@ -26,6 +26,7 @@ server:
 spring:
   application:
     name: '@project.artifactId@'
+  banner.location: banner.txt
   lifecycle:
     timeout-per-shutdown-phase: 1m
   cloud:
