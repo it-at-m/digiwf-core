@@ -40,7 +40,7 @@ public class EngineRestServiceApplication {
      * Registriert den Filter für die Camunda-Group Abfrage.
      */
     @Bean
-    @Profile("!no-ldap")
+    @Profile({"groups-ldap", "groups-mock"})
     public FilterRegistrationBean<EngineRestGroupFilter> engineRestGroupFilter(
             final ObjectMapper objectMapper,
             final ResolveUserGroupsInPort resolveUserGroupsInPort
@@ -54,6 +54,7 @@ public class EngineRestServiceApplication {
 
     // application
     @Bean
+    @Profile({"groups-ldap", "groups-mock"})
     public ResolveUserGroupsInPort resolveUserGroupsInPort(final ResolveUserGroupsOutPort resolveUserGroupsOutPort) {
         return new ResolveUserGroupsUseCase(resolveUserGroupsOutPort);
     }
@@ -61,19 +62,19 @@ public class EngineRestServiceApplication {
 
     // adapter out
     @Bean
-    @Profile("!no-ldap")
+    @Profile("groups-ldap")
     public LdapProperties ldapProperties() {
         return new LdapProperties();
     }
 
     @Bean
-    @Profile("!no-ldap")
+    @Profile("groups-ldap")
     public ResolveUserGroupsOutPort ldapOutPort(final ContextSource contextSource, final LdapProperties ldapProperties) {
         return new LdapOutAdapter(contextSource, ldapProperties);
     }
 
     @Bean
-    @Profile("no-ldap")
+    @Profile("groups-mock")
     public ResolveUserGroupsOutPort ldapMockOutPort() {
         return new LdapMockOutPort();
     }
