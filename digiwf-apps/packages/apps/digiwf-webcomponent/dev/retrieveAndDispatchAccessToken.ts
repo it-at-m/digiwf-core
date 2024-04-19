@@ -1,6 +1,6 @@
 import Keycloak from "keycloak-js";
 
-import {ACCESS_TOKEN_EVENT_NAME_DEFAULT} from "../src/util/constants";
+import {ACCESS_TOKEN_EVENT_NAME_DEFAULT} from "@/util/constants";
 
 const keycloak = new Keycloak({
   realm: import.meta.env.VITE_KEYCLOAK_REALM,
