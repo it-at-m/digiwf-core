@@ -1,41 +1,49 @@
 import Keycloak from "keycloak-js";
 
-import { ACCESS_TOKEN_EVENT_NAME_DEFAULT } from "../src/util/constants";
-import {
-  DELAY_INTERVAL_SECONDS,
-  KEYCLOAK_AUTH_URL,
-  KEYCLOAK_CLIENT_ID,
-  KEYCLOAK_REALM,
-  KEYCLOAK_TOKEN_MIN_VALIDITY_SECONDS,
-  UPDATE_INTERVAL_SECONDS,
-} from "./constants";
+import { ACCESS_TOKEN_EVENT_NAME_DEFAULT } from "@/util/constants";
 
 const keycloak = new Keycloak({
-  realm: KEYCLOAK_REALM,
-  url: KEYCLOAK_AUTH_URL,
-  clientId: KEYCLOAK_CLIENT_ID,
+  realm: import.meta.env.VITE_KEYCLOAK_REALM,
+  url: import.meta.env.VITE_KEYCLOAK_AUTH_URL,
+  clientId: import.meta.env.VITE_KEYCLOAK_CLIENT_ID,
 });
 
 function dispatchAccessTokenEvent() {
-  keycloak.updateToken(KEYCLOAK_TOKEN_MIN_VALIDITY_SECONDS).then(() => {
-    document.dispatchEvent(
-      new CustomEvent(ACCESS_TOKEN_EVENT_NAME_DEFAULT, {
-        detail: {
-          accessToken: keycloak.token,
-        },
-      })
-    );
-  });
+  keycloak
+    .updateToken(import.meta.env.VITE_KEYCLOAK_TOKEN_MIN_VALIDITY_SECONDS)
+    .then(() => {
+      document.dispatchEvent(
+        new CustomEvent(ACCESS_TOKEN_EVENT_NAME_DEFAULT, {
+          detail: {
+            accessToken: keycloak.token,
+          },
+        })
+      );
+    })
+    .catch((err) => {
+      console.error(err);
+    });
 }
 
-setTimeout(() => {
-  dispatchAccessTokenEvent();
-  setInterval(() => {
+setTimeout(
+  () => {
     dispatchAccessTokenEvent();
-  }, UPDATE_INTERVAL_SECONDS * 1000);
-}, DELAY_INTERVAL_SECONDS * 1000);
+    setInterval(
+      () => {
+        dispatchAccessTokenEvent();
+      },
+      import.meta.env.VITE_UPDATE_INTERVAL_SECONDS * 1000
+    );
+  },
+  import.meta.env.VITE_DELAY_INTERVAL_SECONDS * 1000
+);
 
-keycloak.init({ onLoad: "login-required" }).then((auth) => {
-  console.debug("auth", auth);
-  dispatchAccessTokenEvent();
-});
+keycloak
+  .init({ onLoad: "login-required" })
+  .then((auth) => {
+    console.debug("auth", auth);
+    dispatchAccessTokenEvent();
+  })
+  .catch((err) => {
+    console.error(err);
+  });
