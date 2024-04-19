@@ -5,15 +5,18 @@ import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
 import de.muenchen.oss.digiwf.openai.integration.adapter.in.streaming.MessageProcessor;
 import de.muenchen.oss.digiwf.openai.integration.adapter.in.streaming.OpenAiMapper;
 import de.muenchen.oss.digiwf.openai.integration.adapter.in.streaming.dto.PromptDto;
+import de.muenchen.oss.digiwf.openai.integration.adapter.out.Assistant;
 import de.muenchen.oss.digiwf.openai.integration.adapter.out.IntegrationOutAdapter;
 import de.muenchen.oss.digiwf.openai.integration.adapter.out.OpenAiClientOutAdapter;
 import de.muenchen.oss.digiwf.openai.integration.application.port.in.OpenAiInPort;
 import de.muenchen.oss.digiwf.openai.integration.application.port.out.IntegrationOutPort;
 import de.muenchen.oss.digiwf.openai.integration.application.port.out.OpenAiClientOutPort;
 import de.muenchen.oss.digiwf.openai.integration.application.usecase.OpenAiUseCase;
+import de.muenchen.oss.digiwf.openai.integration.properties.AzureIntegrationProperties;
 import de.muenchen.oss.digiwf.openai.integration.properties.OpenAiIntegrationProperties;
 import dev.langchain4j.memory.ChatMemory;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
+import dev.langchain4j.model.azure.AzureOpenAiChatModel;
 import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.openai.OpenAiChatModel;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +25,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.messaging.Message;
 
 import java.util.function.Consumer;
@@ -30,9 +34,12 @@ import java.util.function.Consumer;
 @Configuration
 @RequiredArgsConstructor
 @ComponentScan(
-        basePackages = "de.muenchen.oss.digiwf.openai.integration"
+        basePackages = {
+                "de.muenchen.oss.digiwf.openai.integration",
+                "dev.langchain4j"
+        }
 )
-@EnableConfigurationProperties(OpenAiIntegrationProperties.class)
+@EnableConfigurationProperties
 public class OpenAIIntegrationAutoConfiguration {
 
     public final OpenAiIntegrationProperties openAiIntegrationProperties;
@@ -43,11 +50,26 @@ public class OpenAIIntegrationAutoConfiguration {
     }
 
     @Bean
-    public ChatLanguageModel chatLanguageModel() {
+    @Profile("azure")
+    public ChatLanguageModel chatLanguageModelAzure(AzureIntegrationProperties azureIntegrationProperties) {
+        return AzureOpenAiChatModel.builder()
+                .apiKey(openAiIntegrationProperties.getApiKey())
+                .serviceVersion(azureIntegrationProperties.getApiVersion())
+                .endpoint(azureIntegrationProperties.getResource())
+                .deploymentName(azureIntegrationProperties.getDeploymentName())
+                .maxTokens(openAiIntegrationProperties.getMaxTokens())
+                .temperature(openAiIntegrationProperties.getTemperature())
+                .logRequestsAndResponses(openAiIntegrationProperties.getLogging())
+                .build();
+    }
+
+    @Bean
+    @Profile("!azure")
+    public ChatLanguageModel chatLanguageModelOpenAI() {
         return OpenAiChatModel.builder()
                 .apiKey(openAiIntegrationProperties.getApiKey())
-                .baseUrl(openAiIntegrationProperties.getBaseUrl())
                 .modelName(openAiIntegrationProperties.getModel())
+                .baseUrl(openAiIntegrationProperties.getBaseUrl())
                 .maxTokens(openAiIntegrationProperties.getMaxTokens())
                 .temperature(openAiIntegrationProperties.getTemperature())
                 .logRequests(openAiIntegrationProperties.getLogging())
@@ -57,9 +79,8 @@ public class OpenAIIntegrationAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public OpenAiClientOutPort addressClientOutPort(
-    ) {
-        return new OpenAiClientOutAdapter();
+    public OpenAiClientOutPort addressClientOutPort(Assistant assistant) {
+        return new OpenAiClientOutAdapter(assistant);
     }
 
     @Bean
@@ -91,7 +112,7 @@ public class OpenAIIntegrationAutoConfiguration {
     }
 
     @Bean
-    public Consumer<Message<PromptDto>> chatConsumer(final MessageProcessor messageProcessor) {
+    public Consumer<Message<PromptDto>> basicChat(final MessageProcessor messageProcessor) {
         return messageProcessor.basicChat();
     }
 }

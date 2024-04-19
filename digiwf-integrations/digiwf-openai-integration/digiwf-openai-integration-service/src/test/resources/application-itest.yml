@@ -2,9 +2,13 @@ de:
     muenchen:
         oss:
             digiwf:
-                address:
+                openai:
                     service:
-                        url: http://localhost:8189
+                        api-key: '123'
+                        model: 'gpt-35-turbo'
+                        max-tokens: 5
+                        logging: true
+                        base-url: 'http://localhost:8189/'
 spring:
     cloud:
         function:

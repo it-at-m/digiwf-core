@@ -5,17 +5,14 @@ import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import de.muenchen.oss.digiwf.openai.integration.adapter.out.dto.OpenAiRequest;
 import de.muenchen.oss.digiwf.openai.integration.adapter.out.dto.OpenAiResponse;
 import de.muenchen.oss.digiwf.openai.integration.application.port.out.OpenAiClientOutPort;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class OpenAiClientOutAdapter implements OpenAiClientOutPort {
 
+    @NonNull
     Assistant assistant;
-
-    OpenAiClientOutAdapter(Assistant assistant) {
-        this.assistant = assistant;
-    }
-
 
     @Override
     public OpenAiResponse chat(final OpenAiRequest openAiRequest) throws BpmnError, IncidentError {

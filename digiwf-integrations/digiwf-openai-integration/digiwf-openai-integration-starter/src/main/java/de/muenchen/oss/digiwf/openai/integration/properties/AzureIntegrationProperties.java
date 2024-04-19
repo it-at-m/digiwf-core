@@ -4,28 +4,25 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
 @Getter
 @Setter
 @Validated
-@ConfigurationProperties(prefix = "de.muenchen.oss.digiwf.openai.service")
 @Component
-public class OpenAiIntegrationProperties {
-
-    private String baseUrl;
-
-    @NotBlank
-    private String apiKey;
+@ConfigurationProperties(prefix = "de.muenchen.oss.digiwf.openai.service.azure")
+@Profile("azure")
+public class AzureIntegrationProperties {
 
     @NotBlank
-    private String model;
+    private String apiVersion;
 
-    private Integer maxTokens = 1000;
+    @NotBlank
+    private String deploymentName;
 
-    private Double temperature = 0.7;
-
-    private Boolean logging = false;
+    @NotBlank
+    private String resource;
 
 }

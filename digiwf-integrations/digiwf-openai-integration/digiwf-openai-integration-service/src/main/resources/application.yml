@@ -55,6 +55,6 @@ de:
           service:
             api-key: ''
             model: ''
-            base-url: ''
             deployment-name: ''
             api-version: ''
+            resource: ''
