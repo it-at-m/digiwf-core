@@ -142,7 +142,7 @@ Die DigiWF Message Bibliothek stellt Spring Cloud Stream Komponenten bereit, die
 an Kafka zu senden und zu empfangen. Hierfür werden Event Emitter (`Sinks`) und ein Function Router (`RoutingCallback`)
 bereitgestellt.
 
-### Event Emitter
+### Nachrichten senden
 
 Es wird ein Event Emitter `sendMessage` bereitgestellt. Dieser wird verwendet, um Nachrichten an die entsprechenden
 Destinations zu senden. Intern verwendet die MessageApi den `spring.cloud.stream.sendto.destination` Header, der
@@ -152,13 +152,14 @@ Jedoch muss, damit Spring Cloud Stream Nachrichten versenden kann, ein ausgehend
 empfiehlt es sich, die `spring.cloud.stream.bindings.sendMessage-out-0.destination` Property zu setzen und
 unter `spring.cloud.function.definition` die Funktion `sendMessage` zu definieren.
 
-### Function Router
+### Nachrichten empfangen
 
-Neben dem Versenden von Nachrichten über die Event Emitter können auch Nachrichten über den Function Router empfangen
-werden. Hierfür stellen wir einen `RoutingCallback` bereit, der die eingehenden Nachrichten anhand des Headers `type` an
-die Consumer der Anwendung routed. Das Mapping zwischen dem Header `type`, der aus den eingehenden Nachrichten
-ausgelesen wird, und den Consumer Funktionen wird in der `application.yml` über die
-Property `de.muenchen.oss.digiwf.message.typeMappings` konfiguriert.
+Neben dem Versenden von Nachrichten über die Event Emitter können auch Nachrichten empfangen
+werden. DigiWF-Message baut auf der [Konvention](https://github.com/it-at-m/digiwf-core/blob/dev/digiwf-libs/digiwf-message/digiwf-message-starter/src/main/resources/digiwf-message-application.yml#L5) 
+auf, dass die Consumer-Methode anhand eines `type` - Headers
+in der Nachricht bestimmt wird. Somit ist es wichtig, dass die zugehörige Spring-Bean genauso benannt ist
+wie der Wert im Type-Header. Nur dann können die Nachrichten von Spring Cloud Stream richtig geroutet werden. 
+([Mehr Informationen dazu bei Spring Cloud Stream](https://docs.spring.io/spring-cloud-stream/reference/spring-cloud-stream/event-routing.html#routing-to-consumer))
 
 ## Konfiguration
 

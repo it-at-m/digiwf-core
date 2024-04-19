@@ -32,19 +32,11 @@
             Bei dem Multi-User-Input fehlen teilweise Texte für den Screenreader
           </li>
           <li>
-            Bei dem Multi-File-Input fehlen teilweise Texte für den Screenreader
-            oder sind auf Englisch
-          </li>
-          <li>
-            Pflichtfelder sind teilweise nicht am Label und nicht für den
-            Screenreader erkennbar
-          </li>
-          <li>
             Meldungen über erfolgte Aktionen fehlen sowohl optisch als auch für
             den Screenreader
           </li>
           <li>Fehlende Shortcuts für App-Elemente</li>
-          <li>Teilweise fehlende Alternativtexte</li>
+          <li>Wenige fehlende Alternativtexte</li>
         </ol>
       </div>
       <div tabindex="0">
@@ -66,8 +58,8 @@
         <h2>Kontaktstelle</h2>
         <p>
           Landeshauptstadt München <br />
-          IT-Referat, Team DigiWF <br />
-          E-Mail: <a href="mailto:digiwf@muenchen.de">digiwf@muenchen.de</a>
+          IT-Referat <br />
+          E-Mail: <a href="mailto:opensource@muenchen.de">opensource@muenchen.de</a>
         </p>
       </div>
     </div>

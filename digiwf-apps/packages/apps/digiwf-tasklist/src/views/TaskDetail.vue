@@ -6,7 +6,7 @@
         type="error"
       />
     </v-flex>
-    <v-flex v-if="task !== null">
+    <v-flex v-if="task">
       <span class="processName grey--text">{{ task.processName }}</span>
       <h1>{{ task.name }}</h1>
       <p>{{ task.description }}</p>
@@ -21,38 +21,47 @@
 
       <base-form
         v-if="task.form"
-        :is-saving="isSaving"
-        :is-completing="isCompleting"
+        :form="task.form"
         :has-complete-error="hasCompleteError"
         :has-save-error="hasSaveError"
-        class="taskForm"
-        :form="task.form"
         :init-model="formFields"
+        :is-completing="isCompleting"
+        :is-saving="isSaving"
+        class="taskForm"
         @model-changed="modelChanged"
         @complete-form="handleCompleteTask"
       />
       <app-json-form
         v-else
-        :value="formFields"
         :schema="task.schema"
+        :value="formFields"
         @input="modelChanged"
         @complete-form="handleCompleteTask"
       />
     </v-flex>
-    <v-flex class="buttonWrapper">
+    <v-flex v-if="isLoading" class="loadingAnimation">
+      <v-progress-circular
+        :size="50"
+        aria-label="Daten werden geladen"
+        color="primary"
+        indeterminate
+        tabindex="0"
+      ></v-progress-circular>
+    </v-flex>
+    <v-flex v-if="task" class="buttonWrapper">
       <v-speed-dial
+        direction="bottom"
         fab
         fixed
-        direction="bottom"
         transition="slide-y-transition"
       >
         <template #activator>
           <v-btn
-            color="white"
-            fab
             :aria-label="
               fab ? 'Weitere Aktionen schließen' : 'Weitere Aktionen öffnen'
             "
+            color="white"
+            fab
             @click="switchFab"
           >
             <v-icon v-if="fab">
@@ -67,8 +76,8 @@
           <template #activator="{ on, attrs }">
             <v-btn
               aria-label="Wiedervorlage bearbeiten"
-              fab
               color="white"
+              fab
               v-bind="attrs"
               @click="openFollowUp"
               v-on="on"
@@ -80,21 +89,21 @@
         </v-tooltip>
 
         <loading-fab
-          :is-loading="isSaving"
           :has-error="hasSaveError"
-          color="white"
+          :is-loading="isSaving"
           button-text="Aufgabe zwischenspeichern"
-          @on-click="onSaveTaskClick"
+          color="white"
+          @on-click="handleSaveTask"
         >
           <v-icon> mdi-content-save</v-icon>
         </loading-fab>
 
         <loading-fab
           v-if="task?.isCancelable"
-          :is-loading="isCancelling"
-          :has-error="hasCancelError"
-          color="white"
           :button-text="cancelText"
+          :has-error="hasCancelError"
+          :is-loading="isCancelling"
+          color="white"
           @on-click="handleCancelTask"
         >
           <v-icon> mdi-cancel</v-icon>
@@ -102,10 +111,10 @@
 
         <loading-fab
           v-if="hasDownloadButton"
-          :is-loading="isDownloading"
-          :has-error="hasDownloadButton"
-          color="white"
           :button-text="downloadButtonText"
+          :has-error="hasDownloadButton"
+          :is-loading="isDownloading"
+          color="white"
           @on-click="downloadPDF"
         >
           <v-icon> mdi-download</v-icon>
@@ -115,8 +124,8 @@
 
     <leave-site-dialog
       :open="saveLeaveDialogOpen"
-      @submit="onLeaveDialogSubmit"
       @cancel="onLeaveDialogCancel"
+      @submit="onLeaveDialogSubmit"
     />
     <task-follow-up-dialog
       :follow-up-date="followUpDate"
@@ -143,6 +152,15 @@
   position: relative;
 }
 
+.loadingAnimation {
+  display: flex;
+  position: absolute;
+  justify-content: center;
+  top: 70px;
+  right: 0;
+  left: 0;
+}
+
 .buttonWrapper {
   position: absolute;
   top: 70px;
@@ -157,7 +175,7 @@
 </style>
 
 <script lang="ts" setup>
-import {onMounted, provide, ref, watch} from "vue";
+import {onMounted, provide, ref} from "vue";
 import {onBeforeRouteLeave, useRouter} from "vue-router/composables";
 import {NavigationGuardNext} from "vue-router/types/router";
 
@@ -170,12 +188,14 @@ import {ApiConfig} from "../api/ApiConfig";
 import LeaveSiteDialog from "../components/common/LeaveSiteDialog.vue";
 import TaskLinks from "../components/task/links/TaskLinks.vue";
 import {
-  cancelTask,
-  completeTask,
-  deferTask,
   downloadPDFFromEngine,
-  loadTask,
-  saveTask,
+  LoadTaskResultData,
+  pushRouterPath,
+  useCancelTaskMutation,
+  useCompleteTaskMutation,
+  useDeferTaskMutation,
+  useSaveTaskMutation,
+  useTaskQuery,
 } from "../middleware/tasks/taskMiddleware";
 import {HumanTaskDetails} from "../middleware/tasks/tasksModels";
 import {mergeObjects} from "../utils/mergeObjects";
@@ -199,12 +219,6 @@ const model = ref<any>();
 const errorMessage = ref("");
 const hasChanges = ref(false);
 
-const isSaving = ref(false);
-const hasSaveError = ref(false);
-const isCompleting = ref(false);
-const hasCompleteError = ref(false);
-const isCancelling = ref(false);
-const hasCancelError = ref(false);
 const cancelText = ref("Aufgabe Abbrechen");
 
 const isDownloading = ref(false);
@@ -218,20 +232,82 @@ const el = ref<any>(null);
 
 const saveLeaveDialogOpen = ref(false);
 const next = ref<NavigationGuardNext | null>(null);
+
+const router = useRouter();
+
+const formFields = ref<any>({});
+
+const isLoading = ref(false);
+
 /**
  * toggle for showing fab menu
  */
 const fab = ref(false);
 
-provide("formContext", {id: props.id, type: "task"});
+const {
+  data: taskLoadingResult,
+  error: taskLoadingError,
+  refetch: reload
+} = useTaskQuery(taskId);
+
+const loadTask = (data: LoadTaskResultData) => {
+  task.value = data.task;
+  model.value = data.model;
+  followUpDate.value = data.followUpDate;
+  cancelText.value = data.cancelText;
+  hasDownloadButton.value = data.hasDownloadButton;
+  downloadButtonText.value = data.downloadButtonText;
+
+  const urlQueryParameter = router.currentRoute.query;
+
+  const inputs = parseQueryParameterInputs(
+    urlQueryParameter.inputs as string
+  );
+
+  if (data.task.form) {
+    formFields.value = mergeObjects(data.task.variables, inputs);
+  } else {
+    // use potential value of query parameter if variable is undefined or empty
+    formFields.value = validateSchema(
+      data.task.schema,
+      mergeObjects(data.task.variables, inputs)
+    );
+  }
+};
+
+/**
+ *  mutations:
+ */
+
+const {
+  mutateAsync: cancelTask,
+  isPending: isCancelling,
+  isError: hasCancelError
+} = useCancelTaskMutation();
+
+const {
+  mutateAsync: deferTask
+} = useDeferTaskMutation(taskId);
+
+const {
+  mutateAsync: completeTask,
+  isPending: isCompleting,
+  isError: hasCompleteError
+} = useCompleteTaskMutation(taskId);
+
+
+const {
+  mutateAsync: saveTask,
+  isPending: isSaving,
+  isError: hasSaveError
+} = useSaveTaskMutation(taskId);
+
+provide("formContext", {id: taskId, type: "task"});
 provide("apiEndpoint", ApiConfig.base);
 provide("taskServiceApiEndpoint", ApiConfig.tasklistBase);
 provide("mucsDmsApiEndpoint", ApiConfig.mucsDmsBase);
 provide("alwDmsApiEndpoint", ApiConfig.alwDmsBase);
 
-const router = useRouter();
-
-const formFields = ref<any>({});
 
 onBeforeRouteLeave((to, from, nxt) => {
   if (isDirty()) {
@@ -254,40 +330,6 @@ const onLeaveDialogCancel = () => {
   saveLeaveDialogOpen.value = false;
 };
 
-const onInit = () => {
-  loadTask(taskId)
-    .then(({data, error}) => {
-      if (data) {
-        task.value = data.task;
-        model.value = data.model;
-        followUpDate.value = data.followUpDate;
-        cancelText.value = data.cancelText;
-        hasDownloadButton.value = data.hasDownloadButton;
-        downloadButtonText.value = data.downloadButtonText;
-
-        const urlQueryParameter = router.currentRoute.query;
-
-        const inputs = parseQueryParameterInputs(
-          urlQueryParameter.inputs as string
-        );
-
-        if (data.task.form) {
-          formFields.value = mergeObjects(data.task.variables, inputs);
-        } else {
-          // use potential value of query parameter if variable is undefined or empty
-          formFields.value = validateSchema(
-            data.task.schema,
-            mergeObjects(data.task.variables, inputs)
-          );
-        }
-      }
-      if (error) {
-        errorMessage.value = error;
-      }
-      hasChanges.value = false;
-    });
-};
-
 onMounted(() => {
   // Apply a @click.stop to the .v-speed-dial__list that wraps the default slot
   el.value
@@ -295,36 +337,44 @@ onMounted(() => {
     .addEventListener("click", (e: Event) => {
       e.stopPropagation();
     });
+
+  isLoading.value = true;
+
+  reload().then(() => {
+    if (taskLoadingResult.value) {
+      loadTask(taskLoadingResult.value);
+    }
+    if (taskLoadingError.value) {
+      errorMessage.value = taskLoadingError.value;
+    }
+    isLoading.value = false;
+  });
+
 });
 
 const handleCompleteTask = (model: any) => {
-  isCompleting.value = true;
-  completeTask(taskId, model)
-    .then((result) => {
-      isCompleting.value = false;
-      hasCompleteError.value = result.isError;
-      errorMessage.value = result.errorMessage || "";
-      if (!result.isError) {
-        hasChanges.value = false;
-        router.push({path: "/task"}); // TODO: copied from old source code. Question is why /task is called (path does not exist). check later
-      }
+  completeTask(model)
+    .then(() => {
+      errorMessage.value = "";
+      hasChanges.value = false;
+      pushRouterPath("/mytask");
+    })
+    .catch(error => {
+      errorMessage.value = error;
     });
 };
 
-const onSaveTaskClick = (): Promise<void> => {
-  isSaving.value = true;
-  hasSaveError.value = false;
-
-  return saveTask(taskId, model.value).then((result) => {
-    isSaving.value = false;
-    errorMessage.value = result.errorMessage || "";
-    hasSaveError.value = result.isError;
-    if (!result.isError) {
+const handleSaveTask = (): Promise<void> => {
+  return saveTask(model.value)
+    .then(() => {
+      errorMessage.value = "";
       hasChanges.value = false;
-    }
-
-    return result.isError ? Promise.reject() : Promise.resolve();
-  });
+      return Promise.resolve();
+    })
+    .catch(error => {
+      errorMessage.value = error;
+      return Promise.reject();
+    });
 };
 
 const openFollowUp = (): void => {
@@ -344,18 +394,20 @@ const saveFollowUp = (newFollowUpDate: string) => {
   followUpDate.value = newFollowUpDate;
   isFollowUpDialogVisible.value = false;
 
-  (hasChanges.value ? onSaveTaskClick() : Promise.resolve()).then(() => {
-    deferTask(taskId, newFollowUpDate).then((result) => {
-      errorMessage.value = result.errorMessage || "";
-    });
+  (hasChanges.value ? handleSaveTask() : Promise.resolve()).then(() => {
+    deferTask(newFollowUpDate)
+      .then(() => {
+        errorMessage.value = "";
+      })
+      .catch((error) => {
+        errorMessage.value = error;
+      });
   });
 };
 
 const handleCancelTask = () => {
   isCancelling.value = true;
-  cancelTask(taskId).then((result) => {
-    isCancelling.value = false;
-    hasCancelError.value = result.isError;
+  cancelTask(taskId).catch((result) => {
     errorMessage.value = result.errorMessage || "";
   });
 };
@@ -378,5 +430,4 @@ const isDirty = (): boolean => {
   return hasChanges.value;
 };
 
-onInit();
 </script>

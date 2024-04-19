@@ -1,0 +1,28 @@
+name: Contribution Bot
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  auto-assign:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: 'Auto-assign issue'
+        if: github.event.issue.author_association != 'MEMBER'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { repo, owner } = context.repo;
+            const teamMembers =  await github.rest.teams.listMembersInOrg({
+                owner,
+                team_slug: 'digiwf_maintainer'
+            })
+            await github.rest.issues.addAssignees({
+              owner,
+              repo,
+              issue_number: context.issue.number,
+              assignees: teamMembers,
+            });
