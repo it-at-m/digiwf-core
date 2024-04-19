@@ -10,6 +10,8 @@ public class LdapMockOutPort implements ResolveUserGroupsOutPort {
     @Override
     @NonNull
     public List<Group> resolveGroups(@NonNull final String username) {
-        return List.of();
+        return List.of(
+                new Group("webapp-user")
+        );
     }
 }
