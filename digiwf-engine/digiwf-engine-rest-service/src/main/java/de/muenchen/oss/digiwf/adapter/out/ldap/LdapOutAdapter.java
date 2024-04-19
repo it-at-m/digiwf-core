@@ -11,7 +11,6 @@ import org.springframework.ldap.core.ContextSource;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.query.LdapQuery;
 import org.springframework.ldap.query.LdapQueryBuilder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import javax.naming.InvalidNameException;
 import javax.naming.ldap.LdapName;
@@ -88,10 +87,14 @@ public class LdapOutAdapter extends LdapTemplate implements ResolveUserGroupsOut
                 .where("objectclass").is("user")
                 .and("cn").is(username);
         List<String> result = super.search(query, (AttributesMapper<String>) attrs -> attrs.get("distinguishedName").get().toString());
-        if (result.isEmpty())
-            throw new UsernameNotFoundException(String.format("Username '%s' not found via ldap adapter.", username));
-        if (result.size() > 1)
+        if (result.isEmpty()) {
+            log.error("Username {} not found", username);
+            throw new IllegalStateException(String.format("Username '%s' not found via ldap adapter", username));
+        }
+        if (result.size() > 1) {
+            log.error("Username {} found more than once", username);
             throw new IllegalStateException(String.format("Multiple users found for username '%s'", username));
+        }
         val userDn = result.get(0);
         log.debug("Resolved user {} to dn {}", username, userDn);
         return userDn;
