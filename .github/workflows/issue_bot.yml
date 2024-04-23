@@ -17,7 +17,7 @@ jobs:
           script: |
             const { repo, owner } = context.repo;
             const teamMembers =  await github.rest.teams.listMembersInOrg({
-                owner,
+                org: owner,
                 team_slug: 'digiwf_maintainer'
             })
             await github.rest.issues.addAssignees({
