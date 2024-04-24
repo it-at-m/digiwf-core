@@ -233,7 +233,6 @@ const el = ref<any>(null);
 
 const saveLeaveDialogOpen = ref(false);
 const next = ref<NavigationGuardNext | null>(null);
-const next = ref<NavigationGuardNext | null>(null);
 
 const router = useRouter();
 
