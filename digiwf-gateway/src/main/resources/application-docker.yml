@@ -28,6 +28,11 @@ spring:
           predicates:
             - Path=/camunda/**
 
+        - id: webcomponent-dockerized
+          uri: http://digiwf-webcomponent:8080/
+          predicates:
+            - Path=/public/webcomponent/**
+
         - id: frontend-dockerized
           uri: http://digiwf-tasklist:8080/
           predicates:

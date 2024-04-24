@@ -157,6 +157,15 @@ services:
       - tasklist-frontend
     networks:
       - internal
+
+  digiwf-webcomponent:
+    image: itatm/digiwf-webcomponent:dev
+    ports:
+      - "8092:8080"
+    profiles:
+      - webcomponent
+    networks:
+      - internal
   #
   # Local keycloak. To work properly, you need to change your local hosts file and add an alias to your
   # `127.0.0.1 localhost` line to look like this: `127.0.0.1 localhost keycloak`.

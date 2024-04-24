@@ -28,7 +28,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '16'
+          node-version: '18'
           cache: 'npm'
           cache-dependency-path: "./digiwf-apps/package-lock.json"
           registry-url: 'https://registry.npmjs.org'
@@ -63,3 +63,11 @@ jobs:
           context: ./digiwf-apps/packages/apps/digiwf-tasklist
           push: true
           tags: itatm/digiwf-tasklist:${{ inputs.release-version }}
+
+      - name: Build and push webcomponent
+        if: inputs.build-images == true
+        uses: docker/build-push-action@v5
+        with:
+          context: ./digiwf-apps/packages/apps/digiwf-webcomponent
+          push: true
+          tags: itatm/digiwf-webcomponent:${{ inputs.release-version }}

@@ -58,7 +58,7 @@ Danach sollte die Ausgabe von `docker ps` ungefähr wie folgt aussehen:
 
 ![Ausgabe von docker ps mit allen gestarteten Services](~@source/images/platform/guides/technical-setup/docker-ps-output.png)
 
-Wenn das Api Gateway nicht hochgefahren ist, noch einmal `docker compose up -d` ausführen.
+Wenn das API-Gateway nicht hochgefahren ist, noch einmal `docker compose up -d` ausführen.
 
 Danach startet man das Tasklist Backend (EngineServiceApplication).
 Dazu startet man dieses mit folgenden Profilen: local, streaming, no-ldap
@@ -77,7 +77,17 @@ Nach erfolgreichem Login kommt eine leere weiße Seite. Das ist gewollt und zeig
 
 Anmelden kann man sich mit dem Nutzernamen "johndoe" und dem Passwort "test".
 
-### Szenario 2: Lokale Infrastruktur starten, um Tasklist-Frontend in Docker Containern zu betreiben
+#### Szenario 2: Lokale Infrastruktur starten, um Tasklist Backend und Web Component zu entwickeln
+
+Dieses Szenario ist bezüglich des Startens des Docker-Stacks sowie dem Starten der Tasklist Backend identisch zu Szenario 1.
+
+Ist der Stack sowie das Backend erfolgreich gestartet, startet man noch die Web Components im Ordner _digiwf-apps_.
+Hierfür sollten diese zuerst einmal gebaut werden `npm run build`.
+Anschließend können die Web Components mit `npm run serve:webcomponent` gestartet werden.
+Beim ersten Start muss noch ein `npm run init` durchgeführt werden, damit alle notwendigen Dependencies
+installiert werden.
+
+#### Szenario 3: Lokale Infrastruktur starten, um Tasklist-Frontend in Docker Containern zu betreiben
 
 Im Ordner _stack_ ausführen:
 
@@ -94,6 +104,23 @@ Dort meldet man sich mit dem Nutzernamen "johndoe" und dem Passwort "test" an.
 
 Bei erfolgreicher Anmeldung ist das Digiwf-Tasklist-Frontend zu sehen. Alle Netzwerkrequests sollten ordnungsgemäß
 durchgeführt werden.
+
+#### Szenario 4: Lokale Infrastruktur starten, um Web Component in Docker Container zu betreiben
+
+Im Ordner _stack_ ausführen:
+
+```docker compose --profile webcomponent up -d```
+
+Zusätzlich startet man analog wie in Szenario 2 das Tasklist Backend auf die identische Weise.
+
+Anschließend sollte man beim Aufruf von [http://localhost:8082](http://localhost:8083) auf die Keycloak Loginmaske
+weitergeleitet werden.
+Dort meldet man sich mit dem Nutzernamen "johndoe" und dem Passwort "test" an.
+
+Bei erfolgreicher Anmeldung sind die Web Components zu sehen. Alle Netzwerkrequests sollten ordnungsgemäß
+durchgeführt werden.
+
+**Tipp:** Detailliertere Informationen zur Entwicklung der Web Components kann der technischen [README](https://github.com/it-at-m/digiwf-core/blob/dev/digiwf-apps/packages/apps/digiwf-webcomponent/README.md) auf GitHub entnommen werden.
 
 ### Komponenten
 
@@ -118,7 +145,7 @@ Keycloak nutzt noch eine PostgreSQL-DB und Keycloak Migration zur Erstellung des
 
 Wird aktuell nur zur Anbindung der DigiWF Engine genutzt.
 
-### Api Gateway
+#### API-Gateway
 
 Verwaltet für das Frontend Sessions und hält die JWT Tokens im Speicher.
 
@@ -127,25 +154,25 @@ Verbindet sich mit Keycloak für den Login / die Erneuerung der Access Tokens.
 Tauscht bei jedem, vom Frontend kommenden, Netzwerkrequest die Session gegen den Accesstoken aus und leitet den Requests
 weiter an das jeweilige Backend (aktuell nur DigiWFEngineService) weiter.
 
-### PostgreSQL
+#### PostgreSQL
 
 Datenbank für DigiWFEngine und DigiWFTasklist.
 
-### Mailhog
+#### Mailhog
 
 Mailhog ist ein Mail Server, der unter [http://localhost:8025](http://localhost:8025) erreichbar ist.
 
-### Minio
+#### Minio
 
 S3-kompatibler ObjectStorage für S3IntegrationApplication. Minio ist
 unter [http://localhost:9000](http://localhost:9000) erreichbar.
 
-## DigiWFEngine
+#### DigiWFEngine
 
 Die DigiWF Engine ist eine Camunda Engine, welche um einige Funktionalitäten erweitert wurde.
 Die DigiWF Engine kann mit dem Befehl `./mvnw install` gebaut und anschließend gestartet werden.
 
-### Camunda Cockpit
+#### Camunda Cockpit
 
 Die DigiWF Engine kann direkt mit einem Camunda Cockpit gestartet werden.
 Hierfür muss das Profil `-Pcamunda-ce` (bzw. `-Pcamunda-ee,!camunda-ce` für die Enterprise Variante) verwendet werden.
