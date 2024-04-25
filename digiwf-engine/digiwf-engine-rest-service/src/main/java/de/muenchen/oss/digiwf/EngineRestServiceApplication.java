@@ -5,8 +5,8 @@ package de.muenchen.oss.digiwf;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.muenchen.oss.digiwf.adapter.in.rest.EngineRestGroupFilter;
-import de.muenchen.oss.digiwf.adapter.out.ldap.LdapMockOutPort;
-import de.muenchen.oss.digiwf.adapter.out.ldap.LdapOutAdapter;
+import de.muenchen.oss.digiwf.adapter.out.ldap.LdapAdapter;
+import de.muenchen.oss.digiwf.adapter.out.ldap.LdapMockAdapter;
 import de.muenchen.oss.digiwf.adapter.out.ldap.LdapProperties;
 import de.muenchen.oss.digiwf.application.port.in.ResolveUserGroupsInPort;
 import de.muenchen.oss.digiwf.application.port.out.ResolveUserGroupsOutPort;
@@ -70,12 +70,12 @@ public class EngineRestServiceApplication {
     @Bean
     @Profile("groups-ldap")
     public ResolveUserGroupsOutPort ldapOutPort(final ContextSource contextSource, final LdapProperties ldapProperties) {
-        return new LdapOutAdapter(contextSource, ldapProperties);
+        return new LdapAdapter(contextSource, ldapProperties);
     }
 
     @Bean
     @Profile("groups-mock")
     public ResolveUserGroupsOutPort ldapMockOutPort() {
-        return new LdapMockOutPort();
+        return new LdapMockAdapter();
     }
 }
