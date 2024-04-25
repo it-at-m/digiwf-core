@@ -22,7 +22,6 @@ export function useGetCurrentUserTasks() {
 
   const call = async (page: number): Promise<void> => {
     const service = tasksAPI.value;
-    console.log(service);
 
     loadingInternal.value = true;
     errorInternal.value = false;
