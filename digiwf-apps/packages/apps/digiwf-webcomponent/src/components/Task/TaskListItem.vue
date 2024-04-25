@@ -12,26 +12,20 @@
       :root-offset="1"
       class="mb-3 text-title"
     >
-      {{ serviceInstance.definitionName }}
+      {{ task.name }}
     </dynamic-heading>
     <p class="mb-1">Erstellt am {{ createdDate }}</p>
     <p
-      v-if="serviceInstance.endTime"
-      class="mb-1"
-    >
-      Abgeschlossen am {{ endedDate }}
-    </p>
-    <p
-      v-if="serviceInstance.description"
+      v-if="task.description"
       class="mb-0 mt-3"
     >
-      {{ serviceInstance.description }}
+      {{ task.description }}
     </p>
   </c-list-group-item>
 </template>
 
 <script setup lang="ts">
-import type { ServiceInstanceTO } from "@muenchen/digiwf-engine-api-internal";
+import type { Task } from "@muenchen/digiwf-task-api-internal";
 
 import { CListGroupItem } from "@coreui/vue";
 import { useDateFormat } from "@vueuse/core";
@@ -40,22 +34,21 @@ import { computed, ref } from "vue";
 import DynamicHeading from "@/components/common/DynamicHeading.vue";
 import { useBaseURL } from "@/composables/useBaseURL";
 import { useNewTabText } from "@/composables/useNewTabText";
-import { DATE_FORMAT, TASKLIST_SERVICE_INSTANCE_PATH } from "@/util/constants";
+import { DATE_FORMAT, TASKLIST_TASK_PATH } from "@/util/constants";
 
 const { baseURL } = useBaseURL();
 
 const props = defineProps<{
-  serviceInstance: ServiceInstanceTO;
+  task: Task;
 }>();
 
-const { newTabText } = useNewTabText(ref("Vorgang in DigiWF öffnen"));
+const { newTabText } = useNewTabText(ref("Aufgabe in DigiWF öffnen"));
 
-const createdDate = useDateFormat(props.serviceInstance.startTime, DATE_FORMAT);
-const endedDate = useDateFormat(props.serviceInstance.endTime, DATE_FORMAT);
+const createdDate = useDateFormat(props.task.createTime, DATE_FORMAT);
 
 const frontendURL = computed(() => {
-  return `${baseURL!.value}/#/${TASKLIST_SERVICE_INSTANCE_PATH}/${
-    props.serviceInstance.id
+  return `${baseURL!.value}/#/${TASKLIST_TASK_PATH}/${
+    props.task.id
   }`;
 });
 </script>

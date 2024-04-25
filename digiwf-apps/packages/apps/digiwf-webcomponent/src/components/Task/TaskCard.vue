@@ -1,8 +1,9 @@
 <template>
   <widget-card
-    :link-path="TASKLIST_SERVICE_INSTANCE_PATH"
-    card-title="Meine Vorgänge"
+    :link-path="TASKLIST_MYTASK_PATH"
+    card-title="Meine Aufgaben"
     link-text="In DigiWF ansehen"
+    :icon-path="mdiCheckboxOutline"
     :loading="showLoading"
     :error="error"
     :page-data="pageData"
@@ -12,10 +13,10 @@
     <template #content>
       <c-list-group flush>
         <template v-if="hasContent">
-          <service-instance-list-item
-            v-for="serviceInstance in data!.content"
-            :key="serviceInstance.id"
-            :service-instance="serviceInstance"
+          <task-list-item
+            v-for="task in data!.content"
+            :key="task.id"
+            :task="task"
           />
         </template>
       </c-list-group>
@@ -23,10 +24,10 @@
     <template #placeholder>
       <c-list-group
         flush
-        aria-label="Vorgänge werden geladen"
+        aria-label="Aufgaben werden geladen"
         aria-busy="true"
       >
-        <service-instance-list-item-placeholder
+        <task-list-item-placeholder
           v-for="i in pageSize"
           :key="i"
         />
@@ -39,22 +40,23 @@
 import { CListGroup } from "@coreui/vue";
 import { computed, watch } from "vue";
 
+import TaskListItem from "@/components/Task/TaskListItem.vue";
+import TaskListItemPlaceholder from "@/components/Task/TaskListItemPlaceholder.vue";
 import WidgetCard from "@/components/common/WidgetCard.vue";
-import ServiceInstanceListItemPlaceholder from "@/components/ServiceInstance/ServiceInstanceListItemPlaceholder.vue";
-import ServiceInstanceListItem from "@/components/ServiceInstance/ServiceInstanceListItem.vue";
-import { useGetAssignedProcessInstances } from "@/composables/ServiceInstanceControllerApi/useGetAssignedProcessInstances";
+import { useGetCurrentUserTasks } from "@/composables/TasksApi/useGetCurrentUserTasks";
 import { useHasAccessToken } from "@/composables/useAccessToken";
 import { usePagination } from "@/composables/usePagination";
 import { useInjectParameters } from "@/composables/useParameters";
-import { TASKLIST_SERVICE_INSTANCE_PATH } from "@/util/constants";
+import { TASKLIST_MYTASK_PATH } from "@/util/constants";
+import { mdiCheckboxOutline } from "@mdi/js";
 
 const { hasAccessToken } = useHasAccessToken();
 const {
-  call: getAssignedProcessInstances,
+  call: getCurrentUserTasks,
   loading,
   error,
   data,
-} = useGetAssignedProcessInstances();
+} = useGetCurrentUserTasks();
 const { pageSize } = useInjectParameters();
 
 const totalPages = computed(() => data.value?.totalPages);
@@ -78,7 +80,7 @@ watch(page, () => {
 });
 
 const loadData = () => {
-  getAssignedProcessInstances(page.value);
+  getCurrentUserTasks(page.value);
 };
 </script>
 

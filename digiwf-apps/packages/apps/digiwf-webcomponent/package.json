@@ -16,6 +16,7 @@
     "@jamescoyle/vue-icon": "^0.1.2",
     "@mdi/js": "^7.4.47",
     "@muenchen/digiwf-engine-api-internal": "^1.10.2",
+    "@muenchen/digiwf-task-api-internal": "^1.10.2",
     "@vueuse/core": "^10.9.0",
     "vue": "^3.4.21"
   },
