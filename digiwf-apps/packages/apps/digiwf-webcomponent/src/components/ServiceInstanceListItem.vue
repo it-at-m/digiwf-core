@@ -20,7 +20,12 @@
     >
       {{ DefaultStatus.FINISHED }} am {{ endedDate }}
     </p>
-    <p v-else class="mb-1">{{ DefaultStatus.STARTED }} am {{ createdDate }}</p>
+    <p
+      v-else
+      class="mb-1"
+    >
+      {{ DefaultStatus.STARTED }} am {{ createdDate }}
+    </p>
     <p>Status: {{ statusText }}</p>
     <p
       v-if="serviceInstance.description"
@@ -33,7 +38,6 @@
 
 <script setup lang="ts">
 import type { ServiceInstanceTO } from "@muenchen/digiwf-engine-api-internal";
-import { DefaultStatus } from "@/types/DefaultStatus";
 
 import { CListGroupItem } from "@coreui/vue";
 import { useDateFormat } from "@vueuse/core";
@@ -42,8 +46,9 @@ import { computed, ref } from "vue";
 import DynamicHeading from "@/components/common/DynamicHeading.vue";
 import { useBaseURL } from "@/composables/useBaseURL";
 import { useNewTabText } from "@/composables/useNewTabText";
-import { DATE_FORMAT, FRONTEND_INSTANCE_PATH } from "@/util/constants";
 import { useStatusText } from "@/composables/useStatusText";
+import { DefaultStatus } from "@/types/DefaultStatus";
+import { DATE_FORMAT, FRONTEND_INSTANCE_PATH } from "@/util/constants";
 
 const { baseURL } = useBaseURL();
 

@@ -1,6 +1,7 @@
 import type { Ref } from "vue";
 
 import { computed } from "vue";
+
 import { DefaultStatus } from "@/types/DefaultStatus";
 
 export function useStatusText(text: Ref<string>) {
