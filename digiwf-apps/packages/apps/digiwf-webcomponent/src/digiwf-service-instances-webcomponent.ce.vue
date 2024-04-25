@@ -10,9 +10,8 @@ import type { RootHeadingLevel } from "@/types/RootHeadingLevel";
 import { CContainer } from "@coreui/vue";
 import { defineProps, toRefs, withDefaults } from "vue";
 
-import ServiceInstanceCard from "@/components/ServiceInstanceCard.vue";
+import ServiceInstanceCard from "@/components/ServiceInstance/ServiceInstanceCard.vue";
 import { useAccessToken } from "@/composables/useAccessToken";
-import { useAPI } from "@/composables/useAPI";
 import { useBaseURL } from "@/composables/useBaseURL";
 import { useProvideParameters } from "@/composables/useParameters";
 import {
@@ -21,6 +20,9 @@ import {
   PAGE_SIZE_DEFAULT,
   ROOT_HEADING_LEVEL_DEFAULT,
 } from "@/util/constants";
+import {
+  useServiceInstanceControllerAPI
+} from "@/composables/ServiceInstanceControllerApi/useServiceInstanceControllerAPI";
 
 const props = withDefaults(
   defineProps<{
@@ -43,7 +45,7 @@ useProvideParameters(pageSize, maxPagesVisible, rootHeadingLevel);
 
 const { baseURL } = useBaseURL();
 const { accessToken } = useAccessToken(accessTokenEventName);
-useAPI(baseURL, accessToken);
+useServiceInstanceControllerAPI(baseURL, accessToken);
 </script>
 
 <style lang="scss">
