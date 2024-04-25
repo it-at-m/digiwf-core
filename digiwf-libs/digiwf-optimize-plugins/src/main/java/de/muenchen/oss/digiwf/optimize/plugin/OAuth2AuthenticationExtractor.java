@@ -21,6 +21,10 @@ import org.slf4j.LoggerFactory;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+/**
+ * Camunda AuthenticationExtractor plugin to extract authentication from incoming requests
+ * by parsing authorization header to oAuth2 access token and verifying it.
+ */
 public class OAuth2AuthenticationExtractor implements AuthenticationExtractor {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());

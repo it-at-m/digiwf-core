@@ -4,6 +4,9 @@ import jakarta.ws.rs.client.ClientRequestContext;
 import lombok.extern.slf4j.Slf4j;
 import org.camunda.optimize.plugin.engine.rest.EngineRestFilter;
 
+/**
+ * Camunda EngineRestFilter plugin to append oAuth2 client access token to outgoing requests as authorization header.
+ */
 @Slf4j
 public class OAuth2EngineRestFilter implements EngineRestFilter {
     private final OAuth2Client client;

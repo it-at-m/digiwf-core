@@ -14,6 +14,9 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+/**
+ * OAuth2 client to gather client access token.
+ */
 @RequiredArgsConstructor
 @Slf4j
 public class OAuth2Client {
