@@ -12,7 +12,6 @@ on:
 jobs:
   build-docs:
     runs-on: ubuntu-latest
-    if: false
     defaults:
       run:
         working-directory: ./docs

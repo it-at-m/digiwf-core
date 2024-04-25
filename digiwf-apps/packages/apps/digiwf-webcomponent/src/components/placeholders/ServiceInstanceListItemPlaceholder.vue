@@ -1,21 +1,21 @@
 <template>
   <c-list-group-item class="p-3">
     <c-placeholder
-      :component="headingTag"
+      :as="headingTag"
       animation="wave"
       class="mb-3 text-title"
     >
       <c-placeholder :xs="6" />
     </c-placeholder>
     <c-placeholder
-      component="p"
+      as="p"
       animation="wave"
       class="mb-1"
     >
       <c-placeholder :xs="4" />
     </c-placeholder>
     <c-placeholder
-      component="p"
+      as="p"
       animation="wave"
       class="mb-0 mt-3"
     >

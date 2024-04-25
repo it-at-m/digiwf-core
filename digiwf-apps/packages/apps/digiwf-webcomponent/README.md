@@ -121,6 +121,11 @@ digiwf-service-instances-webcomponent {
 
 ## Development Setup
 
+Prerequisites:
+
+- Local keycloak installation running on hostname `keycloak` on port 8080 (otherwise authentication will not work)
+- Running DigiWF-APIGateway and DigiWF-Engine services (otherwise no data can be fetched)
+
 1. Checkout
 2. run `npm run dev`
 3. Open `localhost:8085` or...
@@ -132,6 +137,13 @@ digiwf-service-instances-webcomponent {
   src="http://localhost:8085/src/digiwf-service-instances-webcomponent.ts"
   type="module"
 ></script>
+<script
+  src="http://localhost:8085/dev/retrieveAndDispatchAccessToken.ts"
+  type="module"
+></script>
 
 <digiwf-service-instances-webcomponent></digiwf-service-instances-webcomponent>
 ```
+
+After opening the browser you will be required to enter user credentials for the local realm.
+Those credentials can be found in the [official documentation](https://digiwf.oss.muenchen.de/documentation/guides/technical-setup/#keycloak-identity-provider)

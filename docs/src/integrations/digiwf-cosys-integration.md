@@ -105,7 +105,7 @@ implementation group: 'de.muenchen.oss.digiwf', name: 'digiwf-cosys-integration-
 Machen Sie sich mit
 dem [`digiwf-cosys-integration-core`](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-cosys-integration/digiwf-cosys-integration-core)
 und [`digiwf-cosys-integration-starter`](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-cosys-integration/digiwf-cosys-integration-starter)
-Modul vertraut und fügen Sie Ihre eigenen `@bean`s hinzu oder überschreiben Sie die bereitgestellten `@bean`s.
+Modul vertraut und fügen Sie Ihre eigenen `@Bean`s hinzu oder überschreiben Sie die bereitgestellten `@Bean`s.
 
 ## Konfigurationen
 
