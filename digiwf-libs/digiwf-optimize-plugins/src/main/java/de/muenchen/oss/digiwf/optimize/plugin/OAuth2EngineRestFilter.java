@@ -6,7 +6,15 @@ import org.camunda.optimize.plugin.engine.rest.EngineRestFilter;
 
 @Slf4j
 public class OAuth2EngineRestFilter implements EngineRestFilter {
-    private final OAuth2Client client = new OAuth2Client(OAuth2ClientProperties.fromEnv());
+    private final OAuth2Client client;
+
+    public OAuth2EngineRestFilter(OAuth2Client client) {
+        this.client = client;
+    }
+
+    public OAuth2EngineRestFilter() {
+        this(new OAuth2Client(OAuth2ClientProperties.fromEnv()));
+    }
 
     @Override
     public void filter(ClientRequestContext requestContext, String engineAlias, String engineName) {
