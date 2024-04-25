@@ -8,7 +8,7 @@ import org.springframework.lang.NonNull;
 import java.util.List;
 
 @Slf4j
-public class LdapMockOutPort implements ResolveUserGroupsOutPort {
+public class LdapMockAdapter implements ResolveUserGroupsOutPort {
     @Override
     @NonNull
     public List<Group> resolveGroups(@NonNull final String username) {

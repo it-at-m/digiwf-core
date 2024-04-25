@@ -19,10 +19,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
-public class LdapOutAdapter extends LdapTemplate implements ResolveUserGroupsOutPort {
+public class LdapAdapter extends LdapTemplate implements ResolveUserGroupsOutPort {
     private final LdapProperties properties;
 
-    public LdapOutAdapter(final ContextSource contextSource, final LdapProperties properties) {
+    public LdapAdapter(final ContextSource contextSource, final LdapProperties properties) {
         super(contextSource);
         this.properties = properties;
     }
