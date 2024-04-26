@@ -13,12 +13,14 @@ Je nach Komponente ist auch das Starten der DigiWF-Engine sowie des Task Managem
 ## LHM eigene Bibliotheken
 
 * [@muenchen/digiwf-engine-api-internal](https://www.npmjs.com/package/@muenchen/digiwf-engine-api-internal): Generierter HTTP-Client für die Engine-API basierend auf [Axios](https://axios-http.com/) inklusive TypeScript-Typen
+* [@muenchen/digiwf-task-api-internal](https://www.npmjs.com/package/@muenchen/digiwf-task-api-internal): Generierter HTTP-Client für die Tasks-API basierend auf [Axios](https://axios-http.com/) inklusive TypeScript-Typen
 
 ## Überblick über verfügbare WebComponents und deren Nutzung
 
 Aktuell werden folgende Web Components angeboten:
 
-- **digiwf-service-instances-webcomponent**: Ermöglicht die Anzeige der DigiWF-eigenen Vorgänge
+- `digiwf-service-instances-webcomponent`: Ermöglicht die Anzeige der DigiWF-eigenen Vorgänge
+- `digiwf-tasks-webcomponent`: Ermöglicht die Anzeige der eigenen offenen Aufgaben
 
 Die angebotenen Web Components können per Custom Properties in ihrem Verhalten angepasst werden.
 Darüber hinaus kann das Aussehen der Komponenten (insbesondere Farben und Schriftarten) durch das Setzen von Custom CSS-Variablen an die einbettende Anwendung angepasst werden, was eine visuell nahtlose Integration ermöglicht.
