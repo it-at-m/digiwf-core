@@ -4,7 +4,6 @@ import de.muenchen.oss.digiwf.process.api.config.api.ProcessConfigApi;
 import de.muenchen.oss.digiwf.process.api.config.api.dto.ProcessConfigTO;
 import lombok.RequiredArgsConstructor;
 
-
 /**
  * ProcessConfigApiImpl is the api to obtain the process configuration.
  */

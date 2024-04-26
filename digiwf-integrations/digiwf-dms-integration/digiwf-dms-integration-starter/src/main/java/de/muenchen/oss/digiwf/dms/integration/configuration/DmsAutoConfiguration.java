@@ -15,6 +15,7 @@ import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
 import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFileRepository;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFolderRepository;
+import de.muenchen.oss.digiwf.s3.integration.client.service.FileExtensionService;
 import de.muenchen.oss.digiwf.spring.security.authentication.UserAuthenticationProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -30,15 +31,15 @@ import java.util.function.Consumer;
 @Configuration
 @RequiredArgsConstructor
 @Import(FabasoftClientConfiguration.class)
-@EnableConfigurationProperties({FabasoftProperties.class, DmsProperties.class})
+@EnableConfigurationProperties({ FabasoftProperties.class, DmsProperties.class })
 public class DmsAutoConfiguration {
 
     private final DmsProperties dmsProperties;
 
     @Bean
     @ConditionalOnMissingBean
-    public FabasoftAdapter fabasoftAdapter(final FabasoftProperties dmsProperties, LHMBAI151700GIWSDSoap wsCleint) {
-        return new FabasoftAdapter(dmsProperties, wsCleint);
+    public FabasoftAdapter fabasoftAdapter(final FabasoftProperties dmsProperties, final LHMBAI151700GIWSDSoap wsClient) {
+        return new FabasoftAdapter(dmsProperties, wsClient);
     }
 
     @Bean
@@ -49,8 +50,10 @@ public class DmsAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public S3Adapter s3Adapter(DocumentStorageFileRepository documentStorageFileRepository, DocumentStorageFolderRepository documentStorageFolderRepository) {
-        return new S3Adapter(documentStorageFileRepository, documentStorageFolderRepository, dmsProperties.getSupportedExtensions());
+    public S3Adapter s3Adapter(final DocumentStorageFileRepository documentStorageFileRepository,
+            final DocumentStorageFolderRepository documentStorageFolderRepository, final
+    FileExtensionService fileExtensionService) {
+        return new S3Adapter(documentStorageFileRepository, documentStorageFolderRepository, fileExtensionService);
     }
 
     @Bean

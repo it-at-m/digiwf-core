@@ -10,6 +10,7 @@ import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageSer
 import de.muenchen.oss.digiwf.s3.integration.client.exception.PropertyNotSetException;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFileRepository;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFolderRepository;
+import de.muenchen.oss.digiwf.s3.integration.client.service.FileExtensionService;
 import de.muenchen.oss.digiwf.ticket.integration.domain.model.FileContent;
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Mono;
@@ -28,9 +29,10 @@ class S3AdapterTest {
     private final DocumentStorageFileRepository documentStorageFileRepository = mock(DocumentStorageFileRepository.class);
     private final DocumentStorageFolderRepository documentStorageFolderRepository = mock(DocumentStorageFolderRepository.class);
     private final ProcessConfigApi processConfigApi = mock(ProcessConfigApi.class);
+    private final FileExtensionService fileExtensionService = mock(FileExtensionService.class);
     private final List<String> supportedExtensions = List.of("application/pdf", "text/plain");
 
-    private final S3Adapter s3Adapter = new S3Adapter(documentStorageFileRepository, documentStorageFolderRepository, processConfigApi, supportedExtensions);
+    private final S3Adapter s3Adapter = new S3Adapter(documentStorageFileRepository, documentStorageFolderRepository, processConfigApi, fileExtensionService);
 
 
     // test data
@@ -86,7 +88,7 @@ class S3AdapterTest {
         when(documentStorageFolderRepository.getAllFilesInFolderRecursively(startsWith(fileContext))).thenReturn(Mono.just(Collections.emptySet()));
         when(processConfigApi.getProcessConfig(anyString())).thenThrow(new RuntimeException("Process Config does not exist"));
 
-        final S3Adapter s3Adapter = new S3Adapter(documentStorageFileRepository, documentStorageFolderRepository, processConfigApi, List.of("application/pdf"));
+        final S3Adapter s3Adapter = new S3Adapter(documentStorageFileRepository, documentStorageFolderRepository, processConfigApi, fileExtensionService);
 
         // Assert the result
         assertThatThrownBy(() -> s3Adapter.loadFiles(filepaths, fileContext, processDefinition))

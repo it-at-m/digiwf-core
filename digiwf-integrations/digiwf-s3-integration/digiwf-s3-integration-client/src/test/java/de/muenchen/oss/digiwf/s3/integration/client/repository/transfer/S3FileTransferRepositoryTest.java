@@ -12,6 +12,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
+import org.springframework.web.client.RestTemplate;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -23,7 +24,7 @@ class S3FileTransferRepositoryTest {
 
     private final String PRESIGNED_URL = "/expected-presigned-url";
 
-    private final S3FileTransferRepository s3FileTransferRepository =  new S3FileTransferRepository();
+    private final S3FileTransferRepository s3FileTransferRepository =  new S3FileTransferRepository(new RestTemplate());
 
     @Test
     void getFile(final WireMockRuntimeInfo wmRuntimeInfo) throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {

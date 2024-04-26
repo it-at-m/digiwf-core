@@ -10,15 +10,14 @@ import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageSer
 import de.muenchen.oss.digiwf.s3.integration.client.exception.PropertyNotSetException;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFileRepository;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFolderRepository;
+import de.muenchen.oss.digiwf.s3.integration.client.service.FileExtensionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.tika.Tika;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 @Slf4j
@@ -29,7 +28,7 @@ public class S3Adapter implements LoadFileOutPort, TransferContentOutPort {
 
     private final DocumentStorageFolderRepository documentStorageFolderRepository;
 
-    private final Map<String, String> supportedExtensions;
+    private final FileExtensionService fileExtensionService;
 
     @Override
     public List<Content> loadFiles(final List<String> filepaths, final String fileContext) {
@@ -53,35 +52,27 @@ public class S3Adapter implements LoadFileOutPort, TransferContentOutPort {
         try {
             List<Content> contents = new ArrayList<>();
             Set<String> filepath = documentStorageFolderRepository.getAllFilesInFolderRecursively(folderpath).block();
-            filepath.forEach(file -> {
-                contents.add(getFile(file));
-            });
+            filepath.forEach(file -> contents.add(getFile(file)));
             return contents;
         } catch (final DocumentStorageException | DocumentStorageServerErrorException |
-                       DocumentStorageClientErrorException | PropertyNotSetException e) {
+                DocumentStorageClientErrorException | PropertyNotSetException e) {
             throw new BpmnError("LOAD_FOLDER_FAILED", "An folder could not be loaded from url: " + folderpath);
         }
     }
 
     private Content getFile(String filepath) {
         try {
-            final Tika tika = new Tika();
             final byte[] bytes = this.documentStorageFileRepository.getFile(filepath, 3);
-            final String type = tika.detect(bytes);
+            final String type = fileExtensionService.detectFileType(bytes);
             final String filename = FilenameUtils.getBaseName(filepath);
 
+            if (!fileExtensionService.isSupported(type))
+                throw new BpmnError("FILE_TYPE_NOT_SUPPORTED", "The type of this file is not supported: " + filepath);
 
-            final String extension = supportedExtensions.entrySet()
-                    .stream()
-                    .filter(set -> set.getValue().equals(type))
-                    .findFirst()
-                    .map(Map.Entry::getKey)
-                    .orElseThrow(() -> new BpmnError("FILE_TYPE_NOT_SUPPORTED", "The type of this file is not supported: " + filepath));
-
-            return new Content(extension, filename, bytes);
+            return new Content(fileExtensionService.getFileExtension(type), filename, bytes);
 
         } catch (final DocumentStorageException | DocumentStorageServerErrorException |
-                       DocumentStorageClientErrorException | PropertyNotSetException e) {
+                DocumentStorageClientErrorException | PropertyNotSetException e) {
             throw new BpmnError("LOAD_FILE_FAILED", "An file could not be loaded from url: " + filepath);
         }
     }

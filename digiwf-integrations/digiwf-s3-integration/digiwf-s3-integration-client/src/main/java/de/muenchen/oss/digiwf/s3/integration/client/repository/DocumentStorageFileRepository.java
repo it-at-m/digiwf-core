@@ -297,7 +297,7 @@ public class DocumentStorageFileRepository {
             log.error(message);
             throw new DocumentStorageServerErrorException(message, exception);
         } catch (final RestClientException exception) {
-            final String message = String.format("The request to update the end of life for a file  failed.");
+            final String message = "The request to update the end of life for a file  failed.";
             log.error(message);
             throw new DocumentStorageException(message, exception);
         }

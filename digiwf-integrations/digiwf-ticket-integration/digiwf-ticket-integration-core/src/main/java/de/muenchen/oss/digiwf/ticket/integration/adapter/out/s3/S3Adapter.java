@@ -10,12 +10,12 @@ import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageSer
 import de.muenchen.oss.digiwf.s3.integration.client.exception.PropertyNotSetException;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFileRepository;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFolderRepository;
+import de.muenchen.oss.digiwf.s3.integration.client.service.FileExtensionService;
 import de.muenchen.oss.digiwf.ticket.integration.application.port.out.LoadFileOutPort;
 import de.muenchen.oss.digiwf.ticket.integration.domain.model.FileContent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.tika.Tika;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,9 +29,9 @@ public class S3Adapter implements LoadFileOutPort {
     private final DocumentStorageFileRepository documentStorageFileRepository;
     private final DocumentStorageFolderRepository documentStorageFolderRepository;
     private final ProcessConfigApi processConfigApi;
-    private final List<String> supportedExtensions;
+    private final FileExtensionService fileExtensionService;
 
-    private final String APP_FILE_S3_SYNC_CONFIG = "app_file_s3_sync_config";
+    private static final String APP_FILE_S3_SYNC_CONFIG = "app_file_s3_sync_config";
 
     @Override
     public List<FileContent> loadFiles(final List<String> filepaths, final String fileContext, final String processDefinition) {
@@ -60,33 +60,29 @@ public class S3Adapter implements LoadFileOutPort {
             filepath.forEach(file -> contents.add(getFile(file, domainSpecificS3Storage)));
             return contents;
         } catch (final DocumentStorageException | DocumentStorageServerErrorException |
-                       DocumentStorageClientErrorException | PropertyNotSetException e) {
+                DocumentStorageClientErrorException | PropertyNotSetException e) {
             throw new BpmnError("LOAD_FOLDER_FAILED", "An folder could not be loaded from url: " + folderpath);
         }
     }
 
     private FileContent getFile(String filepath, final String domainSpecificS3Storage) {
         try {
-            final Tika tika = new Tika();
             final byte[] bytes;
             if (domainSpecificS3Storage != null) {
                 bytes = this.documentStorageFileRepository.getFile(filepath, 3, domainSpecificS3Storage);
             } else {
                 bytes = this.documentStorageFileRepository.getFile(filepath, 3);
             }
-            final String mimeType = tika.detect(bytes);
+            final String mimeType = fileExtensionService.detectFileType(bytes);
             final String filename = FilenameUtils.getName(filepath);
 
             // check if mimeType exists
-            supportedExtensions
-                    .stream()
-                    .filter(extension -> extension.equals(mimeType))
-                    .findAny()
-                    .orElseThrow(() -> new BpmnError("FILE_TYPE_NOT_SUPPORTED", "The type of this file is not supported: " + filepath));
+            if (!fileExtensionService.isSupported(mimeType))
+                throw new BpmnError("FILE_TYPE_NOT_SUPPORTED", "The type of this file is not supported: " + filepath);
 
             return new FileContent(mimeType, filename, bytes);
         } catch (final DocumentStorageException | DocumentStorageServerErrorException |
-                       DocumentStorageClientErrorException | PropertyNotSetException e) {
+                DocumentStorageClientErrorException | PropertyNotSetException e) {
             throw new BpmnError("LOAD_FILE_FAILED", "An file could not be loaded from url: " + filepath);
         }
     }
@@ -101,7 +97,6 @@ public class S3Adapter implements LoadFileOutPort {
         } catch (final Exception e) {
             return Optional.empty();
         }
-
     }
 
 }

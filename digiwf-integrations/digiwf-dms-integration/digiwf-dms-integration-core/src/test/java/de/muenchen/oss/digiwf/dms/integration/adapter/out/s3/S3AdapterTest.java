@@ -8,6 +8,7 @@ import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageSer
 import de.muenchen.oss.digiwf.s3.integration.client.exception.PropertyNotSetException;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFileRepository;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFolderRepository;
+import de.muenchen.oss.digiwf.s3.integration.client.service.FileExtensionService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -27,13 +28,15 @@ class S3AdapterTest {
 
     private final DocumentStorageFolderRepository documentStorageFolderRepository = mock(DocumentStorageFolderRepository.class);
 
+    private final FileExtensionService fileExtensionService = mock(FileExtensionService.class);
+
     private Map<String, String> supportedExtensions = new HashMap<>();
 
     private S3Adapter s3Adapter;
 
     @BeforeEach
     void setup() {
-        s3Adapter = new S3Adapter(documentStorageFileRepository, documentStorageFolderRepository, supportedExtensions);
+        s3Adapter = new S3Adapter(documentStorageFileRepository, documentStorageFolderRepository, fileExtensionService);
         supportedExtensions.put("pdf", "application/pdf");
         supportedExtensions.put("png", "image/png");
         supportedExtensions.put("docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document");

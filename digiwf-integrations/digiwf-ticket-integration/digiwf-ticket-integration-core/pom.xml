@@ -44,18 +44,6 @@
             <version>${project.version}</version>
         </dependency>
 
-        <!-- tika -->
-        <dependency>
-            <groupId>org.apache.tika</groupId>
-            <artifactId>tika-core</artifactId>
-            <version>${tika.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.tika</groupId>
-            <artifactId>tika-parsers-standard-package</artifactId>
-            <version>${tika.version}</version>
-        </dependency>
-
         <!-- Testing -->
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
