@@ -20,6 +20,7 @@ import { nullToUndefined } from "../../utils/dataTransformations";
 import { dateToIsoDateTime, getCurrentDate } from "../../utils/time";
 import { Page } from "../commonModels";
 import { queryClient } from "../queryClient";
+import { useNotificationContext } from "../snackbar";
 import { getUserInfo, useCurrentUserInfo } from "../user/userMiddleware";
 import {
   addAssignedTaskIds,
@@ -314,6 +315,7 @@ export const useTaskQuery = (taskId: string) => {
 };
 
 export const useCancelTaskMutation = () => {
+  const { showMessageAndLeavePage } = useNotificationContext();
   const queryClient = useQueryClient();
   return useMutation<void, string, string>({
     mutationFn: (taskId) => {
@@ -323,12 +325,15 @@ export const useCancelTaskMutation = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries([userTasksQueryId]);
-      router.push({ path: "/task" });
+      showMessageAndLeavePage("Aufgabe wurde erfolgreich abgebrochen", {
+        path: "/task",
+      });
     },
   });
 };
 
 export const useCompleteTaskMutation = (taskId: string) => {
+  const { showMessageAndLeavePage } = useNotificationContext();
   return useMutation<void, string, TaskVariables>({
     mutationFn: (variables) => {
       return callCompleteTaskInTaskService(taskId, variables).catch((error) =>
@@ -338,11 +343,15 @@ export const useCompleteTaskMutation = (taskId: string) => {
     onSuccess: () => {
       addFinishedTaskIds(taskId);
       invalidUserTasks();
+      showMessageAndLeavePage("Aufgabe wurde erfolgreich abgeschlossen", {
+        path: "/task",
+      });
     },
   });
 };
 
 export const useDeferTaskMutation = (taskId: string) => {
+  const { showMessageAndLeavePage } = useNotificationContext();
   return useMutation<void, string, string>({
     mutationFn: (followUp: string) => {
       return handleDeferTaskInTaskService(taskId, followUp).catch((error) => {
@@ -355,7 +364,9 @@ export const useDeferTaskMutation = (taskId: string) => {
     },
     onSuccess: () => {
       invalidUserTasks();
-      router.push({ path: "/task" });
+      showMessageAndLeavePage("Wiedervorlagedatum wurde erfolgreich gesetzt", {
+        path: "/task",
+      });
     },
   });
 };
@@ -381,6 +392,7 @@ export const useSaveTaskMutation = (taskId: string) => {
 };
 
 export const useAssignTaskMutation = (taskId: string) => {
+  const { showMessageAndLeavePage } = useNotificationContext();
   return useMutation<void, void, string>({
     mutationFn: (userId: string) => {
       return callPostAssignTaskInTaskService(taskId, userId).catch(() =>
@@ -388,7 +400,9 @@ export const useAssignTaskMutation = (taskId: string) => {
       );
     },
     onSuccess: () => {
-      router.push({ path: "/task/" + taskId });
+      showMessageAndLeavePage("Aufgabe wurde erfolgreich zugewiesen", {
+        path: "/task/" + taskId,
+      });
       invalidUserTasks();
       queryClient.invalidateQueries([openGroupTasksQueryId]);
       queryClient.invalidateQueries([assignedGroupTasksQueryId]);

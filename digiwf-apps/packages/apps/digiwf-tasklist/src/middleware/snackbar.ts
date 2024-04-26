@@ -5,6 +5,7 @@ import { RawLocation } from "vue-router/types/router";
 
 import { useAccessibility } from "../store/modules/accessibility";
 
+
 export interface Message {
   readonly time: DateTime;
   readonly message: string;
@@ -17,7 +18,6 @@ export interface NotificationContext {
   ) => void;
   readonly snackbarVisible: Ref<boolean>;
   readonly messageText: Ref<string | undefined>;
-  readonly messages: Ref<Message[]>; // FIXME: kann raus, da wir ja nicht die letzten nachrichten anzeigen wollen
   readonly forwardToTarget: () => void;
 }
 
@@ -54,7 +54,6 @@ export const useNotification = (): NotificationContext => {
     },
     snackbarVisible,
     messageText,
-    messages,
     forwardToTarget: () => {
       const targetLocation = location.value;
 

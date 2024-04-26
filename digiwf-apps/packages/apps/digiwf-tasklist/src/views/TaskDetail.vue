@@ -201,7 +201,6 @@ import {HumanTaskDetails} from "../middleware/tasks/tasksModels";
 import {mergeObjects} from "../utils/mergeObjects";
 import {parseQueryParameterInputs} from "../utils/urlQueryForFormFields";
 import {validateSchema} from "../utils/validateSchema";
-import {useNotificationContext} from "../middleware/snackbar";
 
 const props = defineProps({
   id: {
@@ -235,8 +234,6 @@ const saveLeaveDialogOpen = ref(false);
 const next = ref<NavigationGuardNext | null>(null);
 
 const router = useRouter();
-
-const {showMessageAndLeavePage} = useNotificationContext();
 
 const formFields = ref<any>({});
 
