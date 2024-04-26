@@ -1,7 +1,7 @@
 {
   "name": "@muenchen/digiwf-dms-api-internal",
   "description": "Internal digiWF dms api",
-  "version": "1.10.3",
+  "version": "1.11.0",
   "module": "dist/digiwf-dms-api-internal.mjs",
   "scripts": {
     "build": "vite build && tsc --emitDeclarationOnly",
