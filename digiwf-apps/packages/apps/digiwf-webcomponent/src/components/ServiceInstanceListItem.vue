@@ -26,11 +26,7 @@
     >
       {{ TEXT_FINISHED }} am {{ endedDate }}
     </p>
-    <p
-      v-if="!serviceInstance.endTime"
-    >
-      Status: {{ serviceInstance.status }}
-    </p>
+    <p v-if="!serviceInstance.endTime">Status: {{ serviceInstance.status }}</p>
     <p
       v-if="serviceInstance.description"
       class="mb-0 mt-3"
@@ -50,7 +46,12 @@ import { computed, ref } from "vue";
 import DynamicHeading from "@/components/common/DynamicHeading.vue";
 import { useBaseURL } from "@/composables/useBaseURL";
 import { useNewTabText } from "@/composables/useNewTabText";
-import { DATE_FORMAT, TEXT_FINISHED, FRONTEND_INSTANCE_PATH, TEXT_STARTED } from "@/util/constants";
+import {
+  DATE_FORMAT,
+  FRONTEND_INSTANCE_PATH,
+  TEXT_FINISHED,
+  TEXT_STARTED,
+} from "@/util/constants";
 
 const { baseURL } = useBaseURL();
 
