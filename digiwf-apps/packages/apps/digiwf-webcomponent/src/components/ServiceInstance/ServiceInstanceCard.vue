@@ -1,5 +1,6 @@
 <template>
   <widget-card
+    name="Vorgänge"
     :link-path="TASKLIST_SERVICE_INSTANCE_PATH"
     card-title="Meine Vorgänge"
     link-text="In DigiWF ansehen"

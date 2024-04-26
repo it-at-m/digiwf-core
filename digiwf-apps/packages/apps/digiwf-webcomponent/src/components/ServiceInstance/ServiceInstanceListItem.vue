@@ -32,6 +32,7 @@
 
 <script setup lang="ts">
 import type { ServiceInstanceTO } from "@muenchen/digiwf-engine-api-internal";
+import type { DeepReadonly } from "vue";
 
 import { CListGroupItem } from "@coreui/vue";
 import { useDateFormat } from "@vueuse/core";
@@ -45,7 +46,7 @@ import { DATE_FORMAT, TASKLIST_SERVICE_INSTANCE_PATH } from "@/util/constants";
 const { baseURL } = useBaseURL();
 
 const props = defineProps<{
-  serviceInstance: ServiceInstanceTO;
+  serviceInstance: DeepReadonly<ServiceInstanceTO>;
 }>();
 
 const { newTabText } = useNewTabText(ref("Vorgang in DigiWF öffnen"));

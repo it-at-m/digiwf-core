@@ -1,5 +1,6 @@
 <template>
   <widget-card
+    name="Aufgaben"
     :link-path="TASKLIST_MYTASK_PATH"
     card-title="Meine Aufgaben"
     link-text="In DigiWF ansehen"

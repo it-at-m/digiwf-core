@@ -10,11 +10,12 @@
   >
     <dynamic-heading
       :root-offset="1"
-      class="mb-3 text-title"
+      class="mb-1 text-title"
     >
       {{ task.name }}
     </dynamic-heading>
-    <p class="mb-1">Erstellt am {{ createdDate }}</p>
+    <p class="mb-3">({{ task.processName }})</p>
+    <p class="mb-1">{{ TEXT_STARTED }} am {{ createdDate }}</p>
     <p
       v-if="task.description"
       class="mb-0 mt-3"
@@ -26,6 +27,7 @@
 
 <script setup lang="ts">
 import type { Task } from "@muenchen/digiwf-task-api-internal";
+import type { DeepReadonly } from "vue";
 
 import { CListGroupItem } from "@coreui/vue";
 import { useDateFormat } from "@vueuse/core";
@@ -34,12 +36,12 @@ import { computed, ref } from "vue";
 import DynamicHeading from "@/components/common/DynamicHeading.vue";
 import { useBaseURL } from "@/composables/useBaseURL";
 import { useNewTabText } from "@/composables/useNewTabText";
-import { DATE_FORMAT, TASKLIST_TASK_PATH } from "@/util/constants";
+import { DATE_FORMAT, TASKLIST_TASK_PATH, TEXT_STARTED } from "@/util/constants";
 
 const { baseURL } = useBaseURL();
 
 const props = defineProps<{
-  task: Task;
+  task: DeepReadonly<Task>;
 }>();
 
 const { newTabText } = useNewTabText(ref("Aufgabe in DigiWF öffnen"));

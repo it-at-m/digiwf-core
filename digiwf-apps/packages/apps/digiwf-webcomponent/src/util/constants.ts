@@ -4,6 +4,7 @@ export const DIGIWF_TASKLIST_SUFFIX =
 export const TASKLIST_SERVICE_INSTANCE_PATH = "instance";
 export const TASKLIST_MYTASK_PATH = "mytask";
 export const TASKLIST_TASK_PATH = "task";
+export const TEXT_STARTED = "Gestartet";
 
 export const ACCESS_TOKEN_EVENT_NAME_DEFAULT = "access-token-loaded";
 export const PAGE_SIZE_DEFAULT = 4;
