@@ -36,7 +36,11 @@ import { computed, ref } from "vue";
 import DynamicHeading from "@/components/common/DynamicHeading.vue";
 import { useBaseURL } from "@/composables/useBaseURL";
 import { useNewTabText } from "@/composables/useNewTabText";
-import { DATE_FORMAT, TASKLIST_TASK_PATH, TEXT_STARTED } from "@/util/constants";
+import {
+  DATE_FORMAT,
+  TASKLIST_TASK_PATH,
+  TEXT_STARTED,
+} from "@/util/constants";
 
 const { baseURL } = useBaseURL();
 

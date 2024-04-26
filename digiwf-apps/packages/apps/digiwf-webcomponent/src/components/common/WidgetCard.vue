@@ -47,12 +47,18 @@
         v-if="loading"
         name="placeholder"
       />
-      <error-data :name="name" v-else-if="error" />
+      <error-data
+        v-else-if="error"
+        :name="name"
+      />
       <slot
         v-else-if="hasContent"
         name="content"
       />
-      <no-data :name="name" v-else />
+      <no-data
+        v-else
+        :name="name"
+      />
     </c-card-body>
     <c-card-footer>
       <div
