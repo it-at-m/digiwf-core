@@ -1,14 +1,13 @@
+import type { PageOfTasks } from "@muenchen/digiwf-task-api-internal";
+
 import { FetchUtils } from "@muenchen/digiwf-task-api-internal";
 import { inject, readonly, ref } from "vue";
-import type { PageOfTasks } from "@muenchen/digiwf-task-api-internal";
 
 import { TASKS_API_INJECT_KEY } from "@/composables/TasksApi/useTasksAPI";
 import { useInjectParameters } from "@/composables/useParameters";
 
 export function useGetCurrentUserTasks() {
-  const tasksAPI = inject(
-    TASKS_API_INJECT_KEY
-  )!;
+  const tasksAPI = inject(TASKS_API_INJECT_KEY)!;
 
   const { pageSize } = useInjectParameters();
 

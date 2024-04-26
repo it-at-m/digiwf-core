@@ -14,7 +14,10 @@ type ServiceInstanceControllerAPI = ReturnType<
 export const SERVICE_INSTANCE_CONTROLLER_API_INJECT_KEY =
   Symbol() as InjectionKey<ComputedRef<ServiceInstanceControllerAPI>>;
 
-export function useServiceInstanceControllerAPI(baseUrl: Ref<string>, accessToken: Ref<string>) {
+export function useServiceInstanceControllerAPI(
+  baseUrl: Ref<string>,
+  accessToken: Ref<string>
+) {
   const apiConfig = computed(() => {
     return new Configuration({
       basePath: baseUrl.value + DIGIWF_ENGINE_SUFFIX,

@@ -11,6 +11,7 @@ import { CContainer } from "@coreui/vue";
 import { defineProps, toRefs, withDefaults } from "vue";
 
 import TaskCard from "@/components/Task/TaskCard.vue";
+import { useTasksAPI } from "@/composables/TasksApi/useTasksAPI";
 import { useAccessToken } from "@/composables/useAccessToken";
 import { useBaseURL } from "@/composables/useBaseURL";
 import { useProvideParameters } from "@/composables/useParameters";
@@ -20,7 +21,6 @@ import {
   PAGE_SIZE_DEFAULT,
   ROOT_HEADING_LEVEL_DEFAULT,
 } from "@/util/constants";
-import { useTasksAPI } from "@/composables/TasksApi/useTasksAPI";
 
 const props = withDefaults(
   defineProps<{

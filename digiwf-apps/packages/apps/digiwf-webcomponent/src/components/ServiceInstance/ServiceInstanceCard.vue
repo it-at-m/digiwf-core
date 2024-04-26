@@ -40,8 +40,8 @@ import { CListGroup } from "@coreui/vue";
 import { computed, watch } from "vue";
 
 import WidgetCard from "@/components/common/WidgetCard.vue";
-import ServiceInstanceListItemPlaceholder from "@/components/ServiceInstance/ServiceInstanceListItemPlaceholder.vue";
 import ServiceInstanceListItem from "@/components/ServiceInstance/ServiceInstanceListItem.vue";
+import ServiceInstanceListItemPlaceholder from "@/components/ServiceInstance/ServiceInstanceListItemPlaceholder.vue";
 import { useGetAssignedProcessInstances } from "@/composables/ServiceInstanceControllerApi/useGetAssignedProcessInstances";
 import { useHasAccessToken } from "@/composables/useAccessToken";
 import { usePagination } from "@/composables/usePagination";

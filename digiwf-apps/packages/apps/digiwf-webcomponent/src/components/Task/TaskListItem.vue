@@ -47,9 +47,7 @@ const { newTabText } = useNewTabText(ref("Aufgabe in DigiWF öffnen"));
 const createdDate = useDateFormat(props.task.createTime, DATE_FORMAT);
 
 const frontendURL = computed(() => {
-  return `${baseURL!.value}/#/${TASKLIST_TASK_PATH}/${
-    props.task.id
-  }`;
+  return `${baseURL!.value}/#/${TASKLIST_TASK_PATH}/${props.task.id}`;
 });
 </script>
 

@@ -8,11 +8,10 @@ import { computed, provide } from "vue";
 
 import { DIGIWF_TASKLIST_SUFFIX } from "@/util/constants";
 
-type TasksAPI = ReturnType<
-  typeof TasksApiFactory
+type TasksAPI = ReturnType<typeof TasksApiFactory>;
+export const TASKS_API_INJECT_KEY = Symbol() as InjectionKey<
+  ComputedRef<TasksAPI>
 >;
-export const TASKS_API_INJECT_KEY =
-  Symbol() as InjectionKey<ComputedRef<TasksAPI>>;
 
 export function useTasksAPI(baseUrl: Ref<string>, accessToken: Ref<string>) {
   const apiConfig = computed(() => {
@@ -26,8 +25,5 @@ export function useTasksAPI(baseUrl: Ref<string>, accessToken: Ref<string>) {
     return TasksApiFactory(apiConfig.value);
   });
 
-  provide(
-    TASKS_API_INJECT_KEY,
-    tasksAPI
-  );
+  provide(TASKS_API_INJECT_KEY, tasksAPI);
 }

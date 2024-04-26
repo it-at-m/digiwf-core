@@ -38,17 +38,17 @@
 
 <script setup lang="ts">
 import { CListGroup } from "@coreui/vue";
+import { mdiCheckboxOutline } from "@mdi/js";
 import { computed, watch } from "vue";
 
+import WidgetCard from "@/components/common/WidgetCard.vue";
 import TaskListItem from "@/components/Task/TaskListItem.vue";
 import TaskListItemPlaceholder from "@/components/Task/TaskListItemPlaceholder.vue";
-import WidgetCard from "@/components/common/WidgetCard.vue";
 import { useGetCurrentUserTasks } from "@/composables/TasksApi/useGetCurrentUserTasks";
 import { useHasAccessToken } from "@/composables/useAccessToken";
 import { usePagination } from "@/composables/usePagination";
 import { useInjectParameters } from "@/composables/useParameters";
 import { TASKLIST_MYTASK_PATH } from "@/util/constants";
-import { mdiCheckboxOutline } from "@mdi/js";
 
 const { hasAccessToken } = useHasAccessToken();
 const {

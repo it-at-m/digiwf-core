@@ -1,7 +1,8 @@
 export const DIGIWF_ENGINE_SUFFIX = "/clients/digitalwf-backend-service";
-export const DIGIWF_TASKLIST_SUFFIX = "/clients/digitalwf-tasklist-service/rest";
+export const DIGIWF_TASKLIST_SUFFIX =
+  "/clients/digitalwf-tasklist-service/rest";
 export const TASKLIST_SERVICE_INSTANCE_PATH = "instance";
-export const TASKLIST_MYTASK_PATH = "mytask"
+export const TASKLIST_MYTASK_PATH = "mytask";
 export const TASKLIST_TASK_PATH = "task";
 
 export const ACCESS_TOKEN_EVENT_NAME_DEFAULT = "access-token-loaded";
