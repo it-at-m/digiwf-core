@@ -10,7 +10,8 @@
     "packages/components/digiwf-dms-api-internal",
     "packages/components/digiwf-dms-input",
     "packages/apps/digiwf-forms-example",
-    "packages/apps/digiwf-tasklist"
+    "packages/apps/digiwf-tasklist",
+    "packages/apps/digiwf-webcomponent"
   ],
   "version": "1.10.3"
 }

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <title>DigiWF-Widget</title>
+    <meta charset="UTF-8" />
+    <meta
+      content="width=device-width, initial-scale=1.0"
+      name="viewport"
+    />
+    <link
+      href="/favicon.ico"
+      rel="icon"
+    />
+    <!--    <link-->
+    <!--      href="public/custom.css"-->
+    <!--      rel="stylesheet"-->
+    <!--    />-->
+    <script
+      src="src/digiwf-service-instances-webcomponent.ts"
+      type="module"
+    ></script>
+    <script
+      src="src/digiwf-hello-world-webcomponent.ts"
+      type="module"
+    ></script>
+    <script
+      src="dev/retrieveAndDispatchAccessToken.ts"
+      type="module"
+    ></script>
+  </head>
+  <body>
+    <noscript>
+      <strong>
+        Damit das Widget korrekt funktioniert, muss Javascript aktiviert werden.
+      </strong>
+    </noscript>
+
+    <div style="width: 400px; height: 800px">
+      <digiwf-hello-world-webcomponent></digiwf-hello-world-webcomponent>
+      <digiwf-service-instances-webcomponent></digiwf-service-instances-webcomponent>
+    </div>
+  </body>
+</html>

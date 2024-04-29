@@ -18,6 +18,7 @@ spring:
               enableDlq: true
               dlqName: ${io.muenchendigital.digiwf.message.deadLetterQueueDestination}
         binder:
+          auto-create-topics: 'false'
           configuration:
             security:
               protocol: ${KAFKA_SECURITY_PROTOCOL:PLAINTEXT}

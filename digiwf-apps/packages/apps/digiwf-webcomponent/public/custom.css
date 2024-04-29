@@ -1,0 +1,16 @@
+:root {
+  --digiwf-webcomponent-color-primary: red;
+  --digiwf-webcomponent-color-text: blue;
+  --digiwf-webcomponent-color-icon: green;
+  --digiwf-webcomponent-color-background: lightblue;
+  --digiwf-webcomponent-color-hover: red;
+  --digiwf-webcomponent-color-separator: red;
+  --digiwf-webcomponent-font-header: bold 2rem Arial, sans-serif;
+  --digiwf-webcomponent-font-title: bold 1.5rem Arial, sans-serif;
+  --digiwf-webcomponent-font-text: 1rem Arial, sans-serif;
+  --digiwf-webcomponent-font-footer: 0.7rem Arial, sans-serif;
+  --digiwf-webcomponent-border-radius: 100px;
+  --digiwf-webcomponent-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
