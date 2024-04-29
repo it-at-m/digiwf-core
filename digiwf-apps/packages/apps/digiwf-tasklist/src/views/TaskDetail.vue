@@ -30,6 +30,7 @@
         class="taskForm"
         @model-changed="modelChanged"
         @complete-form="handleCompleteTask"
+        @completion-failed="showError"
       />
       <app-json-form
         v-else
@@ -37,6 +38,7 @@
         :value="formFields"
         @input="modelChanged"
         @complete-form="handleCompleteTask"
+        @completion-failed="showError"
       />
     </v-flex>
     <v-flex v-if="isLoading" class="loadingAnimation">
@@ -428,6 +430,10 @@ const modelChanged = (newModel: any) => {
 
 const isDirty = (): boolean => {
   return hasChanges.value;
+};
+
+const showError = (error: string) => {
+  errorMessage.value = error;
 };
 
 </script>

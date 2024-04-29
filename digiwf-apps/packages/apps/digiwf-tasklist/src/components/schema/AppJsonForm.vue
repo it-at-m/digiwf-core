@@ -84,6 +84,7 @@ export default defineComponent({
   emits: [
     "input", // (value: any) => void;
     "complete-form", // (value: any) => void
+    "completion-failed", // (value: string) => void
   ],
   setup: (
     props: {
@@ -104,6 +105,8 @@ export default defineComponent({
     const complete = () => {
       if ((form.value as HTMLFormElement).validate()) {
         ctx.emit("complete-form", currentValue.value);
+      } else {
+        ctx.emit("completion-failed", "Validierung Ihrer Eingaben fehlgeschlagen. Bitte überprüfen Sie diese.");
       }
     };
 
