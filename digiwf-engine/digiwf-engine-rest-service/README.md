@@ -15,7 +15,8 @@ by dependencies.
 
 ## Configuration
 
-Following the environment variable to configure the service. There may be aliases for most of the mentioned properties.
+Following the environment variables to configure the service. There may be additional aliases for some of the mentioned
+properties.
 
 | Env-Var                                                     | Description                                                               |
 |-------------------------------------------------------------|---------------------------------------------------------------------------|
