@@ -192,7 +192,6 @@ import TaskLinks from "../components/task/links/TaskLinks.vue";
 import {
   downloadPDFFromEngine,
   LoadTaskResultData,
-  pushRouterPath,
   useCancelTaskMutation,
   useCompleteTaskMutation,
   useDeferTaskMutation,
@@ -355,26 +354,27 @@ onMounted(() => {
 });
 
 const handleCompleteTask = (model: any) => {
+  hasChanges.value = false;
   completeTask(model)
     .then(() => {
       errorMessage.value = "";
-      hasChanges.value = false;
-      pushRouterPath("/mytask");
     })
     .catch(error => {
       errorMessage.value = error;
+      hasChanges.value = true;
     });
 };
 
 const handleSaveTask = (): Promise<void> => {
+  hasChanges.value = false;
   return saveTask(model.value)
     .then(() => {
       errorMessage.value = "";
-      hasChanges.value = false;
       return Promise.resolve();
     })
     .catch(error => {
       errorMessage.value = error;
+      hasChanges.value = true;
       return Promise.reject();
     });
 };

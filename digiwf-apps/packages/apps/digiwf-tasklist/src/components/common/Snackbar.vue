@@ -1,25 +1,21 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 
 import {useNotificationContext} from "../../middleware/snackbar";
-import {ref, watch} from "vue";
 
-const {snackbarVisible, messageText} = useNotificationContext();
+const {snackbarVisible, messageText, messageType} = useNotificationContext();
 
-const elem=ref(); // FIXME: glaube nicht mehr notwendig, wenn Barrierefreiheit anders gelöst
-
-watch(snackbarVisible, (v) => {
-  if(v === true) {
-    elem.value?.focus();
-  }
-});
+const getMessageType = (): string => {
+  return messageType.value;
+};
 
 </script>
 
 <template>
   <v-snackbar
     v-model="snackbarVisible"
+    :color="getMessageType()"
   >
-    <span ref="elem">{{ messageText }}</span>
+    <span>{{ messageText }}</span>
 
     <template v-slot:action="{ attrs }">
       <v-btn

@@ -14,11 +14,13 @@ export interface Message {
 export interface NotificationContext {
   readonly showMessageAndLeavePage: (
     text: string,
+    type: string,
     targetLocation: RawLocation
   ) => void;
   readonly snackbarVisible: Ref<boolean>;
   readonly messageText: Ref<string | undefined>;
   readonly forwardToTarget: () => void;
+  readonly messageType: Ref<string>;
 }
 
 export const useNotification = (): NotificationContext => {
@@ -26,29 +28,25 @@ export const useNotification = (): NotificationContext => {
   const messageText = ref<string | undefined>(undefined);
   const location = ref<RawLocation | undefined>();
   const snackbarVisible = ref<boolean>(false);
-  const messages = ref<Message[]>([]);
+  const messageType = ref<string>();
 
   const router = useRouter();
 
-  return {
-    showMessageAndLeavePage: (text: string, targetLocation: RawLocation) => {
+  return <NotificationContext>{
+    showMessageAndLeavePage: (
+      text: string,
+      type: string,
+      targetLocation: RawLocation
+    ) => {
       if (text.trim().length > 0) {
         messageText.value = text;
-        messages.value = [
-          {
-            message: text,
-            time: DateTime.now(),
-          },
-          ...messages.value,
-        ];
-
         location.value = targetLocation;
+        messageType.value = type;
 
         if (a11YNotificationEnabled()) {
           router.push({ path: "/message" });
         } else {
           router.push(targetLocation);
-          snackbarVisible.value = true;
         }
       }
     },
@@ -61,6 +59,7 @@ export const useNotification = (): NotificationContext => {
         router.push(targetLocation);
       }
     },
+    messageType,
   };
 };
 

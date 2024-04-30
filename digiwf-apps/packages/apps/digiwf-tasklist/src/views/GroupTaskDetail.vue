@@ -185,6 +185,7 @@ const checkTaskAssignment = () => {
     }
   } else {
     triggerAssignTask();
+    router.push({path: "/task/" + taskId});
   }
 };
 
