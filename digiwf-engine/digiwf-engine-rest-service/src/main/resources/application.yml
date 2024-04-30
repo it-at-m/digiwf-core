@@ -47,17 +47,17 @@ spring:
     username: '${ENGINE_DATASOURCE_USER:sa}'
     password: '${ENGINE_DATASOURCE_PASSWORD:}'
   ldap:
-    urls: '${LDAP_URL}'
-    username: '${LDAP_USERNAME}'
-    password: '${LDAP_PASSWORD}'
+    urls: '${LDAP_URL:}'
+    username: '${LDAP_USERNAME:}'
+    password: '${LDAP_PASSWORD:}'
 
 digiwf:
   security:
     client-id: ${SSO_ENGINE_CLIENT_ID}
     client-secret: ${SSO_ENGINE_CLIENT_SECRET}
   ldap:
-    group-base: '${LDAP_GROUP_BASE}'
-    user-base: '${LDAP_USER_BASE}'
+    group-base: '${LDAP_GROUP_BASE:}'
+    user-base: '${LDAP_USER_BASE:}'
 
 logbook:
   predicate:
