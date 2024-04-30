@@ -61,10 +61,3 @@ digiwf:
   ldap:
     group-base: '${LDAP_GROUP_BASE:}'
     user-base: '${LDAP_USER_BASE:}'
-
-
-logging:
-  level:
-    org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: DEBUG
-    org.springframework.web.servlet.DispatcherServlet: DEBUG
-    # org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
