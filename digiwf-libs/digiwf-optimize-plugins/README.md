@@ -26,6 +26,7 @@ The following environment variables are required by some plugins and need to be 
 | Evn-Var                      | Description                                                                              |
 |------------------------------|------------------------------------------------------------------------------------------|
 | `SSO_ISSUER_URL`             | Issuer url to request client access token from and verify incoming access token against. |
+| `SSO_SCOPE`                  | Scope for oAuth2. Default `openid profile`.                                              |
 | `SSO_OPTIMIZE_CLIENT_ID`     | Client id to use for request to engine-rest.                                             |
 | `SSO_OPTIMIZE_CLIENT_SECRET` | Client secret for `SSO_OPTIMIZE_CLIENT_SECRET`.                                          |
 

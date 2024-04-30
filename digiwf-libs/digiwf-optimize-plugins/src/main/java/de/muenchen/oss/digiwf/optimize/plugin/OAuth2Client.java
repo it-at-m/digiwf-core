@@ -30,8 +30,8 @@ public class OAuth2Client {
         ClientAuthentication clientAuth = new ClientSecretBasic(clientID, clientSecret);
         // The token endpoint
         URI tokenEndpoint = new URI(oAuth2ClientProperties.accessTokenUrl());
-        // scopes
-        Scope scope = new Scope("openid", "profile");
+        // scope
+        Scope scope = Scope.parse(oAuth2ClientProperties.scope());
         // Make the token request
         TokenRequest request = new TokenRequest(tokenEndpoint, clientAuth, new ClientCredentialsGrant(), scope);
         return request.toHTTPRequest();
