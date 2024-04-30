@@ -201,9 +201,6 @@ services:
       - "host.docker.internal:host-gateway"
     networks:
       - internal
-    profiles:
-      - e2e
-
 
   # enable the tasklist with --profile tasklist if you don't want to run it locally. Then access via http://localhost:8083
   digiwf-tasklist:
