@@ -24,7 +24,7 @@ können. Zu den bereits erwähnten gibt es weitere Variablen, die von DigiWF def
   werden, ob Benutzer, die die Aufgabe bearbeiten dürfen, per E-Mail benachrichtigt werden sollen.
 - **Assignee benachrichtigen?:** Mit dem Parameter **app_notification_send_assignee** kann festgelegt werden, ob der
   Benutzer, dem die Aufgabe zugewiesen ist, per E-Mail benachrichtigt werden soll.
-- **Candidate Groups benachrichtigen?:** Mit dem Parameter **app_notification_send_candidate_users** kann festgelegt
+- **Candidate Groups benachrichtigen?:** Mit dem Parameter **app_notification_send_candidate_groups** kann festgelegt
   werden, ob Gruppen, die die Aufgabe bearbeiten dürfen, per E-Mail benachrichtigt werden sollen. Hierzu muss der Gruppe
   in der jeweiligen Benutzerverwaltung eine E-Mail-Adresse zugeordnet sein.
 - **User für Vorgang berechtigen?:** Darüber kann gesteuert werden, ob ein Benutzer für die zu bearbeitende
