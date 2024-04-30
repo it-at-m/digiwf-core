@@ -17,16 +17,11 @@ services:
       - "host.docker.internal:host-gateway"
     environment:
       JAVA_OPTS: '-Xms1g -Xmx1g -XX:MaxMetaspaceSize=256m'
-      # This only works for one engine - evtl. ok if we have a Gateway
-
-      # OPTIMIZE_CAMUNDABPM_REST_URL: 'http://camunda-webapp:8082/rest'
-      # OPTIMIZE_CAMUNDABPM_WEBAPPS_URL: 'http://camunda-webapp:8082/camunda'
       OPTIMIZE_ELASTICSEARCH_HOST: 'elasticsearch'
       OPTIMIZE_ELASTICSEARCH_HTTP_PORT: '9200'
     volumes:
       - './optimize/environment-config.yaml:/optimize/config/environment-config.yaml'
       - '../digiwf-libs/digiwf-optimize-plugins/target/digiwf-optimize-plugins-jar-with-dependencies.jar:/optimize/plugin/digiwf-plugins.jar'
-      #- '~/.camunda/OptimizeLicense.txt:/optimize/config/OptimizeLicense.txt'
     networks:
       - local-keycloak
       - internal
