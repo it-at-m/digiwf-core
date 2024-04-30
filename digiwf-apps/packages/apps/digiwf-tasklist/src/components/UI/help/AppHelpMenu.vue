@@ -3,12 +3,12 @@
     <template v-slot:activator="{ on, attrs }">
       <v-btn
         aria-label="Barrierefreiheit und Hilfe Menü mit Entertaste öffnen und mit den Pfeiltasten darin navigieren"
-        text
         fab
+        text
         v-bind="attrs"
         v-on="on"
       >
-        <HelpIcon />
+        <HelpIcon/>
       </v-btn>
     </template>
     <v-list>
@@ -16,17 +16,17 @@
         class="max-v-list-item-height"
         @click.stop="changeMode"
       >
-        <HighContrastIcon class="mr-2" />
+        <HighContrastIcon class="mr-2"/>
         Hoher Kontrast
         <v-switch
-          class="ml-2"
-          dense
           :aria-label="
             isHighContrastModeEnabled()
               ? 'Hohen Kontrast deaktivieren'
               : 'Hohen Kontrast aktivieren'
           "
-          :value="isHighContrastModeEnabled()"
+          :input-value="isHighContrastModeEnabled()"
+          class="ml-2"
+          dense
         >
         </v-switch>
       </v-list-item>
@@ -37,14 +37,14 @@
         <HighContrastIcon class="mr-2"/>
         barrierefreie Mitteilungen
         <v-switch
-          class="ml-2"
-          dense
           :aria-label="
             a11YNotificationEnabled()
               ? 'Mitteilungen werden barrierefrei angezeigt'
               : 'Mitteilungen werden als Popup angezeigt'
           "
-          :value="a11YNotificationEnabled()"
+          :input-value="a11YNotificationEnabled()"
+          class="ml-2"
+          dense
         >
         </v-switch>
       </v-list-item>
@@ -53,7 +53,7 @@
         class="max-v-list-item-height"
         @click="$emit('openKeyBindingsDialoge')"
       >
-        <KeyboardAccessibilityIcon class="mr-2" />
+        <KeyboardAccessibilityIcon class="mr-2"/>
         Anleitung öffnen
       </v-list-item>
       <v-list-item
@@ -61,7 +61,7 @@
         class="max-v-list-item-height"
         to="/accessibilitystatement"
       >
-        <StatementIcon class="mr-2" />
+        <StatementIcon class="mr-2"/>
         Barrierefreiheitserklärung
       </v-list-item>
     </v-list>
