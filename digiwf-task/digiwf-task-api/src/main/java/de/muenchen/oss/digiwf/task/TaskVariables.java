@@ -30,7 +30,7 @@ public class TaskVariables {
     /**
      * Task variable containing override for candidate groups notification addresses.
      */
-    public static final VariableFactory<String> TASK_CANDIDATE_GROUPS_ADDRESSES = stringVariable("app_task_candidate_groups_addresses");
+    public static final VariableFactory<String> NOTIFICATION_CANDIDATE_GROUPS_ADDRESSES = stringVariable("app_notification_candidate_groups_addresses");
 
     /**
      * Flag indicating if the task is cancellable.

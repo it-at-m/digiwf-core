@@ -123,7 +123,7 @@ class UserTaskNotificationListenerV02Test extends BaseUserTaskNotificationListen
                 "app_notification_send_assignee", "false",
                 "app_notification_send_candidate_users", "false",
                 "app_notification_send_candidate_groups", "true",
-                "app_task_candidate_groups_addresses", "custommail@muenchen.de"
+                "app_notification_candidate_groups_addresses", "custommail@muenchen.de"
         ), "create");
         when(task.getCandidates()).thenReturn(this.groupCandidates);
 
