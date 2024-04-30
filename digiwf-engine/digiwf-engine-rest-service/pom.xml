@@ -14,7 +14,6 @@
     <properties>
         <maven.deploy.skip>true</maven.deploy.skip>
         <postgresql.version>42.7.0</postgresql.version>
-        <logbook.version>3.7.2</logbook.version>
         <wiremock.version>3.3.1</wiremock.version>
     </properties>
 
@@ -66,13 +65,6 @@
         <dependency>
             <groupId>org.camunda.spin</groupId>
             <artifactId>camunda-spin-dataformat-json-jackson</artifactId>
-        </dependency>
-
-        <!-- Logging -->
-        <dependency>
-            <groupId>org.zalando</groupId>
-            <artifactId>logbook-spring-boot-starter</artifactId>
-            <version>${logbook.version}</version>
         </dependency>
 
         <!-- json etc. -->
