@@ -167,7 +167,7 @@ public class UserTaskNotificationListener {
 
         // custom addresses specified
         val customAddresses = TaskVariables.NOTIFICATION_CANDIDATE_GROUPS_ADDRESSES.from(delegateTask).getOptional();
-        if (customAddresses.isPresent() && !customAddresses.get().isBlank()) {
+        if (customAddresses.isPresent() && !StringUtils.isBlank(customAddresses.get())) {
             // split comma seperated list of addresses
             val customEmailsParsed = List.of(customAddresses.get().split(","));
             // send mail to addresses
