@@ -65,15 +65,15 @@ public class UserTaskNotificationListener {
             log.debug("Notification for created task: {}", delegateTask.getName());
             val notifyCandidateUsers = NOTIFICATION_SEND_CANDIDATE_USERS.from(delegateTask).getOptional();
             val notifyCandidateUsersV02 = ProcessTaskConstants.APP_NOTIFICATION_SEND_CANDIDATE_USERS.from(delegateTask).getOptional();
-            if ((!notifyCandidateUsers.isPresent() || "true".equals(notifyCandidateUsers.get()))
-                    && (!notifyCandidateUsersV02.isPresent() || "true".equals(notifyCandidateUsersV02.get()))) {
+            if ((notifyCandidateUsers.isEmpty() || "true".equals(notifyCandidateUsers.get()))
+                    && (notifyCandidateUsersV02.isEmpty() || "true".equals(notifyCandidateUsersV02.get()))) {
                 this.notifyCandidateUsers(delegateTask);
             }
 
             val notifyCandidateGroups = NOTIFICATION_SEND_CANDIDATE_GROUPS.from(delegateTask).getOptional();
             val notifyCandidateGroupsV02 = ProcessTaskConstants.APP_NOTIFICATION_SEND_CANDIDATE_GROUPS.from(delegateTask).getOptional();
-            if ((!notifyCandidateGroups.isPresent() || "true".equals(notifyCandidateGroups.get()))
-                    && (!notifyCandidateGroupsV02.isPresent() || "true".equals(notifyCandidateGroupsV02.get()))) {
+            if ((notifyCandidateGroups.isEmpty() || "true".equals(notifyCandidateGroups.get()))
+                    && (notifyCandidateGroupsV02.isEmpty() || "true".equals(notifyCandidateGroupsV02.get()))) {
                 this.notifyCandidateGroups(delegateTask);
             }
         }
@@ -92,8 +92,8 @@ public class UserTaskNotificationListener {
 
             val notifyAssignee = NOTIFICATION_SEND_ASSIGNEE.from(delegateTask).getOptional();
             val notifyAssigneeV02 = ProcessTaskConstants.APP_NOTIFICATION_SEND_ASSIGNEE.from(delegateTask).getOptional();
-            if ((!notifyAssignee.isPresent() || "true".equals(notifyAssignee.get()))
-                    && (!notifyAssigneeV02.isPresent() || "true".equals(notifyAssigneeV02.get()))) {
+            if ((notifyAssignee.isEmpty() || "true".equals(notifyAssignee.get()))
+                    && (notifyAssigneeV02.isEmpty() || "true".equals(notifyAssigneeV02.get()))) {
                 this.notifyAssignee(delegateTask);
             }
         }
