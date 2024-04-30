@@ -5,12 +5,14 @@ import de.muenchen.oss.digiwf.domain.Group;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.annotation.Profile;
 import org.springframework.lang.NonNull;
 import org.springframework.ldap.core.AttributesMapper;
 import org.springframework.ldap.core.ContextSource;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.query.LdapQuery;
 import org.springframework.ldap.query.LdapQueryBuilder;
+import org.springframework.stereotype.Component;
 
 import javax.naming.InvalidNameException;
 import javax.naming.ldap.LdapName;
@@ -18,6 +20,8 @@ import javax.naming.ldap.Rdn;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
+@Profile("groups-ldap")
 @Slf4j
 public class LdapAdapter extends LdapTemplate implements ResolveUserGroupsOutPort {
     private final LdapProperties properties;
