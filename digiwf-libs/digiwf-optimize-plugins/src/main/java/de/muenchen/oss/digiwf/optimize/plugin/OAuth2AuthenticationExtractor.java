@@ -32,7 +32,7 @@ public class OAuth2AuthenticationExtractor implements AuthenticationExtractor {
 
     @Override
     public AuthenticationResult extractAuthenticatedUser(HttpServletRequest servletRequest) {
-        logger.debug("Entering OAuth2AuthenticationExtractor");
+        logger.trace("Entering OAuth2AuthenticationExtractor");
         AuthenticationResult result = new AuthenticationResult();
         String authorization = servletRequest.getHeader("Authorization");
         if (authorization != null && !authorization.isBlank()) {
@@ -51,7 +51,7 @@ public class OAuth2AuthenticationExtractor implements AuthenticationExtractor {
                 val claimsSet = jwtProcessor.process(token.getValue(), null);
                 // extract username
                 val username = claimsSet.getStringClaim("preferred_username");
-                logger.info("Token username: {}", username);
+                logger.debug("Extracted username {} from token", username);
                 // set authentication
                 result.setAuthenticatedUser(username);
                 result.setAuthenticated(true);

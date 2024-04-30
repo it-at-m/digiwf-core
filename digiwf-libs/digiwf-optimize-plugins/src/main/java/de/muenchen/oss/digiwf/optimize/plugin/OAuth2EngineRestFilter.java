@@ -21,7 +21,7 @@ public class OAuth2EngineRestFilter implements EngineRestFilter {
 
     @Override
     public void filter(ClientRequestContext requestContext, String engineAlias, String engineName) {
-        log.debug("Entering EngineRestFilter");
+        log.trace("Entering EngineRestFilter");
         try {
             log.trace("Retrieving access token");
             var accessToken = client.getAccessToken();
