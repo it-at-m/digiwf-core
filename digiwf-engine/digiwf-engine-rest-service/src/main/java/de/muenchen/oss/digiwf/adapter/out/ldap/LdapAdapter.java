@@ -24,6 +24,7 @@ import java.util.List;
 @Profile("groups-ldap")
 @Slf4j
 public class LdapAdapter extends LdapTemplate implements ResolveUserGroupsOutPort {
+    static final String GROUP_CACHE = "userGroups";
     private final LdapProperties properties;
 
     public LdapAdapter(final ContextSource contextSource, final LdapProperties properties) {
@@ -33,7 +34,7 @@ public class LdapAdapter extends LdapTemplate implements ResolveUserGroupsOutPor
 
     @Override
     @NonNull
-    @Cacheable("userGroups")
+    @Cacheable(GROUP_CACHE)
     public List<Group> resolveGroups(@NonNull final String username) {
         log.debug("Resolving groups for user via ldap: {}", username);
         String userDn = resolveUserDn(username);
