@@ -17,6 +17,13 @@
     <c-placeholder
       as="p"
       animation="wave"
+      class="mb-1"
+    >
+      <c-placeholder :xs="4" />
+    </c-placeholder>
+    <c-placeholder
+      as="p"
+      animation="wave"
       class="mb-0 mt-3"
     >
       <c-placeholder :xs="12" />
