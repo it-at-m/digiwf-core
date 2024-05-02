@@ -24,7 +24,7 @@ class S3FileTransferRepositoryTest {
 
     private final String PRESIGNED_URL = "/expected-presigned-url";
 
-    private final S3FileTransferRepository s3FileTransferRepository =  new S3FileTransferRepository(new RestTemplate());
+    private final S3FileTransferRepository s3FileTransferRepository =  new S3FileTransferRepository();
 
     @Test
     void getFile(final WireMockRuntimeInfo wmRuntimeInfo) throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
