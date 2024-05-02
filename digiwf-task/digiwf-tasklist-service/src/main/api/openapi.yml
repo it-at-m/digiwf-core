@@ -10,6 +10,9 @@ servers:
   - description: Local
     url: http://localhost:38765/rest/
 
+security:
+  - spring_oauth: []
+
 tags:
   - name: Tasks
     description: "API for Tasks from the task list"
