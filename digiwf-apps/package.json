@@ -3,7 +3,7 @@
   "description": "Vue JS Monorepo with Lerna and Vite",
   "scripts": {
     "api": "lerna run api",
-    "init": "npm install && npm run clean && lerna bootstrap",
+    "init": "npm install && npm run clean && lerna bootstrap && npm run build",
     "clean": "lerna clean --yes && lerna exec rimraf dist",
     "refresh": "lerna bootstrap",
     "build": "lerna run build --stream",
