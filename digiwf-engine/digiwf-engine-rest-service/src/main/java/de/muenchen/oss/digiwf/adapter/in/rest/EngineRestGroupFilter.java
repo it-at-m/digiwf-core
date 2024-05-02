@@ -34,7 +34,7 @@ public class EngineRestGroupFilter implements Filter {
             servletRequest.getParameterMap().forEach((key, values) -> params.put(key, values[0]));
             var queryDto = new OptimizeGroupQueryDto(objectMapper, new MultivaluedHashMap<>(params));
             var username = queryDto.getMember();
-            log.info("Asking membership for user: {}", username);
+            log.debug("Asking membership for user: {}", username);
 
             var payload = resolveUserGroupsInPort
                     .resolveGroups(username)
