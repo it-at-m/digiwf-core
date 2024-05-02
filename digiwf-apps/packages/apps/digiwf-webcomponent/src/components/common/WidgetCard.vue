@@ -47,12 +47,18 @@
         v-if="loading"
         name="placeholder"
       />
-      <error-data v-else-if="error" />
+      <error-data
+        v-else-if="error"
+        :name="name"
+      />
       <slot
         v-else-if="hasContent"
         name="content"
       />
-      <no-data v-else />
+      <no-data
+        v-else
+        :name="name"
+      />
     </c-card-body>
     <c-card-footer>
       <div
@@ -124,6 +130,7 @@ const props = withDefaults(
   defineProps<{
     iconPath?: string;
     cardTitle: string;
+    name: string;
     loading?: boolean;
     error?: boolean;
     linkText?: string;
@@ -132,6 +139,7 @@ const props = withDefaults(
   }>(),
   {
     iconPath: mdiClipboardTextOutline,
+    name: "Daten",
     loading: false,
     error: false,
     linkText: "In DigiWF öffnen",

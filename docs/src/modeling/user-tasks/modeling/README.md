@@ -24,9 +24,13 @@ können. Zu den bereits erwähnten gibt es weitere Variablen, die von DigiWF def
   werden, ob Benutzer, die die Aufgabe bearbeiten dürfen, per E-Mail benachrichtigt werden sollen.
 - **Assignee benachrichtigen?:** Mit dem Parameter **app_notification_send_assignee** kann festgelegt werden, ob der
   Benutzer, dem die Aufgabe zugewiesen ist, per E-Mail benachrichtigt werden soll.
-- **Candidate Groups benachrichtigen?:** Mit dem Parameter **app_notification_send_candidate_users** kann festgelegt
+- **Candidate Groups benachrichtigen?:** Mit dem Parameter **app_notification_send_candidate_groups** kann festgelegt
   werden, ob Gruppen, die die Aufgabe bearbeiten dürfen, per E-Mail benachrichtigt werden sollen. Hierzu muss der Gruppe
   in der jeweiligen Benutzerverwaltung eine E-Mail-Adresse zugeordnet sein.
+- **Candidate Groups Adressen:** Mit dem Parameter **app_notification_candidate_groups_addresses** können die
+  E-Mail-Adressen
+  für die Benachrichtigung der Candidate-Groups explizit als komma separierte Liste angegeben werden. Bleibt das Feld
+  leer werden die Adressen für Candidate-Groups über das LDAP aufgelöst.
 - **User für Vorgang berechtigen?:** Darüber kann gesteuert werden, ob ein Benutzer für die zu bearbeitende
   Prozessinstanz berechtigt wird. Dadurch erhält dieser in der Tasklist Zugriff.
 - **S3 Pfade für Schreibrechte:** Mit dem Parameter können Pfade für Schreibrechte für den Benutzer hinterlegt werden.

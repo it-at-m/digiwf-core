@@ -46,6 +46,11 @@ spring:
             allowedHeaders: "*"
             allowCredentials: true
 
+digiwf:
+  security:
+    csrf-whitelisted:
+      - "/optimize/**"
+
 server:
   port: ${GATEWAY_SERVER_PORT:8082}
   error:

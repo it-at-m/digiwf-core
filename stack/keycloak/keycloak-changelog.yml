@@ -7,8 +7,10 @@ includes:
   - path: 04_engine.yml
   - path: 05_engine_protocol_mapper.yml
   - path: 06_task-management_protocol_mapper.yml
+  - path: 07_task-management_service_account.yml
   - path: 08_s3.yml
   - path: 10_johndoe.yml
   - path: 11_johndoe_webapp.yml
   - path: 12_janedoe.yml
   - path: 13_add_webcomponent.yml
+  - path: 14_optimize_client.yml

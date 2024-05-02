@@ -3,7 +3,14 @@
     <c-placeholder
       :as="headingTag"
       animation="wave"
-      class="mb-3 text-title"
+      class="mb-1 text-title"
+    >
+      <c-placeholder :xs="6" />
+    </c-placeholder>
+    <c-placeholder
+      as="p"
+      animation="wave"
+      class="mb-3"
     >
       <c-placeholder :xs="6" />
     </c-placeholder>
