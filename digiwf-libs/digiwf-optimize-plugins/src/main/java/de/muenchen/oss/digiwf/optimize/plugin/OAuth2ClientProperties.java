@@ -3,7 +3,6 @@ package de.muenchen.oss.digiwf.optimize.plugin;
 import lombok.Builder;
 
 import java.util.Map;
-import java.util.Optional;
 
 @Builder
 public record OAuth2ClientProperties(String ssoIssuerUrl, String clientId,
@@ -15,7 +14,7 @@ public record OAuth2ClientProperties(String ssoIssuerUrl, String clientId,
                 .ssoIssuerUrl(env.get("SSO_ISSUER_URL"))
                 .clientId(env.get("SSO_OPTIMIZE_CLIENT_ID"))
                 .clientSecret(env.get("SSO_OPTIMIZE_CLIENT_SECRET"))
-                .scope(Optional.of(env.get("SSO_SCOPE")).orElse("openid profile"))
+                .scope(env.getOrDefault("SSO_SCOPE", "openid profile"))
                 .build();
     }
 
