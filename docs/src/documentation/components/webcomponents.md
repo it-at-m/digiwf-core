@@ -18,7 +18,7 @@ Je nach Komponente ist auch das Starten der DigiWF-Engine sowie des Task Managem
 
 Aktuell werden folgende Web Components angeboten:
 
-- **digiwf-service-instances-webcomponent**: Ermöglicht die Anzeige der DigiWF-eigenen Vorgänge
+- **digiwf-service-instances-webcomponent**: Ermöglicht die Anzeige der eigenen Vorgänge (Titel, Zeitstempel, Status, Beschreibung)
 
 Die angebotenen Web Components können per Custom Properties in ihrem Verhalten angepasst werden.
 Darüber hinaus kann das Aussehen der Komponenten (insbesondere Farben und Schriftarten) durch das Setzen von Custom CSS-Variablen an die einbettende Anwendung angepasst werden, was eine visuell nahtlose Integration ermöglicht.

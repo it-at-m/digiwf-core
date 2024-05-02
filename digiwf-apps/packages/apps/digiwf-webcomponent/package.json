@@ -1,6 +1,6 @@
 {
   "name": "@muenchen/digiwf-webcomponent",
-  "version": "1.10.2",
+  "version": "1.11.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -15,7 +15,7 @@
     "@coreui/vue": "^5.0.0",
     "@jamescoyle/vue-icon": "^0.1.2",
     "@mdi/js": "^7.4.47",
-    "@muenchen/digiwf-engine-api-internal": "^1.10.2",
+    "@muenchen/digiwf-engine-api-internal": "^1.11.0",
     "@vueuse/core": "^10.9.0",
     "vue": "^3.4.21"
   },
