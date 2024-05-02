@@ -13,10 +13,6 @@
     <description>Logging and Tracing configuration and libraries used for DigiWF</description>
     <packaging>pom</packaging>
 
-    <properties>
-        <logbook.version>3.7.2</logbook.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>io.micrometer</groupId>
@@ -38,11 +34,6 @@
             <groupId>net.logstash.logback</groupId>
             <artifactId>logstash-logback-encoder</artifactId>
             <version>7.4</version>
-        </dependency>
-        <dependency>
-            <groupId>org.zalando</groupId>
-            <artifactId>logbook-spring-boot-starter</artifactId>
-            <version>${logbook.version}</version>
         </dependency>
     </dependencies>
 </project>
