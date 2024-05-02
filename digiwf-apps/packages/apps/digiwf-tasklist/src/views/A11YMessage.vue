@@ -1,22 +1,34 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 
 import {useNotificationContext} from "../middleware/snackbar";
 import AppViewLayout from "../components/UI/AppViewLayout.vue";
 import DwfButton from "../components/common/DwfButton.vue";
+import {onMounted, ref} from 'vue';
 
 const {messageText, forwardToTarget} = useNotificationContext();
+
+const message = ref();
+
+onMounted(() => {
+  message.value.focus();
+});
 
 </script>
 
 <template>
   <app-view-layout>
     <v-flex>
-      <h1 tabindex="0">
-        Mitteilung
-      </h1>
-      <p tabindex="0">
-        {{ messageText }}
-      </p>
+      <div
+        ref="message"
+        tabindex="0"
+      >
+        <h1>
+          Mitteilung
+        </h1>
+        <p>
+          {{ messageText }}
+        </p>
+      </div>
       <DwfButton
         aria-label="weiter"
         @click="forwardToTarget"
