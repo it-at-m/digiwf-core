@@ -16,11 +16,12 @@ import {
   callPostAssignTaskInTaskService,
   callSaveTaskInTaskService,
 } from "../../api/tasks/tasksApiCalls";
+import router from "../../router";
 import { nullToUndefined } from "../../utils/dataTransformations";
 import { dateToIsoDateTime, getCurrentDate } from "../../utils/time";
 import { Page } from "../commonModels";
 import { queryClient } from "../queryClient";
-import { useNotificationContext } from "../snackbar";
+import { MessageType, useNotificationContext } from "../snackbar";
 import { getUserInfo, useCurrentUserInfo } from "../user/userMiddleware";
 import {
   addAssignedTaskIds,
@@ -241,7 +242,7 @@ export const useAssignTaskToUserMutation = () => {
       addAssignedTaskIds(variables.taskId);
       showMessageAndLeavePage(
         "Die Aufgabe wurde erfolgreich zugewiesen",
-        "success",
+        MessageType.SUCCESS,
         {
           path: currentPath,
         }
@@ -335,14 +336,14 @@ export const useCancelTaskMutation = () => {
       queryClient.invalidateQueries([userTasksQueryId]);
       showMessageAndLeavePage(
         "Aufgabe wurde erfolgreich abgebrochen",
-        "success",
+        MessageType.SUCCESS,
         {
           path: "/task",
         }
       );
     },
     onError(error) {
-      showMessageAndLeavePage(error, "error", {
+      showMessageAndLeavePage(error, MessageType.ERROR, {
         path: currentPath,
       });
     },
@@ -362,14 +363,14 @@ export const useCompleteTaskMutation = (taskId: string) => {
       invalidUserTasks();
       showMessageAndLeavePage(
         "Aufgabe wurde erfolgreich abgeschlossen",
-        "success",
+        MessageType.SUCCESS,
         {
           path: "/task",
         }
       );
     },
     onError(error) {
-      showMessageAndLeavePage(error, "error", {
+      showMessageAndLeavePage(error, MessageType.ERROR, {
         path: "/task/" + taskId,
       });
     },
@@ -393,14 +394,14 @@ export const useDeferTaskMutation = (taskId: string) => {
       invalidUserTasks();
       showMessageAndLeavePage(
         "Wiedervorlagedatum wurde erfolgreich gesetzt",
-        "success",
+        MessageType.SUCCESS,
         {
           path: "/task",
         }
       );
     },
     onError(error) {
-      showMessageAndLeavePage(error, "error", {
+      showMessageAndLeavePage(error, MessageType.ERROR, {
         path: currentPath,
       });
     },
@@ -428,14 +429,14 @@ export const useSaveTaskMutation = (taskId: string) => {
     onSuccess: () => {
       showMessageAndLeavePage(
         "Aufgabe wurde erfolgreich gespeichert",
-        "success",
+        MessageType.SUCCESS,
         {
           path: "/task/" + taskId,
         }
       );
     },
     onError(error) {
-      showMessageAndLeavePage(error, "error", {
+      showMessageAndLeavePage(error, MessageType.ERROR, {
         path: "/task/" + taskId,
       });
     },
@@ -445,14 +446,13 @@ export const useSaveTaskMutation = (taskId: string) => {
 export const useAssignTaskMutation = (taskId: string) => {
   return useMutation<void, void, string>({
     mutationFn: (userId: string) => {
-      return callPostAssignTaskInTaskService(taskId, userId).catch(() =>
-        Promise.reject("Die Aufgabe konnte nicht zugewiesen werden.")
-      );
+      return callPostAssignTaskInTaskService(taskId, userId);
     },
     onSuccess: () => {
       invalidUserTasks();
       queryClient.invalidateQueries([openGroupTasksQueryId]);
       queryClient.invalidateQueries([assignedGroupTasksQueryId]);
+      router.push({ path: "/task/" + taskId });
     },
   });
 };

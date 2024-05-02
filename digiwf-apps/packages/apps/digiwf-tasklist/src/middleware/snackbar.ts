@@ -23,19 +23,24 @@ export interface NotificationContext {
   readonly messageType: Ref<string>;
 }
 
+export enum MessageType {
+  SUCCESS = "success",
+  ERROR = "error",
+}
+
 export const useNotification = (): NotificationContext => {
   const { a11YNotificationEnabled } = useAccessibility();
   const messageText = ref<string | undefined>(undefined);
   const location = ref<RawLocation | undefined>();
   const snackbarVisible = ref<boolean>(false);
-  const messageType = ref<string>();
+  const messageType = ref<MessageType>();
 
   const router = useRouter();
 
   return <NotificationContext>{
     showMessageAndLeavePage: (
       text: string,
-      type: string,
+      type: MessageType,
       targetLocation: RawLocation
     ) => {
       if (text.trim().length > 0) {
@@ -43,7 +48,10 @@ export const useNotification = (): NotificationContext => {
         location.value = targetLocation;
         messageType.value = type;
 
-        if (a11YNotificationEnabled()) {
+        if (!a11YNotificationEnabled()) {
+          router.push(targetLocation);
+          snackbarVisible.value = true;
+        } else if (type === MessageType.SUCCESS) {
           router.push({ path: "/message" });
         } else {
           router.push(targetLocation);

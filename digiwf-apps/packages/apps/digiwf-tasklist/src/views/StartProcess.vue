@@ -62,7 +62,7 @@ import {invalidUserTasks} from "../middleware/tasks/taskMiddleware";
 import {mergeObjects} from "../utils/mergeObjects";
 import {parseQueryParameterInputs} from "../utils/urlQueryForFormFields";
 import {JSFValue, validateSchema} from "../utils/validateSchema";
-import {useNotificationContext} from "../middleware/snackbar";
+import {MessageType, useNotificationContext} from "../middleware/snackbar";
 
 const props = defineProps({
   processKey: {
@@ -165,7 +165,7 @@ const startProcess = (model: any) => {
       invalidProcessInstances();
       showMessageAndLeavePage(
         `Vorgang ${process.value?.name} wurde erfolgreich gestartet`,
-        "success",
+        MessageType.SUCCESS,
         {path: "/process"}
       );
     })

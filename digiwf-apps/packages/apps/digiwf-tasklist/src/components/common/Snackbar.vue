@@ -1,10 +1,16 @@
 <script lang="ts" setup>
 
-import {useNotificationContext} from "../../middleware/snackbar";
+import {MessageType, useNotificationContext} from "../../middleware/snackbar";
+import {useAccessibility} from "../../store/modules/accessibility";
 
 const {snackbarVisible, messageText, messageType} = useNotificationContext();
 
+const isHighContrastModeEnabled = useAccessibility().isHighContrastModeEnabled;
+
 const getMessageType = (): string => {
+  if (isHighContrastModeEnabled()) {
+    return "primary";
+  }
   return messageType.value;
 };
 
@@ -15,7 +21,15 @@ const getMessageType = (): string => {
     v-model="snackbarVisible"
     :color="getMessageType()"
   >
-    <span>{{ messageText }}</span>
+    <v-icon v-if="messageType === MessageType.SUCCESS">
+      mdi-check-circle-outline
+    </v-icon>
+    <v-icon v-if="messageType === MessageType.ERROR">
+      mdi-close-circle-outline
+    </v-icon>
+    <span>
+      {{ messageText }}
+    </span>
 
     <template v-slot:action="{ attrs }">
       <v-btn
