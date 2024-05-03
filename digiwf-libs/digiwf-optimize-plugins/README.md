@@ -32,6 +32,8 @@ The following environment variables are required by some plugins and need to be 
 
 ## Development
 
+The build of this package needs to be executed with maven profile `camunda-ee` and without `camunda-ce`.
+
 1. Start [stack](../../stack) with profile `optimize`
     - Starts dependencies: keycloak, elasticsearch and optimize
     - Optimize container needs to be recreated to apply plugin changes
