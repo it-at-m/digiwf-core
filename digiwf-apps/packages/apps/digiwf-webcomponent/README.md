@@ -5,40 +5,31 @@ This repository contains different WebComponents for integrating different DigiW
 Currently, the following WebComponents are provided:
 
 - `digiwf-service-instances-webcomponent`: Displays current Service Instance objects of a user in a list-style manner with pagination
+- `digiwf-tasks-webcomponent`: Display assigned user tasks in a list-style mannger with pagination
 - `digiwf-hello-world-webcomponent`: Show a simple "Hello World" message
 
 ## Usage
 
-### 1. Add `script`-Import to webpage:
+### 1. Add `script`-Import for WebComponent Loader to webpage:
 
-For `digiwf-service-instances-webcomponent`:
+e.g. for `digiwf-service-instances-webcomponent`:
 
 ```html
 <script src="HOST/loader-digiwf-service-instances-webcomponent.js"></script>
 ```
 
-For `digiwf-hello-world-webcomponent`:
+**Info:** `HOST` must be replaced with the hostname (and eventually an additional path) of the service that hosts the WebComponent as static files.
 
-```html
-<script src="HOST/loader-digiwf-hello-world-webcomponent.js"></script>
-```
-
-**Info:** `HOST` must be replaced with the hostname (and eventually an additional path) of the service that hosts the WebComponent as static files
+**Info:** The loader files are always following the scheme `loader-<webcomponent_name>.js`.
 
 ### 2. Add element to page with appropriate config
 
-For `digiwf-service-instances-webcomponent`:
+e.g. for `digiwf-service-instances-webcomponent`:
 
 ```html
 <digiwf-service-instances-webcomponent
   access-token-event-name="OPTIONAL"
 ></digiwf-service-instances-webcomponent>
-```
-
-For `digiwf-hello-world-webcomponent`:
-
-```html
-<digiwf-hello-world-webcomponent></digiwf-hello-world-webcomponent>
 ```
 
 **Info:** Supplying the custom properties is optional as described in [WebComponent Properties](#webcomponent-properties)
@@ -132,7 +123,7 @@ Prerequisites:
 4. ...Integrate into your own dev-site alongside your WebComponent:
 
 ```html
-<!-- Load webcomponent from local dev-server -->
+<!-- e.g. for digiwf-service-instances-webcomponent: Load webcomponent from local dev-server -->
 <script
   src="http://localhost:8085/src/digiwf-service-instances-webcomponent.ts"
   type="module"

@@ -1,6 +1,58 @@
 # Use this only in dev environments. It's not intended for production usage.
 version: '3.9'
 services:
+  optimize:
+    # docker login registry.camunda.cloud
+    image: registry.camunda.cloud/optimize-ee/optimize:3.12.0
+    container_name: digiwf-optimize
+    hostname: optimize
+    depends_on:
+      - elasticsearch
+    ports:
+      - '18090:8090'
+      - '18091:8091'
+    env_file:
+      - local-docker.env
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      JAVA_OPTS: '-Xms1g -Xmx1g -XX:MaxMetaspaceSize=256m'
+      OPTIMIZE_ELASTICSEARCH_HOST: 'elasticsearch'
+      OPTIMIZE_ELASTICSEARCH_HTTP_PORT: '9200'
+    volumes:
+      - './optimize/environment-config.yaml:/optimize/config/environment-config.yaml'
+      - '../digiwf-libs/digiwf-optimize-plugins/target/digiwf-optimize-plugins-jar-with-dependencies.jar:/optimize/plugin/digiwf-plugins.jar'
+    networks:
+      - local-keycloak
+      - internal
+    profiles:
+      - optimize
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.12.1
+    container_name: digiwf-elasticsearch
+    hostname: elasticsearch
+    ports:
+      - '9200:9200'
+      - '9300:9300'
+    environment:
+      - bootstrap.memory_lock=true
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - cluster.name=elasticsearch
+      - action.auto_create_index=false
+      # allow running with low disk space
+      - cluster.routing.allocation.disk.threshold_enabled=false
+      - 'ES_JAVA_OPTS=-Xms512m -Xmx512m'
+      - cluster.routing.allocation.disk.threshold_enabled=true
+      - cluster.routing.allocation.disk.watermark.low=1024mb
+      - cluster.routing.allocation.disk.watermark.high=512mb
+      - cluster.routing.allocation.disk.watermark.flood_stage=256mb
+    networks:
+      - local-keycloak
+    profiles:
+      - optimize
+
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
     environment:
@@ -122,11 +174,12 @@ services:
     networks:
       - internal
 
-  mailhog:
-    image: mailhog/mailhog:latest
+  mailpit:
+    container_name: digiwf-mailpit
+    image: axllent/mailpit:latest
     ports:
       - '1025:1025' # smtp server
-      - '9025:8025' # ui
+      - '8025:8025' # ui
     networks:
       - internal
 
@@ -148,6 +201,7 @@ services:
       - "host.docker.internal:host-gateway"
     networks:
       - internal
+
   # enable the tasklist with --profile tasklist if you don't want to run it locally. Then access via http://localhost:8083
   digiwf-tasklist:
     image: itatm/digiwf-tasklist:dev
@@ -280,7 +334,7 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: "local"
       ENGINE_HOST: "http://host.docker.internal"
-#      ENGINE_SERVER_PORT: "39146" # already defined in local-docker.env
+      #      ENGINE_SERVER_PORT: "39146" # already defined in local-docker.env
       SSO_BASE_URL: "http://host.docker.internal:8080/auth"
     extra_hosts:
       - "host.docker.internal:host-gateway"

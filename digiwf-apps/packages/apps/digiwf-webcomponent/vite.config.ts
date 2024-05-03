@@ -43,6 +43,7 @@ export default defineConfig({
       input: {
         "digiwf-service-instances-webcomponent":
           "./src/digiwf-service-instances-webcomponent.ts",
+        "digiwf-tasks-webcomponent": "./src/digiwf-tasks-webcomponent.ts",
         "digiwf-hello-world-webcomponent":
           "./src/digiwf-hello-world-webcomponent.ts",
       },

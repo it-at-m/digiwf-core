@@ -14,13 +14,19 @@
     >
       {{ serviceInstance.definitionName }}
     </dynamic-heading>
-    <p class="mb-1">Erstellt am {{ createdDate }}</p>
     <p
-      v-if="serviceInstance.endTime"
+      v-if="!serviceInstance.endTime"
       class="mb-1"
     >
-      Abgeschlossen am {{ endedDate }}
+      {{ TEXT_STARTED }} am {{ createdDate }}
     </p>
+    <p
+      v-else
+      class="mb-1"
+    >
+      {{ TEXT_FINISHED }} am {{ endedDate }}
+    </p>
+    <p v-if="!serviceInstance.endTime">Status: {{ serviceInstance.status }}</p>
     <p
       v-if="serviceInstance.description"
       class="mb-0 mt-3"
@@ -32,6 +38,7 @@
 
 <script setup lang="ts">
 import type { ServiceInstanceTO } from "@muenchen/digiwf-engine-api-internal";
+import type { DeepReadonly } from "vue";
 
 import { CListGroupItem } from "@coreui/vue";
 import { useDateFormat } from "@vueuse/core";
@@ -40,12 +47,17 @@ import { computed, ref } from "vue";
 import DynamicHeading from "@/components/common/DynamicHeading.vue";
 import { useBaseURL } from "@/composables/useBaseURL";
 import { useNewTabText } from "@/composables/useNewTabText";
-import { DATE_FORMAT, FRONTEND_INSTANCE_PATH } from "@/util/constants";
+import {
+  DATE_FORMAT,
+  TASKLIST_SERVICE_INSTANCE_PATH,
+  TEXT_FINISHED,
+  TEXT_STARTED,
+} from "@/util/constants";
 
 const { baseURL } = useBaseURL();
 
 const props = defineProps<{
-  serviceInstance: ServiceInstanceTO;
+  serviceInstance: DeepReadonly<ServiceInstanceTO>;
 }>();
 
 const { newTabText } = useNewTabText(ref("Vorgang in DigiWF öffnen"));
@@ -54,7 +66,7 @@ const createdDate = useDateFormat(props.serviceInstance.startTime, DATE_FORMAT);
 const endedDate = useDateFormat(props.serviceInstance.endTime, DATE_FORMAT);
 
 const frontendURL = computed(() => {
-  return `${baseURL!.value}/#/${FRONTEND_INSTANCE_PATH}/${
+  return `${baseURL!.value}/#/${TASKLIST_SERVICE_INSTANCE_PATH}/${
     props.serviceInstance.id
   }`;
 });

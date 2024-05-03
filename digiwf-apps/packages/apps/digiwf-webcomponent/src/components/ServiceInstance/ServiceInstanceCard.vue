@@ -1,6 +1,7 @@
 <template>
   <widget-card
-    :link-path="FRONTEND_INSTANCE_PATH"
+    name="Vorgänge"
+    :link-path="TASKLIST_SERVICE_INSTANCE_PATH"
     card-title="Meine Vorgänge"
     link-text="In DigiWF ansehen"
     :loading="showLoading"
@@ -40,13 +41,13 @@ import { CListGroup } from "@coreui/vue";
 import { computed, watch } from "vue";
 
 import WidgetCard from "@/components/common/WidgetCard.vue";
-import ServiceInstanceListItemPlaceholder from "@/components/placeholders/ServiceInstanceListItemPlaceholder.vue";
-import ServiceInstanceListItem from "@/components/ServiceInstanceListItem.vue";
-import { useGetAssignedProcessInstances } from "@/composables/ServiceInstanceController/useGetAssignedProcessInstances";
+import ServiceInstanceListItem from "@/components/ServiceInstance/ServiceInstanceListItem.vue";
+import ServiceInstanceListItemPlaceholder from "@/components/ServiceInstance/ServiceInstanceListItemPlaceholder.vue";
+import { useGetAssignedProcessInstances } from "@/composables/ServiceInstanceControllerApi/useGetAssignedProcessInstances";
 import { useHasAccessToken } from "@/composables/useAccessToken";
 import { usePagination } from "@/composables/usePagination";
 import { useInjectParameters } from "@/composables/useParameters";
-import { FRONTEND_INSTANCE_PATH } from "@/util/constants";
+import { TASKLIST_SERVICE_INSTANCE_PATH } from "@/util/constants";
 
 const { hasAccessToken } = useHasAccessToken();
 const {

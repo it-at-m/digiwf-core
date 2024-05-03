@@ -14,7 +14,7 @@ camunda:
 
 management:
   server:
-    port: '${ENGINE_SERVER_PORT:8080}'
+    port: '${ENGINE_REST_SERVER_PORT:8080}'
   endpoints:
     enabled-by-default: false
     web:
@@ -29,6 +29,9 @@ management:
       enabled: true
     prometheus:
       enabled: true
+  health:
+    ldap:
+      enabled: false
 
 server:
   port: '${ENGINE_REST_SERVER_PORT:8080}'
@@ -46,11 +49,15 @@ spring:
     url: '${ENGINE_DATASOURCE_URL:jdbc:h2:file:~/backenddb;DB_CLOSE_ON_EXIT=FALSE}'
     username: '${ENGINE_DATASOURCE_USER:sa}'
     password: '${ENGINE_DATASOURCE_PASSWORD:}'
-    driver-class-name: '${ENGINE_DATASOURCE_DRIVERCLASSNAME:org.h2.Driver}'
+  ldap:
+    urls: '${LDAP_URL:}'
+    username: '${LDAP_USERNAME:}'
+    password: '${LDAP_PASSWORD:}'
 
 digiwf:
   security:
     client-id: ${SSO_ENGINE_CLIENT_ID}
     client-secret: ${SSO_ENGINE_CLIENT_SECRET}
-
-
+  ldap:
+    group-base: '${LDAP_GROUP_BASE:}'
+    user-base: '${LDAP_USER_BASE:}'
