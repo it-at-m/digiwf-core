@@ -6,7 +6,7 @@
     <parent>
         <artifactId>digiwf-dms-integration-fabasoft</artifactId>
         <groupId>de.muenchen.oss.digiwf</groupId>
-        <version>1.11.1-SNAPSHOT</version>
+        <version>1.11.2-SNAPSHOT</version>
     </parent>
 
     <artifactId>digiwf-dms-integration-fabasoft-api</artifactId>
