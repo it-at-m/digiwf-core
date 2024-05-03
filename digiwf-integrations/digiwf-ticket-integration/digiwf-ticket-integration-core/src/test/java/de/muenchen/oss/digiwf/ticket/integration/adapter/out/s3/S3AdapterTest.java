@@ -17,6 +17,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -29,11 +30,10 @@ class S3AdapterTest {
     private final DocumentStorageFileRepository documentStorageFileRepository = mock(DocumentStorageFileRepository.class);
     private final DocumentStorageFolderRepository documentStorageFolderRepository = mock(DocumentStorageFolderRepository.class);
     private final ProcessConfigApi processConfigApi = mock(ProcessConfigApi.class);
-    private final FileExtensionService fileExtensionService = mock(FileExtensionService.class);
+    private final FileExtensionService fileExtensionService = new FileExtensionService(null);
     private final List<String> supportedExtensions = List.of("application/pdf", "text/plain");
 
     private final S3Adapter s3Adapter = new S3Adapter(documentStorageFileRepository, documentStorageFolderRepository, processConfigApi, fileExtensionService);
-
 
     // test data
     private final List<String> filepaths = List.of("path/to/file.txt");
@@ -82,13 +82,16 @@ class S3AdapterTest {
     }
 
     @Test
-    void test_load_file_throws_bpmn_error_for_unsupported_types() throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException, PropertyNotSetException {
+    void test_load_file_throws_bpmn_error_for_unsupported_types()
+            throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException, PropertyNotSetException {
         // Set up mock behavior
         when(documentStorageFileRepository.getFile(startsWith(fileContext), anyInt())).thenReturn("fileContent".getBytes());
         when(documentStorageFolderRepository.getAllFilesInFolderRecursively(startsWith(fileContext))).thenReturn(Mono.just(Collections.emptySet()));
         when(processConfigApi.getProcessConfig(anyString())).thenThrow(new RuntimeException("Process Config does not exist"));
+        final Map<String, String> extensions = Map.of("foo", "baa");
+        final FileExtensionService tFileExtensionService = new FileExtensionService(extensions);
 
-        final S3Adapter s3Adapter = new S3Adapter(documentStorageFileRepository, documentStorageFolderRepository, processConfigApi, fileExtensionService);
+        final S3Adapter s3Adapter = new S3Adapter(documentStorageFileRepository, documentStorageFolderRepository, processConfigApi, tFileExtensionService);
 
         // Assert the result
         assertThatThrownBy(() -> s3Adapter.loadFiles(filepaths, fileContext, processDefinition))
@@ -96,6 +99,5 @@ class S3AdapterTest {
                 .extracting("errorCode", "errorMessage")
                 .containsExactly("FILE_TYPE_NOT_SUPPORTED", "The type of this file is not supported: fileContext/path/to/file.txt");
     }
-
 
 }

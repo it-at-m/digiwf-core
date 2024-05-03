@@ -26,7 +26,7 @@ import static org.mockito.Mockito.when;
 class S3AdapterTest {
 
     private final S3FileTransferRepository s3FileTransferRepository = mock(S3FileTransferRepository.class);
-    private final FileExtensionService fileExtensionService = mock(FileExtensionService.class);
+    private final FileExtensionService fileExtensionService = new FileExtensionService(null);
 
     private S3Adapter s3Adapter;
 

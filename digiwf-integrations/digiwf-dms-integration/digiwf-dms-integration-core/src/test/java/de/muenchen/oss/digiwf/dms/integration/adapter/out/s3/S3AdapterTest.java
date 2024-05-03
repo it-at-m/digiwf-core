@@ -28,7 +28,7 @@ class S3AdapterTest {
 
     private final DocumentStorageFolderRepository documentStorageFolderRepository = mock(DocumentStorageFolderRepository.class);
 
-    private final FileExtensionService fileExtensionService = mock(FileExtensionService.class);
+    private final FileExtensionService fileExtensionService = new FileExtensionService(null);
 
     private Map<String, String> supportedExtensions = new HashMap<>();
 
