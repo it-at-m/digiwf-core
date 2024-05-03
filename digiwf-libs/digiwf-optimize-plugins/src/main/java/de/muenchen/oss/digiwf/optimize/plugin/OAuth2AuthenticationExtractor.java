@@ -3,10 +3,14 @@ package de.muenchen.oss.digiwf.optimize.plugin;
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.JOSEObjectType;
 import com.nimbusds.jose.JWSAlgorithm;
-import com.nimbusds.jose.jwk.source.JWKSourceBuilder;
+import com.nimbusds.jose.jwk.JWK;
+import com.nimbusds.jose.jwk.JWKSelector;
+import com.nimbusds.jose.jwk.JWKSet;
+import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.BadJOSEException;
 import com.nimbusds.jose.proc.DefaultJOSEObjectTypeVerifier;
 import com.nimbusds.jose.proc.JWSVerificationKeySelector;
+import com.nimbusds.jose.proc.SecurityContext;
 import com.nimbusds.jwt.proc.DefaultJWTProcessor;
 import com.nimbusds.oauth2.sdk.ParseException;
 import com.nimbusds.oauth2.sdk.token.AccessToken;
@@ -18,8 +22,9 @@ import org.camunda.optimize.plugin.security.authentication.AuthenticationResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.MalformedURLException;
+import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 
 /**
  * Camunda AuthenticationExtractor plugin to extract authentication from incoming requests
@@ -42,10 +47,14 @@ public class OAuth2AuthenticationExtractor implements AuthenticationExtractor {
                 // build verifier
                 val jwtProcessor = new DefaultJWTProcessor<>();
                 jwtProcessor.setJWSTypeVerifier(new DefaultJOSEObjectTypeVerifier<>(JOSEObjectType.JWT));
-                val keySource = JWKSourceBuilder
-                        .create(new URL(properties.jwkCertsUrl()))
-                        .retrying(true)
-                        .build();
+                // FIXME caching
+                val jwkSet = JWKSet.load(new URL(properties.jwkCertsUrl()));
+                val keySource = new JWKSource<>() {
+                    @Override
+                    public List<JWK> get(JWKSelector jwkSelector, SecurityContext context) {
+                        return jwkSelector.select(jwkSet);
+                    }
+                };
                 jwtProcessor.setJWSKeySelector(new JWSVerificationKeySelector<>(JWSAlgorithm.RS256, keySource));
                 // validate
                 val claimsSet = jwtProcessor.process(token.getValue(), null);
@@ -58,7 +67,7 @@ public class OAuth2AuthenticationExtractor implements AuthenticationExtractor {
             } catch (ParseException | java.text.ParseException e) {
                 logger.error("Error while parsing token", e);
                 result.setAuthenticated(false);
-            } catch (MalformedURLException | BadJOSEException | JOSEException e) {
+            } catch (IOException | BadJOSEException | JOSEException e) {
                 logger.error("Error while validating token", e);
                 result.setAuthenticated(false);
             }

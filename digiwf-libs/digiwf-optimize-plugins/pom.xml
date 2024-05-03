@@ -13,6 +13,9 @@
 
     <properties>
         <optimize.version>3.12.0</optimize.version>
+        <!-- Needs to match version shipped with optimize -->
+        <!-- https://docs.camunda.io/docs/8.4/reference/dependencies/?dependencies=optimize -->
+        <nimbus.version>9.43.3</nimbus.version>
     </properties>
 
     <dependencies>
@@ -38,7 +41,8 @@
         <dependency>
             <groupId>com.nimbusds</groupId>
             <artifactId>oauth2-oidc-sdk</artifactId>
-            <version>11.10.1</version>
+            <version>${nimbus.version}</version>
+            <scope>provided</scope>
         </dependency>
         <!-- Logging -->
         <dependency>
