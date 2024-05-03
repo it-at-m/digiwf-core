@@ -1,15 +1,9 @@
-import { DateTime } from "luxon";
 import { inject, Ref, ref } from "vue";
 import { useRouter } from "vue-router/composables";
 import { RawLocation } from "vue-router/types/router";
 
 import { useAccessibility } from "../store/modules/accessibility";
 
-
-export interface Message {
-  readonly time: DateTime;
-  readonly message: string;
-}
 
 export interface NotificationContext {
   readonly showMessageAndLeavePage: (
