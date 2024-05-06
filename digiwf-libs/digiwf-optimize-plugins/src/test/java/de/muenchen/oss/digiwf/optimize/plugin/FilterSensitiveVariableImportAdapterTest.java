@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
 
 
 class FilterSensitiveVariableImportAdapterTest {
@@ -21,7 +22,7 @@ class FilterSensitiveVariableImportAdapterTest {
         List<PluginVariableDto> output = new FilterSensitiveVariableImportAdapter().adaptVariables(input);
 
         assertThat(output).hasSize(1);
-        assertThat(output.get(0)).extracting(PluginVariableDto::getName).isEqualTo("app_process_status");
+        assertThat(output.get(0).getName()).isEqualTo("app_process_status");
     }
 
     @Test
@@ -37,7 +38,10 @@ class FilterSensitiveVariableImportAdapterTest {
         List<PluginVariableDto> output = new FilterSensitiveVariableImportAdapter().adaptVariables(input);
 
         assertThat(output).hasSize(1);
-        assertThat(output.get(0)).extracting(PluginVariableDto::getName).isEqualTo("Antragsteller_Referat");
-        assertThat(output.get(0)).extracting(PluginVariableDto::getProcessDefinitionKey).isEqualTo("MobileArbeitBeantragen");
+        assertThat(output)
+                .extracting(PluginVariableDto::getName, PluginVariableDto::getProcessDefinitionKey)
+                .containsExactly(
+                        tuple("Antragsteller_Referat", "MobileArbeitBeantragen")
+                );
     }
 }
