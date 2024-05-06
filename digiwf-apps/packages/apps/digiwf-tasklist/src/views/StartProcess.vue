@@ -169,7 +169,7 @@ const startProcess = (model: any) => {
         {path: "/process"}
       );
     })
-    .catch((e) => {
+    .catch(() => {
       errorMessage.value = "Der Vorgang konnte nicht gestartet werden.";
       hasCompleteError.value = true;
     });
