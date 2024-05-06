@@ -23,12 +23,14 @@ Following plugins are contained:
 
 The following environment variables are required by some plugins and need to be provided.
 
-| Evn-Var                      | Description                                                                              |
-|------------------------------|------------------------------------------------------------------------------------------|
-| `SSO_ISSUER_URL`             | Issuer url to request client access token from and verify incoming access token against. |
-| `SSO_SCOPE`                  | Scope for oAuth2. Default `openid profile`.                                              |
-| `SSO_OPTIMIZE_CLIENT_ID`     | Client id to use for request to engine-rest.                                             |
-| `SSO_OPTIMIZE_CLIENT_SECRET` | Client secret for `SSO_OPTIMIZE_CLIENT_SECRET`.                                          |
+| Evn-Var                               | Description                                                                                         |
+|---------------------------------------|-----------------------------------------------------------------------------------------------------|
+| `SSO_ISSUER_URL`                      | Issuer url to request client access token from and verify incoming access token against.            |
+| `SSO_SCOPE`                           | Scope for oAuth2. Default `openid profile`.                                                         |
+| `SSO_OPTIMIZE_CLIENT_ID`              | Client id to use for request to engine-rest.                                                        |
+| `SSO_OPTIMIZE_CLIENT_SECRET`          | Client secret for `SSO_OPTIMIZE_CLIENT_SECRET`.                                                     |
+| `GLOBAL_VAR_WHITELIST`                | Comma seperated list of variable names which are imported into optimize.                            |
+| `PROCESS_VAR_WHITELIST_<processName>` | Comma seperated list of variable name which are imported into optimize for a specific process name. |
 
 ## Development
 

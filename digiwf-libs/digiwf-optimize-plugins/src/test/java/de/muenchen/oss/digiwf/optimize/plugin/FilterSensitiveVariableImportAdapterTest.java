@@ -5,12 +5,23 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
 
 class FilterSensitiveVariableImportAdapterTest {
+
+    private final FilterSensitiveVariableProperties properties = FilterSensitiveVariableProperties.builder()
+            .globalVarWhitelist(List.of("app_process_status".toLowerCase()))
+            .processVarWhiteList(Map.of(
+                    "MobileArbeitBeantragen".toLowerCase(), List.of("Antragsteller_Referat".toLowerCase()),
+                    "FahrkostenzuschussErstantrag".toLowerCase(), List.of("Antragsteller_Referat".toLowerCase()),
+                    "FahrkostenzuschussVerlaengern".toLowerCase(), List.of("Antragsteller_Referat".toLowerCase()),
+                    "FahrkostenzuschussBeenden".toLowerCase(), List.of("Antragsteller_Referat".toLowerCase())
+            ))
+            .build();
 
     @Test
     public void globalFilterTest() {
@@ -19,7 +30,7 @@ class FilterSensitiveVariableImportAdapterTest {
                 new PluginVariableDto("1", "app_process_status", "String", "0", null, null, "FilterProcessKey", "FilterProcessID", "1", 1L, null, null)
         );
 
-        List<PluginVariableDto> output = new FilterSensitiveVariableImportAdapter().adaptVariables(input);
+        List<PluginVariableDto> output = new FilterSensitiveVariableImportAdapter(properties).adaptVariables(input);
 
         assertThat(output).hasSize(1);
         assertThat(output.get(0).getName()).isEqualTo("app_process_status");
@@ -35,7 +46,7 @@ class FilterSensitiveVariableImportAdapterTest {
                 new PluginVariableDto("1", "Antragsteller_Referat", "String", "0", null, null, "OtherProcess", "OtherProcessID", "1", 1L, null, null)
         );
 
-        List<PluginVariableDto> output = new FilterSensitiveVariableImportAdapter().adaptVariables(input);
+        List<PluginVariableDto> output = new FilterSensitiveVariableImportAdapter(properties).adaptVariables(input);
 
         assertThat(output).hasSize(1);
         assertThat(output)
