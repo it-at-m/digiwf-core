@@ -6,8 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 
 class FilterSensitiveVariableImportAdapterTest {
@@ -21,9 +20,8 @@ class FilterSensitiveVariableImportAdapterTest {
 
         List<PluginVariableDto> output = new FilterSensitiveVariableImportAdapter().adaptVariables(input);
 
-        assertThat(output, hasSize(1));
-        assertThat(output, hasItem(hasProperty("name", equalTo("app_process_status"))));
-
+        assertThat(output).hasSize(1);
+        assertThat(output.get(0)).extracting(PluginVariableDto::getName).isEqualTo("app_process_status");
     }
 
     @Test
@@ -38,10 +36,8 @@ class FilterSensitiveVariableImportAdapterTest {
 
         List<PluginVariableDto> output = new FilterSensitiveVariableImportAdapter().adaptVariables(input);
 
-        assertThat(output, hasSize(1));
-        assertThat(output, hasItem(allOf(
-                hasProperty("name", equalTo("Antragsteller_Referat")),
-                hasProperty("processDefinitionKey", equalTo("MobileArbeitBeantragen"))
-        )));
+        assertThat(output).hasSize(1);
+        assertThat(output.get(0)).extracting(PluginVariableDto::getName).isEqualTo("Antragsteller_Referat");
+        assertThat(output.get(0)).extracting(PluginVariableDto::getProcessDefinitionKey).isEqualTo("MobileArbeitBeantragen");
     }
 }
