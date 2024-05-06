@@ -9,6 +9,7 @@ Following plugins are contained:
 
 - OAuth2AuthenticationExtractor
 - OAuth2EngineRestFilter
+- FilterSensitiveVariableImportAdapter
 
 ## Usage/Deployment
 
