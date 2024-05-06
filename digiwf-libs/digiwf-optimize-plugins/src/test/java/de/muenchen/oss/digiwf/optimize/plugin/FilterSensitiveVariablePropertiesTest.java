@@ -36,4 +36,19 @@ class FilterSensitiveVariablePropertiesTest {
                     );
         }
     }
+
+    @Test
+    public void testEmptyEnv() {
+        try (val propertiesMock = mockStatic(FilterSensitiveVariableProperties.class)) {
+            propertiesMock.when(FilterSensitiveVariableProperties::fromEnv).thenCallRealMethod();
+            propertiesMock.when(FilterSensitiveVariableProperties::builder).thenCallRealMethod();
+            propertiesMock.when(FilterSensitiveVariableProperties::loadEnv).thenReturn(Map.of(
+                    "PROCESS_VAR_WHITELISTasd", "Antragsteller_Referat"
+            ));
+
+            val properties = FilterSensitiveVariableProperties.fromEnv();
+            assertThat(properties.globalVarWhitelist()).hasSize(0);
+            assertThat(properties.processVarWhiteList()).hasSize(0);
+        }
+    }
 }

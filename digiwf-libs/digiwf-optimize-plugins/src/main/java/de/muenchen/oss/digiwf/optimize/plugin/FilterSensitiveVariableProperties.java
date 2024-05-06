@@ -2,6 +2,7 @@ package de.muenchen.oss.digiwf.optimize.plugin;
 
 import lombok.Builder;
 import lombok.val;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -14,8 +15,9 @@ public record FilterSensitiveVariableProperties(List<String> globalVarWhitelist,
 
     public static FilterSensitiveVariableProperties fromEnv() {
         final Map<String, String> env = loadEnv();
-        val globalVarWhitelist = Arrays.stream(env.get("GLOBAL_VAR_WHITELIST").split(","))
+        val globalVarWhitelist = Arrays.stream(env.getOrDefault("GLOBAL_VAR_WHITELIST", "").split(","))
                 .map(String::trim)
+                .filter(i -> !StringUtils.isEmpty(i))
                 .map(String::toLowerCase).toList();
         val processVarWhitelist = env.keySet().stream().filter(i -> i.startsWith("PROCESS_VAR_WHITELIST_")).collect(Collectors.toMap(
                 i -> i.replaceFirst("^PROCESS_VAR_WHITELIST_", "").toLowerCase(),
