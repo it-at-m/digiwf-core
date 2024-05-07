@@ -30,15 +30,18 @@ onMounted(() => {
         </p>
       </div>
       <DwfButton
-        aria-label="weiter"
+        aria-label="Schließen"
+        color="primary"
         @click="forwardToTarget"
       >
-        weiter
+        Schließen
       </DwfButton>
     </v-flex>
   </app-view-layout>
 </template>
 
 <style scoped>
-
+h1 {
+  margin-bottom: 15px;
+}
 </style>
