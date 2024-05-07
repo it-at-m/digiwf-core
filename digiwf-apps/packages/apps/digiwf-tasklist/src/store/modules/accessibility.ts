@@ -17,12 +17,12 @@ export const accessibility = {
     isHighContrastModeEnabled: (state: AccessibilityState): boolean => {
       return state.highContrastModeEnabled !== undefined
         ? state.highContrastModeEnabled
-        : state.highContrastModeEnabled;
+        : defaultAccessibilityState.highContrastModeEnabled;
     },
     isA11YNotificationEnabled: (state: AccessibilityState): boolean => {
       return state.a11YNotificationEnabled !== undefined
         ? state.a11YNotificationEnabled
-        : state.a11YNotificationEnabled;
+        : defaultAccessibilityState.a11YNotificationEnabled;
     },
   },
   mutations: {
@@ -32,6 +32,7 @@ export const accessibility = {
       (state.a11YNotificationEnabled = enabled),
   },
 };
+
 export interface Accessibility {
   isHighContrastModeEnabled: () => boolean;
   setHighContrastModeEnabled: (value: boolean) => void;
