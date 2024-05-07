@@ -444,15 +444,24 @@ export const useSaveTaskMutation = (taskId: string) => {
 };
 
 export const useAssignTaskMutation = (taskId: string) => {
-  return useMutation<void, void, string>({
+  const { showMessageAndLeavePage } = useNotificationContext();
+  const currentPath = useRoute().path;
+  return useMutation<void, string, string>({
     mutationFn: (userId: string) => {
-      return callPostAssignTaskInTaskService(taskId, userId);
+      return callPostAssignTaskInTaskService(taskId, userId).catch((error) =>
+        Promise.reject(error.message)
+      );
     },
     onSuccess: () => {
       invalidUserTasks();
       queryClient.invalidateQueries([openGroupTasksQueryId]);
       queryClient.invalidateQueries([assignedGroupTasksQueryId]);
       router.push({ path: "/task/" + taskId });
+    },
+    onError(error) {
+      showMessageAndLeavePage(error, MessageType.ERROR, {
+        path: currentPath,
+      });
     },
   });
 };

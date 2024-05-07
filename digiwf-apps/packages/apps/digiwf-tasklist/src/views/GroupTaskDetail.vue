@@ -214,8 +214,8 @@ const triggerAssignTask = () => {
   }
   assignTask(lhmObjectId)
     .then(() => errorMessage.value)
-    .catch(() => {
-      errorMessage.value = "Aufgabe konnte nicht zugewiesen werden";
+    .catch((error) => {
+      errorMessage.value = error;
     });
 };
 
