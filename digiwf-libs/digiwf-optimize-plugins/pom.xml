@@ -21,18 +21,12 @@
             <groupId>org.camunda.optimize</groupId>
             <artifactId>plugin</artifactId>
             <version>${optimize.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.camunda.optimize</groupId>
-            <artifactId>optimize-backend</artifactId>
-            <version>${optimize.version}</version>
             <exclusions>
                 <exclusion>
-                    <groupId>io.camunda</groupId>
-                    <artifactId>identity-spring-boot-starter</artifactId>
+                    <groupId>io.netty</groupId>
+                    <artifactId>*</artifactId>
                 </exclusion>
             </exclusions>
-            <scope>provided</scope>
         </dependency>
         <!-- OAuth -->
         <dependency>
