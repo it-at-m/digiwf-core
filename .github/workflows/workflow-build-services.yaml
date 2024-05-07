@@ -262,3 +262,10 @@ jobs:
           context: ./digiwf-engine/digiwf-engine-rest-service
           push: true
           tags: itatm/digiwf-engine-rest-service:${{ inputs.release-version }}
+
+      - name: Build and push optimize
+        uses: docker/build-push-action@v5
+        with:
+          context: ./digiwf-libs/digiwf-optimize-plugins
+          push: true
+          tags: itatm/digiwf-optimize-service:${{ inputs.release-version }}
