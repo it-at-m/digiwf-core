@@ -186,7 +186,7 @@ export default defineComponent({
     const stage = ref<StageInfo>(StageInfoService.getDefaultStageInfo());
 
     const store = useStore();
-    const snackbarContext = useNotification(); // FIXME
+    const snackbarContext = useNotification();
     provide(NOTIFICATION_CONTEXT_KEY, snackbarContext);
 
     const { data: processInstances } = useGetProcessInstances(

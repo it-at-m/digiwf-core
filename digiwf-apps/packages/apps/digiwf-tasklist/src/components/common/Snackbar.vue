@@ -1,21 +1,3 @@
-<script lang="ts" setup>
-
-import {MessageType, useNotificationContext} from "../../middleware/snackbar";
-import {useAccessibility} from "../../store/modules/accessibility";
-
-const {snackbarVisible, messageText, messageType} = useNotificationContext();
-
-const isHighContrastModeEnabled = useAccessibility().isHighContrastModeEnabled;
-
-const getMessageType = (): string => {
-  if (isHighContrastModeEnabled()) {
-    return "primary";
-  }
-  return messageType.value;
-};
-
-</script>
-
 <template>
   <v-snackbar
     v-model="snackbarVisible"
@@ -44,6 +26,20 @@ const getMessageType = (): string => {
   </v-snackbar>
 </template>
 
-<style scoped>
+<script lang="ts" setup>
 
-</style>
+import {MessageType, useNotificationContext} from "../../middleware/snackbar";
+import {useAccessibility} from "../../store/modules/accessibility";
+
+const {snackbarVisible, messageText, messageType} = useNotificationContext();
+
+const isHighContrastModeEnabled = useAccessibility().isHighContrastModeEnabled;
+
+const getMessageType = (): string => {
+  if (isHighContrastModeEnabled()) {
+    return "primary";
+  }
+  return messageType.value;
+};
+
+</script>
