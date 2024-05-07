@@ -12,14 +12,13 @@ import org.camunda.bpm.model.bpmn.BpmnModelInstance;
 import org.camunda.bpm.model.dmn.Dmn;
 import org.camunda.bpm.model.dmn.DmnModelInstance;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.ByteArrayInputStream;
 
 @Deprecated
 @Slf4j
 @Service
-@Transactional
+// is not allowed to have @Transaction because of UnexpectedRollbackException from try/catch
 @RequiredArgsConstructor
 public class ModelDeploymentService {
 
