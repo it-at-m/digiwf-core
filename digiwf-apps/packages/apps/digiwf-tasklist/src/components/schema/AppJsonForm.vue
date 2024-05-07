@@ -39,6 +39,7 @@
       <v-spacer/>
       <v-btn
         :disabled="isCompleting || readonly"
+        :loading="isCompleting"
         class="mt-5 form-submit-button"
         color="primary"
         @click="complete"

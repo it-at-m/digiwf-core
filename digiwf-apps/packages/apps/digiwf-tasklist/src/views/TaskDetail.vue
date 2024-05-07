@@ -34,6 +34,7 @@
       />
       <app-json-form
         v-else
+        :is-completing="isCompleting"
         :safe-validation="safeValidation"
         :schema="task.schema"
         :value="formFields"
