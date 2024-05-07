@@ -15,8 +15,8 @@ Following plugins are contained:
 
 1. Package project to jar with `mvn package`
 2. Append jar to Optimize
-    1. By building custom image with base optimize and add jar
-    2. By attaching jar to container (i.e. via ConfigMap and VolumeMount)
+    1. By building custom image with base optimize and add jar (see [Dockerfile](./Dockerfile))
+    2. By attaching jar to container (i.e. via kubernetes/openshift ConfigMap and VolumeMount)
 3. Provide environment variables required by plugins (i.e. via ConfigMap)
 4. Configure Optimize to use plugins
 
