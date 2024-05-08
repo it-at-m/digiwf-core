@@ -24,5 +24,5 @@ Call Activity modelliert, so schlägt der Modeller alle verfügbaren Element-Tem
 Die DigiWF-Plattform stellt verschiedene Element-Templates bereit, die die Modellierung von häufig benötigten Features
 vereinfachen.
 
-Eine Liste aller Templates ist unter [Element-Templates](http://localhost:8099/modeling/templates/element-templates/)
+Eine Liste aller Templates ist unter [Element-Templates](../templates/element-templates/index.md)
 verfügbar.
