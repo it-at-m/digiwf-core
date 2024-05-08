@@ -233,7 +233,7 @@ jobs:
           ./mvnw versions:set --batch-mode -DremoveSnapshot -DprocessAllModules -ntp
 
       - name: Build with Maven
-        run: ./mvnw --batch-mode -P camunda-ee,!camunda-ce install -DskipTests -ntp
+        run: ./mvnw --batch-mode -P camunda-ee,!camunda-ce install -ntp
         env:
           CAMUNDA_USER_REF: ${{ secrets.CAMUNDA_USER }}
           CAMUNDA_TOKEN_REF: ${{ secrets.CAMUNDA_USER_PASSWORD }}
