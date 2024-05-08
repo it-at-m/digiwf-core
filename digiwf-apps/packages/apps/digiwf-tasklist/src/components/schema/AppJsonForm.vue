@@ -55,7 +55,6 @@ import {defineComponent, ref, watch} from "vue";
 import {useRouter} from "vue-router/composables";
 
 import {filterInputsWithValue} from "../../utils/dataTransformations";
-import {useAccessibility} from "../../store/modules/accessibility";
 
 export default defineComponent({
   props: {
@@ -111,17 +110,11 @@ export default defineComponent({
 
     const form = ref(null);
 
-    const a11YNotificationEnabled = useAccessibility().a11YNotificationEnabled;
-
     const complete = () => {
-      if (a11YNotificationEnabled()) {
+      if ((form.value as HTMLFormElement).validate()) {
         ctx.emit("complete-form", currentValue.value);
       } else {
-        if ((form.value as HTMLFormElement).validate()) {
-          ctx.emit("complete-form", currentValue.value);
-        } else {
-          ctx.emit("completion-failed", "Validierung Ihrer Eingaben fehlgeschlagen. Bitte überprüfen Sie diese.");
-        }
+        ctx.emit("completion-failed", "Validierung Ihrer Eingaben fehlgeschlagen. Bitte überprüfen Sie diese.");
       }
     };
 
