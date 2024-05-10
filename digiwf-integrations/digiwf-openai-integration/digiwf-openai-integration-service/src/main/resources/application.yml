@@ -45,8 +45,6 @@ io:
         bpmnErrorDestination: "dwf-connector-bpmnerror-${DIGIWF_ENV}"
         correlateMessageDestination: "dwf-connector-${DIGIWF_ENV}"
         deadLetterQueueDestination: "dwf-connector-incident-${DIGIWF_ENV}"
-        typeMappings:
-          chat: basicChat
 
 de:
   muenchen:
@@ -54,8 +52,9 @@ de:
       digiwf:
         openai:
           service:
-            api-key: ''
-            model: ''
-            deployment-name: ''
-            api-version: ''
-            resource: ''
+            api-key: '${OPENAI_INTEGRATION_API-KEY}'
+            model: '${OPENAI_INTEGRATION_MODEL}'
+            azure:
+              api-version: '${OPENAI_INTEGRATION_API-VERSION}'
+              deployment-name: '${OPENAI_INTEGRATION_DEPLOYMENT-NAME}'
+              resource: '${OPENAI_INTEGRATION_AZURE_RESOURCE}'
