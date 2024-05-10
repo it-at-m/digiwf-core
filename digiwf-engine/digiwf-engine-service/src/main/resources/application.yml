@@ -198,7 +198,11 @@ io:
     digiwf:
       mail:
         fromAddress: ${MAIL_USERNAME:digiwf@muenchen.de}
-      s3:
-        client:
-          documentStorageUrl: '${digiwf.s3service.httpAPI}'
-          securityEnabled: true
+
+de:
+  muenchen:
+    oss:
+      digiwf:
+        s3:
+          document-storage-url: '${digiwf.s3service.httpAPI}'
+          enable-security: true

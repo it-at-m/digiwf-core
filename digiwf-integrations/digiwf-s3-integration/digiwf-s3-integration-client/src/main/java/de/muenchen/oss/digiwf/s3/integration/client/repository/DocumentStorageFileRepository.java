@@ -289,15 +289,15 @@ public class DocumentStorageFileRepository {
             final FileApiApi fileApi = this.apiClientFactory.getFileApiForDocumentStorageUrl(documentStorageUrl);
             fileApi.updateEndOfLife(pathToFile, endOfLifeFolder);
         } catch (final HttpClientErrorException exception) {
-            final String message = String.format("The request to update the end of life for a file  failed %s.", exception.getStatusCode());
+            final String message = String.format("The request to update the end of life for a file failed %s.", exception.getStatusCode());
             log.error(message);
             throw new DocumentStorageClientErrorException(message, exception);
         } catch (final HttpServerErrorException exception) {
-            final String message = String.format("The request to update the end of life for a file  failed %s.", exception.getStatusCode());
+            final String message = String.format("The request to update the end of life for a file failed %s.", exception.getStatusCode());
             log.error(message);
             throw new DocumentStorageServerErrorException(message, exception);
         } catch (final RestClientException exception) {
-            final String message = "The request to update the end of life for a file  failed.";
+            final String message = "The request to update the end of life for a file failed.";
             log.error(message);
             throw new DocumentStorageException(message, exception);
         }

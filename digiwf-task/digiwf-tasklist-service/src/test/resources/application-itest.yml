@@ -59,12 +59,13 @@ ezldap:
     port: 8183
     url: "http://localhost:${ezldap.client.port}"
     request: "/test"
-io:
-  muenchendigital:
-    digiwf:
-      s3:
-        client:
-          securityEnabled: false
+
+de:
+  muenchen:
+    oss:
+      digiwf:
+        s3:
+          enable-security: false
 
 digiwf:
   s3service:
