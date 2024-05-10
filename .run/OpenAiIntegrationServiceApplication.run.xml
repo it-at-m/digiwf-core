@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="OpenAiIntegrationServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
-    <option name="ACTIVE_PROFILES" value="local" />
+    <option name="ACTIVE_PROFILES" value="local,azure" />
     <module name="digiwf-openai-integration-service" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="de.muenchen.oss.digiwf.openai.integration.OpenAiIntegrationApplication" />
     <extension name="net.ashald.envfile">

@@ -1,8 +1,14 @@
 package de.muenchen.oss.digiwf.openai.integration.adapter.in.streaming.dto;
 
-import lombok.Value;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Value
+@Builder
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class SummarizeDto {
 
     private String text;

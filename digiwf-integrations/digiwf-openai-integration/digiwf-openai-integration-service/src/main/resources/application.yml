@@ -52,9 +52,9 @@ de:
       digiwf:
         openai:
           service:
-            api-key: '${OPENAI_INTEGRATION_API-KEY}'
-            model: '${OPENAI_INTEGRATION_MODEL}'
+            api-key: "${OPENAI_INTEGRATION_API-KEY}"
+            model: "${OPENAI_INTEGRATION_MODEL}"
             azure:
-              api-version: '${OPENAI_INTEGRATION_API-VERSION}'
-              deployment-name: '${OPENAI_INTEGRATION_DEPLOYMENT-NAME}'
-              resource: '${OPENAI_INTEGRATION_AZURE_RESOURCE}'
+              api-version: "${OPENAI_INTEGRATION_API-VERSION}"
+              deployment-name: "${OPENAI_INTEGRATION_DEPLOYMENT-NAME}"
+              resource: "${OPENAI_INTEGRATION_AZURE_RESOURCE}"

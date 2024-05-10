@@ -32,5 +32,6 @@ de:
               emailIntegration: "dwf-email-${DIGIWF_ENV}"
               s3Integration: "dwf-s3-${DIGIWF_ENV}"
               ticketIntegration: "dwf-ticket-${DIGIWF_ENV}"
+              openaiIntegration: "dwf-openai-${DIGIWF_ENV}"
               # TODO: Remove this fallback after all processes are migrated to the new version. It's a legacy feature to avoid breaking changes.
               deprecatedLegacyFeature: ${digiwf.streaming.connector.topics.dlq}

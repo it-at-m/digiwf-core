@@ -1,0 +1,76 @@
+{
+  "name": "OpenAI: Chat",
+  "id": "de.muenchen.digitalwf.templates.openai.chat",
+  "appliesTo": [
+    "bpmn:CallActivity"
+  ],
+  "properties": [
+    {
+      "label": "Template",
+      "type": "String",
+      "editable": false,
+      "value": "StreamingTemplateV02",
+      "binding": {
+        "type": "property",
+        "name": "calledElement"
+      }
+    },
+    {
+      "label": "Integration",
+      "type": "String",
+      "value": "openaiIntegration",
+      "editable": false,
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "app_integration_name",
+        "target": "app_integration_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Type Header",
+      "type": "String",
+      "editable": false,
+      "value": "basicChat",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "app_type_name",
+        "target": "app_type_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Prompt",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "prompt",
+        "target": "prompt"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Antwort",
+      "value": "response",
+      "type": "String",
+      "binding": {
+        "type": "camunda:out",
+        "source": "response"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    }
+  ],
+  "entriesVisible": true
+}

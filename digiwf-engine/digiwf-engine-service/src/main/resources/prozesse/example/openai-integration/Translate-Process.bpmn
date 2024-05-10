@@ -1,0 +1,73 @@
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1c74zun" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.0.0-dev">
+  <bpmn:process id="openai-translate" name="OpenAI: Translate" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" camunda:asyncBefore="true" camunda:formKey="OpenAI_Translate_Start_Form">
+      <bpmn:outgoing>Flow_1ug7z2h</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1ug7z2h" sourceRef="StartEvent_1" targetRef="Activity_0lh2naj" />
+    <bpmn:callActivity id="Activity_0lh2naj" name="Request AI" camunda:modelerTemplate="de.muenchen.digitalwf.templates.openai.translate" camunda:asyncBefore="true" camunda:asyncAfter="true" calledElement="StreamingTemplateV02">
+      <bpmn:extensionElements>
+        <camunda:in sourceExpression="openaiIntegration" target="app_integration_name" />
+        <camunda:in sourceExpression="translate" target="app_type_name" />
+        <camunda:in sourceExpression="${OpenAI_Message}" target="text" />
+        <camunda:in sourceExpression="${OpenAI_Language}" target="language" />
+        <camunda:out source="response" target="OpenAI_Response" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1ug7z2h</bpmn:incoming>
+      <bpmn:outgoing>Flow_1bqv6th</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:sequenceFlow id="Flow_1bqv6th" sourceRef="Activity_0lh2naj" targetRef="Activity_1pqe30e" />
+    <bpmn:userTask id="Activity_1pqe30e" name="Check Antwort" camunda:modelerTemplate="de.muenchen.digiwf.templates.Usertask" camunda:asyncBefore="true" camunda:asyncAfter="true" camunda:assignee="${starterOfInstance}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="app_task_description" />
+          <camunda:inputParameter name="app_task_tag" />
+          <camunda:inputParameter name="app_notification_send_candidate_groups">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_notification_candidate_groups_addresses" />
+          <camunda:inputParameter name="app_notification_send_candidate_users">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_notification_send_assignee">false</camunda:inputParameter>
+          <camunda:inputParameter name="mail_subject" />
+          <camunda:inputParameter name="mail_body" />
+          <camunda:inputParameter name="mail_bottom_text" />
+          <camunda:inputParameter name="app_assign_user_to_processinstance">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_file_paths" />
+          <camunda:inputParameter name="app_file_paths_readonly" />
+          <camunda:inputParameter name="app_task_schema_key">OpenAI_Task_Form</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1bqv6th</bpmn:incoming>
+      <bpmn:outgoing>Flow_14liqyg</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="Event_029ic4f">
+      <bpmn:incoming>Flow_14liqyg</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_14liqyg" sourceRef="Activity_1pqe30e" targetRef="Event_029ic4f" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_185ibpc">
+      <bpmndi:BPMNEdge id="Flow_14liqyg_di" bpmnElement="Flow_14liqyg">
+        <di:waypoint x="530" y="177" />
+        <di:waypoint x="592" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1bqv6th_di" bpmnElement="Flow_1bqv6th">
+        <di:waypoint x="370" y="177" />
+        <di:waypoint x="430" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ug7z2h_di" bpmnElement="Flow_1ug7z2h">
+        <di:waypoint x="215" y="177" />
+        <di:waypoint x="270" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="159" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1rukyla_di" bpmnElement="Activity_0lh2naj">
+        <dc:Bounds x="270" y="137" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1tqjbg8_di" bpmnElement="Activity_1pqe30e">
+        <dc:Bounds x="430" y="137" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_029ic4f_di" bpmnElement="Event_029ic4f">
+        <dc:Bounds x="592" y="159" width="36" height="36" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
