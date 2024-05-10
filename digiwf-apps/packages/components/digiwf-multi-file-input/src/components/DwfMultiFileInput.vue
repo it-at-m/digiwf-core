@@ -94,7 +94,7 @@ export default defineComponent({
     const documents = ref<DocumentData[]>([]);
     const errorMessage = ref<string>("");
     const isLoading = ref<boolean>(false);
-    const uuid = ref("");
+    const uuid = ref<string>("");
     const maxFiles = props.schema.maxFiles || 10;
     const maxFileSize = props.schema.maxFileSize || 10;
     const maxTotalSize = props.schema.maxTotalSize;
@@ -150,7 +150,7 @@ export default defineComponent({
 
       //append uuid to path if enabled
       if (props.schema.uuidEnabled) {
-        path = path !== '' ? path + "/" + uuid : uuid;
+        path = path !== '' ? path + "/" + uuid.value : uuid.value;
       }
 
       return path;

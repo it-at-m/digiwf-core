@@ -1,0 +1,4 @@
+management:
+  health:
+    ldap:
+      enabled: true

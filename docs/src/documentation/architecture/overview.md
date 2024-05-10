@@ -102,6 +102,12 @@ gefällt, kann "ready to use" Komponenten wie den Form Renderer verwenden und in
 integrieren. Oder Sie können die API direkt verwenden und ein schickes Frontend in der gewünschten Technologie selbst
 erstellen.
 
+### DigiWF Web Components
+
+DigiWF bietet eigene WebComponents an, die in Webanwendungen integriert werden können, um DigiWF-Funktionalität hinzuzufügen.
+Diese ermöglichen beispielsweise den Zugriff auf Nutzer-spezifische DigiWF-Vorgänge oder Aufgaben.
+Weitere Informationen zu diesem Thema und eine Übersicht über derzeit verfügbare WebComponents sind in der [Komponenten-Beschreibung](../components/webcomponents.md) zu finden.
+
 ### DigiWF Co-Creation
 
 Die DigiWF Co-Creation ist der Low-Code-Bereich. Hier kann ein Prozessdesigner BPMN-Prozesse zeichnen, mit

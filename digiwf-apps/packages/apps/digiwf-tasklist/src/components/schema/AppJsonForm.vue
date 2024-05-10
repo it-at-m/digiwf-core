@@ -6,29 +6,29 @@
         readOnly: readonly || false,
         markdownit: { breaks: true },
       }"
-      :value="value"
       :schema="schema"
+      :value="value"
       @input="onInput"
     >
       <template #custom-date-input="context">
-        <dwf-date-input v-bind="context" />
+        <dwf-date-input v-bind="context"/>
       </template>
       <template #custom-dms-input="context">
-        <dwf-dms-input v-bind="context" />
+        <dwf-dms-input v-bind="context"/>
       </template>
       <template #custom-time-input="context">
-        <dwf-time-input v-bind="context" />
+        <dwf-time-input v-bind="context"/>
       </template>
       <template #custom-user-input="context">
-        <v-user-input v-bind="context" />
+        <v-user-input v-bind="context"/>
       </template>
       <template #custom-multi-user-input="context">
-        <v-multi-user-input v-bind="context" />
+        <v-multi-user-input v-bind="context"/>
       </template>
       <template #custom-multi-file-input="context">
         <dwf-multi-file-input
-          v-bind="context"
           :readonly="readonly"
+          v-bind="context"
         />
       </template>
     </dwf-form-renderer>
@@ -36,11 +36,12 @@
       class="d-flex"
       style="width: 100%"
     >
-      <v-spacer />
+      <v-spacer/>
       <v-btn
+        :disabled="isCompleting || readonly"
+        :loading="isCompleting"
         class="mt-5 form-submit-button"
         color="primary"
-        :disabled="isCompleting || readonly"
         @click="complete"
       >
         {{ buttonText }}
@@ -50,10 +51,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
-import { useRouter } from "vue-router/composables";
+import {defineComponent, ref, watch} from "vue";
+import {useRouter} from "vue-router/composables";
 
-import { filterInputsWithValue } from "../../utils/dataTransformations";
+import {filterInputsWithValue} from "../../utils/dataTransformations";
 
 export default defineComponent({
   props: {
@@ -80,10 +81,17 @@ export default defineComponent({
       required: false,
       default: "Abschließen",
     },
+    safeValidation: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   emits: [
     "input", // (value: any) => void;
     "complete-form", // (value: any) => void
+    "completion-failed", // (value: string) => void
+    "reset-safe-validation", // () => void
   ],
   setup: (
     props: {
@@ -92,6 +100,7 @@ export default defineComponent({
       readonly: boolean;
       isCompleting: boolean;
       buttonText: string;
+      safeValidation: boolean;
     },
     ctx
   ) => {
@@ -104,6 +113,8 @@ export default defineComponent({
     const complete = () => {
       if ((form.value as HTMLFormElement).validate()) {
         ctx.emit("complete-form", currentValue.value);
+      } else {
+        ctx.emit("completion-failed", "Validierung Ihrer Eingaben fehlgeschlagen. Bitte überprüfen Sie diese.");
       }
     };
 
@@ -117,10 +128,19 @@ export default defineComponent({
         inputs: newInputsString,
       };
 
-      router.replace({ query: newQuery });
+      router.replace({query: newQuery});
 
       ctx.emit("input", value);
     };
+
+    watch(() => props.safeValidation, safeValidation => {
+      if (safeValidation) {
+        if (!(form.value as HTMLFormElement).validate()) {
+          ctx.emit("completion-failed", "Validierung Ihrer Eingaben fehlgeschlagen. Bitte überprüfen Sie diese.");
+        }
+        ctx.emit("reset-safe-validation");
+      }
+    });
 
     return {
       complete,

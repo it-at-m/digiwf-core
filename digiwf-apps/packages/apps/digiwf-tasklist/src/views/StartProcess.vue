@@ -11,28 +11,28 @@
       <p>{{ process.description }}</p>
       <base-form
         v-if="process.startForm"
-        :has-complete-error="hasCompleteError"
-        :is-completing="isCompleting"
-        class="startForm"
         :form="process.startForm"
+        :has-complete-error="hasCompleteError"
         :init-model="$route.query"
+        :is-completing="isCompleting"
         :show-save-button="false"
+        class="startForm"
         @model-changed="setDirty"
         @complete-form="startProcess"
       />
       <app-json-form
         v-else
-        :value="formFields"
-        :schema="process.jsonSchema"
         :is-completing="isCompleting"
-        @complete-form="startProcess"
+        :schema="process.jsonSchema"
+        :value="formFields"
         @input="onAppJsonFormInput"
+        @complete-form="startProcess"
       />
     </v-flex>
     <leave-site-dialog
       :open="saveLeaveDialogOpen"
-      @submit="onLeaveDialogSubmit"
       @cancel="onLeaveDialogCancel"
+      @submit="onLeaveDialogSubmit"
     />
   </app-view-layout>
 </template>
@@ -44,24 +44,25 @@
 </style>
 
 <script lang="ts" setup>
-import { ServiceDefinitionDetailTO } from "@muenchen/digiwf-engine-api-internal";
-import { JSONSchemaType } from "ajv";
-import {provide, ref, defineProps, watch} from "vue";
-import { onBeforeRouteLeave, useRouter } from "vue-router/composables";
-import { NavigationGuardNext } from "vue-router/types/router";
+import {ServiceDefinitionDetailTO} from "@muenchen/digiwf-engine-api-internal";
+import {JSONSchemaType} from "ajv";
+import {defineProps, provide, ref, watch} from "vue";
+import {onBeforeRouteLeave, useRouter} from "vue-router/composables";
+import {NavigationGuardNext} from "vue-router/types/router";
 
 import BaseForm from "@/components/form/BaseForm.vue";
 import AppToast from "@/components/UI/AppToast.vue";
 import AppViewLayout from "@/components/UI/AppViewLayout.vue";
-import { ApiConfig } from "../api/ApiConfig";
-import { callPostProcessInstance } from "../api/processInstances/processInstancesApiCalls";
+import {ApiConfig} from "../api/ApiConfig";
+import {callPostProcessInstance} from "../api/processInstances/processInstancesApiCalls";
 import LeaveSiteDialog from "../components/common/LeaveSiteDialog.vue";
-import { loadProcess } from "../middleware/processDefinitions/processDefinitionMiddleware";
-import { invalidProcessInstances } from "../middleware/processInstances/processInstancesMiddleware";
-import { invalidUserTasks } from "../middleware/tasks/taskMiddleware";
-import { mergeObjects } from "../utils/mergeObjects";
-import { parseQueryParameterInputs } from "../utils/urlQueryForFormFields";
-import { JSFValue, validateSchema } from "../utils/validateSchema";
+import {loadProcess} from "../middleware/processDefinitions/processDefinitionMiddleware";
+import {invalidProcessInstances} from "../middleware/processInstances/processInstancesMiddleware";
+import {invalidUserTasks} from "../middleware/tasks/taskMiddleware";
+import {mergeObjects} from "../utils/mergeObjects";
+import {parseQueryParameterInputs} from "../utils/urlQueryForFormFields";
+import {JSFValue, validateSchema} from "../utils/validateSchema";
+import {MessageType, useNotificationContext} from "../middleware/snackbar";
 
 const props = defineProps({
   processKey: {
@@ -88,12 +89,14 @@ const formFields = ref<any>({});
 
 const router = useRouter();
 
+const {showMessageAndLeavePage} = useNotificationContext();
+
 
 watch(formFields, () => {
   setDirty();
 });
 
-provide("formContext", { id: props.processKey, type: "start" });
+provide("formContext", {id: props.processKey, type: "start"});
 provide("apiEndpoint", ApiConfig.base);
 provide("mucsDmsApiEndpoint", ApiConfig.mucsDmsBase);
 provide("alwDmsApiEndpoint", ApiConfig.alwDmsBase);
@@ -123,7 +126,7 @@ const onInit = () => {
   const urlQueryParameter = router.currentRoute.query;
   const inputs = parseQueryParameterInputs(urlQueryParameter.inputs as string);
 
-  loadProcess(processKey).then(({ data, error }) => {
+  loadProcess(processKey).then(({data, error}) => {
     if (error) {
       errorMessage.value = error;
       return;
@@ -160,8 +163,11 @@ const startProcess = (model: any) => {
       isDirty.value = false;
       invalidUserTasks();
       invalidProcessInstances();
-      // hier eventuell zum userTask routen
-      router.push({ path: "/process" });
+      showMessageAndLeavePage(
+        `Vorgang ${process.value?.name} wurde erfolgreich gestartet`,
+        MessageType.SUCCESS,
+        {path: "/process"}
+      );
     })
     .catch(() => {
       errorMessage.value = "Der Vorgang konnte nicht gestartet werden.";

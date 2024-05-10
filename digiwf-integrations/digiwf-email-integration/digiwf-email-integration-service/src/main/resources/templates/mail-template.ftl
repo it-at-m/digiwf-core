@@ -166,7 +166,7 @@
         <!-- 1 Column Text : BEGIN -->
         <tr>
             <td style="padding: 40px; font-family: sans-serif; font-size: 15px; mso-height-rule: exactly; line-height: 20px; color: #555555;">
-                ${mail.text}
+                ${mail.text?replace('(\\r\\n|\\n\\r|\\r|\\n)', '<br>', 'r')}
                 <#if mail.buttonLink?has_content && mail.buttonText?has_content>
                     <br><br><br>
                     <!-- Button : Begin -->
@@ -181,8 +181,8 @@
                     </table>
                     <!-- Button : END -->
                 </#if>
-                <br /><br />
-                ${mail.bottomBody}
+                <br><br>
+                ${mail.bottomBody?replace('(\\r\\n|\\n\\r|\\r|\\n)', '<br>', 'r')}
             </td>
         </tr>
         <!-- 1 Column Text : BEGIN -->

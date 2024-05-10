@@ -1,0 +1,15 @@
+id: add_webcomponent
+author: darenegade
+realm: ${SSO_REALM}
+changes:
+  - updateClient:
+      clientId: ${SSO_ENGINE_CLIENT_ID}
+      publicClient: true
+      webOrigins:
+        - http://localhost:8085
+      redirectUris:
+        - http://localhost:39146/*
+        - http://localhost:8082/*
+        - http://localhost:8083/*
+        - http://localhost:8084/*
+        - http://localhost:8085/*

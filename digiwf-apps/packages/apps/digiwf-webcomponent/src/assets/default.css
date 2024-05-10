@@ -1,0 +1,14 @@
+:host {
+  --digiwf-webcomponent-color-primary-default: #fc0;
+  --digiwf-webcomponent-color-text-default: #444;
+  --digiwf-webcomponent-color-icon-default: #fc0;
+  --digiwf-webcomponent-color-background-default: #fff;
+  --digiwf-webcomponent-color-hover-default: #fdb813;
+  --digiwf-webcomponent-color-separator-default: #dadada;
+  --digiwf-webcomponent-font-header-default: bold 1.3rem Arial, sans-serif;
+  --digiwf-webcomponent-font-title-default: bold 1.1rem Arial, sans-serif;
+  --digiwf-webcomponent-font-text-default: 1rem/1.5 Arial, sans-serif;
+  --digiwf-webcomponent-font-footer-default: 1rem Arial, sans-serif;
+  --digiwf-webcomponent-border-radius-default: 0px;
+  --digiwf-webcomponent-shadow-default: 0px;
+}

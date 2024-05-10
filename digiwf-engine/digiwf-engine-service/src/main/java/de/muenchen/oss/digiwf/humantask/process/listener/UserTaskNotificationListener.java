@@ -45,20 +45,18 @@ import static io.holunda.camunda.bpm.data.CamundaBpmData.stringVariable;
 @Slf4j
 public class UserTaskNotificationListener {
 
-    private final RepositoryService repositoryService;
-    private final DigiwfEmailApi digiwfEmailApi;
-    private final UserService userService;
-    private final DigitalWFProperties properties;
-
     @Deprecated // use other switches instead
     private static final VariableFactory<String> NOTIFICATION_SEND = stringVariable("digitalwf_notification_send");
-
     @Deprecated
     private static final VariableFactory<String> NOTIFICATION_SEND_ASSIGNEE = stringVariable("digitalwf_notification_send_assignee");
     @Deprecated
     private static final VariableFactory<String> NOTIFICATION_SEND_CANDIDATE_USERS = stringVariable("digitalwf_notification_send_candidate_users");
     @Deprecated
     private static final VariableFactory<String> NOTIFICATION_SEND_CANDIDATE_GROUPS = stringVariable("digitalwf_notification_send_candidate_groups");
+    private final RepositoryService repositoryService;
+    private final DigiwfEmailApi digiwfEmailApi;
+    private final UserService userService;
+    private final DigitalWFProperties properties;
 
     @EventListener
     public void delegateTask(final DelegateTask delegateTask) throws Exception {
@@ -67,15 +65,15 @@ public class UserTaskNotificationListener {
             log.debug("Notification for created task: {}", delegateTask.getName());
             val notifyCandidateUsers = NOTIFICATION_SEND_CANDIDATE_USERS.from(delegateTask).getOptional();
             val notifyCandidateUsersV02 = ProcessTaskConstants.APP_NOTIFICATION_SEND_CANDIDATE_USERS.from(delegateTask).getOptional();
-            if ((!notifyCandidateUsers.isPresent() || "true".equals(notifyCandidateUsers.get()))
-                    && (!notifyCandidateUsersV02.isPresent() || "true".equals(notifyCandidateUsersV02.get()))) {
+            if ((notifyCandidateUsers.isEmpty() || "true".equals(notifyCandidateUsers.get()))
+                    && (notifyCandidateUsersV02.isEmpty() || "true".equals(notifyCandidateUsersV02.get()))) {
                 this.notifyCandidateUsers(delegateTask);
             }
 
             val notifyCandidateGroups = NOTIFICATION_SEND_CANDIDATE_GROUPS.from(delegateTask).getOptional();
             val notifyCandidateGroupsV02 = ProcessTaskConstants.APP_NOTIFICATION_SEND_CANDIDATE_GROUPS.from(delegateTask).getOptional();
-            if ((!notifyCandidateGroups.isPresent() || "true".equals(notifyCandidateGroups.get()))
-                    && (!notifyCandidateGroupsV02.isPresent() || "true".equals(notifyCandidateGroupsV02.get()))) {
+            if ((notifyCandidateGroups.isEmpty() || "true".equals(notifyCandidateGroups.get()))
+                    && (notifyCandidateGroupsV02.isEmpty() || "true".equals(notifyCandidateGroupsV02.get()))) {
                 this.notifyCandidateGroups(delegateTask);
             }
         }
@@ -94,8 +92,8 @@ public class UserTaskNotificationListener {
 
             val notifyAssignee = NOTIFICATION_SEND_ASSIGNEE.from(delegateTask).getOptional();
             val notifyAssigneeV02 = ProcessTaskConstants.APP_NOTIFICATION_SEND_ASSIGNEE.from(delegateTask).getOptional();
-            if ((!notifyAssignee.isPresent() || "true".equals(notifyAssignee.get()))
-                    && (!notifyAssigneeV02.isPresent() || "true".equals(notifyAssigneeV02.get()))) {
+            if ((notifyAssignee.isEmpty() || "true".equals(notifyAssignee.get()))
+                    && (notifyAssigneeV02.isEmpty() || "true".equals(notifyAssigneeV02.get()))) {
                 this.notifyAssignee(delegateTask);
             }
         }
@@ -154,7 +152,7 @@ public class UserTaskNotificationListener {
                 val address = this.getMailAddress(link.getUserId());
                 addresses.add(address);
             } catch (final Exception ex) {
-                log.warn(ex.toString());
+                log.warn("Could not resolve email for user: {}", link.getUserId(), ex);
             }
         }
         if (!addresses.isEmpty()) {
@@ -167,6 +165,17 @@ public class UserTaskNotificationListener {
             return;
         }
 
+        // custom addresses specified
+        val customAddresses = TaskVariables.NOTIFICATION_CANDIDATE_GROUPS_ADDRESSES.from(delegateTask).getOptional();
+        if (customAddresses.isPresent() && !StringUtils.isBlank(customAddresses.get())) {
+            // split comma seperated list of addresses
+            val customEmailsParsed = List.of(customAddresses.get().split(","));
+            // send mail to addresses
+            this.sendGroupMail(customEmailsParsed, delegateTask);
+            return;
+        }
+
+        // resolve candidate groups via ldap to addresses
         final List<String> addresses = new ArrayList<>();
         for (final IdentityLink link : delegateTask.getCandidates()) {
             if (!IdentityLinkType.CANDIDATE.equals(link.getType())) {
@@ -177,7 +186,7 @@ public class UserTaskNotificationListener {
             }
             try {
                 final Optional<User> ou = this.userService.getOuByShortName(link.getGroupId());
-                if (!ou.isPresent()) {
+                if (ou.isEmpty()) {
                     log.warn("lhmObject {} was not found", link.getGroupId());
                     continue;
                 }
@@ -197,12 +206,18 @@ public class UserTaskNotificationListener {
         }
     }
 
-    private String getMailAddress(final String receiver) {
-        final User user = this.userService.getUser(receiver);
+    /**
+     * Find mail address for user.
+     *
+     * @param userId The user to find the mail for.
+     * @return The mail address of the user.
+     */
+    private String getMailAddress(final String userId) {
+        final User user = this.userService.getUser(userId);
         if (!StringUtils.isEmpty(user.getEmail())) {
             return user.getEmail();
         }
-        throw new RuntimeException("lhmObject {} has no mail address" + receiver);
+        throw new RuntimeException("lhmObject {} has no mail address" + userId);
     }
 
     private void sendGroupMail(final List<String> addresses, final DelegateTask delegateTask) {
@@ -237,34 +252,32 @@ public class UserTaskNotificationListener {
 
     }
 
-    private String getProcessName(String processDefinitionId){
+    private String getProcessName(String processDefinitionId) {
         String processName = "";
         try {
             ProcessDefinition procDef = repositoryService.createProcessDefinitionQuery().processDefinitionId(processDefinitionId).singleResult();
-            if(procDef.getName() != null && !procDef.getName().isBlank()) {
+            if (procDef.getName() != null && !procDef.getName().isBlank()) {
                 processName = procDef.getName();
-            }
-            else {
-                if(procDef.getKey() != null && !procDef.getKey().isBlank()){
+            } else {
+                if (procDef.getKey() != null && !procDef.getKey().isBlank()) {
                     processName = procDef.getKey();
                 }
             }
-        }
-        catch (Exception ex){
+        } catch (Exception ex) {
             log.warn("Reading ProcessDefinition failed: {}", ex.getMessage());
         }
         return processName;
     }
 
     private String getBodyAssignee(String processName) {
-        if (!processName.isBlank()){
+        if (!processName.isBlank()) {
             return "Sie haben eine Aufgabe in DigiWF (" + processName + ").";
         }
         return "Sie haben eine Aufgabe in DigiWF.";
     }
 
     private String getBodyGroupMail(String processName) {
-        if (!processName.isBlank()){
+        if (!processName.isBlank()) {
             return "Sie haben eine Gruppenaufgabe in DigiWF (" + processName + ").";
         }
         return "Sie haben eine Gruppenaufgabe in DigiWF.";

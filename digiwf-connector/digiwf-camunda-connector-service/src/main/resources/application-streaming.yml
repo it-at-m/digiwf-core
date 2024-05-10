@@ -3,6 +3,7 @@ spring:
     stream:
       kafka:
         binder:
+          auto-create-topics: 'false'
           producerProperties:
             value:
               serializer: org.springframework.kafka.support.serializer.JsonSerializer

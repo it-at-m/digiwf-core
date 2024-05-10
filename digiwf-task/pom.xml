@@ -7,7 +7,7 @@
         <artifactId>digiwf-parent</artifactId>
         <groupId>de.muenchen.oss.digiwf</groupId>
         <relativePath>../digiwf-parent</relativePath>
-        <version>1.10.3-SNAPSHOT</version>
+        <version>1.11.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>digiwf-task</artifactId>
@@ -81,7 +81,7 @@
             <dependency>
                 <groupId>org.camunda.community.mockito</groupId>
                 <artifactId>camunda-platform-7-mockito</artifactId>
-                <version>7.20.0</version>
+                <version>7.20.1</version>
                 <scope>test</scope>
             </dependency>
 

@@ -1,6 +1,7 @@
 import { PageOfTasks, Task } from "@muenchen/digiwf-task-api-internal";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
 import { computed, ref, Ref } from "vue";
+import { useRoute } from "vue-router/composables";
 
 import { ApiCallError } from "../../api/defaultErrorHandler";
 import {
@@ -20,6 +21,7 @@ import { nullToUndefined } from "../../utils/dataTransformations";
 import { dateToIsoDateTime, getCurrentDate } from "../../utils/time";
 import { Page } from "../commonModels";
 import { queryClient } from "../queryClient";
+import { MessageType, useNotificationContext } from "../snackbar";
 import { getUserInfo, useCurrentUserInfo } from "../user/userMiddleware";
 import {
   addAssignedTaskIds,
@@ -217,9 +219,7 @@ export const useAssignTaskToCurrentUserMutation = () => {
           currentUser.value?.lhmObjectId
         );
       }
-      return Promise.reject(
-        "Nutzerinformationen könnten nicht gehalden werden"
-      );
+      return Promise.reject("Nutzerinformationen könnten nicht geladen werden");
     },
     onSuccess: (_, taskId) => {
       addAssignedTaskIds(taskId);
@@ -232,12 +232,21 @@ export const useAssignTaskToCurrentUserMutation = () => {
 
 export const useAssignTaskToUserMutation = () => {
   const queryClient = useQueryClient();
+  const { showMessageAndLeavePage } = useNotificationContext();
+  const currentPath = useRoute().path;
 
   return useMutation<void, any, { taskId: string; userId: string }>({
     mutationFn: ({ taskId, userId }) =>
       callPostAssignTaskInTaskService(taskId, userId),
     onSuccess: (_, variables) => {
       addAssignedTaskIds(variables.taskId);
+      showMessageAndLeavePage(
+        "Die Aufgabe wurde erfolgreich zugewiesen",
+        MessageType.SUCCESS,
+        {
+          path: currentPath,
+        }
+      );
       queryClient.invalidateQueries(["user-tasks"]);
       queryClient.invalidateQueries(["assigned-group-tasks"]);
       queryClient.invalidateQueries(["open-group-tasks"]);
@@ -314,6 +323,8 @@ export const useTaskQuery = (taskId: string) => {
 };
 
 export const useCancelTaskMutation = () => {
+  const { showMessageAndLeavePage } = useNotificationContext();
+  const currentPath = useRoute().path;
   const queryClient = useQueryClient();
   return useMutation<void, string, string>({
     mutationFn: (taskId) => {
@@ -323,12 +334,24 @@ export const useCancelTaskMutation = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries([userTasksQueryId]);
-      router.push({ path: "/task" });
+      showMessageAndLeavePage(
+        "Aufgabe wurde erfolgreich abgebrochen",
+        MessageType.SUCCESS,
+        {
+          path: "/task",
+        }
+      );
+    },
+    onError(error) {
+      showMessageAndLeavePage(error, MessageType.ERROR, {
+        path: currentPath,
+      });
     },
   });
 };
 
 export const useCompleteTaskMutation = (taskId: string) => {
+  const { showMessageAndLeavePage } = useNotificationContext();
   return useMutation<void, string, TaskVariables>({
     mutationFn: (variables) => {
       return callCompleteTaskInTaskService(taskId, variables).catch((error) =>
@@ -338,11 +361,25 @@ export const useCompleteTaskMutation = (taskId: string) => {
     onSuccess: () => {
       addFinishedTaskIds(taskId);
       invalidUserTasks();
+      showMessageAndLeavePage(
+        "Aufgabe wurde erfolgreich abgeschlossen",
+        MessageType.SUCCESS,
+        {
+          path: "/task",
+        }
+      );
+    },
+    onError(error) {
+      showMessageAndLeavePage(error, MessageType.ERROR, {
+        path: "/task/" + taskId,
+      });
     },
   });
 };
 
 export const useDeferTaskMutation = (taskId: string) => {
+  const { showMessageAndLeavePage } = useNotificationContext();
+  const currentPath = useRoute().path;
   return useMutation<void, string, string>({
     mutationFn: (followUp: string) => {
       return handleDeferTaskInTaskService(taskId, followUp).catch((error) => {
@@ -355,7 +392,18 @@ export const useDeferTaskMutation = (taskId: string) => {
     },
     onSuccess: () => {
       invalidUserTasks();
-      router.push({ path: "/task" });
+      showMessageAndLeavePage(
+        "Wiedervorlagedatum wurde erfolgreich gesetzt",
+        MessageType.SUCCESS,
+        {
+          path: "/task",
+        }
+      );
+    },
+    onError(error) {
+      showMessageAndLeavePage(error, MessageType.ERROR, {
+        path: currentPath,
+      });
     },
   });
 };
@@ -371,33 +419,51 @@ const handleDeferTaskInTaskService = (taskId: string, followUp: string) => {
 };
 
 export const useSaveTaskMutation = (taskId: string) => {
+  const { showMessageAndLeavePage } = useNotificationContext();
   return useMutation<void, string, TaskVariables>({
     mutationFn: (variables) => {
       return callSaveTaskInTaskService(taskId, variables).catch((error) =>
         Promise.reject(error.message)
       );
     },
+    onSuccess: () => {
+      showMessageAndLeavePage(
+        "Aufgabe wurde erfolgreich gespeichert",
+        MessageType.SUCCESS,
+        {
+          path: "/task/" + taskId,
+        }
+      );
+    },
+    onError(error) {
+      showMessageAndLeavePage(error, MessageType.ERROR, {
+        path: "/task/" + taskId,
+      });
+    },
   });
 };
 
 export const useAssignTaskMutation = (taskId: string) => {
-  return useMutation<void, void, string>({
+  const { showMessageAndLeavePage } = useNotificationContext();
+  const currentPath = useRoute().path;
+  return useMutation<void, string, string>({
     mutationFn: (userId: string) => {
-      return callPostAssignTaskInTaskService(taskId, userId).catch(() =>
-        Promise.reject("Die Aufgabe konnte nicht zugewiesen werden.")
+      return callPostAssignTaskInTaskService(taskId, userId).catch((error) =>
+        Promise.reject(error.message)
       );
     },
     onSuccess: () => {
-      router.push({ path: "/task/" + taskId });
       invalidUserTasks();
       queryClient.invalidateQueries([openGroupTasksQueryId]);
       queryClient.invalidateQueries([assignedGroupTasksQueryId]);
+      router.push({ path: "/task/" + taskId });
+    },
+    onError(error) {
+      showMessageAndLeavePage(error, MessageType.ERROR, {
+        path: currentPath,
+      });
     },
   });
-};
-
-export const pushRouterPath = (path: string) => {
-  router.push({ path: path });
 };
 
 interface DownloadPdfResult {

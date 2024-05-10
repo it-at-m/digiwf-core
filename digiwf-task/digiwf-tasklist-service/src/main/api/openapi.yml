@@ -10,6 +10,9 @@ servers:
   - description: Local
     url: http://localhost:38765/rest/
 
+security:
+  - spring_oauth: []
+
 tags:
   - name: Tasks
     description: "API for Tasks from the task list"
@@ -814,3 +817,14 @@ components:
             type: string
       required:
         - type
+  securitySchemes:
+    spring_oauth:
+      type: oauth2
+      description: Oauth2 flow
+      flows:
+        password:
+          authorizationUrl: 'http://keycloak:8080/auth/realms/P82/protocol/openid-connect/auth'
+          tokenUrl: 'http://keycloak:8080/auth/realms/P82/protocol/openid-connect/token'
+          refreshUrl: 'http://keycloak:8080/auth/realms/P82/protocol/openid-connect/token'
+          scopes:
+            lhm_extended: lhm_extended

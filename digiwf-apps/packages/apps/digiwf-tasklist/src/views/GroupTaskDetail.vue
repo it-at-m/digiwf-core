@@ -151,8 +151,10 @@ const store = useStore();
 
 const isLoading = ref(false);
 
+const errorMessage = ref<string | null>();
+
 const {data: currentUser} = useCurrentUserInfo();
-const {data: taskLoadingResult, error: errorMessage, refetch: reload} = useTaskQuery(taskId);
+const {data: taskLoadingResult, error, refetch: reload} = useTaskQuery(taskId);
 
 const {
   mutateAsync: assignTask
@@ -172,6 +174,7 @@ onMounted(() => {
     }
     isLoading.value = false;
   });
+  errorMessage.value = error.value;
 });
 
 const checkTaskAssignment = () => {
