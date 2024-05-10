@@ -1,5 +1,5 @@
 {
-  "key": "OpenAI_Translate_Start_Form",
+  "key": "OpenAI_Summarize_Start_Form",
   "schema": {
     "key": "MyStartForm",
     "type": "object",
@@ -7,7 +7,7 @@
     "allOf": [
       {
         "key": "sectionKey1",
-        "title": "OpenAI: Basic Chat",
+        "title": "OpenAI: Zusammenfassen",
         "type": "object",
         "x-options": {
           "sectionsTitlesClasses": [
@@ -17,17 +17,17 @@
         "allOf": [
           {
             "key": "feldgruppe1",
-            "title": "Chat",
+            "title": "Zusammenfassen",
             "x-options": {
               "childrenClass": "pr-5 pl-0"
             },
             "properties": {
-              "OpenAI_Message": {
+              "OpenAI_Text": {
                 "fieldType": "textarea",
                 "title": "Nachricht",
                 "x-display": "textarea",
                 "type": "string",
-                "key": "OpenAI_Message",
+                "key": "OpenAI_Text",
                 "x-options": {
                   "fieldColProps": {
                     "cols": 12,
@@ -44,12 +44,12 @@
                 ]
               },
 
-              "OpenAI_Language": {
-                "fieldType": "text",
-                "title": "Sprache",
-                "x-display": "text",
+              "OpenAI_Length": {
+                "fieldType": "number",
+                "title": "Länge",
+                "x-display": "number",
                 "type": "string",
-                "key": "OpenAI_Language",
+                "key": "OpenAI_Length",
                 "x-options": {
                   "fieldColProps": {
                     "cols": 12,

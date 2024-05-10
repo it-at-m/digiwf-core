@@ -1,15 +1,15 @@
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1c74zun" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.0.0-dev">
-  <bpmn:process id="openai-translate" name="OpenAI: Translate" isExecutable="true">
-    <bpmn:startEvent id="StartEvent_1" camunda:asyncBefore="true" camunda:formKey="OpenAI_Translate_Start_Form">
+  <bpmn:process id="openai-classify" name="OpenAI: Klassifizierung" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" camunda:asyncBefore="true" camunda:formKey="OpenAI_Classify_Start_Form">
       <bpmn:outgoing>Flow_1ug7z2h</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:sequenceFlow id="Flow_1ug7z2h" sourceRef="StartEvent_1" targetRef="Activity_0lh2naj" />
-    <bpmn:callActivity id="Activity_0lh2naj" name="Request AI" camunda:modelerTemplate="de.muenchen.digitalwf.templates.openai.translate" camunda:asyncBefore="true" camunda:asyncAfter="true" calledElement="StreamingTemplateV02">
+    <bpmn:callActivity id="Activity_0lh2naj" name="Request AI" camunda:modelerTemplate="de.muenchen.digitalwf.templates.openai.classify" camunda:asyncBefore="true" camunda:asyncAfter="true" calledElement="StreamingTemplateV02">
       <bpmn:extensionElements>
         <camunda:in sourceExpression="openaiIntegration" target="app_integration_name" />
-        <camunda:in sourceExpression="translate" target="app_type_name" />
-        <camunda:in sourceExpression="${OpenAI_Message}" target="text" />
-        <camunda:in sourceExpression="${OpenAI_Language}" target="language" />
+        <camunda:in sourceExpression="classify" target="app_type_name" />
+        <camunda:in sourceExpression="${OpenAI_JSON}" target="json" />
+        <camunda:in sourceExpression="${OpenAI_Options}" target="options" />
         <camunda:out source="response" target="OpenAI_Response" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1ug7z2h</bpmn:incoming>
@@ -31,7 +31,7 @@
           <camunda:inputParameter name="app_assign_user_to_processinstance">false</camunda:inputParameter>
           <camunda:inputParameter name="app_file_paths" />
           <camunda:inputParameter name="app_file_paths_readonly" />
-          <camunda:inputParameter name="app_task_schema_key">OpenAI_Task_Form</camunda:inputParameter>
+          <camunda:inputParameter name="app_task_schema_key">OpenAI_Classify_Task_Form</camunda:inputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1bqv6th</bpmn:incoming>
