@@ -43,7 +43,6 @@ spring:
             user-info-uri: http://localhost-itest/auth/realms/P82/protocol/openid-connect/userinfo
             jwk-set-uri: http://localhost-itest/auth/realms/P82/protocol/openid-connect/certs
 
-
 feign:
   client:
     config:
@@ -53,6 +52,8 @@ feign:
         url: "http://localhost:7080/"
       default:
         url: "http://localhost:7080/engine-rest/"
+      digiwf-process-config:
+        url: "${feign.client.config.default.url}"
 
 ezldap:
   client:
