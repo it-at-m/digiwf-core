@@ -2,14 +2,13 @@ package de.muenchen.oss.digiwf.ticket.integration.adapter.out.s3;
 
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import de.muenchen.oss.digiwf.process.api.config.api.ProcessConfigApi;
-import de.muenchen.oss.digiwf.process.api.config.api.dto.ConfigEntryTO;
-import de.muenchen.oss.digiwf.process.api.config.api.dto.ProcessConfigTO;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageClientErrorException;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageException;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageServerErrorException;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.PropertyNotSetException;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFileRepository;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFolderRepository;
+import de.muenchen.oss.digiwf.s3.integration.client.service.S3DomainService;
 import de.muenchen.oss.digiwf.s3.integration.client.service.FileExtensionService;
 import de.muenchen.oss.digiwf.ticket.integration.application.port.out.LoadFileOutPort;
 import de.muenchen.oss.digiwf.ticket.integration.domain.model.FileContent;
@@ -28,14 +27,12 @@ public class S3Adapter implements LoadFileOutPort {
 
     private final DocumentStorageFileRepository documentStorageFileRepository;
     private final DocumentStorageFolderRepository documentStorageFolderRepository;
-    private final ProcessConfigApi processConfigApi;
     private final FileExtensionService fileExtensionService;
-
-    private static final String APP_FILE_S3_SYNC_CONFIG = "app_file_s3_sync_config";
+    private final S3DomainService s3DomainService;
 
     @Override
     public List<FileContent> loadFiles(final List<String> filepaths, final String fileContext, final String processDefinition) {
-        final String s3Storage = getDomainSpecificS3Storage(processDefinition).orElse(null);
+        final String s3Storage = s3DomainService.getDomainSpecificS3Storage(processDefinition).orElse(null);
         final List<FileContent> contents = new ArrayList<>();
         filepaths.forEach(path -> {
             final String fullPath = fileContext + "/" + path;
@@ -84,18 +81,6 @@ public class S3Adapter implements LoadFileOutPort {
         } catch (final DocumentStorageException | DocumentStorageServerErrorException |
                 DocumentStorageClientErrorException | PropertyNotSetException e) {
             throw new BpmnError("LOAD_FILE_FAILED", "An file could not be loaded from url: " + filepath);
-        }
-    }
-
-    private Optional<String> getDomainSpecificS3Storage(final String processDefinition) {
-        try {
-            final ProcessConfigTO processConfig = processConfigApi.getProcessConfig(processDefinition);
-            return processConfig.getConfigs().stream()
-                    .filter(cfg -> cfg.getKey().equals(APP_FILE_S3_SYNC_CONFIG))
-                    .findAny()
-                    .map(ConfigEntryTO::getValue);
-        } catch (final Exception e) {
-            return Optional.empty();
         }
     }
 

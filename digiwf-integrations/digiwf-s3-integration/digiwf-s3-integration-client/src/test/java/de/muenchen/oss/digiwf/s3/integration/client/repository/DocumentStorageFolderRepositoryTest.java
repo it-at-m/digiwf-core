@@ -7,6 +7,7 @@ import de.muenchen.oss.digiwf.s3.integration.client.exception.PropertyNotSetExce
 import de.muenchen.oss.digiwf.s3.integration.client.api.FolderApiApi;
 import de.muenchen.oss.digiwf.s3.integration.client.service.ApiClientFactory;
 import de.muenchen.oss.digiwf.s3.integration.client.model.FilesInFolderDto;
+import de.muenchen.oss.digiwf.s3.integration.client.service.S3DomainService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,11 +35,14 @@ class DocumentStorageFolderRepositoryTest {
     @Mock
     private FolderApiApi folderApi;
 
+    @Mock
+    private S3DomainService s3DomainService;
+
     private DocumentStorageFolderRepository documentStorageFolderRepository;
 
     @BeforeEach
     public void beforeEach() {
-        this.documentStorageFolderRepository = new DocumentStorageFolderRepository(this.apiClientFactory);
+        this.documentStorageFolderRepository = new DocumentStorageFolderRepository(this.apiClientFactory, this.s3DomainService);
     }
 
     @Test
@@ -46,28 +50,28 @@ class DocumentStorageFolderRepositoryTest {
         final String pathToFolder = "folder";
 
         Mockito.reset(this.folderApi, this.apiClientFactory);
-        Mockito.when(this.apiClientFactory.getDefaultDocumentStorageUrl()).thenReturn("url");
+        Mockito.when(this.s3DomainService.getDefaultDocumentStorageUrl()).thenReturn("url");
         Mockito.when(this.apiClientFactory.getFolderApiForDocumentStorageUrl("url")).thenReturn(this.folderApi);
         Mockito.when(this.folderApi.delete(pathToFolder)).thenReturn(Mono.empty());
         this.documentStorageFolderRepository.deleteFolder(pathToFolder);
         Mockito.verify(this.folderApi, Mockito.times(1)).delete(pathToFolder);
 
         Mockito.reset(this.folderApi, this.apiClientFactory);
-        Mockito.when(this.apiClientFactory.getDefaultDocumentStorageUrl()).thenReturn("url");
+        Mockito.when(this.s3DomainService.getDefaultDocumentStorageUrl()).thenReturn("url");
         Mockito.when(this.apiClientFactory.getFolderApiForDocumentStorageUrl("url")).thenReturn(this.folderApi);
         Mockito.doThrow(new HttpClientErrorException(HttpStatus.BAD_REQUEST)).when(this.folderApi).delete(pathToFolder);
         Assertions.assertThrows(DocumentStorageClientErrorException.class, () -> this.documentStorageFolderRepository.deleteFolder(pathToFolder));
         Mockito.verify(this.folderApi, Mockito.times(1)).delete(pathToFolder);
 
         Mockito.reset(this.folderApi, this.apiClientFactory);
-        Mockito.when(this.apiClientFactory.getDefaultDocumentStorageUrl()).thenReturn("url");
+        Mockito.when(this.s3DomainService.getDefaultDocumentStorageUrl()).thenReturn("url");
         Mockito.when(this.apiClientFactory.getFolderApiForDocumentStorageUrl("url")).thenReturn(this.folderApi);
         Mockito.doThrow(new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR)).when(this.folderApi).delete(pathToFolder);
         Assertions.assertThrows(DocumentStorageServerErrorException.class, () -> this.documentStorageFolderRepository.deleteFolder(pathToFolder));
         Mockito.verify(this.folderApi, Mockito.times(1)).delete(pathToFolder);
 
         Mockito.reset(this.folderApi, this.apiClientFactory);
-        Mockito.when(this.apiClientFactory.getDefaultDocumentStorageUrl()).thenReturn("url");
+        Mockito.when(this.s3DomainService.getDefaultDocumentStorageUrl()).thenReturn("url");
         Mockito.when(this.apiClientFactory.getFolderApiForDocumentStorageUrl("url")).thenReturn(this.folderApi);
         Mockito.doThrow(new RestClientException("Something happened")).when(this.folderApi).delete(pathToFolder);
         Assertions.assertThrows(DocumentStorageException.class, () -> this.documentStorageFolderRepository.deleteFolder(pathToFolder));
@@ -82,28 +86,28 @@ class DocumentStorageFolderRepositoryTest {
         filesInFolderDto.setPathToFiles(Set.of("folder/file.txt"));
 
         Mockito.reset(this.folderApi, this.apiClientFactory);
-        Mockito.when(this.apiClientFactory.getDefaultDocumentStorageUrl()).thenReturn("url");
+        Mockito.when(this.s3DomainService.getDefaultDocumentStorageUrl()).thenReturn("url");
         Mockito.when(this.apiClientFactory.getFolderApiForDocumentStorageUrl("url")).thenReturn(this.folderApi);
         Mockito.when(this.folderApi.getAllFilesInFolderRecursively(pathToFolder)).thenReturn(Mono.just(filesInFolderDto));
         this.documentStorageFolderRepository.getAllFilesInFolderRecursively(pathToFolder);
         Mockito.verify(this.folderApi, Mockito.times(1)).getAllFilesInFolderRecursively(pathToFolder);
 
         Mockito.reset(this.folderApi, this.apiClientFactory);
-        Mockito.when(this.apiClientFactory.getDefaultDocumentStorageUrl()).thenReturn("url");
+        Mockito.when(this.s3DomainService.getDefaultDocumentStorageUrl()).thenReturn("url");
         Mockito.when(this.apiClientFactory.getFolderApiForDocumentStorageUrl("url")).thenReturn(this.folderApi);
         Mockito.doThrow(new HttpClientErrorException(HttpStatus.BAD_REQUEST)).when(this.folderApi).getAllFilesInFolderRecursively(pathToFolder);
         Assertions.assertThrows(DocumentStorageClientErrorException.class, () -> this.documentStorageFolderRepository.getAllFilesInFolderRecursively(pathToFolder));
         Mockito.verify(this.folderApi, Mockito.times(1)).getAllFilesInFolderRecursively(pathToFolder);
 
         Mockito.reset(this.folderApi, this.apiClientFactory);
-        Mockito.when(this.apiClientFactory.getDefaultDocumentStorageUrl()).thenReturn("url");
+        Mockito.when(this.s3DomainService.getDefaultDocumentStorageUrl()).thenReturn("url");
         Mockito.when(this.apiClientFactory.getFolderApiForDocumentStorageUrl("url")).thenReturn(this.folderApi);
         Mockito.doThrow(new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR)).when(this.folderApi).getAllFilesInFolderRecursively(pathToFolder);
         Assertions.assertThrows(DocumentStorageServerErrorException.class, () -> this.documentStorageFolderRepository.getAllFilesInFolderRecursively(pathToFolder));
         Mockito.verify(this.folderApi, Mockito.times(1)).getAllFilesInFolderRecursively(pathToFolder);
 
         Mockito.reset(this.folderApi, this.apiClientFactory);
-        Mockito.when(this.apiClientFactory.getDefaultDocumentStorageUrl()).thenReturn("url");
+        Mockito.when(this.s3DomainService.getDefaultDocumentStorageUrl()).thenReturn("url");
         Mockito.when(this.apiClientFactory.getFolderApiForDocumentStorageUrl("url")).thenReturn(this.folderApi);
         Mockito.doThrow(new RestClientException("Something happened")).when(this.folderApi).getAllFilesInFolderRecursively(pathToFolder);
         Assertions.assertThrows(DocumentStorageException.class, () -> this.documentStorageFolderRepository.getAllFilesInFolderRecursively(pathToFolder));

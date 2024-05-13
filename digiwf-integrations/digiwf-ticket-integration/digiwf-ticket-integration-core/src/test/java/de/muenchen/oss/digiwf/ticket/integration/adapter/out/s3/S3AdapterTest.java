@@ -10,6 +10,7 @@ import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageSer
 import de.muenchen.oss.digiwf.s3.integration.client.exception.PropertyNotSetException;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFileRepository;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFolderRepository;
+import de.muenchen.oss.digiwf.s3.integration.client.service.S3DomainService;
 import de.muenchen.oss.digiwf.s3.integration.client.service.FileExtensionService;
 import de.muenchen.oss.digiwf.ticket.integration.domain.model.FileContent;
 import org.junit.jupiter.api.Test;
@@ -30,10 +31,11 @@ class S3AdapterTest {
     private final DocumentStorageFileRepository documentStorageFileRepository = mock(DocumentStorageFileRepository.class);
     private final DocumentStorageFolderRepository documentStorageFolderRepository = mock(DocumentStorageFolderRepository.class);
     private final ProcessConfigApi processConfigApi = mock(ProcessConfigApi.class);
-    private final FileExtensionService fileExtensionService = new FileExtensionService(null);
-    private final List<String> supportedExtensions = List.of("application/pdf", "text/plain");
+    private final Map<String, String> supportedExtensions = Map.of("pdf", "application/pdf", "txt", "text/plain");
+    private final FileExtensionService fileExtensionService = new FileExtensionService(supportedExtensions);
+    private final S3DomainService s3DomainService = new S3DomainService(processConfigApi, null);
 
-    private final S3Adapter s3Adapter = new S3Adapter(documentStorageFileRepository, documentStorageFolderRepository, processConfigApi, fileExtensionService);
+    private final S3Adapter s3Adapter = new S3Adapter(documentStorageFileRepository, documentStorageFolderRepository, fileExtensionService, s3DomainService);
 
     // test data
     private final List<String> filepaths = List.of("path/to/file.txt");
@@ -41,10 +43,12 @@ class S3AdapterTest {
     private final String fileContext = "fileContext";
 
     @Test
-    void test_load_single_file_successfully() throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException, PropertyNotSetException {
+    void test_load_single_file_successfully()
+            throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException, PropertyNotSetException {
         // Set up mock behavior
         when(documentStorageFileRepository.getFile(startsWith(fileContext), anyInt())).thenReturn("fileContent".getBytes());
-        when(documentStorageFolderRepository.getAllFilesInFolderRecursively(startsWith(fileContext), anyString())).thenReturn(Mono.just(Collections.emptySet()));
+        when(documentStorageFolderRepository.getAllFilesInFolderRecursively(startsWith(fileContext), anyString())).thenReturn(
+                Mono.just(Collections.emptySet()));
         when(processConfigApi.getProcessConfig(anyString())).thenThrow(new RuntimeException("Process Config does not exist"));
 
         // Invoke the method under test
@@ -59,10 +63,12 @@ class S3AdapterTest {
     }
 
     @Test
-    void test_load_single_file_from_domain_specific_s3_successfully() throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
+    void test_load_single_file_from_domain_specific_s3_successfully()
+            throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
         // Set up mock behavior
         when(documentStorageFileRepository.getFile(startsWith(fileContext), anyInt(), anyString())).thenReturn("fileContent".getBytes());
-        when(documentStorageFolderRepository.getAllFilesInFolderRecursively(startsWith(fileContext), anyString())).thenReturn(Mono.just(Collections.emptySet()));
+        when(documentStorageFolderRepository.getAllFilesInFolderRecursively(startsWith(fileContext), anyString())).thenReturn(
+                Mono.just(Collections.emptySet()));
         when(processConfigApi.getProcessConfig(anyString())).thenReturn(ProcessConfigTO.builder()
                 .configs(List.of(ConfigEntryTO.builder()
                         .key("app_file_s3_sync_config")
@@ -91,7 +97,7 @@ class S3AdapterTest {
         final Map<String, String> extensions = Map.of("foo", "baa");
         final FileExtensionService tFileExtensionService = new FileExtensionService(extensions);
 
-        final S3Adapter s3Adapter = new S3Adapter(documentStorageFileRepository, documentStorageFolderRepository, processConfigApi, tFileExtensionService);
+        final S3Adapter s3Adapter = new S3Adapter(documentStorageFileRepository, documentStorageFolderRepository, tFileExtensionService, s3DomainService);
 
         // Assert the result
         assertThatThrownBy(() -> s3Adapter.loadFiles(filepaths, fileContext, processDefinition))

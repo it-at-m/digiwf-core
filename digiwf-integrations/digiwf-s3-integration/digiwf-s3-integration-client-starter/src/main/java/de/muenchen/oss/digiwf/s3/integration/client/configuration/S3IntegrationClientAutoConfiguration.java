@@ -1,27 +1,26 @@
 package de.muenchen.oss.digiwf.s3.integration.client.configuration;
 
+import de.muenchen.oss.digiwf.process.api.config.api.ProcessConfigApi;
 import de.muenchen.oss.digiwf.s3.integration.client.ApiClient;
 import de.muenchen.oss.digiwf.s3.integration.client.api.FileApiApi;
 import de.muenchen.oss.digiwf.s3.integration.client.api.FolderApiApi;
 import de.muenchen.oss.digiwf.s3.integration.client.properties.S3IntegrationClientProperties;
 import de.muenchen.oss.digiwf.s3.integration.client.service.ApiClientFactory;
+import de.muenchen.oss.digiwf.s3.integration.client.service.S3DomainService;
 import de.muenchen.oss.digiwf.s3.integration.client.service.FileExtensionService;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.security.oauth2.client.AuthorizedClientServiceOAuth2AuthorizedClientManager;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.reactive.function.client.ServletOAuth2AuthorizedClientExchangeFilterFunction;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
@@ -63,7 +62,6 @@ public class S3IntegrationClientAutoConfiguration {
     public ApiClientFactory securedApiClientFactory(final ClientRegistrationRepository clientRegistrationRepository,
             final OAuth2AuthorizedClientService authorizedClientService) {
         return new ApiClientFactory(
-                this.s3IntegrationClientProperties.getDocumentStorageUrl(),
                 this.webClient(clientRegistrationRepository, authorizedClientService)
         );
     }
@@ -72,7 +70,6 @@ public class S3IntegrationClientAutoConfiguration {
     @ConditionalOnProperty(prefix = "de.muenchen.oss.digiwf.s3", name = "enable-security", havingValue = "false", matchIfMissing = true)
     public ApiClientFactory apiClientFactory() {
         return new ApiClientFactory(
-                this.s3IntegrationClientProperties.getDocumentStorageUrl(),
                 WebClient.builder().build()
         );
     }
@@ -95,6 +92,11 @@ public class S3IntegrationClientAutoConfiguration {
     @Bean
     public FileExtensionService fileExtensionValidation() {
         return new FileExtensionService(this.s3IntegrationClientProperties.getSupportedFileExtensions());
+    }
+
+    @Bean
+    public S3DomainService domainService(final ProcessConfigApi processConfigApi) {
+        return new S3DomainService(processConfigApi, this.s3IntegrationClientProperties.getDocumentStorageUrl());
     }
 
 }

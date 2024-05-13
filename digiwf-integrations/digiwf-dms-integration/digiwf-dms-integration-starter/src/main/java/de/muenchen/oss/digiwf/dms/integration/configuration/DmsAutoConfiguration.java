@@ -16,6 +16,7 @@ import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFileRepository;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFolderRepository;
 import de.muenchen.oss.digiwf.s3.integration.client.service.FileExtensionService;
+import de.muenchen.oss.digiwf.s3.integration.client.service.S3DomainService;
 import de.muenchen.oss.digiwf.spring.security.authentication.UserAuthenticationProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -31,10 +32,8 @@ import java.util.function.Consumer;
 @Configuration
 @RequiredArgsConstructor
 @Import(FabasoftClientConfiguration.class)
-@EnableConfigurationProperties({ FabasoftProperties.class, DmsProperties.class })
+@EnableConfigurationProperties({ FabasoftProperties.class })
 public class DmsAutoConfiguration {
-
-    private final DmsProperties dmsProperties;
 
     @Bean
     @ConditionalOnMissingBean
@@ -51,9 +50,9 @@ public class DmsAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public S3Adapter s3Adapter(final DocumentStorageFileRepository documentStorageFileRepository,
-            final DocumentStorageFolderRepository documentStorageFolderRepository, final
-    FileExtensionService fileExtensionService) {
-        return new S3Adapter(documentStorageFileRepository, documentStorageFolderRepository, fileExtensionService);
+            final DocumentStorageFolderRepository documentStorageFolderRepository, final FileExtensionService fileExtensionService,
+            final S3DomainService s3DomainService) {
+        return new S3Adapter(documentStorageFileRepository, documentStorageFolderRepository, fileExtensionService, s3DomainService);
     }
 
     @Bean

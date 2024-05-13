@@ -51,6 +51,13 @@
             <artifactId>jackson-databind-nullable</artifactId>
         </dependency>
 
+        <!-- process config -->
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-process-starter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
         <!-- testing libraries-->
         <dependency>
             <groupId>ch.qos.logback</groupId>

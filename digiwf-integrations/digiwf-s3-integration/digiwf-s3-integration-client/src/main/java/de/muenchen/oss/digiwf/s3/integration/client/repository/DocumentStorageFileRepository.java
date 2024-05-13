@@ -8,6 +8,7 @@ import de.muenchen.oss.digiwf.s3.integration.client.repository.presignedurl.Pres
 import de.muenchen.oss.digiwf.s3.integration.client.repository.transfer.S3FileTransferRepository;
 import de.muenchen.oss.digiwf.s3.integration.client.service.ApiClientFactory;
 import de.muenchen.oss.digiwf.s3.integration.client.api.FileApiApi;
+import de.muenchen.oss.digiwf.s3.integration.client.service.S3DomainService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
@@ -30,6 +31,8 @@ public class DocumentStorageFileRepository {
 
     private final ApiClientFactory apiClientFactory;
 
+    private final S3DomainService s3DomainService;
+
     /**
      * Gets the file specified in the parameter from the document storage.
      *
@@ -45,7 +48,7 @@ public class DocumentStorageFileRepository {
         return this.getFile(
                 pathToFile,
                 expireInMinutes,
-                this.apiClientFactory.getDefaultDocumentStorageUrl()
+                this.s3DomainService.getDefaultDocumentStorageUrl()
         );
     }
 
@@ -80,7 +83,7 @@ public class DocumentStorageFileRepository {
         return this.getFileInputStream(
                 pathToFile,
                 expireInMinutes,
-                this.apiClientFactory.getDefaultDocumentStorageUrl()
+                this.s3DomainService.getDefaultDocumentStorageUrl()
         );
     }
 
@@ -118,7 +121,7 @@ public class DocumentStorageFileRepository {
                 file,
                 expireInMinutes,
                 endOfLifeFolder,
-                this.apiClientFactory.getDefaultDocumentStorageUrl()
+                this.s3DomainService.getDefaultDocumentStorageUrl()
         );
     }
 
@@ -157,7 +160,7 @@ public class DocumentStorageFileRepository {
                 file,
                 expireInMinutes,
                 endOfLifeFolder,
-                this.apiClientFactory.getDefaultDocumentStorageUrl()
+                this.s3DomainService.getDefaultDocumentStorageUrl()
         );
     }
 
@@ -196,7 +199,7 @@ public class DocumentStorageFileRepository {
                 file,
                 expireInMinutes,
                 endOfLifeFolder,
-                this.apiClientFactory.getDefaultDocumentStorageUrl()
+                this.s3DomainService.getDefaultDocumentStorageUrl()
         );
     }
 
@@ -235,7 +238,7 @@ public class DocumentStorageFileRepository {
                 file,
                 expireInMinutes,
                 endOfLifeFolder,
-                this.apiClientFactory.getDefaultDocumentStorageUrl()
+                this.s3DomainService.getDefaultDocumentStorageUrl()
         );
     }
 
@@ -270,7 +273,7 @@ public class DocumentStorageFileRepository {
         this.updateEndOfLife(
                 pathToFile,
                 endOfLifeFolder,
-                this.apiClientFactory.getDefaultDocumentStorageUrl()
+                this.s3DomainService.getDefaultDocumentStorageUrl()
         );
     }
 
@@ -317,7 +320,7 @@ public class DocumentStorageFileRepository {
         this.deleteFile(
                 pathToFile,
                 expireInMinutes,
-                this.apiClientFactory.getDefaultDocumentStorageUrl()
+                this.s3DomainService.getDefaultDocumentStorageUrl()
         );
     }
 

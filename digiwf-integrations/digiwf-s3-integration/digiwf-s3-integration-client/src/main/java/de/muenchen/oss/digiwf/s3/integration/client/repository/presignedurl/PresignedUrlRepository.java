@@ -8,6 +8,7 @@ import de.muenchen.oss.digiwf.s3.integration.client.api.FileApiApi;
 import de.muenchen.oss.digiwf.s3.integration.client.service.ApiClientFactory;
 import de.muenchen.oss.digiwf.s3.integration.client.model.FileDataDto;
 import de.muenchen.oss.digiwf.s3.integration.client.model.PresignedUrlDto;
+import de.muenchen.oss.digiwf.s3.integration.client.service.S3DomainService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
@@ -25,6 +26,8 @@ public class PresignedUrlRepository {
 
     private final ApiClientFactory apiClientFactory;
 
+    private final S3DomainService s3DomainService;
+
     /**
      * Fetches a presignedURL for the file named in the parameter to get a file from the document storage.
      *
@@ -40,7 +43,7 @@ public class PresignedUrlRepository {
         return this.getPresignedUrlGetFile(
                 pathToFile,
                 expireInMinutes,
-                this.apiClientFactory.getDefaultDocumentStorageUrl()
+                this.s3DomainService.getDefaultDocumentStorageUrl()
         );
     }
 
@@ -92,7 +95,7 @@ public class PresignedUrlRepository {
                 pathToFile,
                 expireInMinutes,
                 endOfLifeFolder,
-                this.apiClientFactory.getDefaultDocumentStorageUrl()
+                this.s3DomainService.getDefaultDocumentStorageUrl()
         );
     }
 
@@ -149,7 +152,7 @@ public class PresignedUrlRepository {
                 pathToFile,
                 expireInMinutes,
                 endOfLifeFolder,
-                this.apiClientFactory.getDefaultDocumentStorageUrl()
+                this.s3DomainService.getDefaultDocumentStorageUrl()
         );
     }
 
@@ -204,7 +207,7 @@ public class PresignedUrlRepository {
         return this.getPresignedUrlDeleteFile(
                 pathToFile,
                 expireInMinutes,
-                this.apiClientFactory.getDefaultDocumentStorageUrl()
+                this.s3DomainService.getDefaultDocumentStorageUrl()
         );
     }
 

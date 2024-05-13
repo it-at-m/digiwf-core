@@ -97,7 +97,8 @@ public class MessageProcessor {
                         createDocumentDto.getUser(),
                         DocumentType.valueOf(createDocumentDto.getType()),
                         createDocumentDto.getFilepathsAsList(),
-                        createDocumentDto.getFileContext()
+                        createDocumentDto.getFileContext(),
+                        message.getHeaders().get(DIGIWF_PROCESS_DEFINITION).toString()
                 );
 
                 this.correlateMessage(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString(),
@@ -116,7 +117,8 @@ public class MessageProcessor {
                         updateDocumentDto.getUser(),
                         DocumentType.valueOf(updateDocumentDto.getType()),
                         updateDocumentDto.getFilepathsAsList(),
-                        updateDocumentDto.getFileContext()
+                        updateDocumentDto.getFileContext(),
+                        message.getHeaders().get(DIGIWF_PROCESS_DEFINITION).toString()
                 );
 
                 this.correlateMessage(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString(),

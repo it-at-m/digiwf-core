@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface LoadFileOutPort {
 
-    List<Content> loadFiles(final List<String> filepaths, final String fileContext);
+    List<Content> loadFiles(List<String> filepaths, String fileContext, String processDefinition);
 
 }

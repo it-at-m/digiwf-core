@@ -7,6 +7,7 @@ import de.muenchen.oss.digiwf.s3.integration.client.exception.PropertyNotSetExce
 import de.muenchen.oss.digiwf.s3.integration.client.service.ApiClientFactory;
 import de.muenchen.oss.digiwf.s3.integration.client.api.FolderApiApi;
 import de.muenchen.oss.digiwf.s3.integration.client.model.FilesInFolderDto;
+import de.muenchen.oss.digiwf.s3.integration.client.service.S3DomainService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
@@ -24,6 +25,8 @@ public class DocumentStorageFolderRepository {
 
     private final ApiClientFactory apiClientFactory;
 
+    private final S3DomainService s3DomainService;
+
     /**
      * Deletes the folder with all containing files on document storage.
      *
@@ -36,7 +39,7 @@ public class DocumentStorageFolderRepository {
     public void deleteFolder(final String pathToFolder) throws DocumentStorageClientErrorException, DocumentStorageServerErrorException, DocumentStorageException, PropertyNotSetException {
         this.deleteFolder(
                 pathToFolder,
-                this.apiClientFactory.getDefaultDocumentStorageUrl()
+                this.s3DomainService.getDefaultDocumentStorageUrl()
         );
     }
 
@@ -62,7 +65,7 @@ public class DocumentStorageFolderRepository {
             log.error(message);
             throw new DocumentStorageServerErrorException(message, exception);
         } catch (final RestClientException exception) {
-            final String message = String.format("The request to delete a folder failed.");
+            final String message = "The request to delete a folder failed.";
             log.error(message);
             throw new DocumentStorageException(message, exception);
         }
@@ -80,7 +83,7 @@ public class DocumentStorageFolderRepository {
     public Mono<Set<String>> getAllFilesInFolderRecursively(final String pathToFolder) throws DocumentStorageClientErrorException, DocumentStorageServerErrorException, DocumentStorageException, PropertyNotSetException {
         return this.getAllFilesInFolderRecursively(
                 pathToFolder,
-                this.apiClientFactory.getDefaultDocumentStorageUrl()
+                this.s3DomainService.getDefaultDocumentStorageUrl()
         );
     }
 
@@ -107,7 +110,7 @@ public class DocumentStorageFolderRepository {
             log.error(message);
             throw new DocumentStorageServerErrorException(message, exception);
         } catch (final RestClientException exception) {
-            final String message = String.format("The request to get all files within a folder failed.");
+            final String message = "The request to get all files within a folder failed.";
             log.error(message);
             throw new DocumentStorageException(message, exception);
         }
