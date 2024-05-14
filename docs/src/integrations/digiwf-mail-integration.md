@@ -115,9 +115,8 @@ Nachfolgend sind die BPMN-Errors aufgeführt, die von der E-Mail-Integration gew
 
 ### Ressourcen
 
-Um die Prozessentwicklung zu beschleunigen, können Sie die Element-Templates [sendMail.json](/element-template/sendMail.json) in einer
-Element-Templates [sendMailV02.json](/element-template/email-integration/sendMailV02.json), [sendMailWithLogo.json](/element-template/email-integration/sendMailWithLogo.json)
-und [sendMailWithLogoAndLink.json](/element-template/email-integration/sendMailWithLogoAndLink.json)
+Um die Prozessentwicklung zu beschleunigen, können Sie die Element-Templates [sendMailV02.json](/element-template/email-integration/sendMailV02.json), [sendMailWithLogo.json](/element-template/email-integration/sendMailWithLogo.json)
+und [sendMailWithLogoAndLink.json](/element-template/email-integration/sendMailWithLogoAndLink.json) verwenden.
 
 ## DigiWF Mail Integration anpassen
 
