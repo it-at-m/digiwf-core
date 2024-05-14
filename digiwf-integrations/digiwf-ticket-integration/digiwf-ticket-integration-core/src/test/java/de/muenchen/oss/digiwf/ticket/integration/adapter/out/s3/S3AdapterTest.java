@@ -4,6 +4,8 @@ import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import de.muenchen.oss.digiwf.process.api.config.api.ProcessConfigApi;
 import de.muenchen.oss.digiwf.process.api.config.api.dto.ConfigEntryTO;
 import de.muenchen.oss.digiwf.process.api.config.api.dto.ProcessConfigTO;
+import de.muenchen.oss.digiwf.process.api.config.impl.ProcessConfigApiImpl;
+import de.muenchen.oss.digiwf.process.api.config.impl.ProcessConfigClient;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageClientErrorException;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageException;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageServerErrorException;
@@ -23,14 +25,14 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class S3AdapterTest {
 
     private final DocumentStorageFileRepository documentStorageFileRepository = mock(DocumentStorageFileRepository.class);
     private final DocumentStorageFolderRepository documentStorageFolderRepository = mock(DocumentStorageFolderRepository.class);
-    private final ProcessConfigApi processConfigApi = mock(ProcessConfigApi.class);
+    private final ProcessConfigClient processConfigClient = mock(ProcessConfigClient.class);
+    private final ProcessConfigApi processConfigApi = spy(new ProcessConfigApiImpl(processConfigClient));
     private final Map<String, String> supportedExtensions = Map.of("pdf", "application/pdf", "txt", "text/plain");
     private final FileExtensionService fileExtensionService = new FileExtensionService(supportedExtensions);
     private final S3DomainService s3DomainService = new S3DomainService(processConfigApi, null);
