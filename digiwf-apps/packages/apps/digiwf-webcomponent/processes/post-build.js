@@ -1,3 +1,4 @@
+import path from "node:path";
 import { generateLoaderJs } from './lib/fileGenerator.js';
 import manifest from '../dist/src/.vite/manifest.json' assert {type: 'json'};
 
@@ -24,10 +25,18 @@ import manifest from '../dist/src/.vite/manifest.json' assert {type: 'json'};
  * but will automatically get it's new hash-value added every time we build our code.
  */
 
-// read filename from manifest.json
-const digiWFServiceInstancesWebComponent = manifest['src/digiwf-service-instances-webcomponent.ts'].file;
-const digiWFHelloWorldWebComponent = manifest['src/digiwf-hello-world-webcomponent.ts'].file;
+// Required filename content to be treated as webcomponent
+const REQUIRED_PREFIX = 'src/';
+const REQUIRED_SUFFIX = '-webcomponent.ts';
 
-// generate loaderJs with the app script's filename
-generateLoaderJs(digiWFServiceInstancesWebComponent, 'src', 'digiwf-service-instances-webcomponent');
-generateLoaderJs(digiWFHelloWorldWebComponent, 'src', 'digiwf-hello-world-webcomponent');
+for (const key in manifest) {
+  if (key.startsWith(REQUIRED_PREFIX) && key.endsWith(REQUIRED_SUFFIX)) {
+    // read filename from manifest
+    const entrypoint = manifest[key].file;
+
+    // get fileName and directory for generating loader file
+    const fileName = path.basename(key, path.extname(key));
+    const dirName = path.dirname(key);
+    generateLoaderJs(entrypoint, dirName, fileName);
+  }
+}
