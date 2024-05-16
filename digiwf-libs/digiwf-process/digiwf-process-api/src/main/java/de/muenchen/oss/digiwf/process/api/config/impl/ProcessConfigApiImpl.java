@@ -28,12 +28,17 @@ public class ProcessConfigApiImpl implements ProcessConfigApi {
         try {
             val processConfigTO = this.getProcessConfig(processDefinitionId);
             return processConfigTO.getConfigs().stream()
-                    .filter(cfg -> cfg.getKey().equals(APP_FILE_S3_SYNC_CONFIG))
+                    .filter(cfg -> cfg.getKey().equals(key))
                     .findAny()
                     .map(ConfigEntryTO::getValue);
         } catch (final Exception e) {
             return Optional.empty();
         }
+    }
+
+    @Override
+    public Optional<String> getAppFileS3SyncConfig(final String processDefinitionId) {
+        return getProcessConfigValue(APP_FILE_S3_SYNC_CONFIG, processDefinitionId);
     }
 
 }

@@ -1,14 +1,12 @@
 package de.muenchen.oss.digiwf.s3.integration.client.repository.presignedurl;
 
+import de.muenchen.oss.digiwf.s3.integration.client.api.FileApiApi;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageClientErrorException;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageException;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageServerErrorException;
-import de.muenchen.oss.digiwf.s3.integration.client.exception.PropertyNotSetException;
-import de.muenchen.oss.digiwf.s3.integration.client.api.FileApiApi;
-import de.muenchen.oss.digiwf.s3.integration.client.service.ApiClientFactory;
 import de.muenchen.oss.digiwf.s3.integration.client.model.FileDataDto;
 import de.muenchen.oss.digiwf.s3.integration.client.model.PresignedUrlDto;
-import de.muenchen.oss.digiwf.s3.integration.client.service.S3DomainService;
+import de.muenchen.oss.digiwf.s3.integration.client.service.ApiClientFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
@@ -26,27 +24,6 @@ public class PresignedUrlRepository {
 
     private final ApiClientFactory apiClientFactory;
 
-    private final S3DomainService s3DomainService;
-
-    /**
-     * Fetches a presignedURL for the file named in the parameter to get a file from the document storage.
-     *
-     * @param pathToFile      defines the path to the file.
-     * @param expireInMinutes the expiration time of the presignedURL in minutes.
-     * @return the presignedURL.
-     * @throws DocumentStorageClientErrorException if the problem is with the client.
-     * @throws DocumentStorageServerErrorException if the problem is with the document storage.
-     * @throws DocumentStorageException            if the problem cannot be assigned to either the client or the document storage.
-     * @throws PropertyNotSetException             if the property "io.muenchendigital.digiwf.s3.client.defaultDocumentStorageUrl" is not set.
-     */
-    public Mono<String> getPresignedUrlGetFile(final String pathToFile, final int expireInMinutes) throws DocumentStorageClientErrorException, DocumentStorageServerErrorException, DocumentStorageException, PropertyNotSetException {
-        return this.getPresignedUrlGetFile(
-                pathToFile,
-                expireInMinutes,
-                this.s3DomainService.getDefaultDocumentStorageUrl()
-        );
-    }
-
     /**
      * Fetches a presignedURL for the file named in the parameter to get a file from the document storage.
      *
@@ -58,7 +35,8 @@ public class PresignedUrlRepository {
      * @throws DocumentStorageServerErrorException if the problem is with the document storage.
      * @throws DocumentStorageException            if the problem cannot be assigned to either the client or the document storage.
      */
-    public Mono<String> getPresignedUrlGetFile(final String pathToFile, final int expireInMinutes, final String documentStorageUrl) throws DocumentStorageClientErrorException, DocumentStorageServerErrorException, DocumentStorageException {
+    public Mono<String> getPresignedUrlGetFile(final String pathToFile, final int expireInMinutes, final String documentStorageUrl)
+            throws DocumentStorageClientErrorException, DocumentStorageServerErrorException, DocumentStorageException {
         try {
             final FileApiApi fileApi = this.apiClientFactory.getFileApiForDocumentStorageUrl(documentStorageUrl);
             final Mono<PresignedUrlDto> presignedUrlDto = fileApi.get(pathToFile, expireInMinutes);
@@ -72,31 +50,10 @@ public class PresignedUrlRepository {
             log.error(message);
             throw new DocumentStorageServerErrorException(message, exception);
         } catch (final RestClientException exception) {
-            final String message = String.format("The request to create a presigned url to get a file failed.");
+            final String message = "The request to create a presigned url to get a file failed.";
             log.error(message);
             throw new DocumentStorageException(message, exception);
         }
-    }
-
-    /**
-     * Fetches a presignedURL for the file named in the parameter to store a file in the document storage.
-     *
-     * @param pathToFile      defines the path to the file.
-     * @param expireInMinutes the expiration time of the presignedURL in minutes.
-     * @param endOfLifeFolder the end of life of the folder defined in refId. May be null.
-     * @return the presignedURL.
-     * @throws DocumentStorageClientErrorException if the problem is with the client.
-     * @throws DocumentStorageServerErrorException if the problem is with the document storage.
-     * @throws DocumentStorageException            if the problem cannot be assigned to either the client or the document storage.
-     * @throws PropertyNotSetException             if the property "io.muenchendigital.digiwf.s3.client.defaultDocumentStorageUrl" is not set.
-     */
-    public String getPresignedUrlSaveFile(final String pathToFile, final int expireInMinutes, final LocalDate endOfLifeFolder) throws DocumentStorageClientErrorException, DocumentStorageServerErrorException, DocumentStorageException, PropertyNotSetException {
-        return this.getPresignedUrlSaveFile(
-                pathToFile,
-                expireInMinutes,
-                endOfLifeFolder,
-                this.s3DomainService.getDefaultDocumentStorageUrl()
-        );
     }
 
     /**
@@ -111,7 +68,8 @@ public class PresignedUrlRepository {
      * @throws DocumentStorageServerErrorException if the problem is with the document storage.
      * @throws DocumentStorageException            if the problem cannot be assigned to either the client or the document storage.
      */
-    public String getPresignedUrlSaveFile(final String pathToFile, final int expireInMinutes, final LocalDate endOfLifeFolder, final String documentStorageUrl) throws DocumentStorageClientErrorException, DocumentStorageServerErrorException, DocumentStorageException {
+    public String getPresignedUrlSaveFile(final String pathToFile, final int expireInMinutes, final LocalDate endOfLifeFolder, final String documentStorageUrl)
+            throws DocumentStorageClientErrorException, DocumentStorageServerErrorException, DocumentStorageException {
         try {
             final FileApiApi fileApi = this.apiClientFactory.getFileApiForDocumentStorageUrl(documentStorageUrl);
             final var fileDataDto = new FileDataDto();
@@ -129,31 +87,10 @@ public class PresignedUrlRepository {
             log.error(message);
             throw new DocumentStorageServerErrorException(message, exception);
         } catch (final RestClientException exception) {
-            final String message = String.format("The request to create a presigned save url failed.");
+            final String message = "The request to create a presigned save url failed.";
             log.error(message);
             throw new DocumentStorageException(message, exception);
         }
-    }
-
-    /**
-     * Fetches a presignedURL for the file named in the parameter to update a file in the document storage.
-     *
-     * @param pathToFile      defines the path to the file.
-     * @param expireInMinutes the expiration time of the presignedURL in minutes.
-     * @param endOfLifeFolder the end of life of the folder defined in refId. May be null.
-     * @return the presignedURL.
-     * @throws DocumentStorageClientErrorException if the problem is with the client.
-     * @throws DocumentStorageServerErrorException if the problem is with the document storage.
-     * @throws DocumentStorageException            if the problem cannot be assigned to either the client or the document storage.
-     * @throws PropertyNotSetException             if the property "io.muenchendigital.digiwf.s3.client.defaultDocumentStorageUrl" is not set.
-     */
-    public String getPresignedUrlUpdateFile(final String pathToFile, final int expireInMinutes, final LocalDate endOfLifeFolder) throws DocumentStorageClientErrorException, DocumentStorageServerErrorException, DocumentStorageException, PropertyNotSetException {
-        return this.getPresignedUrlUpdateFile(
-                pathToFile,
-                expireInMinutes,
-                endOfLifeFolder,
-                this.s3DomainService.getDefaultDocumentStorageUrl()
-        );
     }
 
     /**
@@ -168,7 +105,8 @@ public class PresignedUrlRepository {
      * @throws DocumentStorageServerErrorException if the problem is with the document storage.
      * @throws DocumentStorageException            if the problem cannot be assigned to either the client or the document storage.
      */
-    public String getPresignedUrlUpdateFile(final String pathToFile, final int expireInMinutes, final LocalDate endOfLifeFolder, final String documentStorageUrl) throws DocumentStorageClientErrorException, DocumentStorageServerErrorException, DocumentStorageException {
+    public String getPresignedUrlUpdateFile(final String pathToFile, final int expireInMinutes, final LocalDate endOfLifeFolder,
+            final String documentStorageUrl) throws DocumentStorageClientErrorException, DocumentStorageServerErrorException, DocumentStorageException {
         try {
             final FileApiApi fileApi = this.apiClientFactory.getFileApiForDocumentStorageUrl(documentStorageUrl);
             final var fileDataDto = new FileDataDto();
@@ -186,29 +124,10 @@ public class PresignedUrlRepository {
             log.error(message);
             throw new DocumentStorageServerErrorException(message, exception);
         } catch (final RestClientException exception) {
-            final String message = String.format("The request to create a presigned update url failed.");
+            final String message = "The request to create a presigned update url failed.";
             log.error(message);
             throw new DocumentStorageException(message, exception);
         }
-    }
-
-    /**
-     * Fetches a presignedURL for the file named in the parameter to delete a file from the document storage.
-     *
-     * @param pathToFile      defines the path to the file.
-     * @param expireInMinutes the expiration time of the presignedURL in minutes.
-     * @return the presignedURL.
-     * @throws DocumentStorageClientErrorException if the problem is with the client.
-     * @throws DocumentStorageServerErrorException if the problem is with the document storage.
-     * @throws DocumentStorageException            if the problem cannot be assigned to either the client or the document storage.
-     * @throws PropertyNotSetException             if the property "io.muenchendigital.digiwf.s3.client.defaultDocumentStorageUrl" is not set.
-     */
-    public String getPresignedUrlDeleteFile(final String pathToFile, final int expireInMinutes) throws DocumentStorageClientErrorException, DocumentStorageServerErrorException, DocumentStorageException, PropertyNotSetException {
-        return this.getPresignedUrlDeleteFile(
-                pathToFile,
-                expireInMinutes,
-                this.s3DomainService.getDefaultDocumentStorageUrl()
-        );
     }
 
     /**
@@ -222,7 +141,8 @@ public class PresignedUrlRepository {
      * @throws DocumentStorageServerErrorException if the problem is with the document storage.
      * @throws DocumentStorageException            if the problem cannot be assigned to either the client or the document storage.
      */
-    public String getPresignedUrlDeleteFile(final String pathToFile, final int expireInMinutes, final String documentStorageUrl) throws DocumentStorageClientErrorException, DocumentStorageServerErrorException, DocumentStorageException {
+    public String getPresignedUrlDeleteFile(final String pathToFile, final int expireInMinutes, final String documentStorageUrl)
+            throws DocumentStorageClientErrorException, DocumentStorageServerErrorException, DocumentStorageException {
         try {
             final FileApiApi fileApi = this.apiClientFactory.getFileApiForDocumentStorageUrl(documentStorageUrl);
             final Mono<PresignedUrlDto> presignedUrlDto = fileApi.delete1(pathToFile, expireInMinutes);
@@ -236,7 +156,7 @@ public class PresignedUrlRepository {
             log.error(message);
             throw new DocumentStorageServerErrorException(message, exception);
         } catch (final RestClientException exception) {
-            final String message = String.format("The request to create a presigned url to delete a file failed.");
+            final String message = "The request to create a presigned url to delete a file failed.";
             log.error(message);
             throw new DocumentStorageException(message, exception);
         }

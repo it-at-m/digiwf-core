@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface ReadContentInPort {
 
-    void readContent(List<String> fileCoos, @NotBlank String user, @NotBlank String filePath, @NotBlank String fileContext);
+    void readContent(List<String> fileCoos, @NotBlank String user, @NotBlank String filePath, @NotBlank String fileContext,
+            @NotBlank String processDefinitionId);
 
 }

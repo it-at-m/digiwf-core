@@ -8,7 +8,9 @@ import de.muenchen.oss.digiwf.process.config.domain.model.ProcessConfig;
 import de.muenchen.oss.digiwf.process.config.domain.service.ProcessConfigService;
 import de.muenchen.oss.digiwf.process.config.process.ProcessConfigFunctions;
 import de.muenchen.oss.digiwf.process.definition.domain.model.StartContext;
+import de.muenchen.oss.digiwf.s3.integration.client.exception.PropertyNotSetException;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFolderRepository;
+import de.muenchen.oss.digiwf.s3.integration.client.service.S3StorageUrlProvider;
 import de.muenchen.oss.digiwf.shared.exception.IllegalResourceAccessException;
 import de.muenchen.oss.digiwf.shared.exception.NoFileContextException;
 import de.muenchen.oss.digiwf.shared.file.AbstractFileService;
@@ -34,26 +36,31 @@ public class ServiceStartFileService extends AbstractFileService {
 
     private final ServiceStartContextService serviceStartContextService;
     private final ProcessConfigService processConfigService;
+    private final S3StorageUrlProvider s3StorageUrlProvider;
 
     public ServiceStartFileService(
             final DocumentStorageFolderRepository documentStorageFolderRepository,
             final ServiceStartContextService serviceStartContextService,
             final ProcessConfigService processConfigService,
             final List<PresignedUrlAdapter> presignedUrlAdapters,
-            final ProcessConfigFunctions processConfigFunctions
+            final ProcessConfigFunctions processConfigFunctions,
+            final S3StorageUrlProvider s3StorageUrlProvider
     ) {
-        super(documentStorageFolderRepository, presignedUrlAdapters, processConfigFunctions);
+        super(documentStorageFolderRepository, presignedUrlAdapters, s3StorageUrlProvider);
         this.serviceStartContextService = serviceStartContextService;
         this.processConfigService = processConfigService;
+        this.s3StorageUrlProvider = s3StorageUrlProvider;
     }
 
-    public List<String> getFileNames(final String definitionKey, final String filePath, final String userId, final List<String> groups) {
+    public List<String> getFileNames(final String definitionKey, final String filePath, final String userId, final List<String> groups)
+            throws PropertyNotSetException {
         this.checkReadAccess(definitionKey, filePath);
         final String fileContext = this.getFileContext(userId, definitionKey);
-        return super.getFileNames(filePath, fileContext, this.getDocumentStorageUrl(definitionKey));
+        return super.getFileNames(filePath, fileContext, this.s3StorageUrlProvider.provideS3StorageUrl(definitionKey));
     }
 
-    public String getPresignedUrl(final PresignedUrlAction action, final String definitionKey, final String filePath, final String fileName, final String userId, final List<String> groups) {
+    public String getPresignedUrl(final PresignedUrlAction action, final String definitionKey, final String filePath, final String fileName, final String userId, final List<String> groups)
+            throws PropertyNotSetException {
         if (action.equals(PresignedUrlAction.GET)) {
             this.checkReadAccess(definitionKey, filePath);
         } else {
@@ -61,7 +68,7 @@ public class ServiceStartFileService extends AbstractFileService {
         }
 
         final String fileContext = this.getFileContext(userId, definitionKey);
-        return super.getPresignedUrl(action, fileContext + "/" + filePath + "/" + fileName, this.getDocumentStorageUrl(definitionKey));
+        return super.getPresignedUrl(action, fileContext + "/" + filePath + "/" + fileName, this.s3StorageUrlProvider.provideS3StorageUrl(definitionKey));
     }
 
     //---------------------------------------- helper methods ---------------------------------------- //

@@ -1,7 +1,9 @@
 package de.muenchen.oss.digiwf.shared.file;
 
 import de.muenchen.oss.digiwf.process.config.process.ProcessConfigFunctions;
+import de.muenchen.oss.digiwf.s3.integration.client.exception.PropertyNotSetException;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFolderRepository;
+import de.muenchen.oss.digiwf.s3.integration.client.service.S3StorageUrlProvider;
 import de.muenchen.oss.digiwf.shared.file.presignedUrlAdapters.PresignedUrlAction;
 import de.muenchen.oss.digiwf.shared.file.presignedUrlAdapters.PresignedUrlAdapter;
 import lombok.extern.slf4j.Slf4j;
@@ -26,47 +28,35 @@ public abstract class AbstractFileService {
 
     protected final DocumentStorageFolderRepository documentStorageFolderRepository;
     private final List<PresignedUrlAdapter> presignedUrlAdapters;
-    private final ProcessConfigFunctions processConfigFunctions;
 
     public AbstractFileService(
             final DocumentStorageFolderRepository documentStorageFolderRepository,
             final List<PresignedUrlAdapter> presignedUrlAdapters,
-            final ProcessConfigFunctions processConfigFunctions
+            final S3StorageUrlProvider s3StorageUrlProvider
     ) {
         this.documentStorageFolderRepository = documentStorageFolderRepository;
         this.presignedUrlAdapters = presignedUrlAdapters;
-        this.processConfigFunctions = processConfigFunctions;
     }
 
-    public List<String> getFileNames(final String filePath, final String fileContext, final Optional<String> documentStorageUrl) {
+    public List<String> getFileNames(final String filePath, final String fileContext, final String documentStorageUrl) throws PropertyNotSetException {
         try {
             final String pathToFolder = fileContext + "/" + filePath;
-            if (documentStorageUrl.isPresent()) {
-                return this.extractFilenamesFromFolder(this.documentStorageFolderRepository.getAllFilesInFolderRecursively(pathToFolder, documentStorageUrl.get()).block(), pathToFolder);
-            }
-            return this.extractFilenamesFromFolder(this.documentStorageFolderRepository.getAllFilesInFolderRecursively(pathToFolder).block(), pathToFolder);
+                return this.extractFilenamesFromFolder(this.documentStorageFolderRepository.getAllFilesInFolderRecursively(pathToFolder, documentStorageUrl).block(), pathToFolder);
         } catch (final Exception ex) {
             log.error("Getting all files of folder {} failed: {}", filePath, ex);
             throw new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR, String.format("Getting all files of folder %s failed", filePath));
         }
     }
 
-    protected String getPresignedUrl(final PresignedUrlAction action, final String pathToFile, final Optional<String> documentStorageUrl) {
+    protected String getPresignedUrl(final PresignedUrlAction action, final String pathToFile, final String documentStorageUrl) {
         final Optional<PresignedUrlAdapter> handler = this.presignedUrlAdapters.stream()
                 .filter(h -> h.isResponsibleForAction(action))
                 .findAny();
         if (handler.isPresent()) {
-            if (documentStorageUrl.isPresent()) {
-                return handler.get().getPresignedUrl(documentStorageUrl.get(), pathToFile, 5);
-            }
-            return handler.get().getPresignedUrl(pathToFile, 5);
+                return handler.get().getPresignedUrl(documentStorageUrl, pathToFile, 5);
         }
         log.warn("No handler specified for action {}", action);
         throw new RuntimeException(String.format("No handler specified for action %s", action));
-    }
-
-    protected Optional<String> getDocumentStorageUrl(final String definitionKey) {
-        return this.processConfigFunctions.get("app_file_s3_sync_config", definitionKey);
     }
 
     //---------------------------------------- helper methods ---------------------------------------- //

@@ -1,5 +1,6 @@
 package de.muenchen.oss.digiwf.task.service.adapter.out.file;
 
+import de.muenchen.oss.digiwf.s3.integration.client.service.S3StorageUrlProvider;
 import de.muenchen.oss.digiwf.task.service.application.port.out.file.PresignedUrlPort;
 import de.muenchen.oss.digiwf.task.service.domain.PresignedUrlAction;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.presignedurl.PresignedUrlRepository;
@@ -16,7 +17,6 @@ public class PresignedUrlAdapter implements PresignedUrlPort {
 
     private final PresignedUrlRepository presignedUrlRepository;
     private final S3Properties s3Properties;
-
 
     @Override
     public String getPresignedUrl(final String pathToFile, final int expireInMinutes, final PresignedUrlAction action) throws HttpServerErrorException {

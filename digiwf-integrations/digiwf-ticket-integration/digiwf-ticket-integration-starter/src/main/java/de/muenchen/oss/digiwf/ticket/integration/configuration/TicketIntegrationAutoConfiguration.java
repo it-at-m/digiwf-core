@@ -9,8 +9,9 @@ import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
 import de.muenchen.oss.digiwf.process.api.config.api.ProcessConfigApi;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFileRepository;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFolderRepository;
-import de.muenchen.oss.digiwf.s3.integration.client.service.S3DomainService;
+import de.muenchen.oss.digiwf.s3.integration.client.service.S3DomainProvider;
 import de.muenchen.oss.digiwf.s3.integration.client.service.FileExtensionService;
+import de.muenchen.oss.digiwf.s3.integration.client.service.S3StorageUrlProvider;
 import de.muenchen.oss.digiwf.ticket.integration.adapter.in.streaming.TicketMessageProcessor;
 import de.muenchen.oss.digiwf.ticket.integration.adapter.in.streaming.WriteArticleDto;
 import de.muenchen.oss.digiwf.ticket.integration.adapter.out.s3.S3Adapter;
@@ -31,9 +32,7 @@ import java.util.function.Consumer;
 
 @Configuration
 @RequiredArgsConstructor
-@EnableConfigurationProperties({ TicketingProperties.class })
 public class TicketIntegrationAutoConfiguration {
-    private final TicketingProperties ticketingProperties;
 
     @Bean
     public TicketOutPort ticketOutPort(final TicketsApi ticketsApi) {
@@ -42,9 +41,9 @@ public class TicketIntegrationAutoConfiguration {
 
     @Bean
     public LoadFileOutPort loadFileOutPort(final DocumentStorageFileRepository documentStorageFileRepository,
-            final DocumentStorageFolderRepository documentStorageFolderRepository, final ProcessConfigApi processConfigApi, final FileExtensionService fileExtensionService, final
-    S3DomainService s3DomainService) {
-        return new S3Adapter(documentStorageFileRepository, documentStorageFolderRepository, fileExtensionService, s3DomainService);
+            final DocumentStorageFolderRepository documentStorageFolderRepository, final FileExtensionService fileExtensionService,
+            final S3StorageUrlProvider s3StorageUrlProvider) {
+        return new S3Adapter(documentStorageFileRepository, documentStorageFolderRepository, fileExtensionService, s3StorageUrlProvider);
     }
 
     @Bean
@@ -63,5 +62,10 @@ public class TicketIntegrationAutoConfiguration {
     @Bean
     public Consumer<Message<WriteArticleDto>> writeArticle(final TicketMessageProcessor messageProcessor) {
         return messageProcessor.writeArticle();
+    }
+
+    @Bean
+    public S3DomainProvider s3DomainProvider(final ProcessConfigApi processConfigApi) {
+        return processConfigApi::getAppFileS3SyncConfig;
     }
 }

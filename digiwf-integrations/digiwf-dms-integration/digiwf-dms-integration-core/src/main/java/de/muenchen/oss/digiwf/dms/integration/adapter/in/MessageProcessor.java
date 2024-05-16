@@ -152,7 +152,8 @@ public class MessageProcessor {
                         readContentDto.getContentCoos(),
                         readContentDto.getUser(),
                         readContentDto.getFilePath(),
-                        readContentDto.getFileContext()
+                        readContentDto.getFileContext(),
+                        message.getHeaders().get(DIGIWF_PROCESS_DEFINITION).toString()
                 );
                 this.correlateMessage(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString(),
                         message.getHeaders().get(TYPE).toString(),

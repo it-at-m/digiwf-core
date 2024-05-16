@@ -13,10 +13,12 @@ import de.muenchen.oss.digiwf.dms.integration.application.port.out.*;
 import de.muenchen.oss.digiwf.dms.integration.application.usecase.*;
 import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
 import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
+import de.muenchen.oss.digiwf.process.api.config.api.ProcessConfigApi;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFileRepository;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFolderRepository;
 import de.muenchen.oss.digiwf.s3.integration.client.service.FileExtensionService;
-import de.muenchen.oss.digiwf.s3.integration.client.service.S3DomainService;
+import de.muenchen.oss.digiwf.s3.integration.client.service.S3DomainProvider;
+import de.muenchen.oss.digiwf.s3.integration.client.service.S3StorageUrlProvider;
 import de.muenchen.oss.digiwf.spring.security.authentication.UserAuthenticationProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -43,16 +45,21 @@ public class DmsAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public LHMBAI151700GIWSDSoap wsCleint(final FabasoftClientConfiguration fabasoftClientConfiguration) {
+    public LHMBAI151700GIWSDSoap wsClient(final FabasoftClientConfiguration fabasoftClientConfiguration) {
         return fabasoftClientConfiguration.dmsWsClient();
+    }
+
+    @Bean
+    public S3DomainProvider s3DomainProvider(final ProcessConfigApi processConfigApi) {
+        return processConfigApi::getAppFileS3SyncConfig;
     }
 
     @Bean
     @ConditionalOnMissingBean
     public S3Adapter s3Adapter(final DocumentStorageFileRepository documentStorageFileRepository,
             final DocumentStorageFolderRepository documentStorageFolderRepository, final FileExtensionService fileExtensionService,
-            final S3DomainService s3DomainService) {
-        return new S3Adapter(documentStorageFileRepository, documentStorageFolderRepository, fileExtensionService, s3DomainService);
+            final S3StorageUrlProvider s3StorageUrlProvider) {
+        return new S3Adapter(documentStorageFileRepository, documentStorageFolderRepository, fileExtensionService, s3StorageUrlProvider);
     }
 
     @Bean

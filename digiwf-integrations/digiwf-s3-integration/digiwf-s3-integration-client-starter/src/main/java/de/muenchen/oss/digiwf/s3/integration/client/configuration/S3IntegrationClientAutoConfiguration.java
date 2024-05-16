@@ -1,16 +1,18 @@
 package de.muenchen.oss.digiwf.s3.integration.client.configuration;
 
-import de.muenchen.oss.digiwf.process.api.config.api.ProcessConfigApi;
 import de.muenchen.oss.digiwf.s3.integration.client.ApiClient;
 import de.muenchen.oss.digiwf.s3.integration.client.api.FileApiApi;
 import de.muenchen.oss.digiwf.s3.integration.client.api.FolderApiApi;
 import de.muenchen.oss.digiwf.s3.integration.client.properties.S3IntegrationClientProperties;
 import de.muenchen.oss.digiwf.s3.integration.client.service.ApiClientFactory;
-import de.muenchen.oss.digiwf.s3.integration.client.service.S3DomainService;
 import de.muenchen.oss.digiwf.s3.integration.client.service.FileExtensionService;
+import de.muenchen.oss.digiwf.s3.integration.client.service.S3DomainProvider;
+import de.muenchen.oss.digiwf.s3.integration.client.service.S3StorageUrlProvider;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -95,8 +97,15 @@ public class S3IntegrationClientAutoConfiguration {
     }
 
     @Bean
-    public S3DomainService domainService(final ProcessConfigApi processConfigApi) {
-        return new S3DomainService(processConfigApi, this.s3IntegrationClientProperties.getDocumentStorageUrl());
+    @ConditionalOnBean(S3DomainProvider.class)
+    public S3StorageUrlProvider s3StorageUrlProvider(final S3DomainProvider s3DomainProvider) {
+        return new S3StorageUrlProvider(s3DomainProvider, this.s3IntegrationClientProperties.getDocumentStorageUrl());
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(S3DomainProvider.class)
+    public S3StorageUrlProvider s3StorageUrlProviderWithoutDomainProvider() {
+        return new S3StorageUrlProvider(this.s3IntegrationClientProperties.getDocumentStorageUrl());
     }
 
 }

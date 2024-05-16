@@ -206,3 +206,4 @@ de:
         s3:
           document-storage-url: '${digiwf.s3service.httpAPI}'
           enable-security: true
+

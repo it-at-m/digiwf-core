@@ -26,4 +26,5 @@ public interface ProcessConfigApi {
      */
     Optional<String> getProcessConfigValue(final String key, final String processDefinitionId);
 
+    Optional<String> getAppFileS3SyncConfig(String processDefinitionId);
 }

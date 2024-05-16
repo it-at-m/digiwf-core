@@ -10,11 +10,11 @@ import de.muenchen.oss.digiwf.process.api.config.impl.ProcessConfigClient;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageClientErrorException;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageException;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageServerErrorException;
-import de.muenchen.oss.digiwf.s3.integration.client.exception.PropertyNotSetException;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFileRepository;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFolderRepository;
 import de.muenchen.oss.digiwf.s3.integration.client.service.FileExtensionService;
-import de.muenchen.oss.digiwf.s3.integration.client.service.S3DomainService;
+import de.muenchen.oss.digiwf.s3.integration.client.service.S3DomainProvider;
+import de.muenchen.oss.digiwf.s3.integration.client.service.S3StorageUrlProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;
@@ -32,13 +32,16 @@ import static reactor.core.publisher.Mono.just;
 
 class S3AdapterTest {
 
+    private static final String DEFAULT_S3_URL = "defaultURL";
+    private static final String DOMAIN_SPECIFIC_S3_URL = "domainSpecificURL";
+
     private final DocumentStorageFileRepository documentStorageFileRepository = mock(DocumentStorageFileRepository.class);
 
     private final DocumentStorageFolderRepository documentStorageFolderRepository = mock(DocumentStorageFolderRepository.class);
     private final ProcessConfigClient processConfigClient = mock(ProcessConfigClient.class);
     private final ProcessConfigApi processConfigApi = spy(new ProcessConfigApiImpl(processConfigClient));
-
-    private final S3DomainService s3DomainService = new S3DomainService(processConfigApi, null);
+    private final S3DomainProvider s3DomainProvider = processConfigApi::getAppFileS3SyncConfig;
+    private final S3StorageUrlProvider s3StorageUrlProvider = new S3StorageUrlProvider(s3DomainProvider, DEFAULT_S3_URL);
 
     private final Map<String, String> supportedExtensions = Map.of("pdf", "application/pdf",
             "png", "image/png",
@@ -51,12 +54,12 @@ class S3AdapterTest {
 
     @BeforeEach
     void setup() {
-        s3Adapter = new S3Adapter(documentStorageFileRepository, documentStorageFolderRepository, fileExtensionService, s3DomainService);
+        s3Adapter = new S3Adapter(documentStorageFileRepository, documentStorageFolderRepository, fileExtensionService, s3StorageUrlProvider);
     }
 
     @Test
     void testLoadFileFromFilePath()
-            throws IOException, DocumentStorageException, PropertyNotSetException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
+            throws IOException, DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
 
         final String pdfPath = "test/test-pdf.pdf";
         final String pngPath = "test/digiwf_logo.png";
@@ -70,8 +73,8 @@ class S3AdapterTest {
         final byte[] testPdf = new ClassPathResource(fullPdfPath).getInputStream().readAllBytes();
         final byte[] testPng = new ClassPathResource(fullPngPath).getInputStream().readAllBytes();
 
-        when(documentStorageFileRepository.getFile(fullPdfPath, 3)).thenReturn(testPdf);
-        when(documentStorageFileRepository.getFile(fullPngPath, 3)).thenReturn(testPng);
+        when(documentStorageFileRepository.getFile(fullPdfPath, 3, DEFAULT_S3_URL)).thenReturn(testPdf);
+        when(documentStorageFileRepository.getFile(fullPngPath, 3, DEFAULT_S3_URL)).thenReturn(testPng);
         when(processConfigApi.getProcessConfig(anyString())).thenThrow(new RuntimeException("Process Config does not exist"));
 
         final List<Content> contents = this.s3Adapter.loadFiles(filePaths, fileContext, processDefinitionId);
@@ -99,12 +102,12 @@ class S3AdapterTest {
         final byte[] testPdf = new ClassPathResource(fullPdfPath).getInputStream().readAllBytes();
         final byte[] testPng = new ClassPathResource(fullPngPath).getInputStream().readAllBytes();
 
-        when(documentStorageFileRepository.getFile(fullPdfPath, 3, "S3Url")).thenReturn(testPdf);
-        when(documentStorageFileRepository.getFile(fullPngPath, 3, "S3Url")).thenReturn(testPng);
+        when(documentStorageFileRepository.getFile(fullPdfPath, 3, DOMAIN_SPECIFIC_S3_URL)).thenReturn(testPdf);
+        when(documentStorageFileRepository.getFile(fullPngPath, 3, DOMAIN_SPECIFIC_S3_URL)).thenReturn(testPng);
         when(processConfigApi.getProcessConfig(anyString())).thenReturn(ProcessConfigTO.builder()
                 .configs(List.of(ConfigEntryTO.builder()
                         .key("app_file_s3_sync_config")
-                        .value("S3Url")
+                        .value(DOMAIN_SPECIFIC_S3_URL)
                         .build()))
                 .build());
 
@@ -119,7 +122,7 @@ class S3AdapterTest {
 
     @Test
     void testLoadFileFromFolderPath()
-            throws IOException, DocumentStorageException, PropertyNotSetException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
+            throws IOException, DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
 
         final String folderPath = "test/";
         final String fileContext = "files";
@@ -137,11 +140,11 @@ class S3AdapterTest {
         final byte[] testPng = new ClassPathResource(fullPngPath).getInputStream().readAllBytes();
         final byte[] testWord = new ClassPathResource(fullWordPath).getInputStream().readAllBytes();
 
-        when(documentStorageFolderRepository.getAllFilesInFolderRecursively(fullFolderPath)).thenReturn((just(filesPaths)));
+        when(documentStorageFolderRepository.getAllFilesInFolderRecursively(fullFolderPath, DEFAULT_S3_URL)).thenReturn((just(filesPaths)));
 
-        when(documentStorageFileRepository.getFile(fullPdfPath, 3)).thenReturn(testPdf);
-        when(documentStorageFileRepository.getFile(fullPngPath, 3)).thenReturn(testPng);
-        when(documentStorageFileRepository.getFile(fullWordPath, 3)).thenReturn(testWord);
+        when(documentStorageFileRepository.getFile(fullPdfPath, 3, DEFAULT_S3_URL)).thenReturn(testPdf);
+        when(documentStorageFileRepository.getFile(fullPngPath, 3, DEFAULT_S3_URL)).thenReturn(testPng);
+        when(documentStorageFileRepository.getFile(fullWordPath, 3, DEFAULT_S3_URL)).thenReturn(testWord);
         when(processConfigApi.getProcessConfig(anyString())).thenThrow(new RuntimeException("Process Config does not exist"));
 
         final List<Content> contents = this.s3Adapter.loadFiles(paths, fileContext, processDefinitionId);
@@ -175,15 +178,15 @@ class S3AdapterTest {
         final byte[] testPng = new ClassPathResource(fullPngPath).getInputStream().readAllBytes();
         final byte[] testWord = new ClassPathResource(fullWordPath).getInputStream().readAllBytes();
 
-        when(documentStorageFolderRepository.getAllFilesInFolderRecursively(fullFolderPath, "S3Url")).thenReturn((just(filesPaths)));
+        when(documentStorageFolderRepository.getAllFilesInFolderRecursively(fullFolderPath, DOMAIN_SPECIFIC_S3_URL)).thenReturn((just(filesPaths)));
 
-        when(documentStorageFileRepository.getFile(fullPdfPath, 3, "S3Url")).thenReturn(testPdf);
-        when(documentStorageFileRepository.getFile(fullPngPath, 3, "S3Url")).thenReturn(testPng);
-        when(documentStorageFileRepository.getFile(fullWordPath, 3, "S3Url")).thenReturn(testWord);
+        when(documentStorageFileRepository.getFile(fullPdfPath, 3, DOMAIN_SPECIFIC_S3_URL)).thenReturn(testPdf);
+        when(documentStorageFileRepository.getFile(fullPngPath, 3, DOMAIN_SPECIFIC_S3_URL)).thenReturn(testPng);
+        when(documentStorageFileRepository.getFile(fullWordPath, 3, DOMAIN_SPECIFIC_S3_URL)).thenReturn(testWord);
         when(processConfigApi.getProcessConfig(anyString())).thenReturn(ProcessConfigTO.builder()
                 .configs(List.of(ConfigEntryTO.builder()
                         .key("app_file_s3_sync_config")
-                        .value("S3Url")
+                        .value(DOMAIN_SPECIFIC_S3_URL)
                         .build()))
                 .build());
 
@@ -200,7 +203,7 @@ class S3AdapterTest {
 
     @Test
     void testLoadFileFromFilePathThrowsDocumentStorageException()
-            throws DocumentStorageException, PropertyNotSetException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
+            throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
 
         final String pdfPath = "test/test-pdf.pdf";
         final String fileContext = "files";
@@ -209,7 +212,8 @@ class S3AdapterTest {
 
         final List<String> filePaths = List.of(pdfPath);
 
-        when(documentStorageFileRepository.getFile(fullPdfPath, 3)).thenThrow(new DocumentStorageException("Some error", new RuntimeException("Some error")));
+        when(documentStorageFileRepository.getFile(fullPdfPath, 3, DEFAULT_S3_URL)).thenThrow(
+                new DocumentStorageException("Some error", new RuntimeException("Some error")));
         when(processConfigApi.getProcessConfig(anyString())).thenThrow(new RuntimeException("Process Config does not exist"));
 
         BpmnError bpmnError = assertThrows(BpmnError.class, () -> this.s3Adapter.loadFiles(filePaths, fileContext, processDefinitionId));
@@ -224,7 +228,7 @@ class S3AdapterTest {
 
     @Test
     void testLoadFileFromFolderPathThrowsDocumentStorageServerErrorException()
-            throws DocumentStorageException, PropertyNotSetException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
+            throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
 
         final String folderPath = "test/";
         final String fileContext = "files";
@@ -233,7 +237,7 @@ class S3AdapterTest {
 
         final List<String> filePaths = List.of(folderPath);
 
-        when(documentStorageFolderRepository.getAllFilesInFolderRecursively(fullFolderPath)).thenThrow(
+        when(documentStorageFolderRepository.getAllFilesInFolderRecursively(fullFolderPath, DEFAULT_S3_URL)).thenThrow(
                 new DocumentStorageServerErrorException("Some error", new RuntimeException("Some error")));
         when(processConfigApi.getProcessConfig(anyString())).thenThrow(new RuntimeException("Process Config does not exist"));
 
@@ -249,7 +253,7 @@ class S3AdapterTest {
 
     @Test
     void testLoadFileFromFilePathThrowsUnsupportedFileTypeException()
-            throws DocumentStorageException, PropertyNotSetException, DocumentStorageClientErrorException, DocumentStorageServerErrorException, IOException {
+            throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException, IOException {
 
         final String htmlPath = "fail/test-html.html";
         final String fileContext = "files";
@@ -260,7 +264,7 @@ class S3AdapterTest {
 
         final byte[] testHtml = new ClassPathResource(fullHtmlPath).getInputStream().readAllBytes();
 
-        when(documentStorageFileRepository.getFile(fullHtmlPath, 3)).thenReturn(testHtml);
+        when(documentStorageFileRepository.getFile(fullHtmlPath, 3, DEFAULT_S3_URL)).thenReturn(testHtml);
         when(processConfigApi.getProcessConfig(anyString())).thenThrow(new RuntimeException("Process Config does not exist"));
 
         try {

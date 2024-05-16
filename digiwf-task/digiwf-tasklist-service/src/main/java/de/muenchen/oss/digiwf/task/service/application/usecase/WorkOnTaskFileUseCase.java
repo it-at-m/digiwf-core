@@ -1,7 +1,7 @@
 package de.muenchen.oss.digiwf.task.service.application.usecase;
 
-import io.holunda.polyflow.view.Task;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFolderRepository;
+import de.muenchen.oss.digiwf.s3.integration.client.service.S3StorageUrlProvider;
 import de.muenchen.oss.digiwf.task.service.application.port.in.WorkOnTaskFile;
 import de.muenchen.oss.digiwf.task.service.application.port.out.auth.CurrentUserPort;
 import de.muenchen.oss.digiwf.task.service.application.port.out.file.PresignedUrlPort;
@@ -9,10 +9,10 @@ import de.muenchen.oss.digiwf.task.service.application.port.out.file.TaskFileCon
 import de.muenchen.oss.digiwf.task.service.application.port.out.polyflow.TaskQueryPort;
 import de.muenchen.oss.digiwf.task.service.domain.PresignedUrlAction;
 import de.muenchen.oss.digiwf.task.service.domain.TaskFileConfig;
+import io.holunda.polyflow.view.Task;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
@@ -20,7 +20,6 @@ import org.springframework.web.client.HttpServerErrorException;
 
 import java.util.List;
 import java.util.Set;
-
 
 @Slf4j
 @Component
@@ -36,6 +35,8 @@ public class WorkOnTaskFileUseCase implements WorkOnTaskFile {
     private final TaskQueryPort taskQueryPort;
 
     private final CurrentUserPort currentUserPort;
+
+    private final S3StorageUrlProvider s3StorageUrlProvider;
 
     private TaskFileConfig fileConfig;
 
@@ -54,7 +55,8 @@ public class WorkOnTaskFileUseCase implements WorkOnTaskFile {
             if (documentStorageUrl != null) {
                 allFiles = this.documentStorageFolderRepository.getAllFilesInFolderRecursively(pathToFolder, documentStorageUrl).block();
             } else {
-                allFiles = this.documentStorageFolderRepository.getAllFilesInFolderRecursively(pathToFolder).block();
+                allFiles = this.documentStorageFolderRepository.getAllFilesInFolderRecursively(pathToFolder,
+                        s3StorageUrlProvider.getDefaultDocumentStorageUrl()).block();
             }
             //noinspection DataFlowIssue
             return extractFilenamesFromFolder(allFiles, pathToFolder);
@@ -66,7 +68,8 @@ public class WorkOnTaskFileUseCase implements WorkOnTaskFile {
 
     @Override
     @NonNull
-    public String getPresignedUrl(final PresignedUrlAction action, @NonNull final String taskId, @NonNull final String filePath, @NonNull final String fileName) {
+    public String getPresignedUrl(final PresignedUrlAction action, @NonNull final String taskId, @NonNull final String filePath,
+            @NonNull final String fileName) {
 
         this.initializeFileConfig(taskId);
 
@@ -88,10 +91,10 @@ public class WorkOnTaskFileUseCase implements WorkOnTaskFile {
     }
 
     /**
-     * Extract the filenames from the given file list. Make sure that only filenames for files in the given folder are returned.
-     * Don't return filenames for files in subfolders.
+     * Extract the filenames from the given file list. Make sure that only filenames for files in the given folder are returned. Don't return filenames for
+     * files in subfolders.
      *
-     * @param fileList files.
+     * @param fileList     files.
      * @param pathToFolder folder prefix, must be part of the filenames.
      * @return a list of file names without prefix.
      */
@@ -112,7 +115,5 @@ public class WorkOnTaskFileUseCase implements WorkOnTaskFile {
         val currentUser = currentUserPort.getCurrentUser();
         return taskQueryPort.getTaskByIdForCurrentUser(currentUser, taskId);
     }
-
-
 
 }

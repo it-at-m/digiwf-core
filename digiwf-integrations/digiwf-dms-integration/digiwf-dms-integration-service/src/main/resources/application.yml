@@ -90,3 +90,9 @@ de:
             ods: "application/vnd.oasis.opendocument.spreadsheet"
             odt: "application/vnd.oasis.opendocument.text"
           enable-security: true
+
+feign:
+  client:
+    config:
+      digiwf-process-config:
+        url: ${ENGINE_REST_ENDPOINT_URL}

@@ -91,7 +91,6 @@ management:
   info:
     env:
       enabled: true
-
 de:
   muenchen:
     oss:

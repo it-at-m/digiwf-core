@@ -28,7 +28,8 @@ class ReadContentMessageProcessorTest extends MessageProcessorTestBase {
                 readContentDto.getContentCoos(),
                 readContentDto.getUser(),
                 readContentDto.getFilePath(),
-                readContentDto.getFileContext());
+                readContentDto.getFileContext(),
+                processDefinitionId);
 
 
         this.message = new Message<>() {
@@ -51,7 +52,8 @@ class ReadContentMessageProcessorTest extends MessageProcessorTestBase {
                 readContentDto.getContentCoos(),
                 readContentDto.getUser(),
                 readContentDto.getFilePath(),
-                readContentDto.getFileContext());
+                readContentDto.getFileContext(),
+                processDefinitionId);
     }
 
 }

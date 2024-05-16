@@ -5,6 +5,7 @@ import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageExc
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageServerErrorException;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.PropertyNotSetException;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFolderRepository;
+import de.muenchen.oss.digiwf.s3.integration.client.service.S3StorageUrlProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -22,16 +23,18 @@ public class ClientFolderUsageController {
 
     private final DocumentStorageFolderRepository documentStorageFolderRepository;
 
+    private final S3StorageUrlProvider s3StorageUrlProvider;
+
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteFolder() throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException, PropertyNotSetException {
-        this.documentStorageFolderRepository.deleteFolder(FOLDER);
+        this.documentStorageFolderRepository.deleteFolder(FOLDER, s3StorageUrlProvider.getDefaultDocumentStorageUrl());
     }
 
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
     public void getAllFilesInFolderRecursively() throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException, PropertyNotSetException {
-        this.documentStorageFolderRepository.getAllFilesInFolderRecursively(FOLDER).block().forEach(log::info);
+        this.documentStorageFolderRepository.getAllFilesInFolderRecursively(FOLDER, s3StorageUrlProvider.getDefaultDocumentStorageUrl()).block().forEach(log::info);
     }
 
 }
