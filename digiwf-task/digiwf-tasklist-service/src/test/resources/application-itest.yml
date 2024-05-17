@@ -52,8 +52,6 @@ feign:
         url: "http://localhost:7080/"
       default:
         url: "http://localhost:7080/engine-rest/"
-      digiwf-process-config:
-        url: "${feign.client.config.default.url}"
 
 ezldap:
   client:
@@ -66,7 +64,8 @@ de:
     oss:
       digiwf:
         s3:
-          enable-security: false
+          client:
+            enable-security: false
 
 digiwf:
   s3service:

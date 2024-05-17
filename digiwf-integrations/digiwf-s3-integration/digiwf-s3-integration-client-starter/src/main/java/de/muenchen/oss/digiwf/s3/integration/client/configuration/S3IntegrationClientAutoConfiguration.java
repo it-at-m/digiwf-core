@@ -4,6 +4,7 @@ import de.muenchen.oss.digiwf.s3.integration.client.ApiClient;
 import de.muenchen.oss.digiwf.s3.integration.client.api.FileApiApi;
 import de.muenchen.oss.digiwf.s3.integration.client.api.FolderApiApi;
 import de.muenchen.oss.digiwf.s3.integration.client.properties.S3IntegrationClientProperties;
+import de.muenchen.oss.digiwf.s3.integration.client.properties.SupportedFileExtensions;
 import de.muenchen.oss.digiwf.s3.integration.client.service.ApiClientFactory;
 import de.muenchen.oss.digiwf.s3.integration.client.service.FileExtensionService;
 import de.muenchen.oss.digiwf.s3.integration.client.service.S3DomainProvider;
@@ -91,11 +92,35 @@ public class S3IntegrationClientAutoConfiguration {
                 .build();
     }
 
+    /**
+     * Instance of a {@link FileExtensionService} containing externally given supported file extensions.
+     *
+     * @param supportedFileExtensions {@link java.util.Map} of supported file extensions.
+     * @return {@link FileExtensionService} for managing file extensions.
+     */
     @Bean
-    public FileExtensionService fileExtensionValidation() {
+    @ConditionalOnBean(SupportedFileExtensions.class)
+    public FileExtensionService fileExtensionValidation(final SupportedFileExtensions supportedFileExtensions) {
+        return new FileExtensionService(supportedFileExtensions);
+    }
+
+    /**
+     * Instance of a {@link FileExtensionService} containing supported file extensions configured within in the 'de.muenchen.oss.digiwf.s3' scope.
+     *
+     * @return {@link FileExtensionService} for managing file extensions.
+     */
+    @Bean
+    @ConditionalOnMissingBean(SupportedFileExtensions.class)
+    public FileExtensionService fileExtensionValidationFromS3IntegrationClientProperties() {
         return new FileExtensionService(this.s3IntegrationClientProperties.getSupportedFileExtensions());
     }
 
+    /**
+     * Instance of an {@link S3StorageUrlProvider} containing an externally created {@link S3DomainProvider} for retrieving S
+     *
+     * @param s3DomainProvider
+     * @return
+     */
     @Bean
     @ConditionalOnBean(S3DomainProvider.class)
     public S3StorageUrlProvider s3StorageUrlProvider(final S3DomainProvider s3DomainProvider) {

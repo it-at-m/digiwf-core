@@ -45,10 +45,9 @@ public class ServiceInstanceFileService extends AbstractFileService {
             final ServiceInstanceDataService serviceInstanceDataService,
             final ServiceInstanceAuthService serviceInstanceAuthService,
             final ProcessConfigService processConfigService,
-            final ProcessConfigFunctions processConfigFunctions,
             final S3StorageUrlProvider s3StorageUrlProvider
     ) {
-        super(documentStorageFolderRepository, presignedUrlAdapters, s3StorageUrlProvider);
+        super(documentStorageFolderRepository, presignedUrlAdapters);
         this.serviceInstanceService = serviceInstanceService;
         this.processConfigService = processConfigService;
         this.serviceInstanceDataService = serviceInstanceDataService;

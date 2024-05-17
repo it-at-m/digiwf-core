@@ -7,6 +7,7 @@ package de.muenchen.oss.digiwf.ticket.integration.configuration;
 import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
 import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
 import de.muenchen.oss.digiwf.process.api.config.api.ProcessConfigApi;
+import de.muenchen.oss.digiwf.s3.integration.client.properties.SupportedFileExtensions;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFileRepository;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFolderRepository;
 import de.muenchen.oss.digiwf.s3.integration.client.service.S3DomainProvider;
@@ -32,6 +33,7 @@ import java.util.function.Consumer;
 
 @Configuration
 @RequiredArgsConstructor
+@EnableConfigurationProperties(TicketingProperties.class)
 public class TicketIntegrationAutoConfiguration {
 
     @Bean
@@ -64,6 +66,26 @@ public class TicketIntegrationAutoConfiguration {
         return messageProcessor.writeArticle();
     }
 
+    /**
+     * Offers a {@link java.util.Map} of supported file extensions for this integration in form of a {@link SupportedFileExtensions} object.
+     *
+     * @param ticketingProperties {@link TicketingProperties}  contains the supported file extensions.
+     * @return {@link SupportedFileExtensions} object representing the supported file extensions.
+     */
+    @Bean
+    public SupportedFileExtensions supportedFileExtensions(final TicketingProperties ticketingProperties) {
+        final SupportedFileExtensions supportedFileExtensions = new SupportedFileExtensions();
+        supportedFileExtensions.putAll(ticketingProperties.getSupportedFileExtensions());
+        return supportedFileExtensions;
+    }
+
+    /**
+     * {@link S3DomainProvider} instance specifically tailored for this integration to retrieve the domain-specific S3 storage URL for a given process if its
+     * process configuration contains a value for {@link de.muenchen.oss.digiwf.process.api.config.ProcessConfigConstants#APP_FILE_S3_SYNC_CONFIG}.
+     *
+     * @param processConfigApi {@link ProcessConfigApi} offers access to a process configuration for a given process definition id.
+     * @return S3DomainProvider {@link S3DomainProvider} that retrieves the domain-specific S3 storage url for a process if configured.
+     */
     @Bean
     public S3DomainProvider s3DomainProvider(final ProcessConfigApi processConfigApi) {
         return processConfigApi::getAppFileS3SyncConfig;

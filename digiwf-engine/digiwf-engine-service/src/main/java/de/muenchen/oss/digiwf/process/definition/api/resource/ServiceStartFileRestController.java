@@ -45,8 +45,7 @@ public class ServiceStartFileRestController {
         final List<String> fileNames = this.serviceStartFileService.getFileNames(
                 definitionKey,
                 filePath,
-                this.authenticationProvider.getCurrentUserId(),
-                this.authenticationProvider.getCurrentUserGroups());
+                this.authenticationProvider.getCurrentUserId());
         return ResponseEntity.ok(fileNames);
     }
 
@@ -66,8 +65,7 @@ public class ServiceStartFileRestController {
                 definitionKey,
                 filePath,
                 fileName,
-                this.authenticationProvider.getCurrentUserId(),
-                this.authenticationProvider.getCurrentUserGroups());
+                this.authenticationProvider.getCurrentUserId());
         return ResponseEntity.ok(presignedUrl);
     }
 
@@ -87,8 +85,7 @@ public class ServiceStartFileRestController {
                 definitionKey,
                 filePath,
                 filename,
-                this.authenticationProvider.getCurrentUserId(),
-                this.authenticationProvider.getCurrentUserGroups());
+                this.authenticationProvider.getCurrentUserId());
         return ResponseEntity.ok(presignedUrls);
     }
 
@@ -109,8 +106,7 @@ public class ServiceStartFileRestController {
                 definitionKey,
                 filePath,
                 filename,
-                this.authenticationProvider.getCurrentUserId(),
-                this.authenticationProvider.getCurrentUserGroups());
+                this.authenticationProvider.getCurrentUserId());
         return ResponseEntity.ok(presignedUrl);
     }
 

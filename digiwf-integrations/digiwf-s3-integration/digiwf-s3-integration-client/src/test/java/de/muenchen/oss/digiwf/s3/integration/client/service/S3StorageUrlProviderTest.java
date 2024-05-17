@@ -3,67 +3,51 @@ package de.muenchen.oss.digiwf.s3.integration.client.service;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.PropertyNotSetException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-public class S3StorageUrlProviderTest {
+class S3StorageUrlProviderTest {
 
     private final S3DomainProvider s3DomainProvider = mock(S3DomainProvider.class);
 
-    private static final String DEFAULT_DOCUMENT_STORAGE_URL = "http://default-storage-url.com";
+    private static final String DEFAULT_DOCUMENT_STORAGE_URL = "default-storage-url";
     private static final String PROCESS_DEFINITION_ID = "processDefinitionId";
-    private static final String DOMAIN_SPECIFIC_STORAGE_URL = "http://domain-specific-url.com";
+    private static final String DOMAIN_SPECIFIC_STORAGE_URL = "domain-specific-url";
 
     private S3StorageUrlProvider s3StorageUrlProviderWithDefault;
     private S3StorageUrlProvider s3StorageUrlProviderWithoutDefault;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         s3StorageUrlProviderWithDefault = new S3StorageUrlProvider(s3DomainProvider, DEFAULT_DOCUMENT_STORAGE_URL);
         s3StorageUrlProviderWithoutDefault = new S3StorageUrlProvider(s3DomainProvider, null);
     }
 
     @Test
-    public void testProvideS3StorageUrl_DomainSpecificUrl() throws PropertyNotSetException {
-        // Arrange
+    void testProvideS3StorageUrl_DomainSpecificUrl() throws PropertyNotSetException {
         when(s3DomainProvider.provideDomainSpecificS3StorageUrl(PROCESS_DEFINITION_ID))
                 .thenReturn(Optional.of(DOMAIN_SPECIFIC_STORAGE_URL));
-
-        // Act
         String result = s3StorageUrlProviderWithDefault.provideS3StorageUrl(PROCESS_DEFINITION_ID);
-
-        // Assert
         assertEquals(DOMAIN_SPECIFIC_STORAGE_URL, result);
     }
 
     @Test
-    public void testProvideS3StorageUrl_DefaultUrl() throws PropertyNotSetException {
-        // Arrange
+    void testProvideS3StorageUrl_DefaultUrl() throws PropertyNotSetException {
         when(s3DomainProvider.provideDomainSpecificS3StorageUrl(PROCESS_DEFINITION_ID))
                 .thenReturn(Optional.empty());
-
-        // Act
         String result = s3StorageUrlProviderWithDefault.provideS3StorageUrl(PROCESS_DEFINITION_ID);
-
-        // Assert
         assertEquals(DEFAULT_DOCUMENT_STORAGE_URL, result);
     }
 
     @Test
-    public void testProvideS3StorageUrl_NoUrls() {
-        // Arrange
+    void testProvideS3StorageUrl_NoUrls() {
         when(s3DomainProvider.provideDomainSpecificS3StorageUrl(PROCESS_DEFINITION_ID))
                 .thenReturn(Optional.empty());
-
-        // Act & Assert
         PropertyNotSetException exception = assertThrows(PropertyNotSetException.class, () ->
                 s3StorageUrlProviderWithoutDefault.provideS3StorageUrl(PROCESS_DEFINITION_ID)
         );

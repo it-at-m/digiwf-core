@@ -42,7 +42,7 @@ class DocumentStorageFolderRepositoryTest {
     }
 
     @Test
-    void deleteFolder() throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException, PropertyNotSetException {
+    void deleteFolder() throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
         final String pathToFolder = "folder";
 
         Mockito.reset(this.folderApi, this.apiClientFactory);
@@ -71,7 +71,7 @@ class DocumentStorageFolderRepositoryTest {
     }
 
     @Test
-    void getAllFilesInFolderRecursively() throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException, PropertyNotSetException {
+    void getAllFilesInFolderRecursively() throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
         final String pathToFolder = "folder";
 
         final FilesInFolderDto filesInFolderDto = new FilesInFolderDto();

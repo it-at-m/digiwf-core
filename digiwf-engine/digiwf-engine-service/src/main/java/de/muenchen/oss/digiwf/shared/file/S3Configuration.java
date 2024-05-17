@@ -34,8 +34,15 @@ public class S3Configuration {
         return new RestTemplate(new HttpComponentsClientHttpRequestFactory());
     }
 
+    /**
+     * Constructs an {@link S3DomainProvider} instance specifically tailored for the engine to retrieve the domain-specific S3 storage URL for a given process
+     * if its process configuration contains a value for {@link ProcessConfig#APP_FILE_S3_SYNC_CONFIG}.
+     *
+     * @param processConfigFunctions {@link ProcessConfigFunctions} offers access to a process configuration for a given process definition id.
+     * @return S3DomainProvider {@link S3DomainProvider} that retrieves the domain-specific S3 storage url for a process if configured.
+     */
     @Bean
     public S3DomainProvider s3DomainProvider(final ProcessConfigFunctions processConfigFunctions) {
-        return processDefinition -> processConfigFunctions.get(ProcessConfig.APP_FILE_S3_SYNC_CONFIG, processDefinition);
+        return processDefinitionId -> processConfigFunctions.get(ProcessConfig.APP_FILE_S3_SYNC_CONFIG, processDefinitionId);
     }
 }

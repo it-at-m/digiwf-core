@@ -27,10 +27,10 @@ class ReadContentUseCaseTest {
 
         doNothing().when(transferContentOutPort).transferContent(any(), any(), any(), anyString());
 
-        readContentUseCase.readContent(List.of("fileCoo"), "user", "filepath/", "filecontext/", "S3Url");
+        readContentUseCase.readContent(List.of("fileCoo"), "user", "filepath/", "filecontext/", "processDefinitionId");
 
         verify(this.readContent, times(1)).readContent(List.of("fileCoo"), "user");
 
-        verify(this.transferContentOutPort, times(1)).transferContent(List.of(content), "filepath/", "filecontext/", "S3Url");
+        verify(this.transferContentOutPort, times(1)).transferContent(List.of(content), "filepath/", "filecontext/", "processDefinitionId");
     }
 }

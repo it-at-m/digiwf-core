@@ -20,7 +20,8 @@ de:
     oss:
       digiwf:
         s3:
-          document-storage-url: '${DIGIWF_S3_HTTPAPI:http://localhost:8086}'
+          client:
+            document-storage-url: '${DIGIWF_S3_HTTPAPI:http://localhost:8086}'
 
 management:
   endpoint:

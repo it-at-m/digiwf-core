@@ -56,8 +56,9 @@ de:
     oss:
       digiwf:
         s3:
-          document-storage-url: ${DIGIWF_S3_HTTPAPI:http://localhost:8086}
-          enable-security: true # security is on and uses the "s3" client
+          client:
+            document-storage-url: ${DIGIWF_S3_HTTPAPI:http://localhost:8086}
+            enable-security: true # security is on and uses the "s3" client
 
 io:
   muenchendigital:

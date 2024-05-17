@@ -20,11 +20,17 @@ public interface ProcessConfigApi {
     /**
      * Retrieves a configuration value for a given key and process definition ID from the digiwf-engine.
      *
-     * @param key The key of the configuration value to retrieve.
+     * @param key                 The key of the configuration value to retrieve.
      * @param processDefinitionId The ID of the process definition for which the configuration value is sought.
      * @return An {@link Optional} containing the configuration value as a {@code String}, or an empty {@link Optional} if no value is found.
      */
     Optional<String> getProcessConfigValue(final String key, final String processDefinitionId);
 
+    /**
+     * Retrieves a domain-specific S3 storage URL for a given process definition id from digiwf-engine.
+     *
+     * @param processDefinitionId the process definition id
+     * @return the domain-specific S3 storage URL if configured
+     */
     Optional<String> getAppFileS3SyncConfig(String processDefinitionId);
 }

@@ -1,9 +1,7 @@
 package de.muenchen.oss.digiwf.shared.file;
 
-import de.muenchen.oss.digiwf.process.config.process.ProcessConfigFunctions;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.PropertyNotSetException;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFolderRepository;
-import de.muenchen.oss.digiwf.s3.integration.client.service.S3StorageUrlProvider;
 import de.muenchen.oss.digiwf.shared.file.presignedUrlAdapters.PresignedUrlAction;
 import de.muenchen.oss.digiwf.shared.file.presignedUrlAdapters.PresignedUrlAdapter;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +11,6 @@ import org.springframework.web.client.HttpServerErrorException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * General logic for handling file storage.
@@ -31,8 +28,7 @@ public abstract class AbstractFileService {
 
     public AbstractFileService(
             final DocumentStorageFolderRepository documentStorageFolderRepository,
-            final List<PresignedUrlAdapter> presignedUrlAdapters,
-            final S3StorageUrlProvider s3StorageUrlProvider
+            final List<PresignedUrlAdapter> presignedUrlAdapters
     ) {
         this.documentStorageFolderRepository = documentStorageFolderRepository;
         this.presignedUrlAdapters = presignedUrlAdapters;
@@ -41,7 +37,8 @@ public abstract class AbstractFileService {
     public List<String> getFileNames(final String filePath, final String fileContext, final String documentStorageUrl) throws PropertyNotSetException {
         try {
             final String pathToFolder = fileContext + "/" + filePath;
-                return this.extractFilenamesFromFolder(this.documentStorageFolderRepository.getAllFilesInFolderRecursively(pathToFolder, documentStorageUrl).block(), pathToFolder);
+            return this.extractFilenamesFromFolder(
+                    this.documentStorageFolderRepository.getAllFilesInFolderRecursively(pathToFolder, documentStorageUrl).block(), pathToFolder);
         } catch (final Exception ex) {
             log.error("Getting all files of folder {} failed: {}", filePath, ex);
             throw new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR, String.format("Getting all files of folder %s failed", filePath));
@@ -53,7 +50,7 @@ public abstract class AbstractFileService {
                 .filter(h -> h.isResponsibleForAction(action))
                 .findAny();
         if (handler.isPresent()) {
-                return handler.get().getPresignedUrl(documentStorageUrl, pathToFile, 5);
+            return handler.get().getPresignedUrl(documentStorageUrl, pathToFile, 5);
         }
         log.warn("No handler specified for action {}", action);
         throw new RuntimeException(String.format("No handler specified for action %s", action));
@@ -62,8 +59,8 @@ public abstract class AbstractFileService {
     //---------------------------------------- helper methods ---------------------------------------- //
 
     /**
-     * Extract the filenames from the given file list. Make sure that only filenames for files in the given folder are returned.
-     * Don't return filenames for files in subfolders.
+     * Extract the filenames from the given file list. Make sure that only filenames for files in the given folder are returned. Don't return filenames for
+     * files in subfolders.
      *
      * @param fileList
      * @param pathToFolder

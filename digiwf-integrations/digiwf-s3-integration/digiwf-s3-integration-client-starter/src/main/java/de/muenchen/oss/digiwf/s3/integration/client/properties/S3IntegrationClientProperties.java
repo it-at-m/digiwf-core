@@ -11,7 +11,7 @@ import java.util.Map;
 @Getter
 @Setter
 @Validated
-@ConfigurationProperties(prefix = "de.muenchen.oss.digiwf.s3")
+@ConfigurationProperties(prefix = "de.muenchen.oss.digiwf.s3.client")
 public class S3IntegrationClientProperties {
 
     private String documentStorageUrl;

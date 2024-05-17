@@ -15,6 +15,8 @@ import java.util.Objects;
  */
 public class FileExtensionService {
 
+    private static final String NO_FILE_EXTENSION = "No file extension found for %s";
+
     /**
      * Map stores supported file extensions and their corresponding MIME types. If it is empty, all types are supported.
      */
@@ -43,17 +45,17 @@ public class FileExtensionService {
      */
     public String getFileExtension(final String type) {
         final MimeTypes allMimeTypes = MimeTypes.getDefaultMimeTypes();
-        MimeType mimeType = null;
+        MimeType mimeType;
         try {
             mimeType = allMimeTypes.forName(type);
         } catch (MimeTypeException e) {
-            throw new NoFileTypeException("No file extension found for " + type);
+            throw new NoFileTypeException(NO_FILE_EXTENSION + type);
         }
         final String extension = mimeType.getExtension();
         final int lastDotIndex = extension.lastIndexOf('.');
-        if (lastDotIndex == -1) throw new NoFileTypeException("No file extension found for " + type);
+        if (lastDotIndex == -1) throw new NoFileTypeException(NO_FILE_EXTENSION + type);
         final String fileExtension = extension.substring(lastDotIndex + 1);
-        if (fileExtension.isEmpty()) throw new NoFileTypeException("No file extension found for " + type);
+        if (fileExtension.isEmpty()) throw new NoFileTypeException(NO_FILE_EXTENSION + type);
         return fileExtension;
     }
 

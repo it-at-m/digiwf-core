@@ -6,7 +6,6 @@ package de.muenchen.oss.digiwf.process.definition.domain.service;
 
 import de.muenchen.oss.digiwf.process.config.domain.model.ProcessConfig;
 import de.muenchen.oss.digiwf.process.config.domain.service.ProcessConfigService;
-import de.muenchen.oss.digiwf.process.config.process.ProcessConfigFunctions;
 import de.muenchen.oss.digiwf.process.definition.domain.model.StartContext;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.PropertyNotSetException;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFolderRepository;
@@ -43,24 +42,23 @@ public class ServiceStartFileService extends AbstractFileService {
             final ServiceStartContextService serviceStartContextService,
             final ProcessConfigService processConfigService,
             final List<PresignedUrlAdapter> presignedUrlAdapters,
-            final ProcessConfigFunctions processConfigFunctions,
             final S3StorageUrlProvider s3StorageUrlProvider
     ) {
-        super(documentStorageFolderRepository, presignedUrlAdapters, s3StorageUrlProvider);
+        super(documentStorageFolderRepository, presignedUrlAdapters);
         this.serviceStartContextService = serviceStartContextService;
         this.processConfigService = processConfigService;
         this.s3StorageUrlProvider = s3StorageUrlProvider;
     }
 
-    public List<String> getFileNames(final String definitionKey, final String filePath, final String userId, final List<String> groups)
-            throws PropertyNotSetException {
+    @Override
+    public List<String> getFileNames(final String definitionKey, final String filePath, final String userId) throws PropertyNotSetException {
         this.checkReadAccess(definitionKey, filePath);
         final String fileContext = this.getFileContext(userId, definitionKey);
         return super.getFileNames(filePath, fileContext, this.s3StorageUrlProvider.provideS3StorageUrl(definitionKey));
     }
 
-    public String getPresignedUrl(final PresignedUrlAction action, final String definitionKey, final String filePath, final String fileName, final String userId, final List<String> groups)
-            throws PropertyNotSetException {
+    public String getPresignedUrl(final PresignedUrlAction action, final String definitionKey, final String filePath, final String fileName,
+            final String userId) throws PropertyNotSetException {
         if (action.equals(PresignedUrlAction.GET)) {
             this.checkReadAccess(definitionKey, filePath);
         } else {

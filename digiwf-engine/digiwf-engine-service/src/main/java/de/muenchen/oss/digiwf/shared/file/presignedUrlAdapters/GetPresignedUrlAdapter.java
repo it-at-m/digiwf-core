@@ -25,7 +25,7 @@ public class GetPresignedUrlAdapter implements PresignedUrlAdapter {
         try {
             return this.presignedUrlRepository.getPresignedUrlGetFile(pathToFile, expireInMinutes, documentStorageUrl).block();
         } catch (final Exception ex) {
-            log.error("Getting presigned url for uploading file {} failed: {}", pathToFile, ex.getMessage());
+            log.error("Getting presigned url for uploading file {} failed: {}", pathToFile, ex);
             throw new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR, String.format("Getting presigned url for uploading file %s failed", pathToFile));
         }
     }
