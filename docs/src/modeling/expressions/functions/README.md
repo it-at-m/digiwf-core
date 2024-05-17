@@ -45,6 +45,8 @@ interagieren. Über die `execution` sind eine Vielzahl an Funktionen bereit, fol
 | `setVariable(key, value)` | Setzt eine bestimmte Variable im Execution Context         | `${execution.setVariable('meineVariable', 'Mein Wert')}` |
 | `hasVariable(key)`        | Prüft, ob eine Variable im Execution Context vorhanden ist | `${execution.hasVariable('meineVariable')}`              |
 
+### Umgang mit Listen
+
 Um auf die Elemente einer Liste zugreifen zu können, muss die Variable zunächst geparst werden. Das unten stehende
 Beispiel aus einem Script-Task zeigt den Zugriff auf das erste Element einer Liste, das in eine neue Variable
 gespeichert wird.
@@ -57,4 +59,15 @@ gespeichert wird.
 const tFileCoos = JSON.parse(execution.getVariable('sachakten'));
 const tFirstCoo = tFileCoos[0];
 execution.setVariable('firstCoo', tFirstCoo);
+```
+
+Um zwei Listen zusammenzuführen und sie wiederum an eine Prozessvariable zu übergeben, muss die zusammengeführte Liste 
+mit `S()` serialisiert werden. Folgendes Beispiel zeigt die Zusammenführung von zwei Listen.
+
+```
+const list_1 = JSON.parse(execution.getVariable('list_1'));
+const list_2 = JSON.parse(execution.getVariable('list_2'));
+const listCon = list_1.concat(list_2);
+const listConString = JSON.stringify(listCon);
+execution.setVariable('contentCoosString', S(listConString));
 ```
