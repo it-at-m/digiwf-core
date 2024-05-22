@@ -988,7 +988,7 @@
                         "const": "selection3",
                         "key": "selection2"
                       },
-                      "bb91dc7b-d950-4d8a-8bc6-0d01ddf54ab4": {
+                      "FormField_optionalTextarea": {
                         "x-options": {
                           "fieldColProps": {
                             "cols": 12,
@@ -1002,7 +1002,8 @@
                         "fieldType": "textarea",
                         "title": "Textarea",
                         "x-display": "textarea",
-                        "type": "string"
+                        "type": "string",
+                        "key": "FormField_optionalTextarea"
                       }
                     }
                   },
@@ -1019,7 +1020,7 @@
                         "const": "selection4",
                         "key": "selection2"
                       },
-                      "a7d91744-9477-49d9-ba59-a9d52c73c737": {
+                      "FormField_optionalFloatingNumber": {
                         "x-options": {
                           "fieldColProps": {
                             "cols": 12,
@@ -1032,7 +1033,8 @@
                         },
                         "fieldType": "number",
                         "title": "Floating Number",
-                        "type": "number"
+                        "type": "number",
+                        "key": "FormField_optionalFloatingNumber"
                       }
                     }
                   }
