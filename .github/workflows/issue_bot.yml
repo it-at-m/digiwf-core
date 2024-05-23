@@ -10,14 +10,40 @@ jobs:
     permissions:
       issues: write
     steps:
+      - name: 'Check Author'
+        uses: actions/github-script@v7
+        id: check-author
+        with:
+          github-token: ${{ secrets.ACCESS_TOKEN }}
+          debug: true
+          script: |
+            const author = context.payload.sender.login;
+            const maintainers = await github.rest.teams.listMembersInOrg({
+                org: owner,
+                team_slug: 'digiwf_maintainer'
+            });
+            const devs = await github.rest.teams.listMembersInOrg({
+                org: owner,
+                team_slug: 'digiwf_dev'
+            });
+            const admins = await github.rest.teams.listMembersInOrg({
+                org: owner,
+                team_slug: 'digiwf_admin'
+            });
+            const coreMembers = maintainers.concat(devs, admins).data.map(u => u.login)
+            
+            console.log(author)
+            console.log(coreMembers)
+            console.log(!coreMembers.includes(author))
+            
+            return !coreMembers.includes(author)
       - name: 'Assign Issue'
-        if: github.event.issue.author_association != 'MEMBER'
+        if: steps.check-author.outputs.result
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.ACCESS_TOKEN }}
           debug: true
           script: |
-            console.log("Author is %s", github.event.issue.author_association);
             const { repo, owner } = context.repo;
             const issue_number = context.issue.number;
             const maintainers = await github.rest.teams.listMembersInOrg({
@@ -31,7 +57,7 @@ jobs:
               assignees: maintainers.data.map(u => u.login)
             });
       - name: 'Inform Author'
-        if: github.event.issue.author_association != 'MEMBER'
+        if: steps.check-author.outputs.result
         uses: actions/github-script@v7
         with:
           debug: true
