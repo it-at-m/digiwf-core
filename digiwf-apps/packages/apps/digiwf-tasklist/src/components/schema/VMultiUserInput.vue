@@ -25,7 +25,11 @@
       @change="change"
     >
       <template #label>
-        <span>{{ label }}</span>
+        <span
+          :aria-label="label"
+          :aria-required="isRequired()"
+          tabindex="0"
+        >{{ label }}</span>
         <span
           v-if="isRequired()"
           aria-hidden="true"
@@ -36,12 +40,12 @@
       </template>
       <template #selection="data">
         <v-chip
-          :close="!readonly"
+          :aria-label="getFullName(data.item) + data.item.ou"
           :input-value="data.selected"
           class="ma-1 pa-4"
           small
+          tabindex="0"
           v-bind="data.attrs"
-          @click:close="removeUser(data.item)"
         >
           <v-avatar left>
             <v-img :src="mucatarUrl(data.item.username)">
@@ -51,6 +55,14 @@
             </v-img>
           </v-avatar>
           {{ getFullName(data.item) }} ({{ data.item.ou }})
+          <v-icon
+            v-if="!readonly"
+            :aria-label="getFullName(data.item) + data.item.ou + ' entfernen'"
+            class="ml-2"
+            size="20"
+            @click.stop="removeUser(data.item)">
+            mdi-close-circle
+          </v-icon>
         </v-chip>
       </template>
       <template #item="data">
@@ -64,7 +76,7 @@
           </v-list-item-avatar>
           <v-list-item-content>
             <v-list-item-title>{{ getFullName(data.item) }}</v-list-item-title>
-            <v-list-item-subtitle v-html="data.item.ou" />
+            <v-list-item-subtitle v-html="data.item.ou"/>
           </v-list-item-content>
         </template>
       </template>
@@ -84,16 +96,12 @@
 </style>
 
 <script lang="ts">
-import { UserTO } from "@muenchen/digiwf-engine-api-internal";
-import { defineComponent, PropType, ref, watch } from "vue";
+import {UserTO} from "@muenchen/digiwf-engine-api-internal";
+import {defineComponent, PropType, ref, watch} from "vue";
 
-import {
-  callGetUserById,
-  callGetUserByUsername,
-  callSearchUser,
-} from "../../api/user/userApiCalls";
-import { mucatarURL } from "../../constants";
-import { checkRequired } from "./validation/required";
+import {callGetUserById, callGetUserByUsername, callSearchUser,} from "../../api/user/userApiCalls";
+import {mucatarURL} from "../../constants";
+import {checkRequired} from "./validation/required";
 
 export interface OnProperty {
   input: (value: any) => void;
@@ -186,8 +194,8 @@ export default defineComponent({
       const isId = idOrUsername.match(/^-?\d+$/);
       locked.value = true;
       (isId
-        ? callGetUserById(idOrUsername)
-        : callGetUserByUsername(idOrUsername)
+          ? callGetUserById(idOrUsername)
+          : callGetUserByUsername(idOrUsername)
       )
         .then((user) => {
           selectedUsers.value = [...selectedUsers.value, user];
