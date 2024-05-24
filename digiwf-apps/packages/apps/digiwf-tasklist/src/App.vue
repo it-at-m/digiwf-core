@@ -86,6 +86,7 @@
           <router-view />
         </v-fade-transition>
       </v-container>
+      <snackbar />
     </v-main>
   </v-app>
 </template>
@@ -159,21 +160,23 @@ a {
 </style>
 
 <script lang="ts">
-import { InfoTO, UserTO } from "@muenchen/digiwf-engine-api-internal";
-import { defineComponent, provide, ref, watch } from "vue";
+import {InfoTO} from "@muenchen/digiwf-engine-api-internal";
+import {defineComponent, provide, ref, watch} from "vue";
 
-import StageInfoService, { StageInfo } from "./api/StageInfoService";
+import StageInfoService, {StageInfo} from "./api/StageInfoService";
 import AppMenuList from "./components/UI/appMenu/AppMenuList.vue";
 import AppHelpMenu from "./components/UI/help/AppHelpMenu.vue";
 import AppKeyBindingsDialog from "./components/UI/help/AppKeyBindingsDialog.vue";
-import { useStore } from "./hooks/store";
-import { useGetProcessInstances } from "./middleware/processInstances/processInstancesMiddleware";
-import { queryClient } from "./middleware/queryClient";
-import { useCurrentUserInfo } from "./middleware/user/userMiddleware";
-import { apiGatewayUrl } from "./utils/envVariables";
+import {useStore} from "./hooks/store";
+import {useGetProcessInstances} from "./middleware/processInstances/processInstancesMiddleware";
+import {queryClient} from "./middleware/queryClient";
+import {useCurrentUserInfo} from "./middleware/user/userMiddleware";
+import {apiGatewayUrl} from "./utils/envVariables";
+import {NOTIFICATION_CONTEXT_KEY, useNotification} from "./middleware/snackbar";
+import Snackbar from "./components/common/Snackbar.vue";
 
 export default defineComponent({
-  components: { AppHelpMenu, AppMenuList, AppKeyBindingsDialog },
+  components: {Snackbar, AppHelpMenu, AppMenuList, AppKeyBindingsDialog },
   setup: () => {
     const drawer = ref(true);
     const processInstancesCount = ref<number | null>(null);
@@ -183,6 +186,8 @@ export default defineComponent({
     const stage = ref<StageInfo>(StageInfoService.getDefaultStageInfo());
 
     const store = useStore();
+    const snackbarContext = useNotification();
+    provide(NOTIFICATION_CONTEXT_KEY, snackbarContext);
 
     const { data: processInstances } = useGetProcessInstances(
       ref(0),

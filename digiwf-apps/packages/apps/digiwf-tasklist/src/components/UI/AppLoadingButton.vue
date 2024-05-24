@@ -69,7 +69,7 @@ export default defineComponent({
   setup: (props) => {
     return {
       loadingClass: () => (props.isLoading ? "" : "isNotLoading"),
-      loadingColor: () => (props.color === "primary" ?  "primary" : "white"),
+      loadingColor: () => (props.color === "primary" ? "white" : "primary"),
     };
   },
 });

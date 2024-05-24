@@ -31,10 +31,6 @@
           <li>
             Bei dem Multi-User-Input fehlen teilweise Texte für den Screenreader
           </li>
-          <li>
-            Meldungen über erfolgte Aktionen fehlen sowohl optisch als auch für
-            den Screenreader
-          </li>
           <li>Fehlende Shortcuts für App-Elemente</li>
           <li>Wenige fehlende Alternativtexte</li>
         </ol>
@@ -59,14 +55,15 @@
         <p>
           Landeshauptstadt München <br />
           IT-Referat <br />
-          E-Mail: <a href="mailto:opensource@muenchen.de">opensource@muenchen.de</a>
+          E-Mail:
+          <a href="mailto:opensource@muenchen.de">opensource@muenchen.de</a>
         </p>
       </div>
     </div>
   </v-container>
 </template>
 
-<script setup lang="ts"></script>
+<script lang="ts" setup></script>
 
 <style scoped>
 .viewContainer {

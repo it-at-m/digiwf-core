@@ -13,6 +13,7 @@ import TaskDetail from "@/views/TaskDetail.vue";
 import Tasks from "@/views/Tasks.vue";
 import store from "./store";
 import { baseUrl } from "./utils/envVariables";
+import A11YMessage from "./views/A11YMessage.vue";
 
 Vue.use(Router);
 
@@ -92,6 +93,11 @@ const router = new Router({
       path: "/accessibilitystatement",
       name: "accessibilitystatement",
       component: AccessibilityStatement,
+    },
+    {
+      path: "/message",
+      name: "message",
+      component: A11YMessage,
     },
     { path: "*", redirect: "/mytask" }, //Fallback 2
   ],

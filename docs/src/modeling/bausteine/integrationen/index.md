@@ -46,7 +46,7 @@ Es stehen verschiedene E-Mail Templates zur Verfügung.
 
 ### E-Mail versenden
 
-Um eine einfache E-Mail zu versenden, wird das Element Template `Mail: E-Mail senden V02` verwendet.
+Um eine einfache E-Mail zu versenden, wird das Element Template `Mail: E-Mail senden` verwendet.
 
 **Properties**
 
@@ -63,7 +63,9 @@ Um eine einfache E-Mail zu versenden, wird das Element Template `Mail: E-Mail se
 
 ### E-Mail mit Logo versenden
 
-Um eine E-Mail mit Logo zu versenden, wird das Element Template `Mail: E-Mail mit Logo senden` verwendet.
+Um eine E-Mail mit Logo zu versenden, wird das Element Template `Mail: E-Mail aus Vorlage mit Logo senden` verwendet. Bei der Verwendung ist zu beachten, 
+dass Zeilenumbrüche in den Werten der Felder 'E-Mail Text' und 'E-Mail Gruß' durch `<br>` ersetzt werden, damit sie in der als HTML 
+zugestellten E-Mail korrekt angezeigt werden.
 
 **Properties**
 
@@ -80,7 +82,9 @@ Um eine E-Mail mit Logo zu versenden, wird das Element Template `Mail: E-Mail mi
 
 ### E-Mail mit Logo und Link versenden
 
-Um eine E-Mail mit Logo zu versenden, wird das Element Template `Mail: E-Mail mit Logo und Link senden` verwendet.
+Um eine E-Mail mit Logo zu versenden, wird das Element Template `Mail: E-Mail aus Vorlage mit Logo und Link senden` verwendet. Bei der Verwendung ist zu 
+beachten, dass Zeilenumbrüche in den Werten der Felder 'E-Mail Text' und 'E-Mail Gruß' durch `<br>` ersetzt werden, damit sie in der als 
+HTML zugestellten E-Mail korrekt angezeigt werden.
 
 **Properties**
 

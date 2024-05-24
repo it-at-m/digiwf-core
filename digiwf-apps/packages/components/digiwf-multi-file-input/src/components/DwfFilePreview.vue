@@ -1,9 +1,9 @@
 <template>
   <div>
-    <v-card class="doc-card mb-2" elevation="2" tabindex="-1" outlined max-width="350px" @click="openInTab()">
+    <v-card class="doc-card mb-2" elevation="2" max-width="350px" outlined tabindex="-1" @click="openInTab()">
       <v-card-title class="text-subtitle-1 title">
         <div class="d-flex align-start flex-row" tabindex="0">
-          <v-icon left size="30" class="mr-2" :aria-label="document.name">
+          <v-icon :aria-label="document.name" class="mr-2" left size="30">
             {{ icon }}
           </v-icon>
           {{ document.name }}
@@ -13,18 +13,18 @@
         <div class="preview">
           <v-img
             v-if="isImage"
-            class="preview-component"
-            :src="document.data"
-            max-width="200px"
             :alt="'Bildvorschau von ' + document.name"
+            :src="document.data"
+            class="preview-component"
+            max-width="200px"
           >
           </v-img>
 
           <vue2-pdf-embed
             v-else-if="isPdf"
+            :aria-label="'PDF Vorschau von ' + document.name"
             :source="document.data"
             class="preview-component"
-            :aria-label="'PDF Vorschau von ' + document.name"
 
           />
 
@@ -33,11 +33,11 @@
             <div class="footer" tabindex="0">{{ documentSize }}</div>
             <template v-if="!readonly">
               <v-btn
+                :aria-label="document.name + ' entfernen'"
                 class="remove-button ma-1"
                 elevation="1"
                 icon
                 @click.stop="removeDocument"
-                :aria-label="document.name + ' entfernen'"
               >
                 <v-icon> mdi-delete</v-icon>
               </v-btn>
@@ -70,7 +70,11 @@ export default defineComponent({
 
     const openInTab = () => {
       const url = createBlobUrl(calcByteCharacters.value, props.document.type);
-      window.open(url, "_blank")
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", props.document.name!);
+      document.body.appendChild(link);
+      link.click();
     }
 
     const removeDocument = () => {

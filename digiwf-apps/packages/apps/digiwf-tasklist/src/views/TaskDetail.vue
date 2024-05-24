@@ -30,13 +30,18 @@
         class="taskForm"
         @model-changed="modelChanged"
         @complete-form="handleCompleteTask"
+        @completion-failed="showError"
       />
       <app-json-form
         v-else
+        :is-completing="isCompleting"
+        :safe-validation="safeValidation"
         :schema="task.schema"
         :value="formFields"
         @input="modelChanged"
         @complete-form="handleCompleteTask"
+        @completion-failed="showError"
+        @reset-safe-validation="resetSafeValidation"
       />
     </v-flex>
     <v-flex v-if="isLoading" class="loadingAnimation">
@@ -190,17 +195,18 @@ import TaskLinks from "../components/task/links/TaskLinks.vue";
 import {
   downloadPDFFromEngine,
   LoadTaskResultData,
-  pushRouterPath,
   useCancelTaskMutation,
   useCompleteTaskMutation,
   useDeferTaskMutation,
   useSaveTaskMutation,
-  useTaskQuery,
+  useTaskQuery
 } from "../middleware/tasks/taskMiddleware";
 import {HumanTaskDetails} from "../middleware/tasks/tasksModels";
 import {mergeObjects} from "../utils/mergeObjects";
 import {parseQueryParameterInputs} from "../utils/urlQueryForFormFields";
 import {validateSchema} from "../utils/validateSchema";
+import {MessageType, useNotificationContext} from "@/middleware/snackbar";
+import {useAccessibility} from "../store/modules/accessibility";
 
 const props = defineProps({
   id: {
@@ -238,6 +244,12 @@ const router = useRouter();
 const formFields = ref<any>({});
 
 const isLoading = ref(false);
+
+const safeValidation = ref(false);
+
+const {showMessageAndLeavePage} = useNotificationContext();
+
+const a11YNotificationEnabled = useAccessibility().a11YNotificationEnabled;
 
 /**
  * toggle for showing fab menu
@@ -281,7 +293,7 @@ const loadTask = (data: LoadTaskResultData) => {
 
 const {
   mutateAsync: cancelTask,
-  isPending: isCancelling,
+  isLoading: isCancelling,
   isError: hasCancelError
 } = useCancelTaskMutation();
 
@@ -291,14 +303,14 @@ const {
 
 const {
   mutateAsync: completeTask,
-  isPending: isCompleting,
+  isLoading: isCompleting,
   isError: hasCompleteError
 } = useCompleteTaskMutation(taskId);
 
 
 const {
   mutateAsync: saveTask,
-  isPending: isSaving,
+  isLoading: isSaving,
   isError: hasSaveError
 } = useSaveTaskMutation(taskId);
 
@@ -350,29 +362,34 @@ onMounted(() => {
     isLoading.value = false;
   });
 
+
 });
 
 const handleCompleteTask = (model: any) => {
+  hasChanges.value = false;
   completeTask(model)
     .then(() => {
       errorMessage.value = "";
-      hasChanges.value = false;
-      pushRouterPath("/mytask");
     })
     .catch(error => {
       errorMessage.value = error;
+      hasChanges.value = true;
     });
 };
 
 const handleSaveTask = (): Promise<void> => {
+  hasChanges.value = false;
+  if (!a11YNotificationEnabled()) {
+    safeValidation.value = true;
+  }
   return saveTask(model.value)
     .then(() => {
       errorMessage.value = "";
-      hasChanges.value = false;
       return Promise.resolve();
     })
     .catch(error => {
       errorMessage.value = error;
+      hasChanges.value = true;
       return Promise.reject();
     });
 };
@@ -428,6 +445,19 @@ const modelChanged = (newModel: any) => {
 
 const isDirty = (): boolean => {
   return hasChanges.value;
+};
+
+const resetSafeValidation = () => {
+  safeValidation.value = false;
+};
+
+const showError = (error: string) => {
+  errorMessage.value = error;
+  showMessageAndLeavePage(
+    error,
+    MessageType.ERROR,
+    {path: "/task/" + taskId}
+  );
 };
 
 </script>

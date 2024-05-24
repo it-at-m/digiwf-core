@@ -603,7 +603,8 @@
                     "type": "integer"
                   }
                 }
-              },"FormField_file_Validation2": {
+              },
+              "FormField_file_Validation2": {
                 "x-options": {
                   "fieldColProps": {
                     "cols": 12,
@@ -736,16 +737,16 @@
       },
       {
         "key": "sectionKey3",
-        "title": "Objektlisten",
+        "title": "Objekte und Optionals",
         "type": "object",
-        "description": "Reiter für Tests von Objektlisten",
+        "description": "Reiter für Tests von Objektlisten und Optionals",
         "x-options": {
           "sectionsTitlesClasses": []
         },
         "allOf": [
           {
             "containerType": "group",
-            "title": "Objects",
+            "title": "Dynamisches Objekt",
             "description": "",
             "key": "28656bcf-8add-4f52-a0b1-4d3b68696f3a",
             "x-options": {
@@ -755,7 +756,7 @@
               "FormField_object": {
                 "key": "FormField_object",
                 "fieldType": "object",
-                "title": "Object with textfield and number input",
+                "title": "Objekt mit Textfeld und Zahl",
                 "type": "object",
                 "additionalProperties": false,
                 "x-options": {
@@ -805,7 +806,7 @@
               "FormField_arrayObject": {
                 "key": "FormField_arrayObject",
                 "fieldType": "arrayObject",
-                "title": "Object List with 2 text fields",
+                "title": "Dynamische Objektliste mit 2 Textfeldern",
                 "type": "array",
                 "items": {
                   "type": "object",
@@ -855,6 +856,193 @@
                 }
               }
             }
+          },
+          {
+            "containerType": "group",
+            "title": "Optional in Group",
+            "description": "",
+            "key": "5a883352-793e-4777-9ca6-62bba701e89e",
+            "x-options": {
+              "childrenClass": "pl-0"
+            },
+            "properties": {
+              "optionalGroup": {
+                "key": "optionalGroup",
+                "fieldType": "optionalContainer",
+                "title": "Optionale Gruppe",
+                "type": "object",
+                "x-options": {
+                  "sectionsTitlesClasses": []
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "oneOf": [
+                  {
+                    "title": "Optionales Auswahl-Item 1",
+                    "key": "4ae29e5b-c9c7-4869-a640-1e9640022850",
+                    "x-options": {
+                      "childrenClass": "pl-0"
+                    },
+                    "properties": {
+                      "selection": {
+                        "fieldType": "const",
+                        "type": "string",
+                        "const": "selection1",
+                        "key": "selection"
+                      },
+                      "FormField_optionalTextfield": {
+                        "fieldType": "text",
+                        "title": "Textfield",
+                        "type": "string",
+                        "key": "FormField_optionalTextfield",
+                        "x-options": {
+                          "fieldColProps": {
+                            "cols": 12,
+                            "sm": 12
+                          },
+                          "messages": {}
+                        },
+                        "x-props": {
+                          "outlined": true,
+                          "dense": true
+                        },
+                        "x-rules": []
+                      }
+                    }
+                  },
+                  {
+                    "title": "Optionales Auswahl-Item 2",
+                    "key": "eb21ade4-ff7f-441b-8e1a-2727ea8df2c4",
+                    "x-options": {
+                      "childrenClass": "pl-0"
+                    },
+                    "properties": {
+                      "selection": {
+                        "fieldType": "const",
+                        "type": "string",
+                        "const": "selection2",
+                        "key": "selection"
+                      },
+                      "FormField_optionalNumber": {
+                        "fieldType": "integer",
+                        "title": "Number",
+                        "type": "integer",
+                        "key": "FormField_optionalNumber",
+                        "x-options": {
+                          "fieldColProps": {
+                            "cols": 12,
+                            "sm": 12
+                          },
+                          "messages": {}
+                        },
+                        "x-props": {
+                          "outlined": true,
+                          "dense": true
+                        },
+                        "x-rules": []
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "containerType": "optionalContainer",
+            "title": "Optionales Objekt",
+            "type": "object",
+            "x-options": {
+              "sectionsTitlesClasses": [
+                "d-none"
+              ]
+            },
+            "x-props": {
+              "outlined": true,
+              "dense": true
+            },
+            "allOf": [
+              {
+                "fieldType": "optionalContainer",
+                "title": "Optionale Felder",
+                "type": "object",
+                "x-options": {
+                  "sectionsTitlesClasses": []
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "oneOf": [
+                  {
+                    "title": "Optionales Auswahl-Item 3",
+                    "key": "a128c1cb-1661-4a64-8555-75e9c00edd3d",
+                    "x-options": {
+                      "childrenClass": "pl-0"
+                    },
+                    "properties": {
+                      "selection2": {
+                        "fieldType": "const",
+                        "type": "string",
+                        "const": "selection3",
+                        "key": "selection2"
+                      },
+                      "FormField_optionalTextarea": {
+                        "x-options": {
+                          "fieldColProps": {
+                            "cols": 12,
+                            "sm": 12
+                          }
+                        },
+                        "x-props": {
+                          "outlined": true,
+                          "dense": true
+                        },
+                        "fieldType": "textarea",
+                        "title": "Textarea",
+                        "x-display": "textarea",
+                        "type": "string",
+                        "key": "FormField_optionalTextarea"
+                      }
+                    }
+                  },
+                  {
+                    "title": "Optionales Auswahl-Item 4",
+                    "key": "cff28458-766b-41d4-ae77-ebce553f485d",
+                    "x-options": {
+                      "childrenClass": "pl-0"
+                    },
+                    "properties": {
+                      "selection2": {
+                        "fieldType": "const",
+                        "type": "string",
+                        "const": "selection4",
+                        "key": "selection2"
+                      },
+                      "FormField_optionalFloatingNumber": {
+                        "x-options": {
+                          "fieldColProps": {
+                            "cols": 12,
+                            "sm": 12
+                          }
+                        },
+                        "x-props": {
+                          "outlined": true,
+                          "dense": true
+                        },
+                        "fieldType": "number",
+                        "title": "Floating Number",
+                        "type": "number",
+                        "key": "FormField_optionalFloatingNumber"
+                      }
+                    }
+                  }
+                ],
+                "key": "6472edef-f5ae-4cc3-be09-7bddffd3af65"
+              }
+            ],
+            "key": "e11839bf-b5e6-4853-8f77-f12249ef299b"
           }
         ]
       }
