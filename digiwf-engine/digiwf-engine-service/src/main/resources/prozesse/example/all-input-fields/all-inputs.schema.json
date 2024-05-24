@@ -226,6 +226,7 @@
                 "fieldType": "file",
                 "title": "Dateien ohne Einschränkungen",
                 "x-display": "custom-multi-file-input",
+                "uuidEnabled": true,
                 "type": "object",
                 "filePath": "test",
                 "properties": {
@@ -251,6 +252,7 @@
                 "fieldType": "file",
                 "title": "Dateien mit Validierung",
                 "x-display": "custom-multi-file-input",
+                "uuidEnabled": true,
                 "type": "object",
                 "filePath": "test",
                 "x-rules": [
