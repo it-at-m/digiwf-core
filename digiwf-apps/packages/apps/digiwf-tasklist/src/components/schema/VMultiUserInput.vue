@@ -3,7 +3,7 @@
     <v-autocomplete
       v-model="selectedUsers"
       :aria-required="isRequired()"
-      :auto-select-first="autoSelectFirst"
+      :auto-select-first="!screenreaderMode"
       :class="[isReadonly() ? 'userInputReadonly' : 'userInput']"
       :disabled="disabled"
       :filter="filterUsers"
@@ -179,7 +179,7 @@ export default defineComponent({
 
     const a11YNotificationEnabled = useAccessibility().a11YNotificationEnabled;
 
-    const autoSelectFirst = computed(() => !a11YNotificationEnabled());
+    const screenreaderMode = computed(() => !a11YNotificationEnabled());
 
     watch(searchText, (newValue) => {
       searchUsersBySearchString(newValue);
@@ -228,6 +228,7 @@ export default defineComponent({
       selectedUsers.value = selectedUsers.value.filter(
         (it) => it.lhmObjectId !== user.lhmObjectId
       );
+      props.on.input(selectedUsers.value);
     };
 
     const mucatarUrl = (uid: string) => mucatarURL(uid);
@@ -284,7 +285,7 @@ export default defineComponent({
     }
 
     return {
-      autoSelectFirst,
+      screenreaderMode,
       resetInput,
       change,
       getFullName,
