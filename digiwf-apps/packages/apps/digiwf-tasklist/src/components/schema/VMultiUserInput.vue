@@ -179,7 +179,7 @@ export default defineComponent({
 
     const a11YNotificationEnabled = useAccessibility().a11YNotificationEnabled;
 
-    const screenreaderMode = computed(() => !a11YNotificationEnabled());
+    const screenreaderMode = computed(() => a11YNotificationEnabled());
 
     watch(searchText, (newValue) => {
       searchUsersBySearchString(newValue);
@@ -228,7 +228,7 @@ export default defineComponent({
       selectedUsers.value = selectedUsers.value.filter(
         (it) => it.lhmObjectId !== user.lhmObjectId
       );
-      props.on.input(selectedUsers.value);
+      change();
     };
 
     const mucatarUrl = (uid: string) => mucatarURL(uid);
