@@ -3,6 +3,7 @@
     <v-autocomplete
       v-model="selectedUsers"
       :aria-required="isRequired()"
+      :auto-select-first="autoSelectFirst"
       :class="[isReadonly() ? 'userInputReadonly' : 'userInput']"
       :disabled="disabled"
       :filter="filterUsers"
@@ -12,7 +13,6 @@
       :readonly="isReadonly()"
       :rules="rules ? rules : true"
       :search-input.sync="searchText"
-      auto-select-first
       chips
       hide-no-data
       item-text="username"
@@ -97,11 +97,12 @@
 
 <script lang="ts">
 import {UserTO} from "@muenchen/digiwf-engine-api-internal";
-import {defineComponent, PropType, ref, watch} from "vue";
+import {computed, defineComponent, PropType, ref, watch} from "vue";
 
 import {callGetUserById, callGetUserByUsername, callSearchUser,} from "../../api/user/userApiCalls";
 import {mucatarURL} from "../../constants";
 import {checkRequired} from "./validation/required";
+import {useAccessibility} from "../../store/modules/accessibility";
 
 export interface OnProperty {
   input: (value: any) => void;
@@ -175,6 +176,10 @@ export default defineComponent({
     const locked = ref(false);
     const errorMessage = ref("");
     const lastSearch = ref("");
+
+    const a11YNotificationEnabled = useAccessibility().a11YNotificationEnabled;
+
+    const autoSelectFirst = computed(() => !a11YNotificationEnabled());
 
     watch(searchText, (newValue) => {
       searchUsersBySearchString(newValue);
@@ -279,6 +284,7 @@ export default defineComponent({
     }
 
     return {
+      autoSelectFirst,
       resetInput,
       change,
       getFullName,
