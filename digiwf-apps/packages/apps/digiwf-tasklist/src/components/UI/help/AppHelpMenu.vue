@@ -21,8 +21,8 @@
         <v-switch
           :aria-label="
             isHighContrastModeEnabled()
-              ? 'Hohen Kontrast deaktivieren'
-              : 'Hohen Kontrast aktivieren'
+              ? 'ist aktiviert, deaktivieren mit Entertaste'
+              : 'ist deaktiviert, aktivieren mit Entertaste'
           "
           :input-value="isHighContrastModeEnabled()"
           class="ml-2"
@@ -35,12 +35,12 @@
         @click.stop="changeA11YNotificationMode"
       >
         <HighContrastIcon class="mr-2"/>
-        barrierefreie Mitteilungen
+        Screenreader Optimierung
         <v-switch
           :aria-label="
             a11YNotificationEnabled()
-              ? 'Mitteilungen werden barrierefrei angezeigt'
-              : 'Mitteilungen werden als Popup angezeigt'
+              ? 'ist aktiviert, deaktivieren mit Entertaste'
+              : 'ist deaktiviert, aktivieren mit Entertaste'
           "
           :input-value="a11YNotificationEnabled()"
           class="ml-2"
