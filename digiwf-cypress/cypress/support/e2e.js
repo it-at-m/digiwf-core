@@ -15,6 +15,30 @@
 
 // Import commands.js using ES2015 syntax:
 import './commands'
+import 'cypress-keycloak'
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
+
+beforeEach(() => {
+    cy.intercept({
+        method: 'GET',
+        url: '/api/digitalwf-tasklist-service/rest/tasks/user*',
+    }).as('dataGetMyTasks')
+    cy.intercept({
+        method: 'GET',
+        url: '/api/digitalwf-backend-service/rest/service/instance*',
+    }).as('dataGetInstances')
+    cy.intercept({
+        method: 'GET',
+        url: '/api/digitalwf-backend-service/rest/service/definition*',
+    }).as('dataGetDefinitions')
+    cy.intercept({
+        method: 'GET',
+        url: '/api/digitalwf-tasklist-service/rest/tasks/group/unassigned*',
+    }).as('dataGetOpenGroupTasks')
+    cy.intercept({
+        method: 'GET',
+        url: '/api/digitalwf-tasklist-service/rest/tasks/group/assigned*',
+    }).as('dataGetInProgressGroupTasks')
+})

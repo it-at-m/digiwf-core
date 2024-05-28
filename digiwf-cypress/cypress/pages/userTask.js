@@ -1,20 +1,14 @@
-import Page from './page'
-
-class UserTask extends Page{
+class UserTask {
     elements = {
-        abschliessenButton: () => cy.get(`button.mt-5`,{timeout:3000}),
-        headline: () => cy.get('div.flex:nth-child(1) > h1:nth-child(2)')
-    }
-    setNumberOfTasks(number){
-        this.elements.numberOfParallelTasks().clear()
-        this.elements.numberOfParallelTasks().type(number)
+        abschliessenButton: () => cy.get(`.container form .form-submit-button`),
+        headline: () => cy.get('.container h1')
     }
 
-    checkHeadline(text){
-        this.elements.headline().should('contain.text',text)
+    checkHeadline(text) {
+        this.elements.headline().should('contain.text', text)
     }
 
-    clickAbschliessen(){
+    clickAbschliessen() {
         this.elements.abschliessenButton().should('be.visible');
         cy.intercept({
             method: 'GET',
