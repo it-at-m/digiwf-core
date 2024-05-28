@@ -10,6 +10,7 @@
       :label="label"
       :loading="isLoading"
       :rules="rules"
+      aria-label="Datei hochladen"
       multiple
       outlined
       persistent-hint
@@ -17,16 +18,16 @@
       type="file"
       v-bind="schema['x-props']"
       @change="changeInput"
-      aria-label="Datei hochladen"
     >
       <template #label>
         <span tabindex="0">{{ label }}</span>
-        <span v-if="isRequired()" aria-hidden="true" style="font-weight: bold; color: red" aria-label="Eingabe ist ein Pflichtfeld"> *</span>
+        <span v-if="isRequired()" aria-hidden="true" aria-label="Eingabe ist ein Pflichtfeld"
+              style="font-weight: bold; color: red"> *</span>
       </template>
       <template #append-outer>
         <v-tooltip v-if="schema.description" :open-on-hover="false" left>
           <template v-slot:activator="{ on }">
-            <v-btn icon retain-focus-on-click @blur="on.blur" @click="on.click" aria-label="Beschreibung anzeigen">
+            <v-btn aria-label="Beschreibung anzeigen" icon retain-focus-on-click @blur="on.blur" @click="on.click">
               <v-icon> mdi-information</v-icon>
             </v-btn>
           </template>
@@ -136,6 +137,9 @@ export default defineComponent({
     });
 
     watch(documents.value, (updatedDocuments) => {
+      if (updatedDocuments.length > 0) {
+        fileValue.value.push(new File([""], documents.value[0].name));
+      }
       if (updatedDocuments.length > maxFiles) {
         errorMessage.value = 'Es dürfen maximal ' + maxFiles + ' Dateien übergeben werden';
       } else if (!!maxTotalSize && validateTotalSize() > maxTotalSize) {
@@ -283,7 +287,7 @@ export default defineComponent({
     const validateFileName = (name: string) => {
 
       const error = validateFileType(name, props.schema.accept)
-      if(error) {
+      if (error) {
         errorMessage.value = error;
         throw new Error(error);
       }
@@ -351,8 +355,8 @@ export default defineComponent({
             await globalAxios.delete(presignedDeleteUrl);
             documents.value.splice(i, 1);
             if (documents.value.length == 0) {
-              // set null value to violate "required"-rule
-              fileValue.value = null;
+              // set empty array to violate "required"-rule
+              fileValue.value = [];
             }
             break; // only remove first item
           } catch (error) {
