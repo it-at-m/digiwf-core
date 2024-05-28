@@ -2,7 +2,7 @@ class ExampleUserTask {
     elements = {
         numberOfParallelTasks: () => cy.get("#allOf-0-allOf-0-FORMFIELD_NumberOfTasks"),
         userForTask: () => cy.get(`.v-select__selections`),
-        abschliessenButton: () => cy.get(`button.mt-5`)
+        completeButton: () => cy.get(`button.mt-5`)
     }
 
     setNumberOfTasks(number) {
@@ -20,12 +20,12 @@ class ExampleUserTask {
         this.elements.userForTask().type('{enter}')
     }
 
-    clickAbschliessen() {
+    clickComplete() {
         cy.intercept({
             method: 'GET',
             url: '/api/digitalwf-backend-service/rest/filter',
         }).as('dataGetFilter')
-        this.elements.abschliessenButton().click()
+        this.elements.completeButton().click()
         cy.wait('@dataGetFilter', {timeout: 50000}).its('response.statusCode').should('equal', 200)
     }
 }

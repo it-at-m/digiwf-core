@@ -7,7 +7,7 @@ class MyTasks extends Pagination {
         super._checkHeadline(this.headline);
     }
 
-    clickAktualisieren() {
+    clickUpdate() {
         cy.intercept({
             method: 'GET',
             url: '/api/digitalwf-tasklist-service/rest/tasks/*',

@@ -28,7 +28,7 @@ describe('Example Usertask', () => {
         })
         startProcess.clickItem(0);
         exampleUserTask.setUserName(Cypress.env('realname'))
-        exampleUserTask.clickAbschliessen()
+        exampleUserTask.clickComplete()
 
         cy.log("Check instance state")
         let currentInstances = page.openCurrentInstances()
@@ -47,12 +47,12 @@ describe('Example Usertask', () => {
         cy.log("Test task open and complete")
         myTasks.clickItem(0)
         userTask.checkHeadline("User Task")
-        userTask.clickAbschliessen()
+        userTask.clickComplete()
 
         cy.log("Test task closed")
         myTasks.waitLoadingFinished()
         cy.wait(2000)
-        myTasks.clickAktualisieren()
+        myTasks.clickUpdate()
         myTasks.waitIsLoading()
         myTasks.waitLoadingFinished()
         myTasks.getItemCount().as('finishedMyTasksCount')

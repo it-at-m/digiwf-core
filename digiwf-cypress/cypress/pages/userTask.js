@@ -1,6 +1,6 @@
 class UserTask {
     elements = {
-        abschliessenButton: () => cy.get(`.container form .form-submit-button`),
+        completeButton: () => cy.get(`.container form .form-submit-button`),
         headline: () => cy.get('.container h1')
     }
 
@@ -8,13 +8,13 @@ class UserTask {
         this.elements.headline().should('contain.text', text)
     }
 
-    clickAbschliessen() {
-        this.elements.abschliessenButton().should('be.visible');
+    clickComplete() {
+        this.elements.completeButton().should('be.visible');
         cy.intercept({
             method: 'GET',
             url: '/api/digitalwf-tasklist-service/rest/tasks/*',
         }).as('dataGetTasks')
-        this.elements.abschliessenButton().click()
+        this.elements.completeButton().click()
         cy.wait('@dataGetTasks').its('response.statusCode').should('equal', 200)
     }
 }
