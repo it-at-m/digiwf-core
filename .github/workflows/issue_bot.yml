@@ -35,18 +35,16 @@ jobs:
             
             console.log(author)
             console.log(coreMembers)
-            console.log(!coreMembers.includes(author))
+            console.log(coreMembers.includes(author))
             
             return coreMembers.includes(author)
       - name: 'Assign Issue'
         uses: actions/github-script@v7
+        if: steps.check-author.outputs.result != 'true'
         with:
           github-token: ${{ secrets.ACCESS_TOKEN }}
           debug: true
           script: |
-            if(steps.check-author.outputs.result) {
-             return;
-            }
             const { repo, owner } = context.repo;
             const issue_number = context.issue.number;
             const maintainers = await github.rest.teams.listMembersInOrg({
@@ -61,12 +59,10 @@ jobs:
             });
       - name: 'Inform Author'
         uses: actions/github-script@v7
+        if: steps.check-author.outputs.result != 'true'
         with:
           debug: true
           script: |
-            if(steps.check-author.outputs.result) {
-             return;
-            }
             const { repo, owner } = context.repo;
             const issue_number = context.issue.number;
             await github.rest.issues.createComment({
