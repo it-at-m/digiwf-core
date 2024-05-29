@@ -137,6 +137,7 @@ export default defineComponent({
     });
 
     watch(documents.value, (updatedDocuments) => {
+      // set dummy value to satisfy "required"-rule
       if (updatedDocuments.length > 0) {
         fileValue.value.push(new File([""], documents.value[0].name));
       }
