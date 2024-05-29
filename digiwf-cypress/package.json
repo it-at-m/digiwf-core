@@ -1,5 +1,5 @@
 {
-  "name": "digiwf-e2e",
+  "name": "@muenchen/digiwf-cypress",
   "version": "1.0.0",
   "description": "DigiWF E2E-Tests with Cypress",
   "scripts": {
