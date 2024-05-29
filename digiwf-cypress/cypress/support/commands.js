@@ -23,3 +23,15 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+Cypress.Commands.add("loginDefault", () => {
+    cy.login({
+            root: Cypress.env('sso_url'),
+            realm: Cypress.env('sso_realm'),
+            username: Cypress.env('username'),
+            password: Cypress.env('password'),
+            client_id: Cypress.env('sso_client'),
+            redirect_uri: Cypress.config().baseUrl,
+        }
+    )
+})

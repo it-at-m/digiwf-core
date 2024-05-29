@@ -3,15 +3,7 @@ import exampleUserTask from "../pages/processes/exampleUserTask"
 import userTask from "../pages/userTask"
 
 beforeEach(() => {
-    cy.login({
-            root: Cypress.env('sso_url'),
-            realm: Cypress.env('sso_realm'),
-            username: Cypress.env('username'),
-            password: Cypress.env('password'),
-            client_id: Cypress.env('sso_client'),
-            redirect_uri: Cypress.config().baseUrl,
-        }
-    )
+    cy.loginDefault()
 })
 
 describe('Example Usertask', () => {
