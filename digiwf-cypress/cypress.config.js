@@ -1,32 +1,36 @@
-const { defineConfig } = require("cypress");
+const {defineConfig} = require("cypress");
+
+require('dotenv').config()
 
 module.exports = defineConfig({
-  viewportHeight: 1200,
-  viewportWidth: 2000,
-  //pageLoadTimeout: 300000,
-  videosFolder: "output/videos",
-  reporter: "cypress-multi-reporters",
-  reporterOptions: {
-    reporterEnabled: "mochawesome",
-    mochawesomeReporterOptions: {
-      reportDir: "output/reports/mocha",
-      quite: true,
-      overwrite: false,
-      html: false,
-      json: true
-    }
-  },
-  env: {
-    username: "johndoe",
-    fullUsername: "John Doe",
-    password: "test",
-    home: "localhost:8083/",
-    groupName1: "group1"
-  },
-  e2e: {
-    setupNodeEvents(on, config) {
-      // implement node event listeners here
+    viewportHeight: 1200,
+    viewportWidth: 2000,
+    defaultCommandTimeout: 10000,
+    videosFolder: "output/videos",
+    reporter: "cypress-multi-reporters",
+    reporterOptions: {
+        reporterEnabled: "mochawesome",
+        mochawesomeReporterOptions: {
+            reportDir: "output/reports/mocha",
+            quite: true,
+            overwrite: false,
+            html: false,
+            json: true
+        }
     },
-  },
-  chromeWebSecurity:false
+    env: {
+        sso_url: process.env.SSO_URL,
+        sso_realm: process.env.SSO_REALM,
+        sso_client: process.env.SSO_CLIENT,
+        username: process.env.USERNAME,
+        password: process.env.PASSWORD,
+        realname: process.env.USER_REALNAME
+    },
+    e2e: {
+        baseUrl: process.env.BASE_URL,
+        setupNodeEvents(on, config) {
+            // implement node event listeners here
+        },
+    },
+    chromeWebSecurity: false
 });
