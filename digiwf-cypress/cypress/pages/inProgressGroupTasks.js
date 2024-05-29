@@ -8,12 +8,8 @@ class InProgressGroupTasks extends Pagination {
     }
 
     clickUpdate() {
-        cy.intercept({
-            method: 'GET',
-            url: '/api/digitalwf-tasklist-service/rest/tasks/group/*',
-        }).as('dataGetGroupTasksForGroup')
         this.paginationElements.update().click()
-        cy.wait('@dataGetGroupTasksForGroup').its('response.statusCode').should('equal', 200)
+        cy.wait('@dataGetInProgressGroupTasks').its('response.statusCode').should('equal', 200)
     }
 }
 

@@ -10,12 +10,8 @@ class UserTask {
 
     clickComplete() {
         this.elements.completeButton().should('be.visible');
-        cy.intercept({
-            method: 'GET',
-            url: '/api/digitalwf-tasklist-service/rest/tasks/*',
-        }).as('dataGetTasks')
         this.elements.completeButton().click()
-        cy.wait('@dataGetTasks').its('response.statusCode').should('equal', 200)
+        cy.wait('@dataGetMyTasks').its('response.statusCode').should('equal', 200)
     }
 }
 

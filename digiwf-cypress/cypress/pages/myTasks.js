@@ -8,12 +8,8 @@ class MyTasks extends Pagination {
     }
 
     clickUpdate() {
-        cy.intercept({
-            method: 'GET',
-            url: '/api/digitalwf-tasklist-service/rest/tasks/*',
-        }).as('dataGetFilter')
         this.paginationElements.update().click()
-        cy.wait('@dataGetFilter').its('response.statusCode').should('equal', 200)
+        cy.wait('@dataGetMyTasks').its('response.statusCode').should('equal', 200)
     }
 }
 
