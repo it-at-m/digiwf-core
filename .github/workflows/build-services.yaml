@@ -5,9 +5,16 @@ on:
     paths-ignore:
       - '.github/**'
       - 'digiwf-apps/**'
+      - 'digiwf-cypress/**'
       - 'docs/**'
       - 'stack/**'
   pull_request:
+    paths-ignore:
+      - '.github/**'
+      - 'digiwf-apps/**'
+      - 'digiwf-cypress/**'
+      - 'docs/**'
+      - 'stack/**'
 
 jobs:
   build:

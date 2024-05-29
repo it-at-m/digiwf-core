@@ -5,6 +5,8 @@ on:
     paths:
       - 'docs/**'
   pull_request:
+    paths:
+      - 'docs/**'
 
 env:
   NODE_OPTIONS: '--openssl-legacy-provider'

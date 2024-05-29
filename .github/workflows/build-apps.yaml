@@ -5,6 +5,8 @@ on:
     paths:
       - 'digiwf-apps/**'
   pull_request:
+    paths:
+      - 'digiwf-apps/**'
 
 jobs:
   build:
