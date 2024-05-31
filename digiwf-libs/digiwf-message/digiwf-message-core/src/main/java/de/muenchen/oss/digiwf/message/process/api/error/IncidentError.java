@@ -1,14 +1,16 @@
 package de.muenchen.oss.digiwf.message.process.api.error;
 
-import lombok.Getter;
+import lombok.EqualsAndHashCode;
+import lombok.Value;
 
 /**
  * Exception to be thrown when an integration fails with an incident that should be created.
  */
-@Getter
+@EqualsAndHashCode(callSuper = false)
+@Value
 public class IncidentError extends RuntimeException {
 
-    private final String errorMessage;
+    String errorMessage;
 
     public IncidentError(String errorMessage) {
         super(errorMessage);
