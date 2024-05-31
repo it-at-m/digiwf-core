@@ -5,18 +5,20 @@
 Download and install run:
 
 ```BASH
+cd digiwf-cypress
 npm install
 ```
 
 For further information see:  https://docs.cypress.io/guides/getting-started/installing-cypress
-It is important to use cypress in the digiwf-cypress folder.
+It is important to use cypress in the `digiwf-cypress` folder.
 
 ## Run a cypress test
 
-Navigate to the digiwf-cypress folder in the bash and run:
+Navigate to the `digiwf-cypress` folder in the bash and run:
 
 ```bash
-# set proxy via env variables if needed
+cd digiwf-cypress
+# set proxy (remote env) or unset proxy (local) via env variables if needed
 # setup .env file or needed env variables
 npx cypress run # a) to run all the tests
 npx cypress open # b) to open the cypress app and run each test separate
