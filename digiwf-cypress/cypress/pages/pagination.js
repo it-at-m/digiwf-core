@@ -1,18 +1,18 @@
 class Pagination {
     paginationElements = {
         headline: () => cy.get('.container h1'),
-        searchBox: () => cy.get('#suchfeld'),
+        searchBox: () => cy.get('[data-test="search-field"]'),
         update: () => cy.get("button").contains('Aktualisieren'),
         list: () => cy.get('.container .v-list'),
         listElement: (elementNumber) => cy.get(`.container .v-list .v-list-item:nth-child(${elementNumber + 1}), .container .v-data-iterator .v-list-item:nth-child(${elementNumber + 1})`),
-        rightArrow: () => cy.get(`.mdi-chevron-right`),
-        leftArrow: () => cy.get(`.mdi-chevron-left`),
-        numberOfItems: () => cy.get(`span.mr-1:nth-child(5)`),
-        pageNumber: () => cy.get(`.mr-4`),
-        pageSize: () => cy.get(`button.ml-2`),
-        pageSize5: () => cy.get(`#app > div.v-menu__content.theme--light.menuable__content__active > div > div:nth-child(1)`),
-        pageSize10: () => cy.get(`#app > div.v-menu__content.theme--light.menuable__content__active > div > div:nth-child(2)`),
-        pageSize20: () => cy.get(`#app > div.v-menu__content.theme--light.menuable__content__active > div > div:nth-child(3)`),
+        nextPage: () => cy.get(`[data-test="pagination-next-page"]`),
+        previousPage: () => cy.get(`[data-test="pagination-previous-page"]`),
+        numberOfItems: () => cy.get(`[data-test="pagination-item-count"]`),
+        pageNumber: () => cy.get(`[data-test="pagination-page-index"]`),
+        pageSizeBtn: () => cy.get(`[data-test="pagination-page-size-btn"]`),
+        pageSize5: () => cy.get(`[data-test="pagination-page-select"] .v-list-item:nth-child(1)`),
+        pageSize10: () => cy.get(`[data-test="pagination-page-select"] .v-list-item:nth-child(2)`),
+        pageSize20: () => cy.get(`[data-test="pagination-page-select"] .v-list-item:nth-child(3)`),
     }
 
     _checkHeadline(text) {
@@ -51,12 +51,12 @@ class Pagination {
         cy.get('button .v-progress-circular').should('not.exist');
     }
 
-    clickRightArrow() {
-        this.paginationElements.rightArrow().click()
+    nextPage() {
+        this.paginationElements.nextPage().click()
     }
 
-    clickLeftArrow() {
-        this.paginationElements.leftArrow().click()
+    previousPage() {
+        this.paginationElements.previousPage().click()
     }
 
     getPageSize() {
@@ -94,7 +94,7 @@ class Pagination {
             cy.log("Maximum iterations reached. Exiting loop.");
             return;
         }
-        this.elements.rightArrow().then(($btn) => {
+        this.paginationElements.nextPage().then(($btn) => {
             if ($btn.is(":disabled")) {
                 return true;
             } else {
