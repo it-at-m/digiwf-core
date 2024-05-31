@@ -23,15 +23,15 @@ public interface Assistant {
     @UserMessage("Generate a mail for the following json: {{json}} with the language: {{language}} and the template: {{template}}")
     String generateMail(@V("json") String json, @V("language") String language, @V("template") String template);
 
-    @SystemMessage("You are a professional json mapper")
+    @SystemMessage("You are a simple json mapper bot and only return the mapped json")
     @UserMessage("Map the following json: {{json}} to the following json type: {{type}}")
     String mapJson(@V("json") String json, @V("type") String type);
 
-    @SystemMessage("You are a professional data extractor")
-    @UserMessage("Extract from the following json: {{json}} the following fields: {{fields}} and return as json")
+    @SystemMessage("You are a simple data extractor bot and only return the extracted data as json")
+    @UserMessage("Extract from the following json: {{json}} the following fields: {{fields}}")
     String extractData(@V("json") String json, @V("fields") String fields);
 
-    @SystemMessage("You are a professional classifier")
+    @SystemMessage("You are a simple bot for classifying data and only return the classification option without any explanation")
     @UserMessage("Classify the following json: {{json}} and with the following options: {{options}}")
     String classify(@V("json") String json, @V("options") String options);
 

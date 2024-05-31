@@ -7,7 +7,7 @@
     <bpmn:callActivity id="Activity_0lh2naj" name="Request AI" camunda:modelerTemplate="de.muenchen.digitalwf.templates.openai.extract-data" camunda:asyncBefore="true" camunda:asyncAfter="true" calledElement="StreamingTemplateV02">
       <bpmn:extensionElements>
         <camunda:in sourceExpression="openaiIntegration" target="app_integration_name" />
-        <camunda:in sourceExpression="extract-data" target="app_type_name" />
+        <camunda:in sourceExpression="extractData" target="app_type_name" />
         <camunda:in sourceExpression="${OpenAI_JSON}" target="json" />
         <camunda:in sourceExpression="${OpenAI_Fields}" target="fields" />
         <camunda:out source="response" target="OpenAI_Response" />
