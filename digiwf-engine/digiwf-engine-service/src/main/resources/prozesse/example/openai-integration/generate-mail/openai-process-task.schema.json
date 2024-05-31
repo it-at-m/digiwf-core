@@ -44,14 +44,33 @@
                   "required"
                 ]
               },
-
-              "OpenAI_Fields": {
+              "OpenAI_Language": {
                 "fieldType": "text",
-                "title": "Felder",
+                "title": "Sprache",
                 "x-display": "text",
                 "type": "string",
-                "key": "OpenAI_Fields",
-                "readOnly": true,
+                "key": "OpenAI_Language",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  },
+                  "messages": {}
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": [
+                  "required"
+                ]
+              },
+              "OpenAI_Template": {
+                "fieldType": "textarea",
+                "title": "Vorlage",
+                "x-display": "textarea",
+                "type": "string",
+                "key": "OpenAI_Template",
                 "x-options": {
                   "fieldColProps": {
                     "cols": 12,

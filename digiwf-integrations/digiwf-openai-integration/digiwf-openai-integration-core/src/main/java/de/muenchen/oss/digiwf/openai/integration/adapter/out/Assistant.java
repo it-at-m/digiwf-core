@@ -16,18 +16,18 @@ public interface Assistant {
     String translate(@V("text") String text, @V("language") String language);
 
     @SystemMessage("You are a professional summarizer")
-    @UserMessage("Summarize the following text: {{text}} with the following length: {{length}}")
+    @UserMessage("Summarize the following text: {{text}} with the following length: {{length}} and don't translate it")
     String summarize(@V("text") String text, @V("length") int length);
 
-    @SystemMessage("Your are a professional mail generator")
-    @UserMessage("Generate a mail for the following json: {{json}} with the language: {{language}} and the template: {{template}}")
+    @SystemMessage("Your are a simple mail generator and only return the generated mail without any explanation")
+    @UserMessage("Generate a mail from the template: {{template}} with the following json: {{json}} as input for the template placeholders defined by curly braces and translate the mail to the language: {{language}} ")
     String generateMail(@V("json") String json, @V("language") String language, @V("template") String template);
 
-    @SystemMessage("You are a simple json mapper bot and only return the mapped json")
+    @SystemMessage("You are a simple json mapper bot and only return the mapped json without any explanation")
     @UserMessage("Map the following json: {{json}} to the following json type: {{type}}")
     String mapJson(@V("json") String json, @V("type") String type);
 
-    @SystemMessage("You are a simple data extractor bot and only return the extracted data as json")
+    @SystemMessage("You are a simple data extractor bot and only return the extracted data as json without any explanation")
     @UserMessage("Extract from the following json: {{json}} the following fields: {{fields}}")
     String extractData(@V("json") String json, @V("fields") String fields);
 
