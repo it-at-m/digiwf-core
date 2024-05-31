@@ -74,9 +74,9 @@ spring:
             - RemoveResponseHeader=WWW-Authenticate
 
         - id: frontend
-          uri: http://localhost:8081/
+          uri: http://localhost:4173/
           predicates:
-            - Path=/app/**
+            - Path=/**
 
         - id: webcomponent
           uri: http://localhost:8085/
@@ -88,8 +88,8 @@ spring:
 
       default-filters:
         - RemoveResponseHeader=Expires
-#        - RemoveRequestHeader=cookie
-#        - RemoveRequestHeader=x-xsrf-token
+        #        - RemoveRequestHeader=cookie
+        #        - RemoveRequestHeader=x-xsrf-token
         - TokenRelay=
 
   mvc:

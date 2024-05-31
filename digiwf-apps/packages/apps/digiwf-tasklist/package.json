@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "preview": "vite preview --host",
     "test": "jest src --coverage",
     "prettier": "prettier src --write --ignore-path ./legacy-ignore.prettierignore"
   },
