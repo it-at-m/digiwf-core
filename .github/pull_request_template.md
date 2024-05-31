@@ -18,5 +18,5 @@ Issues: #xxx
 - [ ] Smoketest successful (Manual E2E-Test depending on Change)
 - [ ] No waste on Branch left (e.g. `console.logs`)
 - [ ] [Board](https://app.zenhub.com/workspaces/digiwf-621f70bf50ea1100120b7e93/board) is up-to-date
-- [ ] Internal Services / Artifacts updated (Depending on Change - See Dependency Graph)
+- [ ] Internal Services / Artifacts updated (Depending on Change - See [Dependency Graph](https://wiki.muenchen.de/betriebshandbuch/wiki/DigiWF#Abh.C3.A4ngigkeiten)
 - [ ] Openshift environments are prepared (Secrets, etc.) and release-issue is maintained
