@@ -178,9 +178,9 @@ export default defineComponent({
     const errorMessage = ref("");
     const currentSearch = ref("");
 
-    const a11YNotificationEnabled = useAccessibility().a11YNotificationEnabled;
+    const a11YScreenreaderModeEnabled = useAccessibility().a11YScreenreaderModeEnabled;
 
-    const screenreaderMode = computed(() => a11YNotificationEnabled());
+    const screenreaderMode = computed(() => a11YScreenreaderModeEnabled());
 
     const autocompletion = ref();
 

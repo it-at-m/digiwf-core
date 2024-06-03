@@ -149,9 +149,9 @@ export default defineComponent({
 
     const noDataText = ref<string>("Tippen, um Suche zu starten");
 
-    const a11YNotificationEnabled = useAccessibility().a11YNotificationEnabled;
+    const a11YScreenreaderModeEnabled = useAccessibility().a11YScreenreaderModeEnabled;
 
-    const screenreaderMode = computed(() => a11YNotificationEnabled());
+    const screenreaderMode = computed(() => a11YScreenreaderModeEnabled());
 
     watch(searchText, (newValue) => {
       searchUsersBySearchString(newValue);

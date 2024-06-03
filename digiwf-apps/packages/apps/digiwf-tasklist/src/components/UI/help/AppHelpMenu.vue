@@ -38,11 +38,11 @@
         Screenreader Optimierung
         <v-switch
           :aria-label="
-            a11YNotificationEnabled()
+            a11YScreenreaderModeEnabled()
               ? 'ist aktiviert, deaktivieren mit Entertaste'
               : 'ist deaktiviert, aktivieren mit Entertaste'
           "
-          :input-value="a11YNotificationEnabled()"
+          :input-value="a11YScreenreaderModeEnabled()"
           class="ml-2"
           dense
         >
@@ -88,7 +88,12 @@ export default defineComponent({
   emits: ["openKeyBindingsDialoge", "closeKeyBindingsDialoge"],
   setup: (components, {emit}) => {
     const theme = useTheme();
-    const {isHighContrastModeEnabled, setHighContrastModeEnabled, a11YNotificationEnabled, setA11YNotificationEnabled} =
+    const {
+      isHighContrastModeEnabled,
+      setHighContrastModeEnabled,
+      a11YScreenreaderModeEnabled,
+      setA11YScreenreaderModeEnabled
+    } =
       useAccessibility();
 
     emit("openKeyBindingsDialoge");
@@ -105,14 +110,14 @@ export default defineComponent({
     };
 
     const changeA11YNotificationMode = () => {
-      const isEnabled = a11YNotificationEnabled();
-      setA11YNotificationEnabled(!isEnabled);
+      const isEnabled = a11YScreenreaderModeEnabled();
+      setA11YScreenreaderModeEnabled(!isEnabled);
     };
 
     return {
       changeMode,
       isHighContrastModeEnabled,
-      a11YNotificationEnabled,
+      a11YScreenreaderModeEnabled,
       changeA11YNotificationMode
 
     };
