@@ -5,7 +5,7 @@ class Pagination {
         update: () => cy.get("button").contains('Aktualisieren'),
         updateLoading: () => cy.get("button").contains('Aktualisieren').get('.v-progress-circular'),
         list: () => cy.get('.container .v-list'),
-        listElement: (elementNumber) => cy.get(`.container .v-list .v-list-item:nth-child(${elementNumber + 1}), .container .v-data-iterator .v-list-item:nth-child(${elementNumber + 1})`),
+        listElement: (elementNumber) => cy.get(`.container .v-list .v-list-item:nth-child(${elementNumber + 1})`),
         nextPage: () => cy.get(`[data-test="pagination-next-page"]`),
         previousPage: () => cy.get(`[data-test="pagination-previous-page"]`),
         numberOfItems: () => cy.get(`[data-test="pagination-item-count"]`),
