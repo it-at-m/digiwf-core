@@ -3,7 +3,6 @@
     v-model="selectedUser"
     :aria-required="isRequired()"
     :auto-select-first="!screenreaderMode"
-    :disabled="screenreaderMode && !!selectedUser"
     :filter="filterUsers"
     :items="entries()"
     :label="label"
@@ -146,7 +145,7 @@ export default defineComponent({
      */
     const locked = ref(false);
     const errorMessage = ref("");
-    const lastSearch = ref("");
+    const currentSearch = ref("");
 
     const noDataText = ref<string>("Tippen, um Suche zu starten");
 
@@ -206,17 +205,15 @@ export default defineComponent({
     const searchUsersBySearchString = (searchString: string) => {
       if (!searchString || searchString.length < 3) return;
 
-      if (lastSearch.value === searchString.slice(0, 3)) return;
-
-      lastSearch.value = searchString.slice(0, 3);
+      currentSearch.value = searchString.slice(0, 3);
 
       isLoading.value = true;
 
       noDataText.value = "Benutzer werden gesucht...";
 
-      callSearchUser(lastSearch.value, ldapGroups)
+      callSearchUser(currentSearch.value, ldapGroups)
         .then((users) => {
-          if (lastSearch.value === searchText.value.slice(0, 3)) {
+          if (currentSearch.value === searchText.value.slice(0, 3)) {
             items.value = users;
           }
           errorMessage.value = "";
@@ -231,7 +228,7 @@ export default defineComponent({
     };
 
     const resetInput = (): void => {
-      lastSearch.value = "";
+      currentSearch.value = "";
       searchText.value = "";
       items.value = [];
     };
