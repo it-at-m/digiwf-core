@@ -4,7 +4,7 @@ class MyTasks extends Pagination {
     headline = "Meine Aufgaben"
 
     elements = {
-        uncompletedTasks: () => this.paginationElements.list().get('')
+        uncompletedTasks: () => this.paginationElements.list().get('[data-test="task-is-completing"]')
     }
 
     checkHeadline() {
@@ -13,6 +13,13 @@ class MyTasks extends Pagination {
 
     update() {
         this._waitUpdate('@dataGetMyTasks')
+    }
+
+    waitNoUncompletedTasks() {
+        this.waitLoadingFinished()
+        cy.wait(2000)
+        this.update()
+        this.elements.uncompletedTasks().should('not.exist');
     }
 }
 

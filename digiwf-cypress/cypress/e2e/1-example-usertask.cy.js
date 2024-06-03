@@ -42,9 +42,7 @@ describe('Example Usertask', () => {
         userTask.clickComplete()
 
         cy.log("Test task closed")
-        myTasks.waitLoadingFinished()
-        cy.wait(2000)
-        myTasks.update()
+        myTasks.waitNoUncompletedTasks()
         myTasks.getItemCount().as('finishedMyTasksCount')
         cy.get('@createdMyTasksCount').then((created) => {
             cy.get('@finishedMyTasksCount').then((finished) => {
