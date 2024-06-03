@@ -1,15 +1,15 @@
-import Page from './page'
+import Page from '../nav'
 
-class WorkflowUserTask extends Page{
+class WorkflowUserTask extends Page {
     elements = {
         elem: (elementNumber, column) => cy.get(`.v-data-table__wrapper > table:nth-child(1) > tbody:nth-child(2) > tr:nth-child(${elementNumber}) > td:nth-child(${column})`),
     }
 
-    taskIsCorrect(elementNumber,text){
-        this.elements.elem(elementNumber,2).should('contain.text',text)
+    taskIsCorrect(elementNumber, text) {
+        this.elements.elem(elementNumber, 2).should('contain.text', text)
     }
 
-    getStatus(elementNumber){
+    getStatus(elementNumber) {
         return this.elements.elem(elementNumber, 3)
     }
 

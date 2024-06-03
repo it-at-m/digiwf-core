@@ -64,7 +64,6 @@ declare module 'vue' {
     VCol: typeof import('vuetify/lib')['VCol']
     VCombobox: typeof import('vuetify/lib')['VCombobox']
     VContainer: typeof import('vuetify/lib')['VContainer']
-    VDataIterator: typeof import('vuetify/lib')['VDataIterator']
     VDatePicker: typeof import('vuetify/lib')['VDatePicker']
     VDialog: typeof import('vuetify/lib')['VDialog']
     VDivider: typeof import('vuetify/lib')['VDivider']
