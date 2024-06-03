@@ -8,6 +8,13 @@ on:
         type: boolean
         required: true
         default: false
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: 'Publish docs?'
+        type: boolean
+        required: true
+        default: false
 
 permissions:
   contents: read
