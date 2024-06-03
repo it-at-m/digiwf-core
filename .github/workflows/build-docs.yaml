@@ -13,5 +13,5 @@ jobs:
   build:
     uses: ./.github/workflows/workflow-build-docs.yaml
     with:
-      publish: false
+      publish: true
     secrets: inherit
