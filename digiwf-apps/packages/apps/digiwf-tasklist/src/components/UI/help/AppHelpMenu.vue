@@ -32,7 +32,7 @@
       </v-list-item>
       <v-list-item
         class="max-v-list-item-height"
-        @click.stop="changeA11YNotificationMode"
+        @click.stop="changeA11YScreenreaderMode"
       >
         <HighContrastIcon class="mr-2"/>
         Screenreader Optimierung
@@ -109,7 +109,7 @@ export default defineComponent({
       setHighContrastModeEnabled(!isEnabled);
     };
 
-    const changeA11YNotificationMode = () => {
+    const changeA11YScreenreaderMode = () => {
       const isEnabled = a11YScreenreaderModeEnabled();
       setA11YScreenreaderModeEnabled(!isEnabled);
     };
@@ -118,7 +118,7 @@ export default defineComponent({
       changeMode,
       isHighContrastModeEnabled,
       a11YScreenreaderModeEnabled,
-      changeA11YNotificationMode
+      changeA11YScreenreaderMode
 
     };
   },
