@@ -12,9 +12,12 @@ npm install
 For further information see:  https://docs.cypress.io/guides/getting-started/installing-cypress
 It is important to use cypress in the `digiwf-cypress` folder.
 
-## Run a cypress test
+## Run cypress
 
 Navigate to the `digiwf-cypress` folder in the bash and run:
+
+For lokal testing the Frontend needs to run behind the Gateway. To get this behaviour the frontend needs to be built and
+started with `npm run preview:tasklist`.
 
 ```bash
 cd digiwf-cypress
