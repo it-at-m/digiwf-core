@@ -3,6 +3,7 @@ class Pagination {
         headline: () => cy.get('.container h1'),
         searchBox: () => cy.get('[data-test="search-field"]'),
         update: () => cy.get("button").contains('Aktualisieren'),
+        updateLoading: () => cy.get("button").contains('Aktualisieren').get('.v-progress-circular'),
         list: () => cy.get('.container .v-list'),
         listElement: (elementNumber) => cy.get(`.container .v-list .v-list-item:nth-child(${elementNumber + 1}), .container .v-data-iterator .v-list-item:nth-child(${elementNumber + 1})`),
         nextPage: () => cy.get(`[data-test="pagination-next-page"]`),
@@ -44,11 +45,11 @@ class Pagination {
     }
 
     waitIsLoading() {
-        cy.get('button .v-progress-circular').should('exist');
+        this.paginationElements.updateLoading().should('exist');
     }
 
     waitLoadingFinished() {
-        cy.get('button .v-progress-circular').should('not.exist');
+        this.paginationElements.updateLoading().should('not.exist');
     }
 
     nextPage() {

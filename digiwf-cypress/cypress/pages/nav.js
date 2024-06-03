@@ -2,18 +2,18 @@ import startProcess from './startProcess'
 import myTasks from './myTasks'
 import currentInstances from './currentInstances'
 import openGroupTasks from './openGroupTasks'
-import inProgressGroupTasks from './inProgressGroupTasks'
+import inProgressGroupTasks from './assignedGroupTasks'
 
 class Nav {
 
     elements = {
         header: () => cy.get('header'),
         sidebar: () => cy.get('nav'),
-        myTasksBtn: () => cy.get('nav .v-list .v-list-item:nth-of-type(1)'),
-        currentInstancesBtn: () => cy.get('nav .v-list .v-list-item:nth-of-type(2)'),
-        startProcessBtn: () => cy.get('nav .v-list .v-list-item:nth-of-type(3)'),
-        openGroupTasksBtn: () => cy.get('nav .v-list .v-list-item:nth-of-type(4)'),
-        inProgressGroupTasksBtn: () => cy.get('nav .v-list .v-list-item:nth-of-type(5)')
+        myTasksBtn: () => cy.get('nav [data-test="my-tasks-btn"]'),
+        currentInstancesBtn: () => cy.get('nav [data-test="current-instances-btn"]'),
+        startProcessBtn: () => cy.get('nav [data-test="start-process-btn"]'),
+        openGroupTasksBtn: () => cy.get('nav [data-test="open-group-tasks-btn"]'),
+        assignedGroupTasksBtn: () => cy.get('nav [data-test="assigned-group-tasks-btn"]')
     }
 
     openMyTasks() {
@@ -60,7 +60,7 @@ class Nav {
             method: 'GET',
             url: '/api/digitalwf-tasklist-service/rest/tasks/group/*',
         }).as('userTasks')
-        this.elements.inProgressGroupTasksBtn().click()
+        this.elements.assignedGroupTasksBtn().click()
         cy.wait('@userTasks').its('response.statusCode').should('equal', 200)
         return inProgressGroupTasks
     }

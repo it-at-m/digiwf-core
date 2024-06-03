@@ -40,5 +40,5 @@ beforeEach(() => {
     cy.intercept({
         method: 'GET',
         url: '/api/digitalwf-tasklist-service/rest/tasks/group/assigned*',
-    }).as('dataGetInProgressGroupTasks')
+    }).as('dataGetAssignedGroupTasks')
 })

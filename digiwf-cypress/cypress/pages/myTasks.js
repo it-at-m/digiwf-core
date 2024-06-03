@@ -3,13 +3,16 @@ import Pagination from "./pagination";
 class MyTasks extends Pagination {
     headline = "Meine Aufgaben"
 
+    elements = {
+        uncompletedTasks: () => this.paginationElements.list().get('')
+    }
+
     checkHeadline() {
         super._checkHeadline(this.headline);
     }
 
-    clickUpdate() {
-        this.paginationElements.update().click()
-        cy.wait('@dataGetMyTasks').its('response.statusCode').should('equal', 200)
+    update() {
+        this._waitUpdate('@dataGetMyTasks')
     }
 }
 
