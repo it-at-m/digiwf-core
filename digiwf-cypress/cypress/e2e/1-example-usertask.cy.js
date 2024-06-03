@@ -1,4 +1,4 @@
-import page from "../pages/nav";
+import nav from "../pages/nav";
 import exampleUserTask from "../pages/processes/exampleUserTask"
 import userTask from "../pages/userTask"
 
@@ -9,11 +9,11 @@ beforeEach(() => {
 describe('Example Usertask', () => {
     it('passes', () => {
         cy.visit('/')
-        let myTasks = page.openMyTasks()
+        let myTasks = nav.openMyTasks()
         myTasks.getItemCount().as('initialMyTasksCount')
 
         cy.log("Start process")
-        let startProcess = page.openStartProcess();
+        let startProcess = nav.openStartProcess();
         startProcess.findProcess("Example Usertask")
         startProcess.getItemCount().then((numProcesses) => {
             expect(numProcesses).eq(1);
@@ -23,11 +23,11 @@ describe('Example Usertask', () => {
         exampleUserTask.clickComplete()
 
         cy.log("Check instance state")
-        let currentInstances = page.openCurrentInstances()
+        let currentInstances = nav.openCurrentInstances()
         currentInstances.itemContainsText(0, "Started")
 
         cy.log("Test task exists")
-        myTasks = page.openMyTasks()
+        myTasks = nav.openMyTasks()
         myTasks.itemContainsText(0, "User Task")
         myTasks.getItemCount().as('createdMyTasksCount')
         cy.get('@initialMyTasksCount').then((initial) => {
@@ -51,7 +51,7 @@ describe('Example Usertask', () => {
         })
 
         cy.log("Check instance state")
-        currentInstances = page.openCurrentInstances()
+        currentInstances = nav.openCurrentInstances()
         currentInstances.itemContainsText(0, "Finished")
     })
 })
