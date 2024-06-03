@@ -1,6 +1,8 @@
 const {defineConfig} = require("cypress");
 
 require('dotenv').config()
+// load .env.local if .env doesn't exist or define anything
+require('dotenv').config({path: '.env.local'})
 
 module.exports = defineConfig({
     viewportHeight: 1200,
