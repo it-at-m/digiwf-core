@@ -23,7 +23,7 @@ export enum MessageType {
 }
 
 export const useNotification = (): NotificationContext => {
-  const { a11YNotificationEnabled } = useAccessibility();
+  const { a11YScreenreaderModeEnabled } = useAccessibility();
   const messageText = ref<string | undefined>(undefined);
   const location = ref<RawLocation | undefined>();
   const snackbarVisible = ref<boolean>(false);
@@ -42,7 +42,7 @@ export const useNotification = (): NotificationContext => {
         location.value = targetLocation;
         messageType.value = type;
 
-        if (!a11YNotificationEnabled()) {
+        if (!a11YScreenreaderModeEnabled()) {
           router.push(targetLocation);
           snackbarVisible.value = true;
         } else if (type === MessageType.SUCCESS) {

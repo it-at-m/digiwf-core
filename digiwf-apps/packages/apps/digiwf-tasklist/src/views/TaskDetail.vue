@@ -249,7 +249,7 @@ const safeValidation = ref(false);
 
 const {showMessageAndLeavePage} = useNotificationContext();
 
-const a11YNotificationEnabled = useAccessibility().a11YNotificationEnabled;
+const a11YScreenreaderModeEnabled = useAccessibility().a11YScreenreaderModeEnabled;
 
 /**
  * toggle for showing fab menu
@@ -379,7 +379,7 @@ const handleCompleteTask = (model: any) => {
 
 const handleSaveTask = (): Promise<void> => {
   hasChanges.value = false;
-  if (!a11YNotificationEnabled()) {
+  if (!a11YScreenreaderModeEnabled()) {
     safeValidation.value = true;
   }
   return saveTask(model.value)
