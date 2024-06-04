@@ -4,6 +4,7 @@
       v-model="fileValue"
       :accept="schema['accept']"
       :aria-required="isRequired()"
+      :clearable="false"
       :disabled="isReadonly"
       :error-messages="errorMessage"
       :hint="hint"
