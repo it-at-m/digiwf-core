@@ -1,49 +1,56 @@
 <template>
   <v-list>
     <AppMenuItem
-      path="/mytask"
-      label="Meine Aufgaben"
       :number-of-elements="numberOfMyTasks"
+      data-test="my-tasks-btn"
+      label="Meine Aufgaben"
+      path="/mytask"
     />
-    <hr class="hrDividerMenu" />
+    <hr class="hrDividerMenu">
     <AppMenuItem
-      path="/instance"
-      label="Meine Vorgänge"
       :number-of-elements="numberOfProcessInstances"
+      data-test="current-instances-btn"
+      label="Meine Vorgänge"
+      path="/instance"
     />
-    <hr class="hrDividerMenu" />
+    <hr class="hrDividerMenu">
     <AppMenuItem
-      path="/process"
+      data-test="start-process-btn"
       label="Vorgang Starten"
+      path="/process"
     />
     <hr
       class="hrDividerMenu"
       style="margin-bottom: 60px"
-    />
-    <p class="grey--text ml-9 mt-5 mb-0">Gruppenaufgaben</p>
+    >
+    <p class="grey--text ml-9 mt-5 mb-0">
+      Gruppenaufgaben
+    </p>
     <AppMenuItem
-      path="/opengrouptask"
-      label="Offen"
       :number-of-elements="numberOfOpenGroupTasks"
+      data-test="open-group-tasks-btn"
+      label="Offen"
+      path="/opengrouptask"
     />
-    <hr class="hrDividerMenu" />
+    <hr class="hrDividerMenu">
     <AppMenuItem
-      path="/assignedgrouptask"
-      label="In Bearbeitung"
       :number-of-elements="numberOfAssignedGroupTasks"
+      data-test="assigned-group-tasks-btn"
+      label="In Bearbeitung"
+      path="/assignedgrouptask"
     />
-    <hr class="hrDividerMenu" />
+    <hr class="hrDividerMenu">
   </v-list>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import {defineComponent} from "vue";
 
-import { useNumberOfTasks } from "@/middleware/tasks/taskMiddleware";
+import {useNumberOfTasks} from "@/middleware/tasks/taskMiddleware";
 import AppMenuItem from "./AppMenuItem.vue";
 
 export default defineComponent({
-  components: { AppMenuItem },
+  components: {AppMenuItem},
   props: ["numberOfProcessInstances"],
   setup() {
     const numberOfTasks = useNumberOfTasks();

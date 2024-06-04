@@ -21,8 +21,8 @@
         <v-switch
           :aria-label="
             isHighContrastModeEnabled()
-              ? 'Hohen Kontrast deaktivieren'
-              : 'Hohen Kontrast aktivieren'
+              ? 'ist aktiviert, deaktivieren mit Entertaste'
+              : 'ist deaktiviert, aktivieren mit Entertaste'
           "
           :input-value="isHighContrastModeEnabled()"
           class="ml-2"
@@ -32,17 +32,17 @@
       </v-list-item>
       <v-list-item
         class="max-v-list-item-height"
-        @click.stop="changeA11YNotificationMode"
+        @click.stop="changeA11YScreenreaderMode"
       >
         <HighContrastIcon class="mr-2"/>
-        barrierefreie Mitteilungen
+        Screenreader Optimierung
         <v-switch
           :aria-label="
-            a11YNotificationEnabled()
-              ? 'Mitteilungen werden barrierefrei angezeigt'
-              : 'Mitteilungen werden als Popup angezeigt'
+            a11YScreenreaderModeEnabled()
+              ? 'ist aktiviert, deaktivieren mit Entertaste'
+              : 'ist deaktiviert, aktivieren mit Entertaste'
           "
-          :input-value="a11YNotificationEnabled()"
+          :input-value="a11YScreenreaderModeEnabled()"
           class="ml-2"
           dense
         >
@@ -88,7 +88,12 @@ export default defineComponent({
   emits: ["openKeyBindingsDialoge", "closeKeyBindingsDialoge"],
   setup: (components, {emit}) => {
     const theme = useTheme();
-    const {isHighContrastModeEnabled, setHighContrastModeEnabled, a11YNotificationEnabled, setA11YNotificationEnabled} =
+    const {
+      isHighContrastModeEnabled,
+      setHighContrastModeEnabled,
+      a11YScreenreaderModeEnabled,
+      setA11YScreenreaderModeEnabled
+    } =
       useAccessibility();
 
     emit("openKeyBindingsDialoge");
@@ -104,16 +109,16 @@ export default defineComponent({
       setHighContrastModeEnabled(!isEnabled);
     };
 
-    const changeA11YNotificationMode = () => {
-      const isEnabled = a11YNotificationEnabled();
-      setA11YNotificationEnabled(!isEnabled);
+    const changeA11YScreenreaderMode = () => {
+      const isEnabled = a11YScreenreaderModeEnabled();
+      setA11YScreenreaderModeEnabled(!isEnabled);
     };
 
     return {
       changeMode,
       isHighContrastModeEnabled,
-      a11YNotificationEnabled,
-      changeA11YNotificationMode
+      a11YScreenreaderModeEnabled,
+      changeA11YScreenreaderMode
 
     };
   },
