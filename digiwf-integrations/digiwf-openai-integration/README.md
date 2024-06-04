@@ -1,12 +1,24 @@
-# Digiwf OpenAI Integration 
-
-The following steps are needed to run the integration locally.
+# DigiWF OpenAI Integration
 
 ## Getting started
 
-1. Build it with `mvn clean install`
-2. Execute the e2e test [openaiIntegrationE2eTest.java](digiwf-openai-integration-service/src/test/java/de/muenchen/oss/digiwf/openai/integration/openaiIntegrationE2eTest.java)
+1. Run the *stack* from the root directory with `docker-compose -f stack/local.yml up`.
+2. Build the project with `mvn clean install`
+3. Run the openai integration with:
+  * the profile `local` and optionally `azure` if you`re using [Microsoft Azure](https://azure.microsoft.com/) as OpenAI provider 
+  * the environment variables from [../stack/local.env](../stack/local.env) and the OpenAI-API configurations set.
 
-## Testing functionality
+## Configuration
 
-The [openaiIntegrationE2eTest.java](digiwf-openai-integration-service/src/test/java/de/muenchen/oss/digiwf/openai/integration/openaiIntegrationE2eTest.java) is a test of the integrations functionality using an embedded kafka instance and wiremock to mock the api to the openai.
+| Environment Variable                       | Description                                      | Default |
+|--------------------------------------------|--------------------------------------------------|---------|
+| `DIGIWF_ENV`                               | Environment in which the services runs           |         |
+| `OPENAI_INTEGRATION_BASE-URL`              | Base-URL of OpenAI API (only non Azure)          |         |
+| `OPENAI_INTEGRATION_API-KEY`               | API-Key for OpenAI API                           |         |
+| `OPENAI_INTEGRATION_MODEL`                 | Default Large Language Model for Requests        |         |
+| `OPENAI_INTEGRATION_LOGGING`               | Verbose Request Logging                          | `false` |
+| `OPENAI_INTEGRATION_TEMPERATURE`           | Default Temperature to use for AI Requests       | `0.7`   |
+| `OPENAI_INTEGRATION_MAX-TOKENS`            | Max Tokens to use for AI Requests                | `1000`  |
+| `OPENAI_INTEGRATION_AZURE_API-VERSION`     | API-Version of Azure Deployment (only Azure)     |         |
+| `OPENAI_INTEGRATION_AZURE_DEPLOYMENT-NAME` | Deployment name of Azure deployment (only Azure) |         |
+| `OPENAI_INTEGRATION_AZURE_RESOURCE`        | Resource name of Azure deployment (only Azure)   |         |
