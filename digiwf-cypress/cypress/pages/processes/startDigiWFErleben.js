@@ -1,6 +1,6 @@
-import Page from './page'
+import Page from '../nav'
 
-class StartDigiWFErleben extends Page{
+class StartDigiWFErleben extends Page {
     elements = {
         headline: () => cy.get('div.flex:nth-child(1) > h1:nth-child(1)'),
         checkBoxAllesSehen: () => cy.get('div.type-checkbox:nth-child(1)'),
@@ -8,31 +8,31 @@ class StartDigiWFErleben extends Page{
         buttonLosGehts: () => cy.get('div.buttonGroup:nth-child(1)'),
     }
 
-    checkHeadline(text){
-        this.elements.headline().should('contain.text',text);
+    checkHeadline(text) {
+        this.elements.headline().should('contain.text', text);
     }
 
-    tickAllesSehen(){
+    tickAllesSehen() {
         this.elements.checkBoxAllesSehen().click()
     }
 
-    tickWasIstDigiWF(){
+    tickWasIstDigiWF() {
         this.elements.singleTopics(6).click()
     }
 
-    tickBasics(){
+    tickBasics() {
         this.elements.singleTopics(8).click()
     }
 
-    tickAufgabenBearbeiten(){
+    tickAufgabenBearbeiten() {
         this.elements.singleTopics(10).click()
     }
 
-    tickWeitereFunktionen(){
+    tickWeitereFunktionen() {
         this.elements.singleTopics(12).click()
     }
 
-    clickLosGehts(){
+    clickLosGehts() {
         cy.intercept({
             method: 'GET',
             url: '/api/digitalwf-backend-service/rest/filter',
