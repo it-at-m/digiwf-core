@@ -209,6 +209,14 @@ jobs:
           push: true
           tags: itatm/digiwf-ticket-integration-service:${{ inputs.release-version }}
 
+      - name: Build and push ticket-integration
+        if: inputs.build-images == true
+        uses: docker/build-push-action@v5
+        with:
+          context: ./digiwf-integrations/digiwf-openai-integration/digiwf-openai-integration-service
+          push: true
+          tags: itatm/digiwf-openai-integration-service:${{ inputs.release-version }}
+
   build-services-camunda-ee:
     runs-on: ubuntu-latest
     steps:
