@@ -98,7 +98,7 @@ de:
         s3:
           client:
             document-storage-url: "${DOCUMENT_STORAGE_HOST:http://localhost}:${DOCUMENT_STORAGE_PORT:8080}"
-            enable-security: false
+            enable-security: true
         ticketing:
           supported-file-extensions:
             pdf: "application/pdf"
