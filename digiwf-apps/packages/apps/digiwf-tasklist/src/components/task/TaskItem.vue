@@ -5,12 +5,12 @@
         ? 'Aufgabe wird gerade abgeschlossen'
         : 'Aufgabe ' + task.name + ' öffnen'
     "
-    class="d-flex align-center"
     :style="
       task.inFinishProcess &&
-      'background-color: #F8F8F8; border-radius:6px; cursor: not-allowed; color: #AAA'
+        'background-color: #F8F8F8; border-radius:6px; cursor: not-allowed; color: #AAA'
     "
     :to="!task.inFinishProcess ? { path: '/task/' + task.id } : ''"
+    class="d-flex align-center"
   >
     <v-flex
       class="d-flex flex-column taskColumn"
@@ -31,6 +31,7 @@
       <p
         v-if="task.inFinishProcess"
         class="grey--text"
+        data-test="task-is-completing"
         style="font-size: 0.9rem"
       >
         <v-icon>mdi-progress-clock</v-icon>
@@ -50,8 +51,8 @@
       </p>
     </v-flex>
     <v-flex
-      style="min-width: 200px; max-width: 200px"
       class="taskColumn"
+      style="min-width: 200px; max-width: 200px"
     >
       <p class="taskInfo">
         <text-highlight :queries="searchString">
@@ -60,39 +61,39 @@
       </p>
     </v-flex>
     <v-flex
-      style="min-width: 80px; max-width: 80px"
       class="taskColumn"
+      style="min-width: 80px; max-width: 80px"
     >
       <p class="taskInfo">
         {{ task.createTime }}
       </p>
     </v-flex>
     <v-flex
-      style="min-width: 25px; max-width: 25px"
       class="d-flex justify-end align-center ml-2"
+      style="min-width: 25px; max-width: 25px"
     >
       <v-menu
         v-if="!task.inFinishProcess"
-        top
         offset-x
+        top
       >
         <template #activator="{ on, attrs }">
           <v-btn
-            aria-label="Aktionen für die Aufgabe"
             aria-hidden="false"
+            aria-label="Aktionen für die Aufgabe"
             icon
             v-bind="attrs"
+            v-on.prevent="on"
             @click="
               (event) => {
                 event.preventDefault();
               }
             "
-            v-on.prevent="on"
           >
             <v-icon
+              aria-hidden="false"
               aria-label="Aktionen für die Aufgabe"
               role="img"
-              aria-hidden="false"
             >
               mdi-dots-vertical
             </v-icon>
@@ -101,8 +102,8 @@
         <v-list>
           <v-list-item
             :aria-label="'Aufgabe ' + task.name + ' öffnen'"
-            link
             :to="{ path: '/task/' + task.id }"
+            link
             @click="
               (event) => {
                 event.preventDefault();
@@ -116,6 +117,30 @@
     </v-flex>
   </v-list-item>
 </template>
+
+<script lang="ts">
+import {PropType} from "vue";
+
+import {HumanTask} from "../../middleware/tasks/tasksModels";
+
+export default {
+  props: {
+    task: {
+      type: Object as PropType<HumanTask>,
+      required: true,
+    },
+    searchString: {
+      type: String,
+      default: "",
+    },
+  },
+  emits: {
+    clickTag: {
+      type: Function as PropType<(tag: string) => void>,
+    },
+  },
+};
+</script>
 
 <style scoped>
 .taskColumn {
@@ -142,27 +167,3 @@
   margin-right: 0.5rem;
 }
 </style>
-
-<script lang="ts">
-import { PropType } from "vue";
-
-import { HumanTask } from "../../middleware/tasks/tasksModels";
-
-export default {
-  props: {
-    task: {
-      type: Object as PropType<HumanTask>,
-      required: true,
-    },
-    searchString: {
-      type: String,
-      default: "",
-    },
-  },
-  emits: {
-    clickTag: {
-      type: Function as PropType<(tag: string) => void>,
-    },
-  },
-};
-</script>
