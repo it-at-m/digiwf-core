@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1c74zun" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.6.0">
   <bpmn:collaboration id="Collaboration_04yu2l2">
     <bpmn:participant id="Participant_09dsqc6" name="S3 test process" processRef="feature-s3-integration" />
@@ -16,34 +15,11 @@
       </bpmn:endEvent>
       <bpmn:sequenceFlow id="Flow_1tpc9wl" sourceRef="Event_1v0winq" targetRef="End_terminated" />
     </bpmn:subProcess>
-    <bpmn:sequenceFlow id="Flow_0vfi8jp" sourceRef="started" targetRef="user_task_test" />
-    <bpmn:sequenceFlow id="Flow_19vunee" sourceRef="Activity_0xjgh5j" targetRef="End_completed" />
-    <bpmn:sequenceFlow id="Flow_0rled93" sourceRef="user_task_test" targetRef="Activity_08lx3kt" />
-    <bpmn:sequenceFlow id="Flow_1wkgg7w" sourceRef="Activity_05sxqq7" targetRef="Activity_145b1ua" />
-    <bpmn:sequenceFlow id="Flow_1nf1mk3" sourceRef="Activity_145b1ua" targetRef="Activity_0xjgh5j" />
+    <bpmn:sequenceFlow id="Flow_19vunee" sourceRef="Activity_0xjgh5j" targetRef="Activity_1a3kwsz" />
     <bpmn:sequenceFlow id="Flow_0qb6ikl" sourceRef="Activity_08lx3kt" targetRef="Activity_0g1nqtd" />
     <bpmn:sequenceFlow id="Flow_0815z5m" sourceRef="Activity_0g1nqtd" targetRef="Activity_05sxqq7" />
-    <bpmn:userTask id="user_task_test" name="Test&#10;task" camunda:modelerTemplate="de.muenchen.digiwf.templates.Usertask" camunda:assignee="${starterOfInstance}">
-      <bpmn:extensionElements>
-        <camunda:inputOutput>
-          <camunda:inputParameter name="app_task_description" />
-          <camunda:inputParameter name="app_notification_send_candidate_groups">false</camunda:inputParameter>
-          <camunda:inputParameter name="app_notification_send_candidate_users">false</camunda:inputParameter>
-          <camunda:inputParameter name="app_notification_send_assignee">false</camunda:inputParameter>
-          <camunda:inputParameter name="app_assign_user_to_processinstance">false</camunda:inputParameter>
-          <camunda:inputParameter name="app_file_paths_readonly" />
-          <camunda:inputParameter name="app_task_schema_key">4560db7e-64a3-49fc-ab6f-3d308d86dd9a</camunda:inputParameter>
-          <camunda:inputParameter name="app_file_paths">test</camunda:inputParameter>
-        </camunda:inputOutput>
-      </bpmn:extensionElements>
-      <bpmn:incoming>Flow_0vfi8jp</bpmn:incoming>
-      <bpmn:outgoing>Flow_0rled93</bpmn:outgoing>
-    </bpmn:userTask>
-    <bpmn:startEvent id="started" name="Started" camunda:formKey="32dcafc9-5a3d-4ed9-ac91-3cb68383e4ac">
-      <bpmn:outgoing>Flow_0vfi8jp</bpmn:outgoing>
-    </bpmn:startEvent>
     <bpmn:scriptTask id="Activity_08lx3kt" name="Generate Cosys Dokument" scriptFormat="javascript">
-      <bpmn:incoming>Flow_0rled93</bpmn:incoming>
+      <bpmn:incoming>Flow_0vlh8va</bpmn:incoming>
       <bpmn:outgoing>Flow_0qb6ikl</bpmn:outgoing>
       <bpmn:script>var meinjson = {
 "FormField_Grusstext": execution.getVariable("FormField_Grusstext") ,
@@ -58,7 +34,7 @@ execution.setVariable('cosysData', S(JSON.stringify(meinjson)));</bpmn:script>
         <camunda:in sourceExpression="${app_file_s3_async_config}" target="app_topic_name" />
         <camunda:in sourceExpression="createPresignedUrl" target="app_type_name" />
         <camunda:in sourceExpression="POST" target="action" />
-        <camunda:in sourceExpression="test/example-cosys-document.pdf" target="path" />
+        <camunda:in sourceExpression="${app_file_context}/test/example-cosys-document.pdf" target="path" />
         <camunda:out source="presignedUrls" target="createPresignedUrls" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0qb6ikl</bpmn:incoming>
@@ -75,102 +51,146 @@ execution.setVariable('cosysData', S(JSON.stringify(meinjson)));</bpmn:script>
         <camunda:in sourceExpression="${createPresignedUrls}" target="documentStorageUrls" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0815z5m</bpmn:incoming>
-      <bpmn:outgoing>Flow_1wkgg7w</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1r63efb</bpmn:outgoing>
     </bpmn:callActivity>
-    <bpmn:callActivity id="Activity_145b1ua" name="Create Presigned Url" camunda:modelerTemplate="de.muenchen.digitalwf.templates.S3CreatePresignedUrlTemplateV01" calledElement="StreamingTemplateV02">
+    <bpmn:sequenceFlow id="Flow_1r63efb" sourceRef="Activity_05sxqq7" targetRef="Activity_14n425f" />
+    <bpmn:sequenceFlow id="Flow_0vlh8va" sourceRef="started" targetRef="Activity_08lx3kt" />
+    <bpmn:sequenceFlow id="Flow_1owu1ho" sourceRef="Activity_1a3kwsz" targetRef="End_completed" />
+    <bpmn:startEvent id="started" name="Started" camunda:formKey="4560db7e-64a3-49fc-ab6f-3d308d86dd9a">
+      <bpmn:outgoing>Flow_0vlh8va</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="Activity_1a3kwsz" name="Verification Task" camunda:modelerTemplate="de.muenchen.digiwf.templates.Usertask" camunda:assignee="${starterOfInstance}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="app_task_description" />
+          <camunda:inputParameter name="app_task_tag" />
+          <camunda:inputParameter name="app_notification_send_candidate_groups">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_notification_candidate_groups_addresses" />
+          <camunda:inputParameter name="app_notification_send_candidate_users">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_notification_send_assignee">false</camunda:inputParameter>
+          <camunda:inputParameter name="mail_subject" />
+          <camunda:inputParameter name="mail_body" />
+          <camunda:inputParameter name="mail_bottom_text" />
+          <camunda:inputParameter name="app_assign_user_to_processinstance">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_file_paths_readonly" />
+          <camunda:inputParameter name="app_task_schema_key">4560db7e-64a3-49fc-ab6f-3d308d86dd9a</camunda:inputParameter>
+          <camunda:inputParameter name="app_file_paths">test</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_19vunee</bpmn:incoming>
+      <bpmn:outgoing>Flow_1owu1ho</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="End_completed" name="Ended">
+      <bpmn:incoming>Flow_1owu1ho</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:callActivity id="Activity_0xjgh5j" name="Send Mail" camunda:modelerTemplate="de.muenchen.digitalwf.templates.send-mail-V02" calledElement="StreamingTemplateV02">
+      <bpmn:extensionElements>
+        <camunda:in sourceExpression="emailIntegration" target="app_integration_name" />
+        <camunda:in sourceExpression="sendMailFromEventBus" target="app_type_name" />
+        <camunda:in sourceExpression="${receiversCc}" target="receiversCc" />
+        <camunda:in sourceExpression="${receiversBcc}" target="receiversBcc" />
+        <camunda:in sourceExpression="${body}" target="body" />
+        <camunda:in sourceExpression="${replyTo}" target="replyTo" />
+        <camunda:in sourceExpression="${attachments}" target="attachments" />
+        <camunda:out source="mailSentStatus" target="mailSentStatus" />
+        <camunda:inputOutput>
+          <camunda:inputParameter name="receiversCc" />
+          <camunda:inputParameter name="receiversBcc" />
+          <camunda:inputParameter name="replyTo" />
+          <camunda:inputParameter name="body">Test</camunda:inputParameter>
+          <camunda:inputParameter name="attachments">${getPresignedUrls}</camunda:inputParameter>
+        </camunda:inputOutput>
+        <camunda:in sourceExpression="${FormField_Email}" target="receivers" />
+        <camunda:in sourceExpression="Feature S3 Integration" target="subject" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_14m8yeo</bpmn:incoming>
+      <bpmn:outgoing>Flow_19vunee</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:sequenceFlow id="Flow_14m8yeo" sourceRef="Activity_14n425f" targetRef="Activity_0xjgh5j" />
+    <bpmn:callActivity id="Activity_14n425f" name="Get Presigned Url" camunda:modelerTemplate="de.muenchen.digitalwf.templates.S3CreatePresignedUrlTemplateV01" calledElement="StreamingTemplateV02">
       <bpmn:extensionElements>
         <camunda:in sourceExpression="s3Integration" target="app_integration_name" />
         <camunda:in sourceExpression="${app_file_s3_async_config}" target="app_topic_name" />
         <camunda:in sourceExpression="createPresignedUrl" target="app_type_name" />
         <camunda:in sourceExpression="GET" target="action" />
-        <camunda:in sourceExpression="GET" target="app_file_action" />
-        <camunda:inputOutput>
-          <camunda:inputParameter name="action">GET</camunda:inputParameter>
-          <camunda:inputParameter name="path">test</camunda:inputParameter>
-        </camunda:inputOutput>
-        <camunda:in sourceExpression="test/example-cosys-document.pdf" target="path" />
+        <camunda:in sourceExpression="${app_file_context}/test/" target="path" />
         <camunda:out source="presignedUrls" target="getPresignedUrls" />
       </bpmn:extensionElements>
-      <bpmn:incoming>Flow_1wkgg7w</bpmn:incoming>
-      <bpmn:outgoing>Flow_1nf1mk3</bpmn:outgoing>
+      <bpmn:incoming>Flow_1r63efb</bpmn:incoming>
+      <bpmn:outgoing>Flow_14m8yeo</bpmn:outgoing>
     </bpmn:callActivity>
-    <bpmn:callActivity id="Activity_0xjgh5j" name="Send Mail" camunda:modelerTemplate="de.muenchen.digitalwf.templates.send-email" calledElement="StreamingTemplateV02">
-      <bpmn:extensionElements>
-        <camunda:in sourceExpression="sendMailFromEventBus" target="app_type_name" />
-        <camunda:out source="mailSentStatus" target="mailSentStatus" />
-        <camunda:in sourceExpression="${FormField_Email}" target="receivers" />
-        <camunda:in sourceExpression="S3 Test" target="subject" />
-        <camunda:in sourceExpression="Test" target="body" />
-        <camunda:in sourceExpression="emailIntegration" target="app_integration_name" />
-        <camunda:in sourceExpression="${getPresignedUrls}" target="attachments" />
-      </bpmn:extensionElements>
-      <bpmn:incoming>Flow_1nf1mk3</bpmn:incoming>
-      <bpmn:outgoing>Flow_19vunee</bpmn:outgoing>
-    </bpmn:callActivity>
-    <bpmn:endEvent id="End_completed" name="Ended">
-      <bpmn:incoming>Flow_19vunee</bpmn:incoming>
-    </bpmn:endEvent>
-    <bpmn:textAnnotation id="TextAnnotation_0k7rvi5">
-      <bpmn:text>S3 Integration erstellt presigned Urls für den Ordner/das File</bpmn:text>
-    </bpmn:textAnnotation>
-    <bpmn:textAnnotation id="TextAnnotation_0qskhpg">
-      <bpmn:text>Versendet eine Email mit den Dateien, die von den Presigned Urls heruntergeladen wurden</bpmn:text>
-    </bpmn:textAnnotation>
-    <bpmn:textAnnotation id="TextAnnotation_0hv2vkr">
-      <bpmn:text>Formular zeigt readonly die s3 Konfiguration (sync &amp; async)</bpmn:text>
-    </bpmn:textAnnotation>
     <bpmn:textAnnotation id="TextAnnotation_1rkwagc">
       <bpmn:text>S3 Integration erstellt eine presigned Url, unter der das Cosys Dokument gespeichert wird</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:textAnnotation id="TextAnnotation_1ha9m2u">
       <bpmn:text>Cosys Dokument wird erstellt und im S3 gespeichert</bpmn:text>
     </bpmn:textAnnotation>
-    <bpmn:association id="Association_0bl8out" sourceRef="user_task_test" targetRef="TextAnnotation_0hv2vkr" />
     <bpmn:association id="Association_0ze4t0a" sourceRef="Activity_0g1nqtd" targetRef="TextAnnotation_1rkwagc" />
     <bpmn:association id="Association_1ha8goi" sourceRef="Activity_05sxqq7" targetRef="TextAnnotation_1ha9m2u" />
-    <bpmn:association id="Association_1excxu6" sourceRef="Activity_145b1ua" targetRef="TextAnnotation_0k7rvi5" />
+    <bpmn:textAnnotation id="TextAnnotation_0qskhpg">
+      <bpmn:text>Versendet eine Email mit den Dateien, die von den Presigned Urls heruntergeladen wurden</bpmn:text>
+    </bpmn:textAnnotation>
     <bpmn:association id="Association_0a3ccwm" sourceRef="Activity_0xjgh5j" targetRef="TextAnnotation_0qskhpg" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_04yu2l2">
       <bpmndi:BPMNShape id="Participant_09dsqc6_di" bpmnElement="Participant_09dsqc6" isHorizontal="true">
-        <dc:Bounds x="161" y="53" width="1110" height="450" />
+        <dc:Bounds x="161" y="53" width="1270" height="450" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1eghwfu_di" bpmnElement="user_task_test">
-        <dc:Bounds x="300" y="237" width="100" height="80" />
-        <bpmndi:BPMNLabel />
+      <bpmndi:BPMNShape id="TextAnnotation_0qskhpg_di" bpmnElement="TextAnnotation_0qskhpg">
+        <dc:Bounds x="1120" y="80" width="100" height="110" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="started">
-        <dc:Bounds x="222" y="259" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="222" y="302" width="36" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1bxx2vb_di" bpmnElement="Activity_08lx3kt">
-        <dc:Bounds x="449" y="237" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1n9n47e_di" bpmnElement="Activity_0g1nqtd">
-        <dc:Bounds x="596" y="236" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1s1yncs_di" bpmnElement="Activity_05sxqq7">
-        <dc:Bounds x="741" y="235" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1qpnmbo_di" bpmnElement="Activity_145b1ua">
-        <dc:Bounds x="887" y="232" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0s2xgf0_di" bpmnElement="Activity_0xjgh5j">
-        <dc:Bounds x="1034" y="232" width="100" height="80" />
+      <bpmndi:BPMNEdge id="Flow_1owu1ho_di" bpmnElement="Flow_1owu1ho">
+        <di:waypoint x="1295" y="274" />
+        <di:waypoint x="1342" y="274" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0vlh8va_di" bpmnElement="Flow_0vlh8va">
+        <di:waypoint x="398" y="277" />
+        <di:waypoint x="449" y="277" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1r63efb_di" bpmnElement="Flow_1r63efb">
+        <di:waypoint x="841" y="275" />
+        <di:waypoint x="900" y="275" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0815z5m_di" bpmnElement="Flow_0815z5m">
+        <di:waypoint x="696" y="276" />
+        <di:waypoint x="741" y="276" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0qb6ikl_di" bpmnElement="Flow_0qb6ikl">
+        <di:waypoint x="549" y="277" />
+        <di:waypoint x="596" y="277" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_19vunee_di" bpmnElement="Flow_19vunee">
+        <di:waypoint x="1148" y="277" />
+        <di:waypoint x="1195" y="277" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_14m8yeo_di" bpmnElement="Flow_14m8yeo">
+        <di:waypoint x="1000" y="275" />
+        <di:waypoint x="1048" y="275" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Activity_15sj5hq_di" bpmnElement="Activity_1a3kwsz">
+        <dc:Bounds x="1195" y="237" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_1fi6odp_di" bpmnElement="End_completed">
-        <dc:Bounds x="1182" y="254" width="36" height="36" />
+        <dc:Bounds x="1342" y="256" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1184" y="297" width="32" height="14" />
+          <dc:Bounds x="1344" y="299" width="32" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_000hd7z_di" bpmnElement="Activity_000hd7z" isExpanded="true">
-        <dc:Bounds x="613" y="350" width="335" height="130" />
+      <bpmndi:BPMNShape id="Activity_1e0v7hp_di" bpmnElement="Activity_0xjgh5j">
+        <dc:Bounds x="1048" y="237" width="100" height="80" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_14n425f_di" bpmnElement="Activity_14n425f">
+        <dc:Bounds x="900" y="235" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_000hd7z_di" bpmnElement="Activity_000hd7z" isExpanded="true">
+        <dc:Bounds x="613" y="350" width="495" height="130" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1tpc9wl_di" bpmnElement="Flow_1tpc9wl">
+        <di:waypoint x="701" y="400" />
+        <di:waypoint x="865" y="400" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Event_1v0winq_di" bpmnElement="Event_1v0winq">
         <dc:Bounds x="665" y="382" width="36" height="36" />
         <bpmndi:BPMNLabel>
@@ -183,29 +203,27 @@ execution.setVariable('cosysData', S(JSON.stringify(meinjson)));</bpmn:script>
           <dc:Bounds x="856" y="425" width="55" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="Flow_1tpc9wl_di" bpmnElement="Flow_1tpc9wl">
-        <di:waypoint x="701" y="400" />
-        <di:waypoint x="865" y="400" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="TextAnnotation_0k7rvi5_di" bpmnElement="TextAnnotation_0k7rvi5">
-        <dc:Bounds x="980" y="94" width="100" height="82" />
+      <bpmndi:BPMNShape id="Activity_1bxx2vb_di" bpmnElement="Activity_08lx3kt">
+        <dc:Bounds x="449" y="237" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_0qskhpg_di" bpmnElement="TextAnnotation_0qskhpg">
-        <dc:Bounds x="1150" y="80" width="100" height="110" />
+      <bpmndi:BPMNShape id="Activity_1n9n47e_di" bpmnElement="Activity_0g1nqtd">
+        <dc:Bounds x="596" y="236" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_0hv2vkr_di" bpmnElement="TextAnnotation_0hv2vkr">
-        <dc:Bounds x="420" y="104" width="100" height="68" />
+      <bpmndi:BPMNShape id="Activity_1s1yncs_di" bpmnElement="Activity_05sxqq7">
+        <dc:Bounds x="741" y="235" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="started">
+        <dc:Bounds x="362" y="259" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="362" y="302" width="36" height="14" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_1rkwagc_di" bpmnElement="TextAnnotation_1rkwagc">
         <dc:Bounds x="650" y="76" width="100" height="124" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_1ha9m2u_di" bpmnElement="TextAnnotation_1ha9m2u">
-        <dc:Bounds x="800" y="104" width="100" height="68" />
+        <dc:Bounds x="800" y="104" width="130" height="68" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="Association_0bl8out_di" bpmnElement="Association_0bl8out">
-        <di:waypoint x="381" y="237" />
-        <di:waypoint x="432" y="172" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Association_0ze4t0a_di" bpmnElement="Association_0ze4t0a">
         <di:waypoint x="659" y="236" />
         <di:waypoint x="669" y="200" />
@@ -214,41 +232,9 @@ execution.setVariable('cosysData', S(JSON.stringify(meinjson)));</bpmn:script>
         <di:waypoint x="807" y="235" />
         <di:waypoint x="830" y="172" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Association_1excxu6_di" bpmnElement="Association_1excxu6">
-        <di:waypoint x="959" y="232" />
-        <di:waypoint x="991" y="176" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Association_0a3ccwm_di" bpmnElement="Association_0a3ccwm">
-        <di:waypoint x="1111" y="232" />
-        <di:waypoint x="1150" y="176" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0vfi8jp_di" bpmnElement="Flow_0vfi8jp">
-        <di:waypoint x="258" y="277" />
-        <di:waypoint x="300" y="277" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_19vunee_di" bpmnElement="Flow_19vunee">
-        <di:waypoint x="1134" y="272" />
-        <di:waypoint x="1182" y="272" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0rled93_di" bpmnElement="Flow_0rled93">
-        <di:waypoint x="400" y="277" />
-        <di:waypoint x="449" y="277" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1wkgg7w_di" bpmnElement="Flow_1wkgg7w">
-        <di:waypoint x="841" y="275" />
-        <di:waypoint x="887" y="275" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1nf1mk3_di" bpmnElement="Flow_1nf1mk3">
-        <di:waypoint x="987" y="272" />
-        <di:waypoint x="1034" y="272" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0qb6ikl_di" bpmnElement="Flow_0qb6ikl">
-        <di:waypoint x="549" y="277" />
-        <di:waypoint x="596" y="277" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0815z5m_di" bpmnElement="Flow_0815z5m">
-        <di:waypoint x="696" y="276" />
-        <di:waypoint x="741" y="276" />
+        <di:waypoint x="1112" y="237" />
+        <di:waypoint x="1129" y="190" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
