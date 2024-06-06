@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface CreateDocumentInPort {
 
-    String createDocument(final String procedureCOO, final String title, final LocalDate date, final String user, DocumentType type, final List<String> filepaths, final String fileContext);
+    String createDocument(final String procedureCOO, final String title, final LocalDate date, final String user, DocumentType type,
+            final List<String> filepaths, final String fileContext, final String processDefinition);
 
 }

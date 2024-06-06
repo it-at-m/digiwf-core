@@ -5,6 +5,7 @@
 package de.muenchen.oss.digiwf.process.instance.api.resource;
 
 import de.muenchen.oss.digiwf.process.instance.domain.service.ServiceInstanceFileService;
+import de.muenchen.oss.digiwf.s3.integration.client.exception.PropertyNotSetException;
 import de.muenchen.oss.digiwf.shared.file.presignedUrlAdapters.PresignedUrlAction;
 import de.muenchen.oss.digiwf.shared.security.AppAuthenticationProvider;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -39,7 +40,8 @@ public class ServiceInstanceFileRestController {
      * @return file names
      */
     @GetMapping("/{instanceId}")
-    public ResponseEntity<List<String>> getFileNames(@PathVariable final String instanceId, @RequestParam final String filePath) {
+    public ResponseEntity<List<String>> getFileNames(@PathVariable final String instanceId, @RequestParam final String filePath)
+            throws PropertyNotSetException {
         final List<String> fileNames = this.serviceInstanceFileService.getFileNames(
                 instanceId,
                 filePath,
@@ -56,7 +58,8 @@ public class ServiceInstanceFileRestController {
      * @return presignedUrl
      */
     @GetMapping("/{instanceId}/{fileName}")
-    public ResponseEntity<String> getPresignedUrlForFileDownload(@PathVariable final String instanceId, @PathVariable final String fileName, @RequestParam final String filePath) {
+    public ResponseEntity<String> getPresignedUrlForFileDownload(@PathVariable final String instanceId, @PathVariable final String fileName, @RequestParam final String filePath)
+            throws PropertyNotSetException {
         final String presignedUrl = this.serviceInstanceFileService.getPresignedUrl(
                 PresignedUrlAction.GET,
                 instanceId,
@@ -75,7 +78,8 @@ public class ServiceInstanceFileRestController {
      * @return presignedUrl
      */
     @PostMapping("/{instanceId}/{filename}")
-    public ResponseEntity<String> getPresignedUrlForFileUpload(@PathVariable final String instanceId, @PathVariable final String filename, @RequestParam final String filePath) {
+    public ResponseEntity<String> getPresignedUrlForFileUpload(@PathVariable final String instanceId, @PathVariable final String filename, @RequestParam final String filePath)
+            throws PropertyNotSetException {
         final String presignedUrls = this.serviceInstanceFileService.getPresignedUrl(
                 PresignedUrlAction.POST,
                 instanceId,
@@ -94,7 +98,8 @@ public class ServiceInstanceFileRestController {
      * @return presignedUrl
      */
     @DeleteMapping("/{instanceId}/{filename}")
-    public ResponseEntity<String> getPresignedUrlForFileDeletion(@PathVariable final String instanceId, @PathVariable final String filename, @RequestParam final String filePath) {
+    public ResponseEntity<String> getPresignedUrlForFileDeletion(@PathVariable final String instanceId, @PathVariable final String filename, @RequestParam final String filePath)
+            throws PropertyNotSetException {
         final String presignedUrl = this.serviceInstanceFileService.getPresignedUrl(
                 PresignedUrlAction.DELETE,
                 instanceId,

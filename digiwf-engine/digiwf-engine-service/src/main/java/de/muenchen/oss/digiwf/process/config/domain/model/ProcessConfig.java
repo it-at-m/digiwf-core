@@ -36,6 +36,7 @@ public class ProcessConfig {
      * Example: "admin@example.com,support@example.com"
      */
     public static final String INCIDENT_NOTIFICATION_ADDRESSES = "app_incident_notification_addresses";
+    public static final String APP_FILE_S3_SYNC_CONFIG = "app_file_s3_sync_config";
 
     /**
      * key of the process config.
