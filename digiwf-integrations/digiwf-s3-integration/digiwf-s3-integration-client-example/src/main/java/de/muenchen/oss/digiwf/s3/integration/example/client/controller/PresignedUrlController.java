@@ -7,6 +7,7 @@ import de.muenchen.oss.digiwf.message.core.api.MessageApi;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageException;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.presignedurl.PresignedUrlRepository;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.transfer.S3FileTransferRepository;
+import de.muenchen.oss.digiwf.s3.integration.client.service.S3StorageUrlProvider;
 import de.muenchen.oss.digiwf.s3.integration.example.client.controller.dto.FileActionDto;
 import de.muenchen.oss.digiwf.s3.integration.example.client.controller.dto.PresignedUrlDto;
 import de.muenchen.oss.digiwf.s3.integration.example.client.streaming.events.CreatePresignedUrlEvent;
@@ -37,6 +38,7 @@ public class PresignedUrlController {
   private final MessageApi messageApi;
   private final S3FileTransferRepository s3FileTransferRepository;
   private final PresignedUrlRepository presignedUrlRepository;
+  private final S3StorageUrlProvider s3StorageUrlProvider;
 
   /**
    * Create a presigned url by sending a {@link CreatePresignedUrlEvent} to the event bus
@@ -97,7 +99,7 @@ public class PresignedUrlController {
     final File file = ResourceUtils.getFile("classpath:files/cat.jpg");
     final InputStream inputStream = new FileInputStream(file);
 
-    final String presignedUrl = this.presignedUrlRepository.getPresignedUrlSaveFile(pathToFile, 5, null);
+    final String presignedUrl = this.presignedUrlRepository.getPresignedUrlSaveFile(pathToFile, 5, null, s3StorageUrlProvider.getDefaultDocumentStorageUrl());
     // Example on how to use a custom s3 integration
     // final String presignedUrl = this.presignedUrlRepository.getPresignedUrlSaveFile(pathToFile, 5, null, "http://your-s3-integration");
     this.s3FileTransferRepository.saveFileInputStream(presignedUrl, inputStream);

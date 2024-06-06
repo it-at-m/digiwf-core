@@ -26,16 +26,15 @@ class UpdateDocumentUseCaseTest {
 
         List<String> filepaths = List.of("path/content.pdf");
 
-        when(this.loadFileOutPort.loadFiles(any(), any())).thenReturn(List.of(content));
+        when(this.loadFileOutPort.loadFiles(any(), any(), any())).thenReturn(List.of(content));
 
         doNothing().when(updateDocumentOutPort).updateDocument(any(), any(), any(), any());
 
-        updateDocumentUseCase.updateDocument("procedureCOO", "user", DocumentType.EINGEHEND, filepaths, "filecontext");
+        updateDocumentUseCase.updateDocument("procedureCOO", "user", DocumentType.EINGEHEND, filepaths, "filecontext", "processDefinitionId");
 
-        verify(this.loadFileOutPort, times(1)).loadFiles(filepaths, "filecontext");
+        verify(this.loadFileOutPort, times(1)).loadFiles(filepaths, "filecontext", "processDefinitionId");
 
         verify(this.updateDocumentOutPort, times(1)).updateDocument("procedureCOO", DocumentType.EINGEHEND, List.of(content), "user");
-
 
     }
 }

@@ -29,20 +29,13 @@
         </dependency>
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
-            <artifactId>digiwf-spring-security-starter</artifactId>
+            <artifactId>digiwf-process-starter</artifactId>
             <version>${project.version}</version>
         </dependency>
-
-        <!-- tika -->
         <dependency>
-            <groupId>org.apache.tika</groupId>
-            <artifactId>tika-core</artifactId>
-            <version>${tika.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.tika</groupId>
-            <artifactId>tika-parsers-standard-package</artifactId>
-            <version>${tika.version}</version>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-spring-security-starter</artifactId>
+            <version>${project.version}</version>
         </dependency>
 
         <!-- testing -->
