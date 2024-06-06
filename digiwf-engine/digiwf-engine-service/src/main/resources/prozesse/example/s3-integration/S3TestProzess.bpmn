@@ -55,11 +55,11 @@ execution.setVariable('cosysData', S(JSON.stringify(meinjson)));</bpmn:script>
     </bpmn:callActivity>
     <bpmn:sequenceFlow id="Flow_1r63efb" sourceRef="Activity_05sxqq7" targetRef="Activity_14n425f" />
     <bpmn:sequenceFlow id="Flow_0vlh8va" sourceRef="started" targetRef="Activity_08lx3kt" />
-    <bpmn:sequenceFlow id="Flow_1owu1ho" sourceRef="Activity_1a3kwsz" targetRef="End_completed" />
+    <bpmn:sequenceFlow id="Flow_1owu1ho" sourceRef="Activity_1a3kwsz" targetRef="Activity_0nxljl5" />
     <bpmn:startEvent id="started" name="Started" camunda:formKey="4560db7e-64a3-49fc-ab6f-3d308d86dd9a">
       <bpmn:outgoing>Flow_0vlh8va</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:userTask id="Activity_1a3kwsz" name="Verification Task" camunda:modelerTemplate="de.muenchen.digiwf.templates.Usertask" camunda:assignee="${starterOfInstance}">
+    <bpmn:userTask id="Activity_1a3kwsz" name="Verification Task (Files exist)" camunda:modelerTemplate="de.muenchen.digiwf.templates.Usertask" camunda:assignee="${starterOfInstance}">
       <bpmn:extensionElements>
         <camunda:inputOutput>
           <camunda:inputParameter name="app_task_description" />
@@ -80,9 +80,6 @@ execution.setVariable('cosysData', S(JSON.stringify(meinjson)));</bpmn:script>
       <bpmn:incoming>Flow_19vunee</bpmn:incoming>
       <bpmn:outgoing>Flow_1owu1ho</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:endEvent id="End_completed" name="Ended">
-      <bpmn:incoming>Flow_1owu1ho</bpmn:incoming>
-    </bpmn:endEvent>
     <bpmn:callActivity id="Activity_0xjgh5j" name="Send Mail" camunda:modelerTemplate="de.muenchen.digitalwf.templates.send-mail-V02" calledElement="StreamingTemplateV02">
       <bpmn:extensionElements>
         <camunda:in sourceExpression="emailIntegration" target="app_integration_name" />
@@ -119,6 +116,43 @@ execution.setVariable('cosysData', S(JSON.stringify(meinjson)));</bpmn:script>
       <bpmn:incoming>Flow_1r63efb</bpmn:incoming>
       <bpmn:outgoing>Flow_14m8yeo</bpmn:outgoing>
     </bpmn:callActivity>
+    <bpmn:sequenceFlow id="Flow_11928m9" sourceRef="Activity_0nxljl5" targetRef="Activity_0id5ahf" />
+    <bpmn:callActivity id="Activity_0nxljl5" name="Delete Files" camunda:modelerTemplate="de.muenchen.digitalwf.templates.s3.delete" camunda:modelerTemplateVersion="1" calledElement="StreamingTemplateV02">
+      <bpmn:extensionElements>
+        <camunda:in sourceExpression="s3Integration" target="app_integration_name" />
+        <camunda:in sourceExpression="${app_file_s3_async_config}" target="app_topic_name" />
+        <camunda:in sourceExpression="deletePaths" target="app_type_name" />
+        <camunda:in sourceExpression="${app_file_context}" target="fileContext" />
+        <camunda:in sourceExpression="test/" target="paths" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1owu1ho</bpmn:incoming>
+      <bpmn:outgoing>Flow_11928m9</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:endEvent id="End_completed" name="Ended">
+      <bpmn:incoming>Flow_08fjmdo</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_08fjmdo" sourceRef="Activity_0id5ahf" targetRef="End_completed" />
+    <bpmn:userTask id="Activity_0id5ahf" name="Verification Task (Files deleted)" camunda:modelerTemplate="de.muenchen.digiwf.templates.Usertask" camunda:assignee="${starterOfInstance}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="app_task_description" />
+          <camunda:inputParameter name="app_task_tag" />
+          <camunda:inputParameter name="app_notification_send_candidate_groups">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_notification_candidate_groups_addresses" />
+          <camunda:inputParameter name="app_notification_send_candidate_users">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_notification_send_assignee">false</camunda:inputParameter>
+          <camunda:inputParameter name="mail_subject" />
+          <camunda:inputParameter name="mail_body" />
+          <camunda:inputParameter name="mail_bottom_text" />
+          <camunda:inputParameter name="app_assign_user_to_processinstance">false</camunda:inputParameter>
+          <camunda:inputParameter name="app_file_paths_readonly" />
+          <camunda:inputParameter name="app_task_schema_key">4560db7e-64a3-49fc-ab6f-3d308d86dd9a</camunda:inputParameter>
+          <camunda:inputParameter name="app_file_paths">test</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_11928m9</bpmn:incoming>
+      <bpmn:outgoing>Flow_08fjmdo</bpmn:outgoing>
+    </bpmn:userTask>
     <bpmn:textAnnotation id="TextAnnotation_1rkwagc">
       <bpmn:text>S3 Integration erstellt eine presigned Url, unter der das Cosys Dokument gespeichert wird</bpmn:text>
     </bpmn:textAnnotation>
@@ -131,19 +165,59 @@ execution.setVariable('cosysData', S(JSON.stringify(meinjson)));</bpmn:script>
       <bpmn:text>Versendet eine Email mit den Dateien, die von den Presigned Urls heruntergeladen wurden</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:association id="Association_0a3ccwm" sourceRef="Activity_0xjgh5j" targetRef="TextAnnotation_0qskhpg" />
+    <bpmn:textAnnotation id="TextAnnotation_1iv7jvz">
+      <bpmn:text>PresignedUrls für Mail-Versand erstellen</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_0mrxfa3" sourceRef="Activity_14n425f" targetRef="TextAnnotation_1iv7jvz" />
+    <bpmn:textAnnotation id="TextAnnotation_1jt4wga">
+      <bpmn:text>Task zur Überprüfung, dass die hochgeladenen und die Cosys-Datei vorhanden sind</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1e3bz3q" sourceRef="Activity_1a3kwsz" targetRef="TextAnnotation_1jt4wga" />
+    <bpmn:textAnnotation id="TextAnnotation_0xbke6c">
+      <bpmn:text>Löscht alle Dateien</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_0x7a79n" sourceRef="Activity_0nxljl5" targetRef="TextAnnotation_0xbke6c" />
+    <bpmn:textAnnotation id="TextAnnotation_1ldmf5q">
+      <bpmn:text>Task zur Überprüfung, dass alle Dateien gelöscht wurden</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_15ik2ko" sourceRef="Activity_0id5ahf" targetRef="TextAnnotation_1ldmf5q" />
+    <bpmn:textAnnotation id="TextAnnotation_0kvjzgs">
+      <bpmn:text>Skript zum Aufbau der für Cosys benötigten Variablen</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_00g1tag" sourceRef="Activity_08lx3kt" targetRef="TextAnnotation_0kvjzgs" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_04yu2l2">
       <bpmndi:BPMNShape id="Participant_09dsqc6_di" bpmnElement="Participant_09dsqc6" isHorizontal="true">
-        <dc:Bounds x="161" y="53" width="1270" height="450" />
+        <dc:Bounds x="161" y="53" width="1550" height="450" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_0qskhpg_di" bpmnElement="TextAnnotation_0qskhpg">
-        <dc:Bounds x="1120" y="80" width="100" height="110" />
+      <bpmndi:BPMNShape id="TextAnnotation_1iv7jvz_di" bpmnElement="TextAnnotation_1iv7jvz">
+        <dc:Bounds x="950" y="103" width="100" height="70" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_1jt4wga_di" bpmnElement="TextAnnotation_1jt4wga">
+        <dc:Bounds x="1250" y="81" width="100" height="113" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0xbke6c_di" bpmnElement="TextAnnotation_0xbke6c">
+        <dc:Bounds x="1380" y="117" width="100" height="41" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_1ldmf5q_di" bpmnElement="TextAnnotation_1ldmf5q">
+        <dc:Bounds x="1480" y="89" width="100" height="98" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0kvjzgs_di" bpmnElement="TextAnnotation_0kvjzgs">
+        <dc:Bounds x="460" y="96" width="100" height="84" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_11928m9_di" bpmnElement="Flow_11928m9">
+        <di:waypoint x="1440" y="274" />
+        <di:waypoint x="1480" y="274" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_14m8yeo_di" bpmnElement="Flow_14m8yeo">
+        <di:waypoint x="1000" y="275" />
+        <di:waypoint x="1048" y="275" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1owu1ho_di" bpmnElement="Flow_1owu1ho">
         <di:waypoint x="1295" y="274" />
-        <di:waypoint x="1342" y="274" />
+        <di:waypoint x="1340" y="274" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0vlh8va_di" bpmnElement="Flow_0vlh8va">
         <di:waypoint x="398" y="277" />
@@ -165,24 +239,12 @@ execution.setVariable('cosysData', S(JSON.stringify(meinjson)));</bpmn:script>
         <di:waypoint x="1148" y="277" />
         <di:waypoint x="1195" y="277" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_14m8yeo_di" bpmnElement="Flow_14m8yeo">
-        <di:waypoint x="1000" y="275" />
-        <di:waypoint x="1048" y="275" />
+      <bpmndi:BPMNEdge id="Flow_08fjmdo_di" bpmnElement="Flow_08fjmdo">
+        <di:waypoint x="1580" y="274" />
+        <di:waypoint x="1622" y="274" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="Activity_15sj5hq_di" bpmnElement="Activity_1a3kwsz">
-        <dc:Bounds x="1195" y="237" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1fi6odp_di" bpmnElement="End_completed">
-        <dc:Bounds x="1342" y="256" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1344" y="299" width="32" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1e0v7hp_di" bpmnElement="Activity_0xjgh5j">
-        <dc:Bounds x="1048" y="237" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_14n425f_di" bpmnElement="Activity_14n425f">
-        <dc:Bounds x="900" y="235" width="100" height="80" />
+      <bpmndi:BPMNShape id="Activity_1cu80u4_di" bpmnElement="Activity_0id5ahf">
+        <dc:Bounds x="1480" y="234" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_000hd7z_di" bpmnElement="Activity_000hd7z" isExpanded="true">
         <dc:Bounds x="613" y="350" width="495" height="130" />
@@ -218,11 +280,32 @@ execution.setVariable('cosysData', S(JSON.stringify(meinjson)));</bpmn:script>
           <dc:Bounds x="362" y="302" width="36" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_15sj5hq_di" bpmnElement="Activity_1a3kwsz">
+        <dc:Bounds x="1195" y="237" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1e0v7hp_di" bpmnElement="Activity_0xjgh5j">
+        <dc:Bounds x="1048" y="237" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_14n425f_di" bpmnElement="Activity_14n425f">
+        <dc:Bounds x="900" y="235" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0ah5tqi_di" bpmnElement="Activity_0nxljl5">
+        <dc:Bounds x="1340" y="234" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1fi6odp_di" bpmnElement="End_completed">
+        <dc:Bounds x="1622" y="256" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1624" y="299" width="32" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_1rkwagc_di" bpmnElement="TextAnnotation_1rkwagc">
         <dc:Bounds x="650" y="76" width="100" height="124" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_1ha9m2u_di" bpmnElement="TextAnnotation_1ha9m2u">
         <dc:Bounds x="800" y="104" width="130" height="68" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0qskhpg_di" bpmnElement="TextAnnotation_0qskhpg">
+        <dc:Bounds x="1120" y="80" width="100" height="110" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Association_0ze4t0a_di" bpmnElement="Association_0ze4t0a">
         <di:waypoint x="659" y="236" />
@@ -235,6 +318,26 @@ execution.setVariable('cosysData', S(JSON.stringify(meinjson)));</bpmn:script>
       <bpmndi:BPMNEdge id="Association_0a3ccwm_di" bpmnElement="Association_0a3ccwm">
         <di:waypoint x="1112" y="237" />
         <di:waypoint x="1129" y="190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0mrxfa3_di" bpmnElement="Association_0mrxfa3">
+        <di:waypoint x="963" y="235" />
+        <di:waypoint x="982" y="173" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_1e3bz3q_di" bpmnElement="Association_1e3bz3q">
+        <di:waypoint x="1257" y="237" />
+        <di:waypoint x="1270" y="194" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0x7a79n_di" bpmnElement="Association_0x7a79n">
+        <di:waypoint x="1401" y="234" />
+        <di:waypoint x="1423" y="158" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_15ik2ko_di" bpmnElement="Association_15ik2ko">
+        <di:waypoint x="1530" y="234" />
+        <di:waypoint x="1530" y="187" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_00g1tag_di" bpmnElement="Association_00g1tag">
+        <di:waypoint x="502" y="237" />
+        <di:waypoint x="505" y="180" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
