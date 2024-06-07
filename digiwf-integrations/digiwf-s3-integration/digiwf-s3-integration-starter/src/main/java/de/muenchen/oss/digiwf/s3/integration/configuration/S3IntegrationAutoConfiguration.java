@@ -4,8 +4,8 @@ import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
 import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
 import de.muenchen.oss.digiwf.s3.integration.adapter.in.rest.mapper.PresignedUrlMapper;
 import de.muenchen.oss.digiwf.s3.integration.adapter.in.streaming.CreatePresignedUrlEvent;
+import de.muenchen.oss.digiwf.s3.integration.adapter.in.streaming.FilesDTO;
 import de.muenchen.oss.digiwf.s3.integration.adapter.in.streaming.MessageProcessor;
-import de.muenchen.oss.digiwf.s3.integration.adapter.in.streaming.PathsDTO;
 import de.muenchen.oss.digiwf.s3.integration.adapter.out.integration.IntegrationOutAdapter;
 import de.muenchen.oss.digiwf.s3.integration.adapter.out.s3.S3Repository;
 import de.muenchen.oss.digiwf.s3.integration.application.CreatePresignedUrlsUseCase;
@@ -103,7 +103,7 @@ public class S3IntegrationAutoConfiguration {
     }
 
     @Bean
-    public Consumer<Message<PathsDTO>> deletePaths(final MessageProcessor messageProcessor) {
-        return messageProcessor.deletePaths();
+    public Consumer<Message<FilesDTO>> deleteFiles(final MessageProcessor messageProcessor) {
+        return messageProcessor.deleteFiles();
     }
 }

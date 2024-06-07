@@ -54,12 +54,12 @@ public class MessageProcessor {
         };
     }
 
-    public Consumer<Message<PathsDTO>> deletePaths() {
+    public Consumer<Message<FilesDTO>> deleteFiles() {
         return message -> {
             try {
                 val payload = message.getPayload();
-                log.info("Delete paths request: {}", payload);
-                for (String path : payload.getPathsAsList()) {
+                log.info("deleteFiles request: {}", payload);
+                for (String path : payload.getFilePathsAsList()) {
                     final String fullPath = payload.getFileContext() + "/" + path;
                     if (fullPath.endsWith("/")) {
                         this.folderOperationsInPort.deleteFolder(fullPath);

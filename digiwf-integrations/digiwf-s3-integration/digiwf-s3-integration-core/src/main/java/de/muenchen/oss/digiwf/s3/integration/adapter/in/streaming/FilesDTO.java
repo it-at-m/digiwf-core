@@ -10,13 +10,13 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PathsDTO {
+public class FilesDTO {
 
-    private String paths;
+    private String filePaths;
 
     private String fileContext;
 
-    public List<String> getPathsAsList() {
-        return Arrays.asList(paths.split("[,;]"));
+    public List<String> getFilePathsAsList() {
+        return Arrays.asList(filePaths.split("[,;]"));
     }
 }
