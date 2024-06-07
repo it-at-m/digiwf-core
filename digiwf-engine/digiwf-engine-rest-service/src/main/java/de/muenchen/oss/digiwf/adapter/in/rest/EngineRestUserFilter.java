@@ -34,6 +34,7 @@ public class EngineRestUserFilter implements Filter {
             if (!matcher.matches()) {
                 log.debug("Skipped filter");
                 filterChain.doFilter(servletRequest, servletResponse);
+                return;
             }
             val username = matcher.group(1);
             log.debug("Asking profile for user {}", username);
