@@ -122,9 +122,9 @@ execution.setVariable('cosysData', S(JSON.stringify(meinjson)));</bpmn:script>
       <bpmn:extensionElements>
         <camunda:in sourceExpression="s3Integration" target="app_integration_name" />
         <camunda:in sourceExpression="${app_file_s3_async_config}" target="app_topic_name" />
-        <camunda:in sourceExpression="deletePaths" target="app_type_name" />
+        <camunda:in sourceExpression="deleteFiles" target="app_type_name" />
         <camunda:in sourceExpression="${app_file_context}" target="fileContext" />
-        <camunda:in sourceExpression="test/" target="paths" />
+        <camunda:in sourceExpression="test/" target="filePaths" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1owu1ho</bpmn:incoming>
       <bpmn:outgoing>Flow_11928m9</bpmn:outgoing>
