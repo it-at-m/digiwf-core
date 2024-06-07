@@ -35,7 +35,7 @@ public class LdapAdapter extends LdapTemplate implements ResolveUserGroupsOutPor
     @Override
     @NonNull
     @Cacheable(GROUP_CACHE)
-    public List<Group> resolveGroups(@NonNull final String username) {
+    public List<Group> resolveUserGroups(@NonNull final String username) {
         log.debug("Resolving groups for user via ldap: {}", username);
         String userDn = resolveUserDn(username);
         // build query

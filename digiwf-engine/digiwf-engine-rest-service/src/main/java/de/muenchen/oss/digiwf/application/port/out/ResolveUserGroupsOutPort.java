@@ -8,5 +8,5 @@ import java.util.List;
 public interface ResolveUserGroupsOutPort {
 
     @NonNull
-    List<Group> resolveGroups(@NonNull final String username);
+    List<Group> resolveUserGroups(@NonNull final String username);
 }

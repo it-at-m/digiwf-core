@@ -37,7 +37,7 @@ public class EngineRestGroupFilter implements Filter {
             log.debug("Asking membership for user: {}", username);
 
             var payload = resolveUserGroupsInPort
-                    .resolveGroups(username)
+                    .resolveUserGroups(username)
                     .stream()
                     .map(OptimizeGroupDto::fromGroup)
                     .collect(Collectors.toList());

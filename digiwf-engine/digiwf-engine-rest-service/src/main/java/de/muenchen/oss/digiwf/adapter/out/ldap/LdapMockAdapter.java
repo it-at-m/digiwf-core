@@ -15,7 +15,7 @@ import java.util.List;
 public class LdapMockAdapter implements ResolveUserGroupsOutPort {
     @Override
     @NonNull
-    public List<Group> resolveGroups(@NonNull final String username) {
+    public List<Group> resolveUserGroups(@NonNull final String username) {
         log.debug("Resolving groups for user via mock: {}", username);
         return List.of(
                 new Group("digiwf-webapp-user")
