@@ -10,6 +10,7 @@
       :hint="hint"
       :label="label"
       :loading="isLoading"
+      :prepend-icon="!screenreaderMode ? 'mdi-paperclip' : ''"
       :rules="rules"
       aria-label="Datei hochladen"
       multiple
@@ -66,6 +67,7 @@ import {
 import {checkRequired} from "@/validation/required";
 import {getMimeType, validateFileType} from "@/validation/fileType";
 import DwfFilePreview from "@/components/DwfFilePreview.vue";
+import {useAccessibility} from "../../../../apps/digiwf-tasklist/src/store/modules/accessibility";
 
 /**
  * existing bug!. Prepend icon cannot be overridden for set tabindex="-1". More information https://github.com/vuetifyjs/vuetify/issues/9580
@@ -109,6 +111,10 @@ export default defineComponent({
     const apiEndpoint = inject<string>('apiEndpoint');
     const taskServiceApiEndpoint = inject<string>('taskServiceApiEndpoint');
     const formContext = inject<FormContext>('formContext');
+
+    const a11YScreenreaderModeEnabled = useAccessibility().a11YScreenreaderModeEnabled;
+
+    const screenreaderMode = computed(() => a11YScreenreaderModeEnabled());
 
     const input = (value: any): any => {
       if (!props.on) {
@@ -423,6 +429,7 @@ export default defineComponent({
       rules,
       hint,
       isReadonly,
+      screenreaderMode,
       removeDocument,
       isRequired
     }
