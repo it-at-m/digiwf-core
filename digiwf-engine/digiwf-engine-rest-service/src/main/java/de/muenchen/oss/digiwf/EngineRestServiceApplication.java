@@ -5,6 +5,7 @@ package de.muenchen.oss.digiwf;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.muenchen.oss.digiwf.adapter.in.rest.EngineRestGroupFilter;
+import de.muenchen.oss.digiwf.adapter.in.rest.EngineRestUserFilter;
 import de.muenchen.oss.digiwf.application.port.in.ResolveUserGroupsInPort;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
@@ -39,6 +40,21 @@ public class EngineRestServiceApplication {
         filterRegistrationBean.setFilter(new EngineRestGroupFilter(objectMapper, resolveUserGroupsInPort));
         filterRegistrationBean.setOrder(101);
         filterRegistrationBean.addUrlPatterns("/engine-rest/engine/default/group");
+        return filterRegistrationBean;
+    }
+
+    /**
+     * Register filter for camunda user profile request.
+     */
+    @Bean
+    @Profile({"groups-ldap", "groups-mock"})
+    public FilterRegistrationBean<EngineRestUserFilter> engineRestUserFilter(
+            final ObjectMapper objectMapper
+    ) {
+        FilterRegistrationBean<EngineRestUserFilter> filterRegistrationBean = new FilterRegistrationBean<>();
+        filterRegistrationBean.setFilter(new EngineRestUserFilter(objectMapper));
+        filterRegistrationBean.setOrder(102);
+        filterRegistrationBean.addUrlPatterns("/engine-rest/engine/default/user/*");
         return filterRegistrationBean;
     }
 }
