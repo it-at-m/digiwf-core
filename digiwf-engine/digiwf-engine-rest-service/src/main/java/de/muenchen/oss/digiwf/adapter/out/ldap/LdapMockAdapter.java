@@ -34,6 +34,6 @@ public class LdapMockAdapter implements ResolveUserGroupsOutPort, ResolveUserOut
     @NonNull
     @Override
     public List<String> getGroupsMembers(@NonNull @NotEmpty final List<Group> groups) {
-        return List.of("johndoe", "jandoe");
+        return List.of("johndoe", "janedoe");
     }
 }
