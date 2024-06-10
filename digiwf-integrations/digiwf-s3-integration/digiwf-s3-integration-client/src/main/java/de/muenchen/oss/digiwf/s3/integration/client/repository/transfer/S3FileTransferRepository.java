@@ -5,6 +5,7 @@ import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageExc
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageServerErrorException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -27,6 +28,11 @@ import java.net.URI;
 @RequiredArgsConstructor
 public class S3FileTransferRepository {
 
+    private static final String REQUEST_FAILED_WITH_STATUS_CODE = "The presigned url request failed with http status %s.";
+    private static final String REQUEST_FAILED = "The presigned url request failed.";
+
+    private final RestTemplate restTemplate = new RestTemplate();
+
     /**
      * Gets a file from document storage using the presignedURL.
      *
@@ -38,13 +44,13 @@ public class S3FileTransferRepository {
      */
     public byte[] getFile(final String presignedUrl) throws DocumentStorageClientErrorException, DocumentStorageServerErrorException, DocumentStorageException {
         try {
-            final var headers = new HttpHeaders();
+            val headers = new HttpHeaders();
             final HttpEntity<Void> httpEntity = new HttpEntity<>(headers);
-            /**
+            /*
              * Using the RestTemplate without any authorization.
              * The presigned URL contains any authorization against the S3 storage.
              */
-            final ResponseEntity<byte[]> responseEntity = new RestTemplate().exchange(
+            final ResponseEntity<byte[]> responseEntity = restTemplate.exchange(
                     URI.create(presignedUrl),
                     HttpMethod.GET,
                     httpEntity,
@@ -52,15 +58,15 @@ public class S3FileTransferRepository {
             );
             return responseEntity.getBody();
         } catch (final HttpClientErrorException exception) {
-            final String message = String.format("The presigned url request failed with http status %s.", exception.getStatusCode());
+            final String message = String.format(REQUEST_FAILED_WITH_STATUS_CODE, exception.getStatusCode());
             log.error(message);
             throw new DocumentStorageClientErrorException(message, exception);
         } catch (final HttpServerErrorException exception) {
-            final String message = String.format("The presigned url request failed with http status %s.", exception.getStatusCode());
+            final String message = String.format(REQUEST_FAILED_WITH_STATUS_CODE, exception.getStatusCode());
             log.error(message);
             throw new DocumentStorageServerErrorException(message, exception);
         } catch (final RestClientException exception) {
-            final String message = String.format("The presigned url request failed.");
+            final String message = REQUEST_FAILED;
             log.error(message);
             throw new DocumentStorageException(message, exception);
         }
@@ -75,10 +81,10 @@ public class S3FileTransferRepository {
      */
     public InputStream getFileInputStream(final String presignedUrl) throws DocumentStorageException {
         try {
-            final var urlResource = new UrlResource(presignedUrl);
+            val urlResource = new UrlResource(presignedUrl);
             return urlResource.getInputStream();
         } catch (final IOException exception) {
-            final String message = String.format("The presigned url request failed.");
+            final String message = REQUEST_FAILED;
             log.error(message);
             throw new DocumentStorageException(message, exception);
         }
@@ -93,30 +99,31 @@ public class S3FileTransferRepository {
      * @throws DocumentStorageServerErrorException if the problem is with the S3 storage.
      * @throws DocumentStorageException            if the problem cannot be assigned to either the client or the S3 storage.
      */
-    public void saveFile(final String presignedUrl, final byte[] file) throws DocumentStorageClientErrorException, DocumentStorageServerErrorException, DocumentStorageException {
+    public void saveFile(final String presignedUrl, final byte[] file)
+            throws DocumentStorageClientErrorException, DocumentStorageServerErrorException, DocumentStorageException {
         try {
-            final var headers = new HttpHeaders();
+            val headers = new HttpHeaders();
             final HttpEntity<byte[]> fileHttpEntity = new HttpEntity<>(file, headers);
-            /**
+            /*
              * Using the RestTemplate without any authorization.
              * The presigned URL contains any authorization against the S3 storage.
              */
-            new RestTemplate().exchange(
+            restTemplate.exchange(
                     URI.create(presignedUrl),
                     HttpMethod.PUT,
                     fileHttpEntity,
                     Void.class
             );
         } catch (final HttpClientErrorException exception) {
-            final String message = String.format("The presigned url request failed with http status %s.", exception.getStatusCode());
+            final String message = String.format(REQUEST_FAILED_WITH_STATUS_CODE, exception.getStatusCode());
             log.error(message);
             throw new DocumentStorageClientErrorException(message, exception);
         } catch (final HttpServerErrorException exception) {
-            final String message = String.format("The presigned url request failed with http status %s.", exception.getStatusCode());
+            final String message = String.format(REQUEST_FAILED_WITH_STATUS_CODE, exception.getStatusCode());
             log.error(message);
             throw new DocumentStorageServerErrorException(message, exception);
         } catch (final RestClientException exception) {
-            final String message = String.format("The presigned url request failed.");
+            final String message = REQUEST_FAILED;
             log.error(message);
             throw new DocumentStorageException(message, exception);
         }
@@ -131,30 +138,31 @@ public class S3FileTransferRepository {
      * @throws DocumentStorageServerErrorException if the problem is with the S3 storage.
      * @throws DocumentStorageException            if the problem cannot be assigned to either the client or the S3 storage.
      */
-    public void saveFileInputStream(final String presignedUrl, final InputStream file) throws DocumentStorageClientErrorException, DocumentStorageServerErrorException, DocumentStorageException {
+    public void saveFileInputStream(final String presignedUrl, final InputStream file)
+            throws DocumentStorageClientErrorException, DocumentStorageServerErrorException, DocumentStorageException {
         try {
-            final var headers = new HttpHeaders();
+            val headers = new HttpHeaders();
             final HttpEntity<Resource> fileHttpEntity = new HttpEntity<>(new InputStreamResource(file), headers);
-            /**
+            /*
              * Using the RestTemplate without any authorization.
              * The presigned URL contains any authorization against the S3 storage.
              */
-            new RestTemplate().exchange(
+            restTemplate.exchange(
                     URI.create(presignedUrl),
                     HttpMethod.PUT,
                     fileHttpEntity,
                     Void.class
             );
         } catch (final HttpClientErrorException exception) {
-            final String message = String.format("The presigned url request failed with http status %s.", exception.getStatusCode());
+            final String message = String.format(REQUEST_FAILED_WITH_STATUS_CODE, exception.getStatusCode());
             log.error(message);
             throw new DocumentStorageClientErrorException(message, exception);
         } catch (final HttpServerErrorException exception) {
-            final String message = String.format("The presigned url request failed with http status %s.", exception.getStatusCode());
+            final String message = String.format(REQUEST_FAILED_WITH_STATUS_CODE, exception.getStatusCode());
             log.error(message);
             throw new DocumentStorageServerErrorException(message, exception);
         } catch (final RestClientException exception) {
-            final String message = String.format("The presigned url request failed.");
+            final String message = REQUEST_FAILED;
             log.error(message);
             throw new DocumentStorageException(message, exception);
         }
@@ -169,33 +177,9 @@ public class S3FileTransferRepository {
      * @throws DocumentStorageServerErrorException if the problem is with the S3 storage.
      * @throws DocumentStorageException            if the problem cannot be assigned to either the client or the S3 storage.
      */
-    public void updateFile(final String presignedUrl, final byte[] file) throws DocumentStorageClientErrorException, DocumentStorageServerErrorException, DocumentStorageException {
-        try {
-            final var headers = new HttpHeaders();
-            final HttpEntity<byte[]> fileHttpEntity = new HttpEntity<>(file, headers);
-            /**
-             * Using the RestTemplate without any authorization.
-             * The presigned URL contains any authorization against the S3 storage.
-             */
-            new RestTemplate().exchange(
-                    URI.create(presignedUrl),
-                    HttpMethod.PUT,
-                    fileHttpEntity,
-                    Void.class
-            );
-        } catch (final HttpClientErrorException exception) {
-            final String message = String.format("The presigned url request failed with http status %s.", exception.getStatusCode());
-            log.error(message);
-            throw new DocumentStorageClientErrorException(message, exception);
-        } catch (final HttpServerErrorException exception) {
-            final String message = String.format("The presigned url request failed with http status %s.", exception.getStatusCode());
-            log.error(message);
-            throw new DocumentStorageServerErrorException(message, exception);
-        } catch (final RestClientException exception) {
-            final String message = String.format("The presigned url request failed.");
-            log.error(message);
-            throw new DocumentStorageException(message, exception);
-        }
+    public void updateFile(final String presignedUrl, final byte[] file)
+            throws DocumentStorageClientErrorException, DocumentStorageServerErrorException, DocumentStorageException {
+        saveFile(presignedUrl, file);
     }
 
     /**
@@ -207,33 +191,9 @@ public class S3FileTransferRepository {
      * @throws DocumentStorageServerErrorException if the problem is with the S3 storage.
      * @throws DocumentStorageException            if the problem cannot be assigned to either the client or the S3 storage.
      */
-    public void updateFileInputStream(final String presignedUrl, final InputStream file) throws DocumentStorageClientErrorException, DocumentStorageServerErrorException, DocumentStorageException {
-        try {
-            final var headers = new HttpHeaders();
-            final HttpEntity<Resource> fileHttpEntity = new HttpEntity<>(new InputStreamResource(file), headers);
-            /**
-             * Using the RestTemplate without any authorization.
-             * The presigned URL contains any authorization against the S3 storage.
-             */
-            new RestTemplate().exchange(
-                    URI.create(presignedUrl),
-                    HttpMethod.PUT,
-                    fileHttpEntity,
-                    Void.class
-            );
-        } catch (final HttpClientErrorException exception) {
-            final String message = String.format("The presigned url request failed with http status %s.", exception.getStatusCode());
-            log.error(message);
-            throw new DocumentStorageClientErrorException(message, exception);
-        } catch (final HttpServerErrorException exception) {
-            final String message = String.format("The presigned url request failed with http status %s.", exception.getStatusCode());
-            log.error(message);
-            throw new DocumentStorageServerErrorException(message, exception);
-        } catch (final RestClientException exception) {
-            final String message = String.format("The presigned url request failed.");
-            log.error(message);
-            throw new DocumentStorageException(message, exception);
-        }
+    public void updateFileInputStream(final String presignedUrl, final InputStream file)
+            throws DocumentStorageClientErrorException, DocumentStorageServerErrorException, DocumentStorageException {
+        saveFileInputStream(presignedUrl, file);
     }
 
     /**
@@ -244,30 +204,31 @@ public class S3FileTransferRepository {
      * @throws DocumentStorageServerErrorException if the problem is with the S3 storage.
      * @throws DocumentStorageException            if the problem cannot be assigned to either the client or the S3 storage.
      */
-    public void deleteFile(final String presignedUrl) throws DocumentStorageClientErrorException, DocumentStorageServerErrorException, DocumentStorageException {
+    public void deleteFile(final String presignedUrl)
+            throws DocumentStorageClientErrorException, DocumentStorageServerErrorException, DocumentStorageException {
         try {
-            final var headers = new HttpHeaders();
+            val headers = new HttpHeaders();
             final HttpEntity<Void> fileHttpEntity = new HttpEntity<>(headers);
-            /**
+            /*
              * Using the RestTemplate without any authorization.
              * The presigned URL contains any authorization against the S3 storage.
              */
-            new RestTemplate().exchange(
+            restTemplate.exchange(
                     URI.create(presignedUrl),
                     HttpMethod.DELETE,
                     fileHttpEntity,
                     Void.class
             );
         } catch (final HttpClientErrorException exception) {
-            final String message = String.format("The presigned url request failed with http status %s.", exception.getStatusCode());
+            final String message = String.format(REQUEST_FAILED_WITH_STATUS_CODE, exception.getStatusCode());
             log.error(message);
             throw new DocumentStorageClientErrorException(message, exception);
         } catch (final HttpServerErrorException exception) {
-            final String message = String.format("The presigned url request failed with http status %s.", exception.getStatusCode());
+            final String message = String.format(REQUEST_FAILED_WITH_STATUS_CODE, exception.getStatusCode());
             log.error(message);
             throw new DocumentStorageServerErrorException(message, exception);
         } catch (final RestClientException exception) {
-            final String message = String.format("The presigned url request failed.");
+            final String message = REQUEST_FAILED;
             log.error(message);
             throw new DocumentStorageException(message, exception);
         }

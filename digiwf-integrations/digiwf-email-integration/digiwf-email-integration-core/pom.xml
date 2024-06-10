@@ -6,7 +6,7 @@
     <parent>
         <artifactId>digiwf-email-integration</artifactId>
         <groupId>de.muenchen.oss.digiwf</groupId>
-        <version>1.12.0-SNAPSHOT</version>
+        <version>1.13.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>digiwf-email-integration-core</artifactId>
@@ -23,16 +23,6 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.tika</groupId>
-            <artifactId>tika-core</artifactId>
-            <version>${tika.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.tika</groupId>
-            <artifactId>tika-parsers-standard-package</artifactId>
-            <version>${tika.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.pdfbox</groupId>

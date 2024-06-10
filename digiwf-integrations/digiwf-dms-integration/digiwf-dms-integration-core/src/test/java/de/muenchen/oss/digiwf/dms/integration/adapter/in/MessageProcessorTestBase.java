@@ -23,7 +23,10 @@ class MessageProcessorTestBase {
     protected final SearchFileInPort searchFileInPort = Mockito.mock(SearchFileInPort.class);
     protected final SearchSubjectAreaInPort searchSubjectAreaInPort = Mockito.mock(SearchSubjectAreaInPort.class);
     protected final String processInstanceId = "exampleProcessInstanceId";
-    protected final MessageHeaders messageHeaders = new MessageHeaders(Map.of(DIGIWF_PROCESS_INSTANCE_ID, this.processInstanceId, DIGIWF_INTEGRATION_NAME, "dmsIntegration", TYPE, "type"));
+    protected final String processDefinitionId = "exampleProcessDefinitionId";
+    protected final MessageHeaders messageHeaders = new MessageHeaders(
+            Map.of(DIGIWF_PROCESS_INSTANCE_ID, this.processInstanceId, DIGIWF_INTEGRATION_NAME, "dmsIntegration", TYPE, "type", DIGIWF_PROCESS_DEFINITION,
+                    processDefinitionId));
     protected MessageProcessor messageProcessor;
 
     protected void setupBase() {
@@ -41,4 +44,3 @@ class MessageProcessorTestBase {
                 searchSubjectAreaInPort);
     }
 }
-

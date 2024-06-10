@@ -1,19 +1,18 @@
 <template>
   <!-- input.native to prevent this issue: https://github.com/vuetifyjs/vuetify/issues/4679 -->
   <v-combobox
-    id="suchfeld"
-    class="searchField"
-    :value="syncedFilter"
-    data-cy="search-field"
-    color="black"
-    flat
-    dense
-    outlined
-    hide-details
     :items="persistentFilters?.map((f) => f.filterString) || []"
+    :value="syncedFilter"
     aria-label="Aufgaben durchsuchen"
-    label="Aufgaben durchsuchen"
+    class="searchField"
     clearable
+    color="black"
+    data-test="search-field"
+    dense
+    flat
+    hide-details
+    label="Aufgaben durchsuchen"
+    outlined
     style="max-width: 500px"
     @change="changeFilter"
     @input.native="(e) => changeFilter(e.target.value)"
@@ -22,42 +21,42 @@
       <div class="v-input__icon">
         <v-btn
           v-if="isFilterPersistent()"
-          icon
           aria-label="Filter löschen"
           class="v-icon"
+          icon
           @click="deletePersistentFilter()"
         >
           <v-icon
-            color="primary"
-            aria-label="Filter löschen"
-            role="img"
             aria-hidden="false"
+            aria-label="Filter löschen"
+            color="primary"
+            role="img"
           >
             mdi-star
           </v-icon>
         </v-btn>
         <v-btn
           v-else-if="showSaveBtn()"
-          icon
           aria-label="Filter speichern"
           class="v-icon"
+          icon
           @click="savePersistentFilter()"
         >
           <v-icon
-            color="primary"
-            aria-label="Filter speichern"
-            role="img"
             aria-hidden="false"
+            aria-label="Filter speichern"
+            color="primary"
+            role="img"
           >
             mdi-star-outline
           </v-icon>
         </v-btn>
       </div>
       <v-icon
-        class="ml-2"
-        aria-label="Aufgaben durchsuchen"
-        role="img"
         aria-hidden="false"
+        aria-label="Aufgaben durchsuchen"
+        class="ml-2"
+        role="img"
       >
         mdi-magnify
       </v-icon>
@@ -66,13 +65,13 @@
 </template>
 
 <script lang="ts">
-import { FilterTO, SaveFilterTO } from "@muenchen/digiwf-engine-api-internal";
+import {FilterTO, SaveFilterTO} from "@muenchen/digiwf-engine-api-internal";
 import debounce from "debounce";
-import { defineComponent, ref } from "vue";
+import {defineComponent, ref} from "vue";
 
-import { SEARCH_DEBOUNCE_INTERVAL } from "../../constants";
-import { usePageId } from "../../middleware/pageId";
-import { useGetPaginationData } from "../../middleware/paginationData";
+import {SEARCH_DEBOUNCE_INTERVAL} from "../../constants";
+import {usePageId} from "../../middleware/pageId";
+import {useGetPaginationData} from "../../middleware/paginationData";
 import {
   useDeletePersistentFilters,
   useGetPersistentFilters,
@@ -87,7 +86,7 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const { getSearchQueryOfUrl } = useGetPaginationData();
+    const {getSearchQueryOfUrl} = useGetPaginationData();
     const searchQuery = ref<string>(getSearchQueryOfUrl() || "");
     const pageId = usePageId();
 

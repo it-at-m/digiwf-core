@@ -1,8 +1,8 @@
 package de.muenchen.oss.digiwf.task.service.adapter.out.file;
 
+import de.muenchen.oss.digiwf.s3.integration.client.repository.presignedurl.PresignedUrlRepository;
 import de.muenchen.oss.digiwf.task.service.application.port.out.file.PresignedUrlPort;
 import de.muenchen.oss.digiwf.task.service.domain.PresignedUrlAction;
-import de.muenchen.oss.digiwf.s3.integration.client.repository.presignedurl.PresignedUrlRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -16,7 +16,6 @@ public class PresignedUrlAdapter implements PresignedUrlPort {
 
     private final PresignedUrlRepository presignedUrlRepository;
     private final S3Properties s3Properties;
-
 
     @Override
     public String getPresignedUrl(final String pathToFile, final int expireInMinutes, final PresignedUrlAction action) throws HttpServerErrorException {
@@ -44,11 +43,11 @@ public class PresignedUrlAdapter implements PresignedUrlPort {
                 throw new RuntimeException(String.format("No handler specified for action %s", action));
             }
         } catch (final Exception ex) {
-            log.error("Getting presigned url for %s file {} failed: {}", actionString, pathToFile, ex);
+            log.error("Getting presigned url for {}} file {} failed: {}", actionString, pathToFile, ex);
             if (action == PresignedUrlAction.POST && ex.getMessage().contains(HttpStatus.CONFLICT.toString())) {
-                throw new ConflictingResourceException(String.format("Getting presigned url for " + actionString + " file " + pathToFile + " failed"));
+                throw new ConflictingResourceException(String.format("Getting presigned url for %s file %s failed", actionString, pathToFile));
             }
-            throw new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR, String.format("Getting presigned url for " + actionString + " file " + pathToFile +" failed"));
+            throw new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR, String.format("Getting presigned url for %s file %s failed", actionString, pathToFile));
         }
     }
 

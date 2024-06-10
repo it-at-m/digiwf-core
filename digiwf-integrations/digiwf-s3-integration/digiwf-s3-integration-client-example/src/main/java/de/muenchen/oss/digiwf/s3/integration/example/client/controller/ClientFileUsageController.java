@@ -3,8 +3,8 @@ package de.muenchen.oss.digiwf.s3.integration.example.client.controller;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageClientErrorException;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageException;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageServerErrorException;
-import de.muenchen.oss.digiwf.s3.integration.client.exception.PropertyNotSetException;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFileRepository;
+import de.muenchen.oss.digiwf.s3.integration.client.service.S3StorageUrlProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -29,13 +29,16 @@ public class ClientFileUsageController {
     private static final String PATH_TO_FILE = ClientFolderUsageController.FOLDER + "/" + FILENAME;
 
     private final DocumentStorageFileRepository documentStorageFileRepository;
+    
+    private final S3StorageUrlProvider s3StorageUrlProvider;
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public void getFile() throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException, IOException, PropertyNotSetException {
+    public void getFile() throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException, IOException {
         final byte[] binaryFile = this.documentStorageFileRepository.getFile(
                 PATH_TO_FILE,
-                3
+                3,
+                s3StorageUrlProvider.getDefaultDocumentStorageUrl()
         );
         final File tmpFile = File.createTempFile("test", ".jpg");
         Files.write(tmpFile.toPath(), binaryFile);
@@ -44,42 +47,44 @@ public class ClientFileUsageController {
 
     @GetMapping("/inputstream")
     @ResponseStatus(HttpStatus.OK)
-    public void getFileInputStream() throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException, IOException, PropertyNotSetException {
+    public void getFileInputStream() throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException, IOException {
         try (final InputStream fileInputStream = this.documentStorageFileRepository.getFileInputStream(
                 PATH_TO_FILE,
-                3
+                3,
+                s3StorageUrlProvider.getDefaultDocumentStorageUrl()
         )) {
             final File tmpFile = File.createTempFile("test-from-inputstream", ".jpg");
             Files.write(tmpFile.toPath(), fileInputStream.readAllBytes());
             log.info("File InputStream downloaded to {}.", tmpFile.toPath());
         }
-        ;
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
-    public void saveFile() throws IOException, DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException, PropertyNotSetException {
+    public void saveFile() throws IOException, DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
         final File file = ResourceUtils.getFile("classpath:files/cat.jpg");
         final byte[] binaryFile = Files.readAllBytes(file.toPath());
         this.documentStorageFileRepository.saveFile(
                 PATH_TO_FILE,
                 binaryFile,
                 3,
-                LocalDate.now().plusMonths(1)
+                LocalDate.now().plusMonths(1),
+                s3StorageUrlProvider.getDefaultDocumentStorageUrl()
         );
         log.info("File saved.");
     }
 
     @PostMapping("/inputstream")
     @ResponseStatus(HttpStatus.OK)
-    public void saveFileInputStream() throws IOException, DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException, PropertyNotSetException {
+    public void saveFileInputStream() throws IOException, DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
         final File file = ResourceUtils.getFile("classpath:files/cat.jpg");
         try (final InputStream inputStream = new FileInputStream(file)) {
             this.documentStorageFileRepository.saveFileInputStream(
                     PATH_TO_FILE,
                     inputStream,
                     3,
-                    LocalDate.now().plusMonths(1)
+                    LocalDate.now().plusMonths(1),
+                    s3StorageUrlProvider.getDefaultDocumentStorageUrl()
             );
             log.info("File InputStream saved.");
         }
@@ -87,7 +92,7 @@ public class ClientFileUsageController {
 
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
-    public void updateFile() throws IOException, DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException, PropertyNotSetException {
+    public void updateFile() throws IOException, DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
         final File file = ResourceUtils.getFile("classpath:files/sunflower.jpg");
         final byte[] binaryFile = Files.readAllBytes(file.toPath());
         // Overwrite file on S3 with sunflower.jpg
@@ -95,14 +100,15 @@ public class ClientFileUsageController {
                 PATH_TO_FILE,
                 binaryFile,
                 3,
-                LocalDate.now().plusMonths(2)
+                LocalDate.now().plusMonths(2),
+                s3StorageUrlProvider.getDefaultDocumentStorageUrl()
         );
         log.info("File updated.");
     }
 
     @PutMapping("/inputstream")
     @ResponseStatus(HttpStatus.OK)
-    public void updateFileInputStream() throws IOException, DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException, PropertyNotSetException {
+    public void updateFileInputStream() throws IOException, DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
         final File file = ResourceUtils.getFile("classpath:files/sunflower.jpg");
         try (final InputStream inputStream = new FileInputStream(file)) {
             // Overwrite file on S3 with sunflower.jpg
@@ -110,7 +116,8 @@ public class ClientFileUsageController {
                     PATH_TO_FILE,
                     inputStream,
                     3,
-                    LocalDate.now().plusMonths(2)
+                    LocalDate.now().plusMonths(2),
+                    s3StorageUrlProvider.getDefaultDocumentStorageUrl()
             );
             log.info("File InputStream updated.");
         }
@@ -118,20 +125,22 @@ public class ClientFileUsageController {
 
     @PatchMapping
     @ResponseStatus(HttpStatus.OK)
-    public void updateEndOfLife() throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException, PropertyNotSetException {
+    public void updateEndOfLife() throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
         this.documentStorageFileRepository.updateEndOfLife(
                 PATH_TO_FILE,
-                LocalDate.now().plusMonths(999)
+                LocalDate.now().plusMonths(999),
+                s3StorageUrlProvider.getDefaultDocumentStorageUrl()
         );
         log.info("End of life for file updated.");
     }
 
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteFile() throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException, PropertyNotSetException {
+    public void deleteFile() throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
         this.documentStorageFileRepository.deleteFile(
                 PATH_TO_FILE,
-                3
+                3,
+                s3StorageUrlProvider.getDefaultDocumentStorageUrl()
         );
         log.info("File deleted.");
     }

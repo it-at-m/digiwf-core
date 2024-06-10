@@ -1,17 +1,21 @@
 <template>
   <v-row
-    class="ma-1 mt-3"
     align="center"
+    class="ma-1 mt-3"
+    data-test="pagination-footer"
     justify="center"
   >
     <span>Seitengröße</span>
-    <v-menu offset-y>
+    <v-menu
+      offset-y
+    >
       <template #activator="{ on, attrs }">
         <v-btn
-          text
-          outlined
-          color="primary"
           class="ml-2 pa-1"
+          color="primary"
+          data-test="pagination-page-size-btn"
+          outlined
+          text
           v-bind="attrs"
           v-on="on"
         >
@@ -19,7 +23,7 @@
           <v-icon>mdi-chevron-down</v-icon>
         </v-btn>
       </template>
-      <v-list>
+      <v-list data-test="pagination-page-select">
         <v-list-item
           v-for="(number, index) in itemsPerPageArray"
           :key="index"
@@ -32,25 +36,32 @@
       </v-list>
     </v-menu>
     <v-spacer />
-    <span class="mr-1">{{ totalNumberOfItems }} {{ foundDataText }} </span>
+    <span
+      class="mr-1"
+      data-test="pagination-item-count"
+    >{{ totalNumberOfItems }} {{ foundDataText }}</span>
     <v-spacer />
 
-    <span class="mr-4"> Seite {{ page }} von {{ numberOfPages }} </span>
+    <span
+      class="mr-4"
+      data-test="pagination-page-index"
+    >Seite {{ page }} von {{ numberOfPages }}</span>
     <v-tooltip
-      top
       open-delay="700"
+      top
     >
       <template #activator="{ on, attrs }">
         <v-btn
           :disabled="lastPageButtonDisabled"
           aria-label="Vorherige Seite"
+          class="mr-1"
+          color="primary"
+          data-test="pagination-previous-page"
           small
           text
-          color="primary"
-          class="mr-1"
           v-bind="attrs"
-          v-on="on"
           @click="lastPage"
+          v-on="on"
         >
           <v-icon>mdi-chevron-left</v-icon>
         </v-btn>
@@ -58,20 +69,21 @@
       <span>Vorherige Seite</span>
     </v-tooltip>
     <v-tooltip
-      top
       open-delay="700"
+      top
     >
       <template #activator="{ on, attrs }">
         <v-btn
-          small
-          text
           :disabled="nextPageButtonDisabled"
           aria-label="Nächste Seite"
-          color="primary"
           class="ml-1"
+          color="primary"
+          data-test="pagination-next-page"
+          small
+          text
           v-bind="attrs"
-          v-on="on"
           @click="nextPage"
+          v-on="on"
         >
           <v-icon>mdi-chevron-right</v-icon>
         </v-btn>
@@ -82,22 +94,22 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import {defineComponent} from "vue";
 
 export default defineComponent({
-  props: {
-    numberOfPages: { type: Number, required: true },
-    totalNumberOfItems: { type: Number, required: true },
-    page: { type: Number, required: true },
-    size: { type: Number, required: true },
-    foundDataText: { type: String, required: true },
-    nextPageButtonDisabled: { type: Boolean, required: true },
-    lastPageButtonDisabled: { type: Boolean, required: true },
-    updateItemsPerPage: { type: Function, required: true },
-    nextPage: { type: Function, required: true },
-    lastPage: { type: Function, required: true },
-  },
   components: {},
+  props: {
+    numberOfPages: {type: Number, required: true},
+    totalNumberOfItems: {type: Number, required: true},
+    page: {type: Number, required: true},
+    size: {type: Number, required: true},
+    foundDataText: {type: String, required: true},
+    nextPageButtonDisabled: {type: Boolean, required: true},
+    lastPageButtonDisabled: {type: Boolean, required: true},
+    updateItemsPerPage: {type: Function, required: true},
+    nextPage: {type: Function, required: true},
+    lastPage: {type: Function, required: true},
+  },
   setup() {
     return {
       itemsPerPageArray: [5, 10, 20],

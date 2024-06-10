@@ -1,16 +1,16 @@
-import Page from './page'
+import Page from '../nav'
 
-class AufgabeWasIstDigiWF extends Page{
+class AufgabeWasIstDigiWF extends Page {
     elements = {
         headline: () => cy.get('div.flex:nth-child(1) > h1:nth-child(2)'),
         button: () => cy.get('div.buttonGroup:nth-child(1)')
     }
 
-    checkHeadline(text){
-        this.elements.headline().should('contain.text',text)
+    checkHeadline(text) {
+        this.elements.headline().should('contain.text', text)
     }
 
-    finishTask(){
+    finishTask() {
         cy.intercept({
             method: 'GET',
             url: '/api/digitalwf-backend-service/rest/task?page=0&size=20&followUp=false',

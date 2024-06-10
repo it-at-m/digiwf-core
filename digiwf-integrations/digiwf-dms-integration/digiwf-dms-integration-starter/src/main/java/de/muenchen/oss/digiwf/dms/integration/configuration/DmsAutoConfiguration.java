@@ -13,8 +13,13 @@ import de.muenchen.oss.digiwf.dms.integration.application.port.out.*;
 import de.muenchen.oss.digiwf.dms.integration.application.usecase.*;
 import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
 import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
+import de.muenchen.oss.digiwf.process.api.config.api.ProcessConfigApi;
+import de.muenchen.oss.digiwf.s3.integration.client.properties.SupportedFileExtensions;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFileRepository;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFolderRepository;
+import de.muenchen.oss.digiwf.s3.integration.client.service.FileExtensionService;
+import de.muenchen.oss.digiwf.s3.integration.client.service.S3DomainProvider;
+import de.muenchen.oss.digiwf.s3.integration.client.service.S3StorageUrlProvider;
 import de.muenchen.oss.digiwf.spring.security.authentication.UserAuthenticationProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -30,27 +35,53 @@ import java.util.function.Consumer;
 @Configuration
 @RequiredArgsConstructor
 @Import(FabasoftClientConfiguration.class)
-@EnableConfigurationProperties({FabasoftProperties.class, DmsProperties.class})
+@EnableConfigurationProperties({ FabasoftProperties.class, DmsProperties.class })
 public class DmsAutoConfiguration {
-
-    private final DmsProperties dmsProperties;
 
     @Bean
     @ConditionalOnMissingBean
-    public FabasoftAdapter fabasoftAdapter(final FabasoftProperties dmsProperties, LHMBAI151700GIWSDSoap wsCleint) {
-        return new FabasoftAdapter(dmsProperties, wsCleint);
+    public FabasoftAdapter fabasoftAdapter(final FabasoftProperties dmsProperties, final LHMBAI151700GIWSDSoap wsClient) {
+        return new FabasoftAdapter(dmsProperties, wsClient);
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public LHMBAI151700GIWSDSoap wsCleint(final FabasoftClientConfiguration fabasoftClientConfiguration) {
+    public LHMBAI151700GIWSDSoap wsClient(final FabasoftClientConfiguration fabasoftClientConfiguration) {
         return fabasoftClientConfiguration.dmsWsClient();
     }
 
+    /**
+     * Constructs an {@link S3DomainProvider} instance specifically tailored for this integration to retrieve the domain-specific S3 storage URL for a given
+     * process if its process configuration contains a value for
+     * {@link de.muenchen.oss.digiwf.process.api.config.ProcessConfigConstants#APP_FILE_S3_SYNC_CONFIG}.
+     *
+     * @param processConfigApi {@link ProcessConfigApi} offers access to a process configuration for a given process definition id.
+     * @return S3DomainProvider {@link S3DomainProvider} that retrieves the domain-specific S3 storage url for a process if configured.
+     */
+    @Bean
+    public S3DomainProvider s3DomainProvider(final ProcessConfigApi processConfigApi) {
+        return processConfigApi::getAppFileS3SyncConfig;
+    }
+
     @Bean
     @ConditionalOnMissingBean
-    public S3Adapter s3Adapter(DocumentStorageFileRepository documentStorageFileRepository, DocumentStorageFolderRepository documentStorageFolderRepository) {
-        return new S3Adapter(documentStorageFileRepository, documentStorageFolderRepository, dmsProperties.getSupportedExtensions());
+    public S3Adapter s3Adapter(final DocumentStorageFileRepository documentStorageFileRepository,
+            final DocumentStorageFolderRepository documentStorageFolderRepository, final FileExtensionService fileExtensionService,
+            final S3StorageUrlProvider s3StorageUrlProvider) {
+        return new S3Adapter(documentStorageFileRepository, documentStorageFolderRepository, fileExtensionService, s3StorageUrlProvider);
+    }
+
+    /**
+     * Offers a {@link java.util.Map} of supported file extensions for this integration in form of a {@link SupportedFileExtensions} object.
+     *
+     * @param dmsProperties {@link DmsProperties} contains the supported file extensions.
+     * @return {@link SupportedFileExtensions} object representing the supported file extensions.
+     */
+    @Bean
+    public SupportedFileExtensions supportedFileExtensions(final DmsProperties dmsProperties) {
+        final SupportedFileExtensions supportedFileExtensions = new SupportedFileExtensions();
+        supportedFileExtensions.putAll(dmsProperties.getSupportedFileExtensions());
+        return supportedFileExtensions;
     }
 
     @Bean
