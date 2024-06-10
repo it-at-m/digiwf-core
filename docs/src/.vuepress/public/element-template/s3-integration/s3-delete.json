@@ -1,0 +1,95 @@
+{
+  "name": "S3: Dateien löschen",
+  "id": "de.muenchen.digitalwf.templates.s3.delete",
+  "version": 1,
+  "appliesTo": [
+    "bpmn:CallActivity"
+  ],
+  "properties": [
+    {
+      "label": "Template",
+      "type": "String",
+      "editable": false,
+      "value": "StreamingTemplateV02",
+      "binding": {
+        "type": "property",
+        "name": "calledElement"
+      }
+    },
+    {
+      "label": "Integration Name",
+      "type": "String",
+      "editable": false,
+      "value": "s3Integration",
+      "binding": {
+        "type": "camunda:in",
+        "name": "app_integration_name",
+        "target": "app_integration_name",
+        "expression": true
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Event Topic",
+      "type": "String",
+      "editable": true,
+      "value": "${app_file_s3_async_config}",
+      "binding": {
+        "type": "camunda:in",
+        "name": "app_topic_name",
+        "target": "app_topic_name",
+        "expression": true
+      },
+      "constraints": {
+        "notEmpty": false
+      }
+    },
+    {
+      "label": "Event Type",
+      "type": "String",
+      "editable": false,
+      "value": "deleteFiles",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "app_type_name",
+        "target": "app_type_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "File Context",
+      "type": "String",
+      "editable": false,
+      "value": "${app_file_context}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "fileContext",
+        "target": "fileContext"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Pfade",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "filePaths",
+        "target": "filePaths"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    }
+  ],
+  "entriesVisible": true
+}
