@@ -3,6 +3,7 @@ package de.muenchen.oss.digiwf.adapter.out.engine;
 import de.muenchen.oss.digiwf.application.port.out.EngineAuthorizationsOutPort;
 import de.muenchen.oss.digiwf.domain.Group;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.camunda.bpm.engine.AuthorizationService;
 import org.camunda.bpm.engine.authorization.Permissions;
 import org.camunda.bpm.engine.authorization.Resources;
@@ -15,6 +16,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 @Validated
 public class EngineAdapter implements EngineAuthorizationsOutPort {
     private final AuthorizationService authorizationService;
@@ -23,6 +25,7 @@ public class EngineAdapter implements EngineAuthorizationsOutPort {
     @Override
     @Cacheable(EngineCacheConfiguration.OPTIMIZE_AUTH_CACHE)
     public List<Group> getOptimizeAuthorizedGroups() {
+        log.info("Loading optimize authorized groups");
         return authorizationService.createAuthorizationQuery()
                 .resourceType(Resources.APPLICATION)
                 .hasPermission(Permissions.ACCESS)

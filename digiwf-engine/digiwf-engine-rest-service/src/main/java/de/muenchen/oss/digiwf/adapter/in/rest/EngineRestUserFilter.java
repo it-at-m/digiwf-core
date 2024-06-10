@@ -39,10 +39,10 @@ public class EngineRestUserFilter implements Filter {
                 return;
             }
             val username = matcher.group(1);
-            log.debug("Asking profile for user {}", username);
+            log.trace("Asking profile for user {}", username);
 
             val payload = resolveUserInPort.resolveUser(username);
-            log.info("Resolved user {} to: {}", username, payload);
+            log.debug("Resolved user {} to: {}", username, payload);
             if (payload == null) {
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             } else {

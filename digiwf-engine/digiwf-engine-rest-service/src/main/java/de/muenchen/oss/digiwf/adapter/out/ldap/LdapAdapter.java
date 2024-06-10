@@ -45,7 +45,7 @@ public class LdapAdapter extends LdapTemplate implements ResolveUserGroupsOutPor
     @NonNull
     @Cacheable(LdapCacheConfiguration.USER_GROUPS_CACHE)
     public List<Group> resolveUserGroups(@NonNull final String username) {
-        log.debug("Resolving groups for user via ldap: {}", username);
+        log.debug("Resolving groups for user: {}", username);
         String userDn = resolveUserDn(username);
         // build query
         LdapQuery query = LdapQueryBuilder.query().base(properties.getGroupBase())
@@ -84,7 +84,7 @@ public class LdapAdapter extends LdapTemplate implements ResolveUserGroupsOutPor
                 // map to group
                 .map(str -> Group.builder().name(str).build())
                 .toList();
-        log.debug("Resolved groups for user {}: {}", username, groups);
+        log.info("Resolved groups for user {}: {}", username, groups);
         return groups;
     }
 
@@ -110,7 +110,7 @@ public class LdapAdapter extends LdapTemplate implements ResolveUserGroupsOutPor
             throw new IllegalStateException(String.format("Multiple users found for username '%s'", username));
         }
         val userDn = result.get(0);
-        log.debug("Resolved user {} to dn {}", username, userDn);
+        log.info("Resolved user {} to dn {}", username, userDn);
         return userDn;
     }
 
@@ -138,7 +138,7 @@ public class LdapAdapter extends LdapTemplate implements ResolveUserGroupsOutPor
             throw new IllegalStateException(String.format("Multiple users found for username '%s'", username));
         }
         val user = result.get(0);
-        log.debug("Resolved user {} to {}", username, user);
+        log.info("Resolved user {} to {}", username, user);
         return user;
     }
 
@@ -151,7 +151,7 @@ public class LdapAdapter extends LdapTemplate implements ResolveUserGroupsOutPor
                 .flatMap(i -> i.subGroups().stream())
                 .map(this::dnToCn)
                 .map(Group::new).toList();
-        log.debug("Resolved {} engine groups to {} ldap groups", groups.size(), resolvedGroups.size());
+        log.info("Resolved {} engine groups to {} ldap groups", groups.size(), resolvedGroups.size());
         // resolve one level of recursion
         resolvedGroups.addAll(resolveGroups(resolvedGroupsCn));
         // map groups with users to unique users
@@ -168,6 +168,7 @@ public class LdapAdapter extends LdapTemplate implements ResolveUserGroupsOutPor
      * @return List of LdapUsers with corresponding subgroups and member users.
      */
     private List<LdapGroup> resolveGroups(@NonNull @NotEmpty final List<Group> groups) {
+        log.trace("Resolving groups {}", groups);
         // build ldap search filter and query
         val groupNameFilter = new OrFilter();
         for (Group group : groups) {
