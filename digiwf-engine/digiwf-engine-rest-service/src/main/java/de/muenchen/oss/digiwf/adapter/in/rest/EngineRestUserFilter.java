@@ -34,7 +34,7 @@ public class EngineRestUserFilter implements Filter {
             val path = request.getPathInfo();
             val matcher = pattern.matcher(path);
             if (!matcher.matches()) {
-                log.warn("Request to user endpoint not matching profile path");
+                log.warn("Request to user endpoint not matching profile path: {}", path);
                 filterChain.doFilter(servletRequest, servletResponse);
                 return;
             }

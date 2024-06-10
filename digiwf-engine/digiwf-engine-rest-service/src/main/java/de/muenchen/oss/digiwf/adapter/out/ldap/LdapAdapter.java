@@ -102,11 +102,9 @@ public class LdapAdapter extends LdapTemplate implements ResolveUserGroupsOutPor
                 .and("cn").is(username);
         List<String> result = super.search(query, (AttributesMapper<String>) attrs -> attrs.get("distinguishedName").get().toString());
         if (result.isEmpty()) {
-            log.error("Username {} not found", username);
             throw new IllegalStateException(String.format("Username '%s' not found via ldap adapter", username));
         }
         if (result.size() > 1) {
-            log.error("Username {} found more than once", username);
             throw new IllegalStateException(String.format("Multiple users found for username '%s'", username));
         }
         val userDn = result.get(0);
@@ -134,7 +132,6 @@ public class LdapAdapter extends LdapTemplate implements ResolveUserGroupsOutPor
             return null;
         }
         if (result.size() > 1) {
-            log.error("Username {} found more than once", username);
             throw new IllegalStateException(String.format("Multiple users found for username '%s'", username));
         }
         val user = result.get(0);
