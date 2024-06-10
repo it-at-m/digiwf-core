@@ -15,7 +15,8 @@ import java.util.concurrent.TimeUnit;
 @EnableCaching
 @Profile("groups-ldap")
 public class LdapCacheConfiguration {
-    private static final int LDAP_CACHE_ENTRY_SECONDS_TO_EXPIRE = 60 * 5;
+    static final String USER_GROUPS_CACHE = "userGroupsCache";
+    private static final int LDAP_CACHE_ENTRY_SECONDS_TO_EXPIRE = 60 * 15;
 
     /**
      * Creates a bean to get a time source.
@@ -35,8 +36,8 @@ public class LdapCacheConfiguration {
      * @return The cache.
      */
     @Bean
-    public Cache groupCache(final Ticker ticker) {
-        return new CaffeineCache(LdapAdapter.GROUP_CACHE,
+    public Cache userGroupsCache(final Ticker ticker) {
+        return new CaffeineCache(USER_GROUPS_CACHE,
                 Caffeine.newBuilder()
                         .expireAfterWrite(LDAP_CACHE_ENTRY_SECONDS_TO_EXPIRE, TimeUnit.SECONDS)
                         .ticker(ticker)
