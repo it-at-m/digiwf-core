@@ -1,11 +1,11 @@
-package de.muenchen.oss.digiwf.adapter.in.rest;
+package de.muenchen.oss.digiwf.domain;
 
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Builder
-public class OptimizeUserDto {
+public class User {
     private final String id;
     private final String firstName;
     private final String lastName;
