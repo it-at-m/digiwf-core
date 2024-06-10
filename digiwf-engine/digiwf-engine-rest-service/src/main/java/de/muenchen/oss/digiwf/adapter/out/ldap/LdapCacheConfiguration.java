@@ -21,11 +21,6 @@ public class LdapCacheConfiguration {
     private static final int LDAP_CACHE_ENTRY_SECONDS_TO_EXPIRE = 60 * 15;
 
     @Bean
-    public Ticker ticker() {
-        return Ticker.systemTicker();
-    }
-
-    @Bean
     public Cache userGroupsCache(final Ticker ticker) {
         return new CaffeineCache(USER_GROUPS_CACHE,
                 Caffeine.newBuilder()

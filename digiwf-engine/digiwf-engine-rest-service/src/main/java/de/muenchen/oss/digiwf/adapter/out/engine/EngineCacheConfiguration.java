@@ -17,11 +17,6 @@ public class EngineCacheConfiguration {
     private static final int ENGINE_CACHE_ENTRY_SECONDS_TO_EXPIRE = 60 * 15;
 
     @Bean
-    public Ticker ticker() {
-        return Ticker.systemTicker();
-    }
-
-    @Bean
     public Cache optimizeAuthCache(final Ticker ticker) {
         return new CaffeineCache(OPTIMIZE_AUTH_CACHE,
                 Caffeine.newBuilder()
