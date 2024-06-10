@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import de.muenchen.oss.digiwf.adapter.in.rest.EngineRestGroupFilter;
 import de.muenchen.oss.digiwf.adapter.in.rest.EngineRestUserFilter;
 import de.muenchen.oss.digiwf.application.port.in.ResolveUserGroupsInPort;
+import de.muenchen.oss.digiwf.application.port.in.ResolveUserInPort;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -49,10 +50,11 @@ public class EngineRestServiceApplication {
     @Bean
     @Profile({"groups-ldap", "groups-mock"})
     public FilterRegistrationBean<EngineRestUserFilter> engineRestUserFilter(
-            final ObjectMapper objectMapper
+            final ObjectMapper objectMapper,
+            final ResolveUserInPort resolveUserInPort
     ) {
         FilterRegistrationBean<EngineRestUserFilter> filterRegistrationBean = new FilterRegistrationBean<>();
-        filterRegistrationBean.setFilter(new EngineRestUserFilter(objectMapper));
+        filterRegistrationBean.setFilter(new EngineRestUserFilter(objectMapper, resolveUserInPort));
         filterRegistrationBean.setOrder(102);
         filterRegistrationBean.addUrlPatterns("/engine-rest/engine/default/user/*");
         return filterRegistrationBean;
