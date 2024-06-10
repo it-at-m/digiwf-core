@@ -130,7 +130,7 @@ public class LdapAdapter extends LdapTemplate implements ResolveUserGroupsOutPor
                         .build()
         );
         if (result.isEmpty()) {
-            log.error("Username {} not found", username);
+            log.info("Username {} not found", username);
             return null;
         }
         if (result.size() > 1) {
