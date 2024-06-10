@@ -252,7 +252,6 @@
                 "fieldType": "file",
                 "title": "Dateien mit Validierung",
                 "x-display": "custom-multi-file-input",
-                "uuidEnabled": false,
                 "type": "object",
                 "filePath": "test02",
                 "x-rules": [
