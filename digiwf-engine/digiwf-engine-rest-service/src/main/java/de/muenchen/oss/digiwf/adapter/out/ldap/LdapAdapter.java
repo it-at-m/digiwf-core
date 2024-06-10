@@ -115,6 +115,7 @@ public class LdapAdapter extends LdapTemplate implements ResolveUserGroupsOutPor
     }
 
     @Override
+    @Cacheable(LdapCacheConfiguration.USER_CACHE)
     public User resolveUser(@NonNull final String username) {
         log.trace("Resolving user: {}", username);
         LdapQuery query = LdapQueryBuilder.query()
@@ -143,6 +144,7 @@ public class LdapAdapter extends LdapTemplate implements ResolveUserGroupsOutPor
 
     @NonNull
     @Override
+    @Cacheable(LdapCacheConfiguration.GROUPS_MEMBERS)
     public List<String> getGroupsMembers(@NonNull @NotEmpty final List<Group> groups) {
         val resolvedGroups = resolveGroups(groups);
         val resolvedGroupsCn = resolvedGroups.stream()

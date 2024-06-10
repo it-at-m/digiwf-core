@@ -16,28 +16,38 @@ import java.util.concurrent.TimeUnit;
 @Profile("groups-ldap")
 public class LdapCacheConfiguration {
     static final String USER_GROUPS_CACHE = "userGroupsCache";
+    static final String USER_CACHE = "userCache";
+    static final String GROUPS_MEMBERS = "groupsMembersCache";
     private static final int LDAP_CACHE_ENTRY_SECONDS_TO_EXPIRE = 60 * 15;
 
-    /**
-     * Creates a bean to get a time source.
-     *
-     * @return The time source.
-     */
     @Bean
     public Ticker ticker() {
         return Ticker.systemTicker();
     }
 
-
-    /**
-     * The config to provide a cache for {@link LdapAdapter}.
-     *
-     * @param ticker The time source for the cache.
-     * @return The cache.
-     */
     @Bean
     public Cache userGroupsCache(final Ticker ticker) {
         return new CaffeineCache(USER_GROUPS_CACHE,
+                Caffeine.newBuilder()
+                        .expireAfterWrite(LDAP_CACHE_ENTRY_SECONDS_TO_EXPIRE, TimeUnit.SECONDS)
+                        .ticker(ticker)
+                        .build()
+        );
+    }
+
+    @Bean
+    public Cache userCache(final Ticker ticker) {
+        return new CaffeineCache(USER_CACHE,
+                Caffeine.newBuilder()
+                        .expireAfterWrite(LDAP_CACHE_ENTRY_SECONDS_TO_EXPIRE, TimeUnit.SECONDS)
+                        .ticker(ticker)
+                        .build()
+        );
+    }
+
+    @Bean
+    public Cache groupsMembersCache(final Ticker ticker) {
+        return new CaffeineCache(GROUPS_MEMBERS,
                 Caffeine.newBuilder()
                         .expireAfterWrite(LDAP_CACHE_ENTRY_SECONDS_TO_EXPIRE, TimeUnit.SECONDS)
                         .ticker(ticker)

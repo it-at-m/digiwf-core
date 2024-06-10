@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.camunda.bpm.engine.AuthorizationService;
 import org.camunda.bpm.engine.authorization.Permissions;
 import org.camunda.bpm.engine.authorization.Resources;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
@@ -20,6 +21,7 @@ public class EngineAdapter implements EngineAuthorizationsOutPort {
 
     @NonNull
     @Override
+    @Cacheable(EngineCacheConfiguration.OPTIMIZE_AUTH_CACHE)
     public List<Group> getOptimizeAuthorizedGroups() {
         return authorizationService.createAuthorizationQuery()
                 .resourceType(Resources.APPLICATION)
