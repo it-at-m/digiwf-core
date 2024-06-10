@@ -359,4 +359,5 @@ services:
 
 networks:
   local-keycloak:
+  optimize:
   internal:
