@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.ws.rs.core.MultivaluedHashMap;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -30,10 +31,10 @@ public class EngineRestGroupFilter implements Filter {
         log.debug("EngineRestGroupFilter called");
 
         if (servletRequest instanceof HttpServletRequest && servletResponse instanceof HttpServletResponse response) {
-            var params = new HashMap<String, String>();
+            val params = new HashMap<String, String>();
             servletRequest.getParameterMap().forEach((key, values) -> params.put(key, values[0]));
-            var queryDto = new OptimizeGroupQueryDto(objectMapper, new MultivaluedHashMap<>(params));
-            var username = queryDto.getMember();
+            val queryDto = new OptimizeGroupQueryDto(objectMapper, new MultivaluedHashMap<>(params));
+            val username = queryDto.getMember();
             log.debug("Asking membership for user: {}", username);
 
             var payload = resolveUserGroupsInPort
