@@ -24,7 +24,6 @@ import java.util.List;
 @Profile("groups-ldap")
 @Slf4j
 public class LdapAdapter extends LdapTemplate implements ResolveUserGroupsOutPort {
-    static final String GROUP_CACHE = "userGroups";
     private final LdapProperties properties;
 
     public LdapAdapter(final ContextSource contextSource, final LdapProperties properties) {
