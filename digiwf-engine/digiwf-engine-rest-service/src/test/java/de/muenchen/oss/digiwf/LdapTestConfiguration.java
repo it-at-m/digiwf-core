@@ -6,7 +6,6 @@ import com.unboundid.ldap.listener.InMemoryListenerConfig;
 import com.unboundid.ldap.sdk.LDAPException;
 import com.unboundid.ldap.sdk.schema.Schema;
 import com.unboundid.ldif.LDIFException;
-import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,9 +29,7 @@ public class LdapTestConfiguration {
         c.setListenerConfigs(listenerConfig);
         c.setEnforceAttributeSyntaxCompliance(false);
         c.setEnforceSingleStructuralObjectClass(false);
-        // LHM Schema einspielen
         final ClassPathResource schemaResource = new ClassPathResource("ldap_schema.ldif");
-        val schema = Schema.getSchema(schemaResource.getFile());
         c.setSchema(Schema.getSchema(schemaResource.getFile()));
         final InMemoryDirectoryServer inMemoryDirectoryServer = new InMemoryDirectoryServer(c);
         final ClassPathResource dataResource = new ClassPathResource("ldap_test_data.ldif");
