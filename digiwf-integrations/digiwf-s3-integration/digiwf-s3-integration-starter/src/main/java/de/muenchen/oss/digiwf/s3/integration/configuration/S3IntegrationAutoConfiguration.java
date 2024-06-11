@@ -4,13 +4,17 @@ import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
 import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
 import de.muenchen.oss.digiwf.s3.integration.adapter.in.rest.mapper.PresignedUrlMapper;
 import de.muenchen.oss.digiwf.s3.integration.adapter.in.streaming.CreatePresignedUrlEvent;
+import de.muenchen.oss.digiwf.s3.integration.adapter.in.streaming.FilesDTO;
 import de.muenchen.oss.digiwf.s3.integration.adapter.in.streaming.MessageProcessor;
 import de.muenchen.oss.digiwf.s3.integration.adapter.out.integration.IntegrationOutAdapter;
 import de.muenchen.oss.digiwf.s3.integration.adapter.out.s3.S3Repository;
 import de.muenchen.oss.digiwf.s3.integration.application.CreatePresignedUrlsUseCase;
+import de.muenchen.oss.digiwf.s3.integration.application.FileOperationsPresignedUrlUseCase;
 import de.muenchen.oss.digiwf.s3.integration.application.FileOperationsUseCase;
 import de.muenchen.oss.digiwf.s3.integration.application.port.in.CreatePresignedUrlsInPort;
+import de.muenchen.oss.digiwf.s3.integration.application.port.in.FileOperationsInPort;
 import de.muenchen.oss.digiwf.s3.integration.application.port.in.FileSystemAccessException;
+import de.muenchen.oss.digiwf.s3.integration.application.port.in.FolderOperationsInPort;
 import de.muenchen.oss.digiwf.s3.integration.application.port.out.IntegrationOutPort;
 import de.muenchen.oss.digiwf.s3.integration.properties.S3IntegrationProperties;
 import io.minio.MinioClient;
@@ -58,11 +62,15 @@ public class S3IntegrationAutoConfiguration {
     @Bean
     public MessageProcessor presignedUrlEventListener(
             CreatePresignedUrlsInPort createPresignedUrlsInPort,
+            FolderOperationsInPort folderOperationsInPort,
+            FileOperationsInPort fileOperationsInPort,
             IntegrationOutPort integrationOutPort,
             PresignedUrlMapper presignedUrlsMapper
     ) {
         return new MessageProcessor(
                 createPresignedUrlsInPort,
+                folderOperationsInPort,
+                fileOperationsInPort,
                 integrationOutPort,
                 presignedUrlsMapper
         );
@@ -70,11 +78,17 @@ public class S3IntegrationAutoConfiguration {
 
     @ConditionalOnMissingBean
     @Bean
-    public CreatePresignedUrlsInPort createPresignedUrlsInPort(FileOperationsUseCase fileHandlingService) {
+    public CreatePresignedUrlsInPort createPresignedUrlsInPort(FileOperationsPresignedUrlUseCase fileHandlingService) {
         return new CreatePresignedUrlsUseCase(
                 fileHandlingService,
                 this.s3IntegrationProperties.getPresignedUrlExpiresInMinutes()
         );
+    }
+
+    @ConditionalOnMissingBean
+    @Bean
+    public FileOperationsInPort fileOperationsInPort(S3Repository s3Repository) {
+        return new FileOperationsUseCase(s3Repository);
     }
 
     @ConditionalOnMissingBean
@@ -86,5 +100,10 @@ public class S3IntegrationAutoConfiguration {
     @Bean
     public Consumer<Message<CreatePresignedUrlEvent>> createPresignedUrl(final MessageProcessor messageProcessor) {
         return messageProcessor.createPresignedUrl();
+    }
+
+    @Bean
+    public Consumer<Message<FilesDTO>> deleteFiles(final MessageProcessor messageProcessor) {
+        return messageProcessor.deleteFiles();
     }
 }
