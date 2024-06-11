@@ -23,8 +23,7 @@
     "@vue/vue2-jest": "^28.1.0",
     "jest": "^28.1.3",
     "jest-environment-jsdom": "^29.5.0",
-    "ts-jest": "^28.0.8",
-    "uuid": "latest"
+    "ts-jest": "^28.0.8"
   },
   "files": [
     "dist/*",
