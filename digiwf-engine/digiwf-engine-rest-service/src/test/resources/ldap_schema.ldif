@@ -15,4 +15,4 @@ objectClasses: ( 2.5.6.0 NAME 'top' ABSTRACT MUST (objectClass) MAY (cn $ distin
 objectClasses: ( 1.2.840.113556.1.5.66 NAME 'domain' SUP top MUST (dc) )
 objectClasses: ( 2.5.6.5 NAME 'organizationalUnit' SUP top STRUCTURAL MUST (ou))
 objectClasses: ( 1.2.840.113556.1.5.9 NAME 'user' SUP top STRUCTURAL MAY (givenName $ sn $ mail $ memberOf) )
-objectClasses: ( 1.2.840.113556.1.5.8 NAME 'group' SUP top MAY (member))
+objectClasses: ( 1.2.840.113556.1.5.8 NAME 'group' SUP top MAY (member $ memberOf))

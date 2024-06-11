@@ -1,6 +1,7 @@
 package de.muenchen.oss.digiwf.adapter.out.ldap;
 
 import de.muenchen.oss.digiwf.LdapTestConfiguration;
+import de.muenchen.oss.digiwf.domain.Group;
 import lombok.val;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,8 +11,9 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles({"groups-ldap"})
@@ -28,7 +30,13 @@ class LdapAdapterTest {
 
     @Test
     void testResolveUserGroups() {
-
+        // test success
+        val groups = ldapAdapter.resolveUserGroups("test.user2");
+        val groupNames = groups.stream().map(Group::name).toList();
+        val shouldMatchGroups = List.of("test-group", "test-group2");
+        assertEquals(shouldMatchGroups, groupNames);
+        // test user not existing
+        assertThrows(IllegalStateException.class, () -> ldapAdapter.resolveUserGroups("test.user3"));
     }
 
     @Test
