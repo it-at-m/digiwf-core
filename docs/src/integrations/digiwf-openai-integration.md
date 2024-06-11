@@ -137,7 +137,7 @@ verwendet werden.
 
 ### Klassifizierung
 
-Um auf Bassis von Daten einfache (Vor-)Entscheidungen zu treffen, müssen Sie die folgenden Daten an die OpenAI-Integration übergeben werden:
+Um auf Basis von Daten einfache (Vor-)Entscheidungen zu treffen, müssen die folgenden Daten an die OpenAI-Integration übergeben werden:
 
 ```json
 {
