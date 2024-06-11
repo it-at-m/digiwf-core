@@ -87,7 +87,7 @@ verwendet werden.
 
 ### Mail generieren
 
-Um Mail-Texte in beliebigen Sprachen generieren zu lassen, müssen Sie die folgenden Daten an die OpenAI-Integration übergeben werden:
+Um Mail-Texte in beliebigen Sprachen generieren zu lassen, müssen die folgenden Daten an die OpenAI-Integration übergeben werden:
 
 ```json
 {
