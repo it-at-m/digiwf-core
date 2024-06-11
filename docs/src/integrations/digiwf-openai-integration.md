@@ -113,7 +113,7 @@ verwendet werden.
 
 ### Daten extrahieren
 
-Um Daten aus einem Text oder JSON extrahieren zu lassen, müssen Sie die folgenden Daten an die OpenAI-Integration übergeben werden:
+Um Daten aus einem Text oder JSON extrahieren zu lassen, müssen die folgenden Daten an die OpenAI-Integration übergeben werden:
 
 ```json
 {
