@@ -10,23 +10,47 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 @ExtendWith(SpringExtension.class)
-@ActiveProfiles({"test", "groups-ldap"})
+@ActiveProfiles({"groups-ldap"})
 @ContextConfiguration(classes = {LdapTestConfiguration.class})
 class LdapAdapterTest {
-    private final LdapProperties ldapProperties;
-    @Autowired
-    private ContextSource contextSource;
+    private final LdapAdapter ldapAdapter;
 
-    LdapAdapterTest() {
-        this.ldapProperties = new LdapProperties();
-        this.ldapProperties.setGroupBase("OU=groups,DC=muenchen,DC=de");
-        this.ldapProperties.setUserBase("OU=users,DC=muenchen,DC=de");
+    LdapAdapterTest(@Autowired final ContextSource contextSource) {
+        val ldapProperties = new LdapProperties();
+        ldapProperties.setGroupBase("OU=groups,DC=muenchen,DC=de");
+        ldapProperties.setUserBase("OU=users,DC=muenchen,DC=de");
+        this.ldapAdapter = new LdapAdapter(contextSource, ldapProperties);
+    }
+
+    @Test
+    void testResolveUserGroups() {
+
     }
 
     @Test
     void testResolveUser() {
-        val ldapAdapter = new LdapAdapter(contextSource, ldapProperties);
+        // test success
         val user = ldapAdapter.resolveUser("test.user");
+        assertEquals("test.user", user.getId());
+        assertEquals("Test", user.getFirstName());
+        assertEquals("User", user.getLastName());
+        assertEquals("test.user@muenchen.de", user.getEmail());
+        // test not found
+        val userNotFound = ldapAdapter.resolveUser("test.user3");
+        assertNull(userNotFound);
+    }
+
+    @Test
+    void testGetGroupsMembers() {
+
+    }
+
+    @Test
+    void testResolveGroups() {
+
     }
 }
