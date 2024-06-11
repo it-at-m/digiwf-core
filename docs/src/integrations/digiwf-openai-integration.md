@@ -17,7 +17,7 @@ Für die Verwendung der DigiWF OpenAI-Integration stehen mehrere Funktionalität
 
 ### Chat
 
-Um eine einfache Chat-Anfrage durchzuführen, müssen Sie die folgenden Daten an die OpenAI-Integration übergeben werden:
+Um eine einfache Chat-Anfrage durchzuführen, müssen die folgenden Daten an die OpenAI-Integration übergeben werden:
 
 ```json
 {
