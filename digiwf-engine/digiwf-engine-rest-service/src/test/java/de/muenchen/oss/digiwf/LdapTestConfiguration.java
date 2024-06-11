@@ -6,7 +6,6 @@ import com.unboundid.ldap.listener.InMemoryListenerConfig;
 import com.unboundid.ldap.sdk.LDAPException;
 import com.unboundid.ldap.sdk.schema.Schema;
 import com.unboundid.ldif.LDIFException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
@@ -17,8 +16,6 @@ import java.io.IOException;
 
 @Configuration
 public class LdapTestConfiguration {
-    @Autowired
-    private ContextSource contextSource;
 
     @Bean
     InMemoryDirectoryServer ldapServer() throws LDAPException, IOException, LDIFException {
