@@ -54,11 +54,7 @@ class LdapAdapterTest {
 
     @Test
     void testGetGroupsMembers() {
-
-    }
-
-    @Test
-    void testResolveGroups() {
-
+        val members = ldapAdapter.getGroupsMembers(List.of(new Group("test-group")));
+        assertEquals(List.of("test.user", "test.user2"), members);
     }
 }
