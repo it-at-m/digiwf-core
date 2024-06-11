@@ -1,0 +1,16 @@
+version: 1
+
+dn: DC=muenchen,DC=de
+objectClass: domain
+dc: muenchen
+
+dn: OU=users,DC=muenchen,DC=de
+objectClass: organizationalUnit
+ou: users
+
+dn: CN=test.user,OU=users,DC=muenchen,DC=de
+objectClass: user
+cn: test.user
+givenName: Test
+mail: test.user@muenchen.de
+sn: User
