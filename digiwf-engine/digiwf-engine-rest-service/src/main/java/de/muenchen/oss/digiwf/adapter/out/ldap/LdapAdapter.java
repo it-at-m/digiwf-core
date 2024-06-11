@@ -182,7 +182,7 @@ public class LdapAdapter extends LdapTemplate implements ResolveUserGroupsOutPor
             val users = new ArrayList<String>(List.of());
             val childGroups = new ArrayList<String>(List.of());
             if (attrs.get("member") != null) {
-                attrs.get("member").getAll().asIterator().forEachRemaining((i) -> {
+                attrs.get("member").getAll().asIterator().forEachRemaining(i -> {
                     if (((String) i).endsWith(properties.getUserBase()))
                         users.add(i.toString());
                     else if (((String) i).endsWith(properties.getGroupBase())) {
