@@ -226,8 +226,9 @@
                 "fieldType": "file",
                 "title": "Dateien ohne Einschränkungen",
                 "x-display": "custom-multi-file-input",
+                "uuidEnabled": true,
                 "type": "object",
-                "filePath": "test",
+                "filePath": "test01",
                 "properties": {
                   "key": {
                     "type": "string"
@@ -252,7 +253,7 @@
                 "title": "Dateien mit Validierung",
                 "x-display": "custom-multi-file-input",
                 "type": "object",
-                "filePath": "test",
+                "filePath": "test02",
                 "x-rules": [
                   "requiredObject"
                 ],
@@ -594,7 +595,7 @@
                 "title": "Files",
                 "x-display": "custom-multi-file-input",
                 "type": "object",
-                "filePath": "test2",
+                "filePath": "test03",
                 "properties": {
                   "key": {
                     "type": "string"
@@ -619,7 +620,7 @@
                 "title": "Files with validation",
                 "x-display": "custom-multi-file-input",
                 "type": "object",
-                "filePath": "test",
+                "filePath": "test04",
                 "x-rules": [],
                 "maxFiles": 4,
                 "maxFileSize": 1,

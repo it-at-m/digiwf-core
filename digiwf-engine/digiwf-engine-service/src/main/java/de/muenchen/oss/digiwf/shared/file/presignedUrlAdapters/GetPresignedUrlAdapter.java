@@ -19,13 +19,6 @@ import org.springframework.web.client.HttpServerErrorException;
 public class GetPresignedUrlAdapter implements PresignedUrlAdapter {
 
     private final PresignedUrlRepository presignedUrlRepository;
-    private final S3Properties s3Properties;
-
-
-    @Override
-    public String getPresignedUrl(final String pathToFile, final int expireInMinutes) throws HttpServerErrorException {
-        return this.getPresignedUrl(this.s3Properties.getHttpAPI(), pathToFile, expireInMinutes);
-    }
 
     @Override
     public String getPresignedUrl(final String documentStorageUrl, final String pathToFile, final int expireInMinutes) throws HttpServerErrorException {

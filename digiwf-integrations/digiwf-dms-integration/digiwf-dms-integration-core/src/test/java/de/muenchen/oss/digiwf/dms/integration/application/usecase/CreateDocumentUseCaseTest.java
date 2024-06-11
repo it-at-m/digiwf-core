@@ -28,16 +28,18 @@ class CreateDocumentUseCaseTest {
 
         List<String> filepaths = List.of("path/content.pdf");
 
-        when(this.loadFileOutPort.loadFiles(any(), any())).thenReturn(List.of(content));
+        when(this.loadFileOutPort.loadFiles(any(), any(), any())).thenReturn(List.of(content));
 
         when(this.createDocumentOutPort.createDocument(any(), any())).thenReturn("documentCOO");
         LocalDate testDate = LocalDate.parse("2023-12-01");
 
-        createDocumentUseCase.createDocument("procedureCOO", "title", testDate, "user", DocumentType.EINGEHEND, filepaths, "filecontext");
+        createDocumentUseCase.createDocument("procedureCOO", "title", testDate, "user", DocumentType.EINGEHEND, filepaths, "filecontext",
+                "processDefinitionId");
 
-        verify(this.loadFileOutPort, times(1)).loadFiles(filepaths, "filecontext");
+        verify(this.loadFileOutPort, times(1)).loadFiles(filepaths, "filecontext", "processDefinitionId");
 
-        verify(this.createDocumentOutPort, times(1)).createDocument(new Document("procedureCOO", "title", testDate, DocumentType.EINGEHEND, List.of(content)), "user");
+        verify(this.createDocumentOutPort, times(1)).createDocument(new Document("procedureCOO", "title", testDate, DocumentType.EINGEHEND, List.of(content)),
+                "user");
 
     }
 }

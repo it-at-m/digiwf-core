@@ -2,12 +2,12 @@ import { useStore } from "../../hooks/store";
 
 export interface AccessibilityState {
   highContrastModeEnabled: boolean;
-  a11YNotificationEnabled: boolean;
+  a11YScreenreaderModeEnabled: boolean;
 }
 
 const defaultAccessibilityState: AccessibilityState = {
   highContrastModeEnabled: false,
-  a11YNotificationEnabled: false,
+  a11YScreenreaderModeEnabled: false,
 };
 
 export const accessibility = {
@@ -19,25 +19,27 @@ export const accessibility = {
         ? state.highContrastModeEnabled
         : defaultAccessibilityState.highContrastModeEnabled;
     },
-    isA11YNotificationEnabled: (state: AccessibilityState): boolean => {
-      return state.a11YNotificationEnabled !== undefined
-        ? state.a11YNotificationEnabled
-        : defaultAccessibilityState.a11YNotificationEnabled;
+    isA11YScreenreaderModeEnabled: (state: AccessibilityState): boolean => {
+      return state.a11YScreenreaderModeEnabled !== undefined
+        ? state.a11YScreenreaderModeEnabled
+        : defaultAccessibilityState.a11YScreenreaderModeEnabled;
     },
   },
   mutations: {
     setHighContrastModeEnabled: (state: AccessibilityState, enabled: boolean) =>
       (state.highContrastModeEnabled = enabled),
-    setA11YNotificationEnabled: (state: AccessibilityState, enabled: boolean) =>
-      (state.a11YNotificationEnabled = enabled),
+    setA11YScreenreaderModeEnabled: (
+      state: AccessibilityState,
+      enabled: boolean
+    ) => (state.a11YScreenreaderModeEnabled = enabled),
   },
 };
 
 export interface Accessibility {
   isHighContrastModeEnabled: () => boolean;
   setHighContrastModeEnabled: (value: boolean) => void;
-  a11YNotificationEnabled: () => boolean;
-  setA11YNotificationEnabled: (value: boolean) => void;
+  a11YScreenreaderModeEnabled: () => boolean;
+  setA11YScreenreaderModeEnabled: (value: boolean) => void;
 }
 
 export const useAccessibility = (): Accessibility => {
@@ -47,9 +49,9 @@ export const useAccessibility = (): Accessibility => {
       store.getters["accessibility/isHighContrastModeEnabled"],
     setHighContrastModeEnabled: (enabled: boolean) =>
       store.commit("accessibility/setHighContrastModeEnabled", enabled),
-    a11YNotificationEnabled: () =>
-      store.getters["accessibility/isA11YNotificationEnabled"],
-    setA11YNotificationEnabled: (enabled: boolean) =>
-      store.commit("accessibility/setA11YNotificationEnabled", enabled),
+    a11YScreenreaderModeEnabled: () =>
+      store.getters["accessibility/isA11YScreenreaderModeEnabled"],
+    setA11YScreenreaderModeEnabled: (enabled: boolean) =>
+      store.commit("accessibility/setA11YScreenreaderModeEnabled", enabled),
   };
 };
