@@ -9,7 +9,7 @@
     <parent>
         <artifactId>digiwf-dms-integration</artifactId>
         <groupId>de.muenchen.oss.digiwf</groupId>
-        <version>1.13.1-SNAPSHOT</version>
+        <version>1.13.2-SNAPSHOT</version>
     </parent>
 
     <dependencies>

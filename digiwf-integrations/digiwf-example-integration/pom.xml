@@ -10,7 +10,7 @@
         <artifactId>digiwf-integration-parent</artifactId>
         <groupId>de.muenchen.oss.digiwf</groupId>
         <relativePath>../digiwf-integration-parent</relativePath>
-        <version>1.13.1-SNAPSHOT</version>
+        <version>1.13.2-SNAPSHOT</version>
     </parent>
 
     <modules>
