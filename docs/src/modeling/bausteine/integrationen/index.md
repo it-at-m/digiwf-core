@@ -178,6 +178,7 @@ Um ein Dokument anzulegen, wird das Element Template `DMS: Dokument anlegen` ver
 | Typ (Ein-/Ausgehend/Intern)   | Dropdown-Auswahl zwischen Eingangs-, Ausgangs- und internem Dokument   | Eingehend bzw. Ausgehend bzw. Intern |
 | Pfad(e) im S3                 | Pfad(e) zu Dateien oder Ordnern im S3 mit einem Komma getrennt         | ordnername/,odner/filename.pdf       |
 | Out: Document (Coo)           | Objekt-ID des Dokuments                                                | COO.9876.5432.1.9876543              |
+| Out: Content (Coos)           | Objekt-IDs der untergeordneten Schriftstücke.                          |                                      |
 
 ### Dokument updaten
 

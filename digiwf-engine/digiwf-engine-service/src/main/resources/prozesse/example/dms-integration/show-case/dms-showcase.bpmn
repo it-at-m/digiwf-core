@@ -321,6 +321,7 @@ execution.setVariable('firstCoo', tFirstCoo);</bpmn:script>
         <camunda:in sourceExpression="docs/" target="filepaths" />
         <camunda:in sourceExpression="${date}" target="date" />
         <camunda:out source="documentCoo" target="documentCoo" />
+        <camunda:out source="contentCoos" target="contentCoos" />
         <camunda:inputOutput>
           <camunda:inputParameter name="date">${execution.getVariable("date")}</camunda:inputParameter>
         </camunda:inputOutput>
