@@ -192,6 +192,31 @@ class FabasoftAdapterTest {
     }
 
     @Test
+    void execute_list_files() {
+        val file1 = new LHMBAI151700GIObjectType();
+        file1.setLHMBAI151700Objaddress("contentCoo1");
+        file1.setLHMBAI151700Objname("File-Name");
+        val content = new ArrayOfLHMBAI151700GIObjectType();
+        content.getLHMBAI151700GIObjectType().add(file1);
+
+        val response = new ReadDocumentGIObjectsResponse();
+        response.setStatus(0);
+        response.setGiobjecttype(content);
+
+        DigiwfWiremockWsdlUtility.stubOperation(
+                "ReadDocumentGIObjects",
+                CancelObjectGI.class, (u) -> true,
+                response);
+
+        val contentCoos = fabasoftAdapter.listContentCoos("coo1", "user");
+
+        val expectedCoos = List.of("contentCoo1");
+
+        assertThat(contentCoos.size()).isEqualTo(1);
+        assertEquals(expectedCoos, contentCoos);
+    }
+
+    @Test
     void execute_read_files() {
         val content = new LHMBAI151700GIAttachmentType();
         content.setLHMBAI151700Filename("filename");

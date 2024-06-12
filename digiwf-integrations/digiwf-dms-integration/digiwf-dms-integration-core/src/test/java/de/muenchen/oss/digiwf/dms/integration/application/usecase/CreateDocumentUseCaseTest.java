@@ -6,11 +6,13 @@ import de.muenchen.oss.digiwf.dms.integration.application.port.out.LoadFileOutPo
 import de.muenchen.oss.digiwf.dms.integration.domain.Content;
 import de.muenchen.oss.digiwf.dms.integration.domain.Document;
 import de.muenchen.oss.digiwf.dms.integration.domain.DocumentType;
+import lombok.val;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -26,23 +28,25 @@ class CreateDocumentUseCaseTest {
 
     @Test
     void createDocument() {
-
         Content content = new Content("extension", "name", "content".getBytes());
-
         List<String> filepaths = List.of("path/content.pdf");
+        LocalDate testDate = LocalDate.parse("2023-12-01");
+        val docCoo = "documentCOO";
+        val user = "user";
+        val fileCoos = List.of("contentCoo1", "contentCoo2");
 
         when(this.loadFileOutPort.loadFiles(any(), any(), any())).thenReturn(List.of(content));
+        when(this.createDocumentOutPort.createDocument(any(), any())).thenReturn(docCoo);
+        when(this.listContentOutPort.listContentCoos(docCoo, user)).thenReturn(fileCoos);
 
-        when(this.createDocumentOutPort.createDocument(any(), any())).thenReturn("documentCOO");
-        LocalDate testDate = LocalDate.parse("2023-12-01");
-
-        createDocumentUseCase.createDocument("procedureCOO", "title", testDate, "user", DocumentType.EINGEHEND, filepaths, "filecontext",
+        val documentResponse = createDocumentUseCase.createDocument("procedureCOO", "title", testDate, "user", DocumentType.EINGEHEND, filepaths, "filecontext",
                 "processDefinitionId");
 
+        assertEquals(docCoo, documentResponse.getDocumentCoo());
+        assertEquals(fileCoos, documentResponse.getContentCoos());
         verify(this.loadFileOutPort, times(1)).loadFiles(filepaths, "filecontext", "processDefinitionId");
-
         verify(this.createDocumentOutPort, times(1)).createDocument(new Document("procedureCOO", "title", testDate, DocumentType.EINGEHEND, List.of(content)),
-                "user");
-
+                user);
+        verify(this.listContentOutPort, times(1)).listContentCoos(docCoo, user);
     }
 }
