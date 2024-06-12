@@ -9,6 +9,7 @@ import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.Message;
 
@@ -90,7 +91,7 @@ public class MessageProcessor {
         return message -> {
             withErrorHandling(message, () -> {
                 final CreateDocumentDto createDocumentDto = message.getPayload();
-                final String document = this.createDocumentInPort.createDocument(
+                val documentResponse = this.createDocumentInPort.createDocument(
                         createDocumentDto.getProcedureCoo(),
                         createDocumentDto.getTitle(),
                         createDocumentDto.getDate(),
@@ -103,7 +104,10 @@ public class MessageProcessor {
 
                 this.correlateMessage(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString(),
                         message.getHeaders().get(TYPE).toString(),
-                        message.getHeaders().get(DIGIWF_INTEGRATION_NAME).toString(), Map.of("documentCoo", document));
+                        message.getHeaders().get(DIGIWF_INTEGRATION_NAME).toString(), Map.of(
+                                "documentCoo", documentResponse.getDocumentCoo(),
+                                "contentCoos", documentResponse.getContentCoos()
+                        ));
             });
         };
     }

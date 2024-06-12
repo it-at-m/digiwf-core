@@ -35,7 +35,7 @@ import java.util.function.Consumer;
 @Configuration
 @RequiredArgsConstructor
 @Import(FabasoftClientConfiguration.class)
-@EnableConfigurationProperties({ FabasoftProperties.class, DmsProperties.class })
+@EnableConfigurationProperties({FabasoftProperties.class, DmsProperties.class})
 public class DmsAutoConfiguration {
 
     @Bean
@@ -66,8 +66,8 @@ public class DmsAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public S3Adapter s3Adapter(final DocumentStorageFileRepository documentStorageFileRepository,
-            final DocumentStorageFolderRepository documentStorageFolderRepository, final FileExtensionService fileExtensionService,
-            final S3StorageUrlProvider s3StorageUrlProvider) {
+                               final DocumentStorageFolderRepository documentStorageFolderRepository, final FileExtensionService fileExtensionService,
+                               final S3StorageUrlProvider s3StorageUrlProvider) {
         return new S3Adapter(documentStorageFileRepository, documentStorageFolderRepository, fileExtensionService, s3StorageUrlProvider);
     }
 
@@ -98,8 +98,12 @@ public class DmsAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public CreateDocumentInPort createDocumentInPort(final CreateDocumentOutPort createDocumentOutPort, LoadFileOutPort loadFileOutPort) {
-        return new CreateDocumentUseCase(createDocumentOutPort, loadFileOutPort);
+    public CreateDocumentInPort createDocumentInPort(
+            final CreateDocumentOutPort createDocumentOutPort,
+            final LoadFileOutPort loadFileOutPort,
+            final ListContentOutPort listContentOutPort
+    ) {
+        return new CreateDocumentUseCase(createDocumentOutPort, loadFileOutPort, listContentOutPort);
     }
 
     @Bean

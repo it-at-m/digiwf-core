@@ -1,6 +1,7 @@
 package de.muenchen.oss.digiwf.dms.integration.application.usecase;
 
 import de.muenchen.oss.digiwf.dms.integration.application.port.out.CreateDocumentOutPort;
+import de.muenchen.oss.digiwf.dms.integration.application.port.out.ListContentOutPort;
 import de.muenchen.oss.digiwf.dms.integration.application.port.out.LoadFileOutPort;
 import de.muenchen.oss.digiwf.dms.integration.domain.Content;
 import de.muenchen.oss.digiwf.dms.integration.domain.Document;
@@ -19,7 +20,9 @@ class CreateDocumentUseCaseTest {
 
     private final CreateDocumentOutPort createDocumentOutPort = mock(CreateDocumentOutPort.class);
 
-    private final CreateDocumentUseCase createDocumentUseCase = new CreateDocumentUseCase(createDocumentOutPort, loadFileOutPort);
+    private final ListContentOutPort listContentOutPort = mock(ListContentOutPort.class);
+
+    private final CreateDocumentUseCase createDocumentUseCase = new CreateDocumentUseCase(createDocumentOutPort, loadFileOutPort, listContentOutPort);
 
     @Test
     void createDocument() {
