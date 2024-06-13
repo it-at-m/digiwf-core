@@ -2,9 +2,11 @@ package de.muenchen.oss.digiwf.dms.integration.application.usecase;
 
 import de.muenchen.oss.digiwf.dms.integration.application.port.in.CreateDocumentInPort;
 import de.muenchen.oss.digiwf.dms.integration.application.port.out.CreateDocumentOutPort;
+import de.muenchen.oss.digiwf.dms.integration.application.port.out.ListContentOutPort;
 import de.muenchen.oss.digiwf.dms.integration.application.port.out.LoadFileOutPort;
 import de.muenchen.oss.digiwf.dms.integration.domain.Content;
 import de.muenchen.oss.digiwf.dms.integration.domain.Document;
+import de.muenchen.oss.digiwf.dms.integration.domain.DocumentResponse;
 import de.muenchen.oss.digiwf.dms.integration.domain.DocumentType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -19,9 +21,10 @@ public class CreateDocumentUseCase implements CreateDocumentInPort {
     private final CreateDocumentOutPort createDocumentOutPort;
 
     private final LoadFileOutPort loadFileOutPort;
+    private final ListContentOutPort listContentOutPort;
 
     @Override
-    public String createDocument(
+    public DocumentResponse createDocument(
             final String procedureCOO,
             final String title,
             final LocalDate date,
@@ -36,8 +39,9 @@ public class CreateDocumentUseCase implements CreateDocumentInPort {
 
         final Document document = new Document(procedureCOO, title, date, type, contents);
 
-        return createDocumentOutPort.createDocument(document, user);
+        String documentCoo = createDocumentOutPort.createDocument(document, user);
+        List<String> contentCoos = listContentOutPort.listContentCoos(documentCoo, user);
 
+        return new DocumentResponse(documentCoo, contentCoos);
     }
-
 }

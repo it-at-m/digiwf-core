@@ -102,9 +102,18 @@
       "type": "Dropdown",
       "value": "EINGEHEND",
       "choices": [
-        { "name": "Eingehend", "value": "EINGEHEND" },
-        { "name": "Ausgehend", "value": "AUSGEHEND" },
-        { "name": "Intern", "value": "INTERN" }
+        {
+          "name": "Eingehend",
+          "value": "EINGEHEND"
+        },
+        {
+          "name": "Ausgehend",
+          "value": "AUSGEHEND"
+        },
+        {
+          "name": "Intern",
+          "value": "INTERN"
+        }
       ],
       "binding": {
         "type": "camunda:in",
@@ -128,6 +137,19 @@
       },
       "constraints": {
         "notEmpty": true
+      }
+    },
+    {
+      "label": "Content (Coos)",
+      "description": "Out Mapping",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:out",
+        "source": "contentCoos"
+      },
+      "constraints": {
+        "notEmpty": false
       }
     }
   ]

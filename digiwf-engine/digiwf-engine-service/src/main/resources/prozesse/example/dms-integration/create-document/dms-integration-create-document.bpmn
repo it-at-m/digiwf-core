@@ -37,6 +37,8 @@
         <camunda:in sourceExpression="${date}" target="date" />
         <camunda:in sourceExpression="${user}" target="user" />
         <camunda:in sourceExpression="test/" target="filepaths" />
+        <camunda:out source="documentCoo" target="documentCoo" />
+        <camunda:out source="contentCoos" target="contentCoos" />
         <camunda:inputOutput>
           <camunda:inputParameter name="date">${execution.getVariable("date")}</camunda:inputParameter>
         </camunda:inputOutput>
