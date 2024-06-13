@@ -1,6 +1,7 @@
 package de.muenchen.oss.digiwf.dms.integration.adapter.in;
 
 import de.muenchen.oss.digiwf.dms.integration.application.port.in.*;
+import de.muenchen.oss.digiwf.dms.integration.domain.DocumentResponse;
 import de.muenchen.oss.digiwf.dms.integration.domain.DocumentType;
 import de.muenchen.oss.digiwf.dms.integration.domain.Procedure;
 import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
@@ -9,7 +10,6 @@ import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
-import lombok.val;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.Message;
 
@@ -91,7 +91,7 @@ public class MessageProcessor {
         return message -> {
             withErrorHandling(message, () -> {
                 final CreateDocumentDto createDocumentDto = message.getPayload();
-                val documentResponse = this.createDocumentInPort.createDocument(
+                DocumentResponse documentResponse = this.createDocumentInPort.createDocument(
                         createDocumentDto.getProcedureCoo(),
                         createDocumentDto.getTitle(),
                         createDocumentDto.getDate(),

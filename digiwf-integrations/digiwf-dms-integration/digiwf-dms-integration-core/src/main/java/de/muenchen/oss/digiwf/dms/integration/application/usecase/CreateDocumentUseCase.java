@@ -9,7 +9,6 @@ import de.muenchen.oss.digiwf.dms.integration.domain.Document;
 import de.muenchen.oss.digiwf.dms.integration.domain.DocumentResponse;
 import de.muenchen.oss.digiwf.dms.integration.domain.DocumentType;
 import lombok.RequiredArgsConstructor;
-import lombok.val;
 import org.springframework.validation.annotation.Validated;
 
 import java.time.LocalDate;
@@ -40,8 +39,8 @@ public class CreateDocumentUseCase implements CreateDocumentInPort {
 
         final Document document = new Document(procedureCOO, title, date, type, contents);
 
-        val documentCoo = createDocumentOutPort.createDocument(document, user);
-        val contentCoos = listContentOutPort.listContentCoos(documentCoo, user);
+        String documentCoo = createDocumentOutPort.createDocument(document, user);
+        List<String> contentCoos = listContentOutPort.listContentCoos(documentCoo, user);
 
         return new DocumentResponse(documentCoo, contentCoos);
     }

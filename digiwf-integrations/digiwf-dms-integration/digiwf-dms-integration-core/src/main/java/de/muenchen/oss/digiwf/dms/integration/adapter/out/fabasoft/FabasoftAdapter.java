@@ -324,12 +324,12 @@ public class FabasoftAdapter implements
 
     @Override
     public List<String> listContentCoos(@NotNull String documentCoo, @NonNull final String user) {
-        val request = new ReadDocumentGIObjects();
+        ReadDocumentGIObjects request = new ReadDocumentGIObjects();
         request.setUserlogin(user);
         request.setBusinessapp(this.properties.getBusinessapp());
         request.setObjaddress(documentCoo);
 
-        val response = this.wsClient.readDocumentGIObjects(request);
+        ReadDocumentGIObjectsResponse response = this.wsClient.readDocumentGIObjects(request);
         dmsErrorHandler.handleError(response.getStatus(), response.getErrormessage());
 
         return response.getGiobjecttype().getLHMBAI151700GIObjectType().stream()
