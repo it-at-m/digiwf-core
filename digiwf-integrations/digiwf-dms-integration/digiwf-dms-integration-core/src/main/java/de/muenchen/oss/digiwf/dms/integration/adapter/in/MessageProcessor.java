@@ -1,6 +1,7 @@
 package de.muenchen.oss.digiwf.dms.integration.adapter.in;
 
 import de.muenchen.oss.digiwf.dms.integration.application.port.in.*;
+import de.muenchen.oss.digiwf.dms.integration.domain.DocumentResponse;
 import de.muenchen.oss.digiwf.dms.integration.domain.DocumentType;
 import de.muenchen.oss.digiwf.dms.integration.domain.Procedure;
 import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
@@ -90,7 +91,7 @@ public class MessageProcessor {
         return message -> {
             withErrorHandling(message, () -> {
                 final CreateDocumentDto createDocumentDto = message.getPayload();
-                final String document = this.createDocumentInPort.createDocument(
+                DocumentResponse documentResponse = this.createDocumentInPort.createDocument(
                         createDocumentDto.getProcedureCoo(),
                         createDocumentDto.getTitle(),
                         createDocumentDto.getDate(),
@@ -103,7 +104,10 @@ public class MessageProcessor {
 
                 this.correlateMessage(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString(),
                         message.getHeaders().get(TYPE).toString(),
-                        message.getHeaders().get(DIGIWF_INTEGRATION_NAME).toString(), Map.of("documentCoo", document));
+                        message.getHeaders().get(DIGIWF_INTEGRATION_NAME).toString(), Map.of(
+                                "documentCoo", documentResponse.getDocumentCoo(),
+                                "contentCoos", documentResponse.getContentCoos()
+                        ));
             });
         };
     }
@@ -112,7 +116,7 @@ public class MessageProcessor {
         return message -> {
             withErrorHandling(message, () -> {
                 final UpdateDocumentDto updateDocumentDto = message.getPayload();
-                this.updateDocumentInPort.updateDocument(
+                DocumentResponse documentResponse = this.updateDocumentInPort.updateDocument(
                         updateDocumentDto.getDocumentCoo(),
                         updateDocumentDto.getUser(),
                         DocumentType.valueOf(updateDocumentDto.getType()),
@@ -123,7 +127,9 @@ public class MessageProcessor {
 
                 this.correlateMessage(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString(),
                         message.getHeaders().get(TYPE).toString(),
-                        message.getHeaders().get(DIGIWF_INTEGRATION_NAME).toString(), Map.of());
+                        message.getHeaders().get(DIGIWF_INTEGRATION_NAME).toString(), Map.of(
+                                "contentCoos", documentResponse.getContentCoos()
+                        ));
             });
         };
     }

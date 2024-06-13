@@ -1,5 +1,6 @@
 package de.muenchen.oss.digiwf.dms.integration.adapter.in;
 
+import de.muenchen.oss.digiwf.dms.integration.domain.DocumentResponse;
 import de.muenchen.oss.digiwf.dms.integration.domain.DocumentType;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import jakarta.validation.ValidationException;
@@ -13,6 +14,7 @@ import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHeaders;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 
 import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_PROCESS_INSTANCE_ID;
@@ -45,7 +47,7 @@ class CreateDocumentMessageProcessorTest extends MessageProcessorTestBase {
                         createDocumentDto.getFilepathsAsList(),
                         createDocumentDto.getFileContext(),
                         processDefinitionId))
-                .thenReturn("documentCOO");
+                .thenReturn(new DocumentResponse("documentCOO", List.of("contentCoo1")));
 
         this.message = new Message<>() {
 

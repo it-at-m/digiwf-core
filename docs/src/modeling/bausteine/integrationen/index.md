@@ -1,8 +1,8 @@
 # Integrationen
 
-Integrationen können über eine Call Activity aufgerufen werden. Für die von der Plattform bereitgestellten Integrationen werden Element-Templates angeboten, die die Modellierung vereinfachen.
+Integrationen können über eine Call Activity aufgerufen werden. Für die von der Plattform bereitgestellten Integrationen
+werden Element-Templates angeboten, die die Modellierung vereinfachen.
 Eine vollständige Liste der verfügbaren Integrationen finden Sie unter [DigiWF Integrationen](/integrations/).
-
 
 ## CoSys
 
@@ -60,11 +60,12 @@ Um eine einfache E-Mail zu versenden, wird das Element Template `Mail: E-Mail se
 | Receiver (BCC)        | Empfänger BCC (Kommasepariert)                                                     | max.mustermann@example.com |
 | Attachment Paths (S3) | Von der S3-Integration generierte Presigned-URLs für das Herunterladen von Dateien |                            |
 
-
 ### E-Mail mit Logo versenden
 
-Um eine E-Mail mit Logo zu versenden, wird das Element Template `Mail: E-Mail aus Vorlage mit Logo senden` verwendet. Bei der Verwendung ist zu beachten, 
-dass Zeilenumbrüche in den Werten der Felder 'E-Mail Text' und 'E-Mail Gruß' durch `<br>` ersetzt werden, damit sie in der als HTML 
+Um eine E-Mail mit Logo zu versenden, wird das Element Template `Mail: E-Mail aus Vorlage mit Logo senden` verwendet.
+Bei der Verwendung ist zu beachten,
+dass Zeilenumbrüche in den Werten der Felder 'E-Mail Text' und 'E-Mail Gruß' durch `<br>` ersetzt werden, damit sie in
+der als HTML
 zugestellten E-Mail korrekt angezeigt werden.
 
 **Properties**
@@ -82,8 +83,10 @@ zugestellten E-Mail korrekt angezeigt werden.
 
 ### E-Mail mit Logo und Link versenden
 
-Um eine E-Mail mit Logo zu versenden, wird das Element Template `Mail: E-Mail aus Vorlage mit Logo und Link senden` verwendet. Bei der Verwendung ist zu 
-beachten, dass Zeilenumbrüche in den Werten der Felder 'E-Mail Text' und 'E-Mail Gruß' durch `<br>` ersetzt werden, damit sie in der als 
+Um eine E-Mail mit Logo zu versenden, wird das Element Template `Mail: E-Mail aus Vorlage mit Logo und Link senden`
+verwendet. Bei der Verwendung ist zu
+beachten, dass Zeilenumbrüche in den Werten der Felder 'E-Mail Text' und 'E-Mail Gruß' durch `<br>` ersetzt werden,
+damit sie in der als
 HTML zugestellten E-Mail korrekt angezeigt werden.
 
 **Properties**
@@ -115,6 +118,17 @@ Für die Interaktion mit dem S3-Dienst stehen verschiedene Templates zur Verfüg
 | Dateiaktion        | Die Aktion, die auf der Datei ausgeführt werden soll           | GET                      |
 | Out: PresignedUrls | Der Name des JSON-Arrays, in den das Ergebnis geschrieben wird | urls                     |
 
+### S3: Dateien löschen
+
+Ermöglicht das Löschen von Ordnern und Dateien aus dem S3.
+
+**Properties**
+
+| Property     | Beschreibung                                                                   | Beispiel                |
+|--------------|--------------------------------------------------------------------------------|-------------------------|
+| File Context | File-Context des Prozesses. Wird als Prefix für die folgenden Pfade verwendet. | `${app_file_context}`   |
+| Pfade        | Semikolon separierte Liste an Datei- und Ordner-Pfaden.                        | `test/;test2/datei.pdf` |
+
 ## DMS
 
 Für die Interaktion mit dem DMS stehen verschiedene Templates zur Verfügung.
@@ -125,13 +139,13 @@ Um eine Sachakte anzulegen, wird das Element Template `DMS: Sachakte erstellen` 
 
 **Properties**
 
-| Property                       | Beschreibung                                                                  | Beispiel                |
-|--------------------------------|-------------------------------------------------------------------------------|-------------------------|
-| Dms System (Integration Name)  | Dropdown-Auswahl zwischen MUCS und ALW DMS                                    | mucs bzw. alw           |
-| Title                          | Name der Sachakte                                                             | Sachaktenname           |
-| User                           | Benutzername des Benutzers, über den die Sachakte erstellt werden soll        | max.mustermann          |
-| Aktenplan (Coo)                | Objekt-ID des Aktenplankennzeichnes, in dem die Sachakte erstellt werden soll | COO.1234.5678.9.1234567 |
-| Out: File (Coo)                | Objekt-ID der erstellten Sachakte                                             | COO.9876.5432.1.9876543 |
+| Property                      | Beschreibung                                                                  | Beispiel                |
+|-------------------------------|-------------------------------------------------------------------------------|-------------------------|
+| Dms System (Integration Name) | Dropdown-Auswahl zwischen MUCS und ALW DMS                                    | mucs bzw. alw           |
+| Title                         | Name der Sachakte                                                             | Sachaktenname           |
+| User                          | Benutzername des Benutzers, über den die Sachakte erstellt werden soll        | max.mustermann          |
+| Aktenplan (Coo)               | Objekt-ID des Aktenplankennzeichnes, in dem die Sachakte erstellt werden soll | COO.1234.5678.9.1234567 |
+| Out: File (Coo)               | Objekt-ID der erstellten Sachakte                                             | COO.9876.5432.1.9876543 |
 
 ### Vorgang anlegen
 
@@ -154,16 +168,17 @@ Um ein Dokument anzulegen, wird das Element Template `DMS: Dokument anlegen` ver
 
 **Properties**
 
-| Property                      | Beschreibung                                                           | Beispiel                             |
-|-------------------------------|------------------------------------------------------------------------|--------------------------------------|
-| Dms System (Integration Name) | Dropdown-Auswahl zwischen MUCS und ALW DMS                             | mucs bzw. alw                        |
-| Vorgang (Coo)                 | Objekt-ID des Vorgangs, in dem das Dokument erstellt werden soll       | COO.1234.5678.9.1234567              |
-| Title                         | Name des Dokuments                                                     | Dokumentname                         |
-| Datum                         | Eingang- bzw. Ausgangsdatum des Dokuments                              | 2024-01-31                           |
-| User                          | Benutzername des Benutzers, über den das Dokument angelegt werden soll | max.mustermann                       |
-| Typ (Ein-/Ausgehend/Intern)   | Dropdown-Auswahl zwischen Eingangs-, Ausgangs- und internem Dokument   | Eingehend bzw. Ausgehend bzw. Intern |
-| Pfad(e) im S3                 | Pfad(e) zu Dateien oder Ordnern im S3 mit einem Komma getrennt         | ordnername/,odner/filename.pdf       |
-| Out: Document (Coo)           | Objekt-ID des Dokuments                                                | COO.9876.5432.1.9876543              |
+| Property                      | Beschreibung                                                           | Beispiel                                              |
+|-------------------------------|------------------------------------------------------------------------|-------------------------------------------------------|
+| Dms System (Integration Name) | Dropdown-Auswahl zwischen MUCS und ALW DMS                             | mucs bzw. alw                                         |
+| Vorgang (Coo)                 | Objekt-ID des Vorgangs, in dem das Dokument erstellt werden soll       | COO.1234.5678.9.1234567                               |
+| Title                         | Name des Dokuments                                                     | Dokumentname                                          |
+| Datum                         | Eingang- bzw. Ausgangsdatum des Dokuments                              | 2024-01-31                                            |
+| User                          | Benutzername des Benutzers, über den das Dokument angelegt werden soll | max.mustermann                                        |
+| Typ (Ein-/Ausgehend/Intern)   | Dropdown-Auswahl zwischen Eingangs-, Ausgangs- und internem Dokument   | Eingehend bzw. Ausgehend bzw. Intern                  |
+| Pfad(e) im S3                 | Pfad(e) zu Dateien oder Ordnern im S3 mit einem Komma getrennt         | ordnername/,odner/filename.pdf                        |
+| Out: Document (Coo)           | Objekt-ID des Dokuments                                                | COO.9876.5432.1.9876543                               |
+| Out: Content (Coos)           | Objekt-IDs der untergeordneten Schriftstücke.                          | ["COO.9876.5432.1.9876544","COO.9876.5432.1.9876545"] |
 
 ### Dokument updaten
 
@@ -171,25 +186,27 @@ Um ein Dokument upzudaten, wird das Element Template `DMS: Dokument updaten` ver
 
 **Properties**
 
-| Property                      | Beschreibung                                                            | Beispiel                             |
-|-------------------------------|-------------------------------------------------------------------------|--------------------------------------|
-| Dms System (Integration Name) | Dropdown-Auswahl zwischen MUCS und ALW DMS                              | mucs bzw. alw                        |
-| Dokument-COO                  | Objekt-ID des Dokuments, das upgedatet werden soll                      | COO.1234.5678.9.1234567              |
-| User                          | Benutzername des Benutzers, über den das Dokument upgedatet werden soll | max.mustermann                       |
-| Typ (Ein-/Ausgehend/Intern)   | Dropdown-Auswahl zwischen Eingangs-, Ausgangs- und internem Dokument    | Eingehend bzw. Ausgehend bzw. Intern |
-| Pfad(e) im S3                 | Pfad(e) zu Dateien oder Ordnern im S3 mit einem Komma getrennt          | ordnername/,odner/filename.pdf       |
+| Property                      | Beschreibung                                                            | Beispiel                                              |
+|-------------------------------|-------------------------------------------------------------------------|-------------------------------------------------------|
+| Dms System (Integration Name) | Dropdown-Auswahl zwischen MUCS und ALW DMS                              | mucs bzw. alw                                         |
+| Dokument-COO                  | Objekt-ID des Dokuments, das upgedatet werden soll                      | COO.1234.5678.9.1234567                               |
+| User                          | Benutzername des Benutzers, über den das Dokument upgedatet werden soll | max.mustermann                                        |
+| Typ (Ein-/Ausgehend/Intern)   | Dropdown-Auswahl zwischen Eingangs-, Ausgangs- und internem Dokument    | Eingehend bzw. Ausgehend bzw. Intern                  |
+| Pfad(e) im S3                 | Pfad(e) zu Dateien oder Ordnern im S3 mit einem Komma getrennt          | ordnername/,odner/filename.pdf                        |
+| Out: Content (Coos)           | Objekt-IDs der untergeordneten Schriftstücke.                           | ["COO.9876.5432.1.9876544","COO.9876.5432.1.9876545"] |
 
 ### Objekt zu den Akten legen
 
-Um eine Akte oder einen Vorgang zu den Akten zu legen, wird das Element Template `DMS: Objekt zu den Akten legen` verwendet.
+Um eine Akte oder einen Vorgang zu den Akten zu legen, wird das Element Template `DMS: Objekt zu den Akten legen`
+verwendet.
 
 **Properties**
 
-| Property                      | Beschreibung                                                                    | Beispiel                             |
-|-------------------------------|---------------------------------------------------------------------------------|--------------------------------------|
-| Dms System (Integration Name) | Dropdown-Auswahl zwischen MUCS und ALW DMS                                      | mucs bzw. alw                        |
-| Coo                           | Objekt-ID der Akte oder des Vorgangs, der zu den Akten gelegt werden soll       | COO.1234.5678.9.1234567              |
-| User                          | Benutzername des Benutzers, über den das Objekt zu den Akten gelegt werden soll | max.mustermann                       |
+| Property                      | Beschreibung                                                                    | Beispiel                |
+|-------------------------------|---------------------------------------------------------------------------------|-------------------------|
+| Dms System (Integration Name) | Dropdown-Auswahl zwischen MUCS und ALW DMS                                      | mucs bzw. alw           |
+| Coo                           | Objekt-ID der Akte oder des Vorgangs, der zu den Akten gelegt werden soll       | COO.1234.5678.9.1234567 |
+| User                          | Benutzername des Benutzers, über den das Objekt zu den Akten gelegt werden soll | max.mustermann          |
 
 ### Objekt stornieren
 
@@ -197,15 +214,16 @@ Um ein Objekt zu stornieren, wird das Element Template `DMS: Objekt stornieren` 
 
 **Properties**
 
-| Property                      | Beschreibung                                                          | Beispiel                             |
-|-------------------------------|-----------------------------------------------------------------------|--------------------------------------|
-| Dms System (Integration Name) | Dropdown-Auswahl zwischen MUCS und ALW DMS                            | mucs bzw. alw                        |
-| Coo                           | Objekt-ID des Objekts, das storniert werden soll                      | COO.1234.5678.9.1234567              |
-| User                          | Benutzername des Benutzers, über den das Objekt storniert werden soll | max.mustermann                       |
+| Property                      | Beschreibung                                                          | Beispiel                |
+|-------------------------------|-----------------------------------------------------------------------|-------------------------|
+| Dms System (Integration Name) | Dropdown-Auswahl zwischen MUCS und ALW DMS                            | mucs bzw. alw           |
+| Coo                           | Objekt-ID des Objekts, das storniert werden soll                      | COO.1234.5678.9.1234567 |
+| User                          | Benutzername des Benutzers, über den das Objekt storniert werden soll | max.mustermann          |
 
 ### Schriftstücke lesen
 
-Um Schriftstücke zu lesen und in den S3-Speicher zu übertragen, wird das Element Template `DMS: Schriftstuecke lesen` verwendet.
+Um Schriftstücke zu lesen und in den S3-Speicher zu übertragen, wird das Element Template `DMS: Schriftstuecke lesen`
+verwendet.
 
 **Properties**
 
@@ -237,9 +255,9 @@ Um einen Aktenplaneintrag zu suchen, wird das Element Template `DMS: Aktenplanei
 
 **Properties**
 
-| Property                      | Beschreibung                                                                  | Beispiel                 |
-|-------------------------------|-------------------------------------------------------------------------------|--------------------------|
-| Dms System (Integration Name) | Dropdown-Auswahl zwischen MUCS und ALW DMS                                    | mucs bzw. alw            |
-| Suche                         | Suchstring mit Namen des Aktenplaneintrags                                    | Aktenplaneintragname     |
-| User                          | Benutzername des Benutzers, über den der Aktenplaneintrag gesucht werden soll | max.mustermann           |
-| Out: Aktenplaneintrag (Coo)   | Objekt-ID des Aktenplaneintrags                                               | COO.9876.5432.1.9876543  |
+| Property                      | Beschreibung                                                                  | Beispiel                |
+|-------------------------------|-------------------------------------------------------------------------------|-------------------------|
+| Dms System (Integration Name) | Dropdown-Auswahl zwischen MUCS und ALW DMS                                    | mucs bzw. alw           |
+| Suche                         | Suchstring mit Namen des Aktenplaneintrags                                    | Aktenplaneintragname    |
+| User                          | Benutzername des Benutzers, über den der Aktenplaneintrag gesucht werden soll | max.mustermann          |
+| Out: Aktenplaneintrag (Coo)   | Objekt-ID des Aktenplaneintrags                                               | COO.9876.5432.1.9876543 |

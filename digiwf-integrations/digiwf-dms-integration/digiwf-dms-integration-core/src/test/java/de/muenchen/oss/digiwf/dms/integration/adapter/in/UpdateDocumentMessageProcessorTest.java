@@ -1,5 +1,6 @@
 package de.muenchen.oss.digiwf.dms.integration.adapter.in;
 
+import de.muenchen.oss.digiwf.dms.integration.domain.DocumentResponse;
 import de.muenchen.oss.digiwf.dms.integration.domain.DocumentType;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import jakarta.validation.ValidationException;
@@ -12,6 +13,7 @@ import org.mockito.Mockito;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHeaders;
 
+import java.util.List;
 import java.util.Map;
 
 import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_PROCESS_INSTANCE_ID;
@@ -33,7 +35,7 @@ class UpdateDocumentMessageProcessorTest extends MessageProcessorTestBase {
     @BeforeEach
     void setup() {
         setupBase();
-        Mockito.doNothing().when(updateDocumentInPortMock).updateDocument(
+        Mockito.doReturn(new DocumentResponse("documentCoo", List.of("contentCoo1"))).when(updateDocumentInPortMock).updateDocument(
                 updateDocumentDto.getDocumentCoo(),
                 updateDocumentDto.getUser(),
                 DocumentType.valueOf(updateDocumentDto.getType()),
