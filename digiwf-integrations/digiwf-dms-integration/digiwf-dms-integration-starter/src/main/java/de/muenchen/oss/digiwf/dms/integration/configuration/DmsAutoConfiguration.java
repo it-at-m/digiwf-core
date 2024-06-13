@@ -108,8 +108,12 @@ public class DmsAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public UpdateDocumentInPort updateDocumentInPort(final UpdateDocumentOutPort updateDocumentOutPort, LoadFileOutPort loadFileOutPort) {
-        return new UpdateDocumentUseCase(updateDocumentOutPort, loadFileOutPort);
+    public UpdateDocumentInPort updateDocumentInPort(
+            final UpdateDocumentOutPort updateDocumentOutPort,
+            final LoadFileOutPort loadFileOutPort,
+            final ListContentOutPort listContentOutPort
+    ) {
+        return new UpdateDocumentUseCase(updateDocumentOutPort, listContentOutPort, loadFileOutPort);
     }
 
     @Bean

@@ -116,7 +116,7 @@ public class MessageProcessor {
         return message -> {
             withErrorHandling(message, () -> {
                 final UpdateDocumentDto updateDocumentDto = message.getPayload();
-                this.updateDocumentInPort.updateDocument(
+                DocumentResponse documentResponse = this.updateDocumentInPort.updateDocument(
                         updateDocumentDto.getDocumentCoo(),
                         updateDocumentDto.getUser(),
                         DocumentType.valueOf(updateDocumentDto.getType()),
@@ -127,7 +127,9 @@ public class MessageProcessor {
 
                 this.correlateMessage(message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID).toString(),
                         message.getHeaders().get(TYPE).toString(),
-                        message.getHeaders().get(DIGIWF_INTEGRATION_NAME).toString(), Map.of());
+                        message.getHeaders().get(DIGIWF_INTEGRATION_NAME).toString(), Map.of(
+                                "contentCoos", documentResponse.getContentCoos()
+                        ));
             });
         };
     }
