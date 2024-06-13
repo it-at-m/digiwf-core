@@ -214,6 +214,13 @@ module.exports = {
                                 'templates/element-templates/',
                                 'templates/examples/'
                             ]
+                        },
+                        {
+                            title: 'Best Practices',
+                            collapsable: false,
+                            children: [
+                                'bestpractices/'
+                            ]
                         }
                     ],
                     '/integrations/': [
