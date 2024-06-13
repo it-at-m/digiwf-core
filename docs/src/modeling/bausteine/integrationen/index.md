@@ -168,17 +168,17 @@ Um ein Dokument anzulegen, wird das Element Template `DMS: Dokument anlegen` ver
 
 **Properties**
 
-| Property                      | Beschreibung                                                           | Beispiel                             |
-|-------------------------------|------------------------------------------------------------------------|--------------------------------------|
-| Dms System (Integration Name) | Dropdown-Auswahl zwischen MUCS und ALW DMS                             | mucs bzw. alw                        |
-| Vorgang (Coo)                 | Objekt-ID des Vorgangs, in dem das Dokument erstellt werden soll       | COO.1234.5678.9.1234567              |
-| Title                         | Name des Dokuments                                                     | Dokumentname                         |
-| Datum                         | Eingang- bzw. Ausgangsdatum des Dokuments                              | 2024-01-31                           |
-| User                          | Benutzername des Benutzers, über den das Dokument angelegt werden soll | max.mustermann                       |
-| Typ (Ein-/Ausgehend/Intern)   | Dropdown-Auswahl zwischen Eingangs-, Ausgangs- und internem Dokument   | Eingehend bzw. Ausgehend bzw. Intern |
-| Pfad(e) im S3                 | Pfad(e) zu Dateien oder Ordnern im S3 mit einem Komma getrennt         | ordnername/,odner/filename.pdf       |
-| Out: Document (Coo)           | Objekt-ID des Dokuments                                                | COO.9876.5432.1.9876543              |
-| Out: Content (Coos)           | Objekt-IDs der untergeordneten Schriftstücke.                          |                                      |
+| Property                      | Beschreibung                                                           | Beispiel                                              |
+|-------------------------------|------------------------------------------------------------------------|-------------------------------------------------------|
+| Dms System (Integration Name) | Dropdown-Auswahl zwischen MUCS und ALW DMS                             | mucs bzw. alw                                         |
+| Vorgang (Coo)                 | Objekt-ID des Vorgangs, in dem das Dokument erstellt werden soll       | COO.1234.5678.9.1234567                               |
+| Title                         | Name des Dokuments                                                     | Dokumentname                                          |
+| Datum                         | Eingang- bzw. Ausgangsdatum des Dokuments                              | 2024-01-31                                            |
+| User                          | Benutzername des Benutzers, über den das Dokument angelegt werden soll | max.mustermann                                        |
+| Typ (Ein-/Ausgehend/Intern)   | Dropdown-Auswahl zwischen Eingangs-, Ausgangs- und internem Dokument   | Eingehend bzw. Ausgehend bzw. Intern                  |
+| Pfad(e) im S3                 | Pfad(e) zu Dateien oder Ordnern im S3 mit einem Komma getrennt         | ordnername/,odner/filename.pdf                        |
+| Out: Document (Coo)           | Objekt-ID des Dokuments                                                | COO.9876.5432.1.9876543                               |
+| Out: Content (Coos)           | Objekt-IDs der untergeordneten Schriftstücke.                          | ["COO.9876.5432.1.9876544","COO.9876.5432.1.9876545"] |
 
 ### Dokument updaten
 
@@ -186,13 +186,14 @@ Um ein Dokument upzudaten, wird das Element Template `DMS: Dokument updaten` ver
 
 **Properties**
 
-| Property                      | Beschreibung                                                            | Beispiel                             |
-|-------------------------------|-------------------------------------------------------------------------|--------------------------------------|
-| Dms System (Integration Name) | Dropdown-Auswahl zwischen MUCS und ALW DMS                              | mucs bzw. alw                        |
-| Dokument-COO                  | Objekt-ID des Dokuments, das upgedatet werden soll                      | COO.1234.5678.9.1234567              |
-| User                          | Benutzername des Benutzers, über den das Dokument upgedatet werden soll | max.mustermann                       |
-| Typ (Ein-/Ausgehend/Intern)   | Dropdown-Auswahl zwischen Eingangs-, Ausgangs- und internem Dokument    | Eingehend bzw. Ausgehend bzw. Intern |
-| Pfad(e) im S3                 | Pfad(e) zu Dateien oder Ordnern im S3 mit einem Komma getrennt          | ordnername/,odner/filename.pdf       |
+| Property                      | Beschreibung                                                            | Beispiel                                              |
+|-------------------------------|-------------------------------------------------------------------------|-------------------------------------------------------|
+| Dms System (Integration Name) | Dropdown-Auswahl zwischen MUCS und ALW DMS                              | mucs bzw. alw                                         |
+| Dokument-COO                  | Objekt-ID des Dokuments, das upgedatet werden soll                      | COO.1234.5678.9.1234567                               |
+| User                          | Benutzername des Benutzers, über den das Dokument upgedatet werden soll | max.mustermann                                        |
+| Typ (Ein-/Ausgehend/Intern)   | Dropdown-Auswahl zwischen Eingangs-, Ausgangs- und internem Dokument    | Eingehend bzw. Ausgehend bzw. Intern                  |
+| Pfad(e) im S3                 | Pfad(e) zu Dateien oder Ordnern im S3 mit einem Komma getrennt          | ordnername/,odner/filename.pdf                        |
+| Out: Content (Coos)           | Objekt-IDs der untergeordneten Schriftstücke.                           | ["COO.9876.5432.1.9876544","COO.9876.5432.1.9876545"] |
 
 ### Objekt zu den Akten legen
 
