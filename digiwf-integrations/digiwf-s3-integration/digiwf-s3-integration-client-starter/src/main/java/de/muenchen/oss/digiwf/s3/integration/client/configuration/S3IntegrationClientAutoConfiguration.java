@@ -105,7 +105,7 @@ public class S3IntegrationClientAutoConfiguration {
     }
 
     /**
-     * Instance of a {@link FileExtensionService} containing supported file extensions configured within in the 'de.muenchen.oss.digiwf.s3' scope.
+     * Instance of a {@link FileExtensionService} containing supported file extensions configured within in the 'de.muenchen.oss.digiwf.s3.client' scope.
      *
      * @return {@link FileExtensionService} for managing file extensions.
      */
@@ -116,21 +116,14 @@ public class S3IntegrationClientAutoConfiguration {
     }
 
     /**
-     * Instance of an {@link S3StorageUrlProvider} containing an externally created {@link S3DomainProvider} for retrieving S
+     * Instance of an {@link S3StorageUrlProvider} containing an externally created {@link S3DomainProvider} for retrieving the S3 storage URL.
      *
-     * @param s3DomainProvider
-     * @return
+     * @param s3DomainProvider Provider of domain specific S3 storages configured in process configurations.
+     * @return Provider of the S3 storage URL.
      */
     @Bean
-    @ConditionalOnBean(S3DomainProvider.class)
     public S3StorageUrlProvider s3StorageUrlProvider(final S3DomainProvider s3DomainProvider) {
         return new S3StorageUrlProvider(s3DomainProvider, this.s3IntegrationClientProperties.getDocumentStorageUrl());
-    }
-
-    @Bean
-    @ConditionalOnMissingBean(S3DomainProvider.class)
-    public S3StorageUrlProvider s3StorageUrlProviderWithoutDomainProvider() {
-        return new S3StorageUrlProvider(this.s3IntegrationClientProperties.getDocumentStorageUrl());
     }
 
 }
