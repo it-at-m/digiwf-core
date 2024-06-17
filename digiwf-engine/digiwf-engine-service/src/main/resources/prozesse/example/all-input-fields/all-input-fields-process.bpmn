@@ -123,7 +123,6 @@ process.setStatus("firstUserTask");</camunda:script>
           <camunda:inputParameter name="Input_23t0jcr" />
           <camunda:inputParameter name="Input_34k67kn" />
         </camunda:inputOutput>
-        <camunda:executionListener class="" event="start" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1gtaf1o</bpmn:incoming>
       <bpmn:outgoing>Flow_0gw4217</bpmn:outgoing>
