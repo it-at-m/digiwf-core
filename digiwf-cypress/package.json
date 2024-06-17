@@ -19,6 +19,7 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "@muenchen/prettier-codeformat": "^1.0.2",
     "cypress": "^12.17.4",
     "cypress-keycloak": "^2.0.1",
     "cypress-multi-reporters": "^2.0.1",

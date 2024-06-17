@@ -1,21 +1,24 @@
 import Pagination from "../components/pagination";
 
 class StartProcess extends Pagination {
-    headline = "Vorgänge"
+  headline = "Vorgänge";
 
-    checkHeadline() {
-        super._checkHeadline(this.headline);
-    }
+  checkHeadline() {
+    super._checkHeadline(this.headline);
+  }
 
-    findProcess(text) {
-        this.paginationElements.searchBox().type(text)
-            .then(() => {
-                this.waitIsLoading()
-                cy.wait('@dataGetDefinitions').its('response.statusCode').should('equal', 200)
-                this.waitLoadingFinished()
-            })
-    }
-
+  findProcess(text) {
+    this.paginationElements
+      .searchBox()
+      .type(text)
+      .then(() => {
+        this.waitIsLoading();
+        cy.wait("@dataGetDefinitions")
+          .its("response.statusCode")
+          .should("equal", 200);
+        this.waitLoadingFinished();
+      });
+  }
 }
 
 module.exports = new StartProcess();
