@@ -26,7 +26,8 @@ module.exports = defineConfig({
         sso_client: process.env.SSO_CLIENT,
         username: process.env.SSO_USERNAME,
         password: process.env.SSO_PASSWORD,
-        realname: process.env.USER_REALNAME
+        realname: process.env.USER_REALNAME,
+        group: process.env.USER_GROUP
     },
     e2e: {
         baseUrl: process.env.BASE_URL,
