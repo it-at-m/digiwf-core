@@ -20,29 +20,37 @@ import 'cypress-keycloak'
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
 
+const DEFAULT_DELAY = 500
+
+function setupDefaultIntercept(req) {
+    req.continue((res) => {
+        res.setDelay(DEFAULT_DELAY)
+    })
+}
+
 beforeEach(() => {
     cy.intercept({
         method: 'GET',
         url: '/api/digitalwf-tasklist-service/rest/tasks/user*',
-    }).as('dataGetMyTasks')
+    }, setupDefaultIntercept).as('dataGetMyTasks')
     cy.intercept({
         method: 'GET',
         url: '/api/digitalwf-backend-service/rest/service/instance*',
-    }).as('dataGetInstances')
+    }, setupDefaultIntercept).as('dataGetInstances')
     cy.intercept({
         method: 'GET',
         url: '/api/digitalwf-backend-service/rest/service/definition*',
-    }).as('dataGetDefinitions')
+    }, setupDefaultIntercept).as('dataGetDefinitions')
     cy.intercept({
         method: 'GET',
         url: '/api/digitalwf-tasklist-service/rest/tasks/group/unassigned*',
-    }).as('dataGetOpenGroupTasks')
+    }, setupDefaultIntercept).as('dataGetOpenGroupTasks')
     cy.intercept({
         method: 'GET',
         url: '/api/digitalwf-tasklist-service/rest/tasks/group/assigned*',
-    }).as('dataGetAssignedGroupTasks')
+    }, setupDefaultIntercept).as('dataGetAssignedGroupTasks')
     cy.intercept({
         method: 'POST',
         url: '/api/digitalwf-backend-service/rest/user/search',
-    }).as('dataUserSearch')
+    }, setupDefaultIntercept).as('dataUserSearch')
 })
