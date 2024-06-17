@@ -69,7 +69,7 @@
               },
               "contentCoos": {
                 "fieldType": "dms-input",
-                "title": "Schriftstück Coos",
+                "title": "Schriftstücke",
                 "x-display": "custom-dms-input",
                 "type": "array",
                 "dmsSystem": "mucs",
