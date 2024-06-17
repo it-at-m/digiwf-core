@@ -30,6 +30,15 @@ public class S3StorageUrlProvider {
     }
 
     /**
+     * Constructor for client users which do not obtain their own {@link S3DomainProvider}.
+     *
+     * @param defaultDocumentStorageUrl The default S3 storage URL to use if no domain-specific URL is available.
+     */
+    public S3StorageUrlProvider(final String defaultDocumentStorageUrl) {
+        this(processDefinition -> Optional.empty(), defaultDocumentStorageUrl);
+    }
+
+    /**
      * Provides an S3 storage URL either configured in a process configuration of a given process definition or the default URL.
      *
      * @param processDefinitionId The {@link String} process definition id for which the S3 storage URL will be provided.

@@ -22,7 +22,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.client.HttpServerErrorException;
 import reactor.core.publisher.Mono;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 import static de.muenchen.oss.digiwf.task.service.application.usecase.TestFixtures.generateTask;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
@@ -42,7 +45,7 @@ class WorkOnTaskFileUseCaseTest {
 
     private final CurrentUserPort currentUserPort = mock(CurrentUserPort.class);
 
-    private final S3StorageUrlProvider s3StorageUrlProvider = new S3StorageUrlProvider(processDefinitionId -> Optional.empty(), "defaultS3Url");
+    private final S3StorageUrlProvider s3StorageUrlProvider = new S3StorageUrlProvider("defaultS3Url");
 
     private final WorkOnTaskFileUseCase useCase = new WorkOnTaskFileUseCase(documentStorageFolderRepository, presignedUrlPort, taskFileConfigResolverPort,
             taskQueryPort, currentUserPort, s3StorageUrlProvider);
