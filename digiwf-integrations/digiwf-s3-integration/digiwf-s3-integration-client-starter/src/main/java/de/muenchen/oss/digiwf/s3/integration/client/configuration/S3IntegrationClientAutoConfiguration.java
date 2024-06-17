@@ -20,6 +20,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.oauth2.client.AuthorizedClientServiceOAuth2AuthorizedClientManager;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
@@ -116,10 +117,10 @@ public class S3IntegrationClientAutoConfiguration {
     }
 
     /**
-     * Instance of an {@link S3StorageUrlProvider} containing an externally created {@link S3DomainProvider} for retrieving S
+     * Instance of an {@link S3StorageUrlProvider} containing an externally created {@link S3DomainProvider} for retrieving the S3 storage URL.
      *
-     * @param s3DomainProvider
-     * @return
+     * @param s3DomainProvider Provider of domain specific S3 storages configured in process configurations.
+     * @return Provider of the S3 storage URL.
      */
     @Bean
     @ConditionalOnBean(S3DomainProvider.class)
@@ -127,6 +128,11 @@ public class S3IntegrationClientAutoConfiguration {
         return new S3StorageUrlProvider(s3DomainProvider, this.s3IntegrationClientProperties.getDocumentStorageUrl());
     }
 
+    /**
+     * Instance of an {@link S3StorageUrlProvider} containing a default {@link S3DomainProvider}. The instance will only return the default S3 URL.
+     *
+     * @return Provider of the S3 storage URL.
+     */
     @Bean
     @ConditionalOnMissingBean(S3DomainProvider.class)
     public S3StorageUrlProvider s3StorageUrlProviderWithoutDomainProvider() {
