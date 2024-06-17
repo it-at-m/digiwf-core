@@ -1,4 +1,5 @@
 import nav from "../components/nav";
+import { USER_REALNAME } from "../constants/env";
 import exampleUserTask from "../pages/processes/exampleUserTask";
 import exampleUserTaskStart from "../pages/processes/exampleUserTaskStart";
 
@@ -20,7 +21,7 @@ describe("Example Usertask", () => {
     });
     startProcess.clickItem(0);
     exampleUserTaskStart.checkHeadline();
-    exampleUserTaskStart.setUserName(Cypress.env("realname"));
+    exampleUserTaskStart.setUserName(USER_REALNAME);
     exampleUserTaskStart.clickComplete();
 
     cy.log("Check instance state");
