@@ -41,4 +41,8 @@ beforeEach(() => {
         method: 'GET',
         url: '/api/digitalwf-tasklist-service/rest/tasks/group/assigned*',
     }).as('dataGetAssignedGroupTasks')
+    cy.intercept({
+        method: 'POST',
+        url: '/api/digitalwf-backend-service/rest/user/search',
+    }).as('dataUserSearch')
 })
