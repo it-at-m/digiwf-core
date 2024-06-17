@@ -2,7 +2,7 @@ class Form {
     formElements = {
         completeButton: () => cy.get(`.container form .form-submit-button`),
         headline: () => cy.get('.container h1'),
-        inputElement: (inputId) => cy.get('.container form .v-input[modelkey="' + inputId + '"] input[type!="hidden"]')
+        inputElement: (inputId) => cy.get('.container form .vjsf-property[class*="' + inputId + '"] input[type!="hidden"]')
     }
 
     _checkHeadline(text) {

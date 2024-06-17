@@ -3,8 +3,7 @@ import Form from "../../components/form";
 class ExampleUserTaskStart extends Form {
     headline = "Example Usertask"
     elements = {
-        userForTask: () => this.formElements.inputElement("FORMFIELD_User"),
-        completeButton: () => cy.get(`button.mt-5`)
+        userForTask: () => this.formElements.inputElement("FORMFIELD_User")
     }
 
     checkHeadline() {
@@ -22,10 +21,9 @@ class ExampleUserTaskStart extends Form {
             method: 'GET',
             url: '/api/digitalwf-backend-service/rest/filter',
         }).as('dataGetFilter')
-        this.elements.completeButton().click()
+        this.formElements.completeButton().click()
         cy.wait('@dataGetFilter', {timeout: 50000}).its('response.statusCode').should('equal', 200)
     }
 }
-
 
 module.exports = new ExampleUserTaskStart();
