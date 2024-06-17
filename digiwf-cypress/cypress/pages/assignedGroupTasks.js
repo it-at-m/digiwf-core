@@ -1,4 +1,4 @@
-import Pagination from './pagination'
+import Pagination from '../components/pagination'
 
 class AssignedGroupTasks extends Pagination {
     headline = "Gruppenaufgaben in Bearbeitung"

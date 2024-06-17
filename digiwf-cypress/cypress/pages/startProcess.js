@@ -1,4 +1,4 @@
-import Pagination from "./pagination";
+import Pagination from "../components/pagination";
 
 class StartProcess extends Pagination {
     headline = "Vorgänge"

@@ -1,4 +1,4 @@
-import Page from '../nav'
+import Page from '../../components/nav'
 
 class ExampleGroupTask extends Page {
     elements = {

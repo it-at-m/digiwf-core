@@ -1,4 +1,4 @@
-import Pagination from './pagination'
+import Pagination from '../components/pagination'
 
 class openGroupTasks extends Pagination {
     headline = "Offene Gruppenaufgaben"

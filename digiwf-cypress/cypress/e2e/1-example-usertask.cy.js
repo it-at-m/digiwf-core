@@ -1,6 +1,6 @@
-import nav from "../pages/nav";
+import nav from "../components/nav";
+import exampleUserTaskStart from "../pages/processes/exampleUserTaskStart"
 import exampleUserTask from "../pages/processes/exampleUserTask"
-import userTask from "../pages/userTask"
 
 beforeEach(() => {
     cy.loginDefault()
@@ -19,8 +19,9 @@ describe('Example Usertask', () => {
             expect(numProcesses).eq(1);
         })
         startProcess.clickItem(0);
-        exampleUserTask.setUserName(Cypress.env('realname'))
-        exampleUserTask.clickComplete()
+        exampleUserTaskStart.checkHeadline()
+        exampleUserTaskStart.setUserName(Cypress.env('realname'))
+        exampleUserTaskStart.clickComplete()
 
         cy.log("Check instance state")
         let currentInstances = nav.openCurrentInstances()
@@ -38,8 +39,8 @@ describe('Example Usertask', () => {
 
         cy.log("Test task open and complete")
         myTasks.clickItem(0)
-        userTask.checkHeadline("User Task")
-        userTask.clickComplete()
+        exampleUserTask.checkHeadline()
+        exampleUserTask.clickComplete()
 
         cy.log("Test task closed")
         myTasks.waitNoUncompletedTasks()

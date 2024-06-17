@@ -1,8 +1,8 @@
-import startProcess from './startProcess'
-import myTasks from './myTasks'
-import currentInstances from './currentInstances'
-import openGroupTasks from './openGroupTasks'
-import inProgressGroupTasks from './assignedGroupTasks'
+import startProcess from '../pages/startProcess'
+import myTasks from '../pages/myTasks'
+import currentInstances from '../pages/currentInstances'
+import openGroupTasks from '../pages/openGroupTasks'
+import inProgressGroupTasks from '../pages/assignedGroupTasks'
 
 class Nav {
 
