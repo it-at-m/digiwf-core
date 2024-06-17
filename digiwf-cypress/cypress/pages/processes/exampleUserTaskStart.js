@@ -3,18 +3,12 @@ import Form from "../../components/form";
 class ExampleUserTaskStart extends Form {
     headline = "Example Usertask"
     elements = {
-        numberOfParallelTasks: () => cy.get("#allOf-0-allOf-0-FORMFIELD_NumberOfTasks"),
         userForTask: () => this.formElements.inputElement("FORMFIELD_User"),
         completeButton: () => cy.get(`button.mt-5`)
     }
 
     checkHeadline() {
         super._checkHeadline(this.headline);
-    }
-
-    setNumberOfTasks(number) {
-        this.elements.numberOfParallelTasks().clear()
-        this.elements.numberOfParallelTasks().type(number)
     }
 
     setUserName(user) {
