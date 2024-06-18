@@ -34,14 +34,7 @@ class Nav {
       .click()
       .then(() => {
         currentInstances.checkHeadline();
-        currentInstances.waitLoadingFinished();
-        currentInstances.paginationElements.update().click();
-        // workaround as request superfast
-        // currentInstances.waitIsLoading()
-        cy.wait("@dataGetInstances")
-          .its("response.statusCode")
-          .should("equal", 200);
-        currentInstances.waitLoadingFinished();
+        startProcess._waitUpdate("@dataGetInstances");
       });
     return currentInstances;
   }
@@ -58,22 +51,24 @@ class Nav {
   }
 
   openOpenGroupTasks() {
-    cy.intercept({
-      method: "GET",
-      url: "/api/digitalwf-tasklist-service/rest/tasks/group/*",
-    }).as("filter");
-    this.elements.openGroupTasksBtn().click();
-    cy.wait("@filter").its("response.statusCode").should("equal", 200);
+    this.elements
+      .openGroupTasksBtn()
+      .click()
+      .then(() => {
+        openGroupTasks.checkHeadline();
+        startProcess._waitUpdate("@dataGetOpenGroupTasks");
+      });
     return openGroupTasks;
   }
 
   openInProgressGroupTasks() {
-    cy.intercept({
-      method: "GET",
-      url: "/api/digitalwf-tasklist-service/rest/tasks/group/*",
-    }).as("userTasks");
-    this.elements.assignedGroupTasksBtn().click();
-    cy.wait("@userTasks").its("response.statusCode").should("equal", 200);
+    this.elements
+      .assignedGroupTasksBtn()
+      .click()
+      .then(() => {
+        openGroupTasks.checkHeadline();
+        startProcess._waitUpdate("@dataGetAssignedGroupTasks");
+      });
     return inProgressGroupTasks;
   }
 
