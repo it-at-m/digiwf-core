@@ -67,6 +67,32 @@
                   "required"
                 ]
               },
+              "contentCoos": {
+                "fieldType": "dms-input",
+                "title": "Schriftstücke",
+                "x-display": "custom-dms-input",
+                "type": "array",
+                "dmsSystem": "mucs",
+                "objectclass": "Schriftstueck",
+                "items": {
+                  "type": "string"
+                },
+                "key": "contentCoos",
+                "default": [],
+                "readOnly": true,
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  },
+                  "messages": {}
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              },
               "updatedocs": {
                 "fieldType": "file",
                 "title": "Dateien",
