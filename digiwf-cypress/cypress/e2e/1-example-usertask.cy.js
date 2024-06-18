@@ -10,16 +10,11 @@ beforeEach(() => {
 describe("Example Usertask", () => {
   it("passes", () => {
     cy.visit("/");
-    let myTasks = nav.openMyTasks();
-    myTasks.getItemCount().as("initialMyTasksCount");
+    nav.gatherTaskMetrics("initial", ["myTasks"]);
 
     cy.log("Start process");
     let startProcess = nav.openStartProcess();
-    startProcess.findProcess("Example Usertask");
-    startProcess.getItemCount().then((numProcesses) => {
-      expect(numProcesses).eq(1);
-    });
-    startProcess.clickItem(0);
+    startProcess.startProcess("Example Usertask");
     exampleUserTaskStart.checkHeadline();
     exampleUserTaskStart.setUserName(USER_REALNAME);
     exampleUserTaskStart.clickComplete();
@@ -29,28 +24,21 @@ describe("Example Usertask", () => {
     currentInstances.itemContainsText(0, "Started");
 
     cy.log("Test task exists");
-    myTasks = nav.openMyTasks();
+    let myTasks = nav.openMyTasks();
     myTasks.itemContainsText(0, "User Task");
-    myTasks.getItemCount().as("createdMyTasksCount");
-    cy.get("@initialMyTasksCount").then((initial) => {
-      cy.get("@createdMyTasksCount").then((created) => {
-        expect(created).eq(initial + 1);
-      });
-    });
+    nav.gatherTaskMetrics("created", ["myTasks"]);
+    nav.compareTaskMetrics("initial", "created", { myTasks: 1 });
 
     cy.log("Test task open and complete");
+    myTasks = nav.openMyTasks();
     myTasks.clickItem(0);
     exampleUserTask.checkHeadline();
     exampleUserTask.clickComplete();
 
     cy.log("Test task closed");
     myTasks.waitNoUncompletedTasks();
-    myTasks.getItemCount().as("finishedMyTasksCount");
-    cy.get("@createdMyTasksCount").then((created) => {
-      cy.get("@finishedMyTasksCount").then((finished) => {
-        expect(finished).eq(created - 1);
-      });
-    });
+    nav.gatherTaskMetrics("finished", ["myTasks"]);
+    nav.compareTaskMetrics("created", "finished", { myTasks: -1 });
 
     cy.log("Check instance state");
     currentInstances = nav.openCurrentInstances();

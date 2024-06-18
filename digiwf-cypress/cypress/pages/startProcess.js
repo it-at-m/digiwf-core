@@ -19,6 +19,14 @@ class StartProcess extends Pagination {
         this.waitLoadingFinished();
       });
   }
+
+  startProcess(text) {
+    this.findProcess(text);
+    this.getItemCount().then((numProcesses) => {
+      expect(numProcesses).eq(1);
+    });
+    this.clickItem(0);
+  }
 }
 
 module.exports = new StartProcess();

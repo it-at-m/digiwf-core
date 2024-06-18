@@ -76,6 +76,37 @@ class Nav {
     cy.wait("@userTasks").its("response.statusCode").should("equal", 200);
     return inProgressGroupTasks;
   }
+
+  gatherTaskMetrics(
+    prefix,
+    types = ["myTasks", "openGroupTasks", "inProgressGroupTasks"]
+  ) {
+    if (types.includes("myTasks")) {
+      let myTasks = this.openMyTasks();
+      myTasks.getItemCount().as(prefix + "_myTasksCount");
+    }
+    if (types.includes("openGroupTasks")) {
+      let openGroupTasks = this.openOpenGroupTasks();
+      openGroupTasks.getItemCount().as(prefix + "_openGroupTasksCount");
+    }
+    if (types.includes("inProgressGroupTasks")) {
+      let inProgressGroupTasks = this.openInProgressGroupTasks();
+      inProgressGroupTasks
+        .getItemCount()
+        .as(prefix + "_inProgressGroupTasksCount");
+    }
+  }
+
+  compareTaskMetrics(prefix1, prefix2, differences) {
+    for (const key in differences) {
+      const value = differences[key];
+      cy.get(`@${prefix1}_${key}Count`).then((p1) => {
+        cy.get(`@${prefix2}_${key}Count`).then((p2) => {
+          expect(p2).eq(p1 + value);
+        });
+      });
+    }
+  }
 }
 
 module.exports = new Nav();
