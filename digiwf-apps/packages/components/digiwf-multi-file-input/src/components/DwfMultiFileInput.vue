@@ -3,16 +3,16 @@
     <v-file-input
       v-model="fileValue"
       :accept="schema['accept']"
+      :aria-label="isReadonly ? 'Schreibgeschützt' : 'Datei hochladen'"
       :aria-required="isRequired()"
       :clearable="false"
-      :disabled="isReadonly"
       :error-messages="errorMessage"
       :hint="hint"
       :label="label"
       :loading="isLoading"
       :prepend-icon="!screenreaderMode ? 'mdi-paperclip' : ''"
+      :readonly="isReadonly"
       :rules="rules"
-      aria-label="Datei hochladen"
       multiple
       outlined
       persistent-hint

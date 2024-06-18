@@ -2,11 +2,12 @@
   <v-text-field
     :id="schema.key"
     v-model="timeValue"
+    :aria-label="readOnly ? label + ' schreibgeschützt' : ''"
     :aria-required="isRequired()"
     :dense="dense"
-    :disabled="readOnly"
     :label="label"
     :outlined="outlined"
+    :readonly="readOnly"
     :rules="[validationResult, ...rules]"
     type="time"
     @change="onChange(event)"

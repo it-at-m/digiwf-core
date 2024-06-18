@@ -6,7 +6,6 @@
       :aria-required="isRequired()"
       :auto-select-first="!screenreaderMode"
       :class="[isReadonly() ? 'userInputReadonly' : 'userInput']"
-      :disabled="disabled"
       :filter="filterUsers"
       :items="entries()"
       :label="label"
