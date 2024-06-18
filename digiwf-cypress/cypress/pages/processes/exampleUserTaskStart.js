@@ -1,4 +1,5 @@
 import Form from "../../components/form";
+import startProcess from "../startProcess";
 
 class ExampleUserTaskStart extends Form {
   headline = "Example Usertask";
@@ -17,14 +18,8 @@ class ExampleUserTaskStart extends Form {
   }
 
   clickComplete() {
-    cy.intercept({
-      method: "GET",
-      url: "/api/digitalwf-backend-service/rest/filter",
-    }).as("dataGetFilter");
     this.formElements.completeButton().click();
-    cy.wait("@dataGetFilter", { timeout: 50000 })
-      .its("response.statusCode")
-      .should("equal", 200);
+    startProcess.waitLoadingFinished();
   }
 }
 
