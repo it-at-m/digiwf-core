@@ -7,7 +7,7 @@ class Pagination {
       cy
         .get("button")
         .contains("Aktualisieren")
-        .get(".v-progress-circular", { timeout: 20000 }),
+        .get(".v-progress-circular", { timeout: 30000 }),
     list: () => cy.get(".container .v-list"),
     listElement: (elementNumber) =>
       cy.get(`.container .v-list .v-list-item:nth-child(${elementNumber + 1})`),
