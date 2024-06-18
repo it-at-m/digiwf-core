@@ -72,6 +72,11 @@ class Nav {
     return inProgressGroupTasks;
   }
 
+  /**
+   * Collects task counts for different pages and saves them via cypress alias.
+   * @param prefix The prefix to use for the alias name.
+   * @param types A list of pages to collect the metrics for. Allowed values are "myTasks", "openGroupTasks" and "inProgressGroupTasks". Default is all of them.
+   */
   gatherTaskMetrics(
     prefix,
     types = ["myTasks", "openGroupTasks", "inProgressGroupTasks"]
@@ -92,6 +97,12 @@ class Nav {
     }
   }
 
+  /**
+   * Compares two via {@link gatherTaskMetrics} collected task counts.
+   * @param prefix1 Prefix used for the first collection.
+   * @param prefix2 Prefix used for the second collection.
+   * @param differences Map of differences between first and second collections.
+   */
   compareTaskMetrics(prefix1, prefix2, differences) {
     for (const key in differences) {
       const value = differences[key];
