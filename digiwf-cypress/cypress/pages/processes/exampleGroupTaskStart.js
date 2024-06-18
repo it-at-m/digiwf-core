@@ -17,7 +17,7 @@ class ExampleGroupTaskStart extends Form {
   }
 
   clickComplete() {
-    this.formElements.completeButton().click();
+    this.taskElements.completeButton().click();
     startProcess.waitLoadingFinished();
   }
 }

@@ -1,5 +1,5 @@
 import nav from "../components/nav";
-import { USER_GROUP } from "../constants/env";
+import { USER_GROUP, USER_REALNAME, USER2_REALNAME } from "../constants/env";
 import exampleGroupTask from "../pages/processes/exampleGroupTask";
 import exampleGroupTaskStart from "../pages/processes/exampleGroupTaskStart";
 
@@ -31,14 +31,30 @@ describe("Example Grouptask", () => {
     let openGroupTasks = nav.openOpenGroupTasks();
     openGroupTasks.clickItem(0);
     exampleGroupTask.checkHeadline();
-    exampleGroupTask.formElements.groupTaskEdit().click();
+    exampleGroupTask.assignGroupTask(USER2_REALNAME);
 
-    cy.log("Test task assigned");
+    cy.log("Test task assign");
+    let inProgressGroupTasks = nav.openInProgressGroupTasks();
+    inProgressGroupTasks.itemContainsText(0, USER2_REALNAME);
     nav.gatherTaskMetrics("assigned");
     nav.compareTaskMetrics("created", "assigned", {
-      myTasks: 1,
+      myTasks: 0,
       openGroupTasks: -1,
       inProgressGroupTasks: 1,
+    });
+
+    cy.log("Test task edit");
+    inProgressGroupTasks = nav.openInProgressGroupTasks();
+    inProgressGroupTasks.clickItem(0);
+    exampleGroupTask.checkHeadline();
+    exampleGroupTask.assignGroupTaskSelfOverride();
+    inProgressGroupTasks = nav.openInProgressGroupTasks();
+    inProgressGroupTasks.itemContainsText(0, USER_REALNAME);
+    nav.gatherTaskMetrics("assignedSelf");
+    nav.compareTaskMetrics("assigned", "assignedSelf", {
+      myTasks: 1,
+      openGroupTasks: 0,
+      inProgressGroupTasks: 0,
     });
 
     cy.log("Test task complete");
@@ -48,7 +64,7 @@ describe("Example Grouptask", () => {
     exampleGroupTask.checkCheckbox();
     exampleGroupTask.clickComplete();
     nav.gatherTaskMetrics("finished");
-    nav.compareTaskMetrics("assigned", "finished", {
+    nav.compareTaskMetrics("assignedSelf", "finished", {
       myTasks: -1,
       openGroupTasks: 0,
       inProgressGroupTasks: -1,

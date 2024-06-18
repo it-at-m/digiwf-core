@@ -66,7 +66,7 @@ class Nav {
       .assignedGroupTasksBtn()
       .click()
       .then(() => {
-        openGroupTasks.checkHeadline();
+        inProgressGroupTasks.checkHeadline();
         startProcess._waitUpdate("@dataGetAssignedGroupTasks");
       });
     return inProgressGroupTasks;

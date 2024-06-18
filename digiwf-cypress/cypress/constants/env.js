@@ -6,3 +6,6 @@ export const USERNAME = Cypress.env("username");
 export const PASSWORD = Cypress.env("password");
 export const USER_REALNAME = Cypress.env("user_realname");
 export const USER_GROUP = Cypress.env("user_group");
+export const USER2 = Cypress.env("user2");
+export const USER2_REALNAME = Cypress.env("user2_realname");
+export const USER2_GROUP = Cypress.env("user2_group");

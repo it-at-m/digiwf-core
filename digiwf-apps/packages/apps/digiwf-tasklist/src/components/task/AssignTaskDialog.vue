@@ -1,8 +1,8 @@
 <template>
   <v-dialog
     v-model="dialog"
-    persistent
     max-width="600px"
+    persistent
   >
     <v-card>
       <v-card-title>
@@ -32,6 +32,7 @@
             >
               <base-ldap-input
                 :rules="[]"
+                data-test="assign-task-input"
                 @input="(value) => (selectedUserId = value)"
               />
             </v-col>
@@ -48,9 +49,10 @@
           Abbrechen
         </v-btn>
         <v-btn
-          color="blue darken-1"
-          text
           :disabled="selectedUserId == undefined"
+          color="blue darken-1"
+          data-test="assign-task-submit"
+          text
           @click="save"
         >
           Zuweisen
@@ -61,14 +63,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import {defineComponent, ref} from "vue";
 
-import { useAssignTaskToUserMutation } from "../../middleware/tasks/taskMiddleware";
+import {useAssignTaskToUserMutation} from "../../middleware/tasks/taskMiddleware";
 import BaseLdapInput from "../form/BaseLdapInput.vue";
 import AppToast from "../UI/AppToast.vue";
 
 export default defineComponent({
-  components: { AppToast, BaseLdapInput },
+  components: {AppToast, BaseLdapInput},
   props: {
     taskId: {
       type: String,
