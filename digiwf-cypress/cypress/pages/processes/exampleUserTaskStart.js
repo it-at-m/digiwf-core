@@ -1,7 +1,7 @@
-import Form from "../../components/form";
+import Task from "../../components/task";
 import startProcess from "../startProcess";
 
-class ExampleUserTaskStart extends Form {
+class ExampleUserTaskStart extends Task {
   headline = "Example Usertask";
   elements = {
     userForTask: () => this.formElements.inputElement("FORMFIELD_User"),

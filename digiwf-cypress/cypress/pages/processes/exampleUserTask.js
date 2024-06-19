@@ -1,6 +1,6 @@
-import Form from "../../components/form";
+import Task from "../../components/task";
 
-class ExampleUserTask extends Form {
+class ExampleUserTask extends Task {
   headline = "User Task";
 
   checkHeadline() {

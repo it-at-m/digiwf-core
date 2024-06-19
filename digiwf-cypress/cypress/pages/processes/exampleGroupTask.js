@@ -1,6 +1,6 @@
-import Form from "../../components/form";
+import Task from "../../components/task";
 
-class ExampleGroupTask extends Form {
+class ExampleGroupTask extends Task {
   headline = "Group User Task";
   elements = {
     checkbox: () => this.formElements.checkboxElement("FORMFIELD_checkbox"),

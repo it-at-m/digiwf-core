@@ -1,7 +1,7 @@
-import Form from "../../components/form";
+import Task from "../../components/task";
 import startProcess from "../startProcess";
 
-class ExampleGroupTaskStart extends Form {
+class ExampleGroupTaskStart extends Task {
   headline = "Example Grouptask";
   elements = {
     group: () => this.formElements.inputElement("FORMFIELD_group"),
