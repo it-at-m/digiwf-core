@@ -11,13 +11,19 @@ class Form {
       cy.get(
         '.container form .vjsf-property[class*="' +
           inputId +
-          ' "] textarea[type!="hidden"]'
+          ' "] textarea[type!="hidden"]:visible'
       ),
     checkboxElement: (inputId) =>
       cy.get(
         '.container form .vjsf-property[class*="' +
           inputId +
           ' "] .v-input--selection-controls__input'
+      ),
+    switchElement: (inputId) =>
+      cy.get(
+        '.container form .vjsf-property[class*="' +
+          inputId +
+          ' "] .v-input--selection-controls__ripple'
       ),
     selectDropdown: (index) =>
       cy.get(`[role="listbox"]:visible .v-list-item:nth-child(${index + 1})`),
@@ -28,18 +34,22 @@ class Form {
   }
 
   setSingleUserInput(input, user) {
-    input.type(user);
+    input.type(user, { force: true });
     cy.wait("@dataUserSearch").its("response.statusCode").should("equal", 200);
+    this.formElements
+      .selectDropdown(0)
+      .contains("Benutzer werden gesucht")
+      .should("not.exist");
     this.formElements.selectDropdown(0).click();
   }
 
   setSelect(input, indexes) {
     input.click();
     if (indexes instanceof Number) {
-      this.formElements.selectDropdown(Number(indexes)).click();
+      this.formElements.selectDropdown(indexes).click();
     } else if (indexes instanceof Array) {
-      for (const i in indexes) {
-        this.formElements.selectDropdown(Number(i)).click();
+      for (const i of indexes) {
+        this.formElements.selectDropdown(i).click();
       }
     }
   }

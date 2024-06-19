@@ -1,4 +1,5 @@
 import Task from "../../components/task";
+import { USER_REALNAME, USER2_REALNAME } from "../../constants/env";
 
 class ExampleAllInputFields extends Task {
   headline1 = "User Task";
@@ -21,6 +22,20 @@ class ExampleAllInputFields extends Task {
       this.formElements.inputElement(`FormField_select${suffix}`),
     multiselect: (suffix = "") =>
       this.formElements.inputElement(`FormField_multiselect${suffix}`),
+    switch: (suffix = "") =>
+      this.formElements.switchElement(`FormField_switch${suffix}`),
+    file: (suffix = "") =>
+      this.formElements.inputElement(`FormField_file${suffix}`),
+    file2: (suffix = "") =>
+      this.formElements.inputElement(`FormField_file_Validation${suffix}`),
+    user: (suffix = "") =>
+      this.formElements.inputElement(`FormField_user-input${suffix}`),
+    multiUser: (suffix = "") =>
+      this.formElements.inputElement(`FormField_multi-user-input${suffix}`),
+    list: (suffix = "") =>
+      this.formElements.inputElement(`FormField_array${suffix}`),
+    markdown: (suffix = "") =>
+      this.formElements.textareaElement(`FormField_markdown${suffix}`),
   };
 
   checkHeadline1() {
@@ -42,6 +57,18 @@ class ExampleAllInputFields extends Task {
     this.setSelect(this.elements.select(), 0);
     this.elements.textfield().click();
     this.setSelect(this.elements.multiselect(), [0, 1]);
+    this.elements.textfield().click();
+    this.elements.switch().click();
+    // TODO file
+    // TODO file2
+    this.setSingleUserInput(this.elements.user(), USER_REALNAME);
+    this.elements.textfield().click();
+    this.setSingleUserInput(this.elements.multiUser(), USER_REALNAME);
+    this.elements.textfield().click();
+    this.setSingleUserInput(this.elements.multiUser(), USER2_REALNAME);
+    this.elements.textfield().click();
+    this.elements.list().type("tag1{enter}tag2{enter}", { force: true });
+    this.elements.markdown().type("# Test1{enter}Test asd", { force: true });
   }
 }
 
