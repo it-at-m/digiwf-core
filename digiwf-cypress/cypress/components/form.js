@@ -13,6 +13,12 @@ class Form {
           ' "] .v-input--selection-controls__input'
       ),
   };
+
+  setSingleUserInput(input, user) {
+    input.type(user);
+    cy.wait("@dataUserSearch").its("response.statusCode").should("equal", 200);
+    input.type("{enter}");
+  }
 }
 
 export default Form;

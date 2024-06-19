@@ -12,9 +12,7 @@ class ExampleUserTaskStart extends Task {
   }
 
   setUserName(user) {
-    this.elements.userForTask().type(user);
-    cy.wait("@dataUserSearch").its("response.statusCode").should("equal", 200);
-    this.elements.userForTask().type("{enter}");
+    this.setSingleUserInput(this.elements.userForTask(), user);
   }
 
   clickComplete() {
