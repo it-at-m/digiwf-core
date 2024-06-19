@@ -14,7 +14,7 @@ describe("Example Grouptask", () => {
 
     cy.log("Start process");
     let startProcess = nav.openStartProcess();
-    startProcess.startProcess("Example Grouptask");
+    startProcess.startProcess(exampleGroupTaskStart.headline);
     exampleGroupTaskStart.checkHeadline();
     exampleGroupTaskStart.setGroup(USER_GROUP);
     exampleGroupTaskStart.clickComplete();

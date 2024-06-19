@@ -14,7 +14,7 @@ describe("Example Usertask", () => {
 
     cy.log("Start process");
     let startProcess = nav.openStartProcess();
-    startProcess.startProcess("Example Usertask");
+    startProcess.startProcess(exampleUserTaskStart.headline);
     exampleUserTaskStart.checkHeadline();
     exampleUserTaskStart.setUserName(USER_REALNAME);
     exampleUserTaskStart.clickComplete();
