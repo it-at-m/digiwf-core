@@ -17,10 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.apache.commons.io.FilenameUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -53,13 +50,30 @@ public class S3Adapter implements LoadFileOutPort, TransferContentOutPort {
         return contents;
     }
 
-    private List<Content> getFilesFromFolder(String folderpath, final String domainSpecificS3Storage) {
+    private void testFileSizes(final String folderpath, final String s3Storage) {
+        long fileSizeSum = 0;
+        try {
+            documentStorageFolderRepository
+                    .getAllFileSizesInFolderRecursively(folderpath, s3Storage)
+                    .block().forEach((path, size) -> {if (size > 10000) throw new RuntimeException();});
+
+        } catch (DocumentStorageClientErrorException e) {
+            throw new RuntimeException(e);
+        } catch (DocumentStorageServerErrorException e) {
+            throw new RuntimeException(e);
+        } catch (DocumentStorageException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    private List<Content> getFilesFromFolder(final String folderpath, final String s3Storage) {
         try {
             final List<Content> contents = new ArrayList<>();
             final Set<String> filepath;
-            filepath = documentStorageFolderRepository.getAllFilesInFolderRecursively(folderpath, domainSpecificS3Storage).block();
+            filepath = documentStorageFolderRepository.getAllFilesInFolderRecursively(folderpath, s3Storage).block();
             if (Objects.isNull(filepath)) throw new BpmnError(LOAD_FOLDER_FAILED, "An folder could not be loaded from url: " + folderpath);
-            filepath.forEach(file -> contents.add(getFile(file, domainSpecificS3Storage)));
+            filepath.forEach(file -> contents.add(getFile(file, s3Storage)));
             return contents;
         } catch (final DocumentStorageException | DocumentStorageServerErrorException | DocumentStorageClientErrorException e) {
             throw new BpmnError(LOAD_FOLDER_FAILED, "An folder could not be loaded from url: " + folderpath);

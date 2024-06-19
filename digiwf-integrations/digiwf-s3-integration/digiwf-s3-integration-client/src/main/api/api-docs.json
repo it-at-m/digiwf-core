@@ -252,6 +252,39 @@
           }
         }
       }
+    },
+    "/folder/size": {
+      "get": {
+        "tags": [
+          "FolderAPI"
+        ],
+        "description": "Returns all file paths for the folder specified in the parameter",
+        "operationId": "getAllFileSizesInFolderRecursively",
+        "parameters": [
+          {
+            "name": "pathToFolder",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "maxLength": 1024,
+              "minLength": 0,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileSizesInFolderDto"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -301,6 +334,18 @@
           }
         },
         "description": "File paths"
+      },
+      "FileSizesInFolderDto": {
+        "type": "object",
+        "properties": {
+          "files": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        }
       }
     }
   }

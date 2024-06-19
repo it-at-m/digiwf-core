@@ -11,10 +11,7 @@ import org.apache.commons.collections4.IteratorUtils;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -100,6 +97,27 @@ public class S3Repository {
             final Set<String> filepathesFromFolder = new HashSet<>();
             for (final Result<Item> resultItem : resultItemList) {
                 filepathesFromFolder.add(resultItem.get().objectName());
+            }
+            return filepathesFromFolder;
+        } catch (final MinioException | InvalidKeyException | NoSuchAlgorithmException | IllegalArgumentException |
+                IOException exception) {
+            final String message = String.format("Failed to extract file paths from folder %s.", folder);
+            log.error(message, exception);
+            throw new FileSystemAccessException(message, exception);
+        }
+    }
+
+    public Map<String, Long> getFileSizesFromFolder(final String folder) throws FileSystemAccessException {
+        try {
+            final ListObjectsArgs listObjectsArgs = ListObjectsArgs.builder()
+                    .bucket(this.bucketName)
+                    .prefix(folder)
+                    .recursive(true)
+                    .build();
+            final List<Result<Item>> resultItemList = IteratorUtils.toList(this.client.listObjects(listObjectsArgs).iterator());
+            final Map<String, Long> filepathesFromFolder = new HashMap<>();
+            for (final Result<Item> resultItem : resultItemList) {
+                filepathesFromFolder.put(resultItem.get().objectName(), resultItem.get().size());
             }
             return filepathesFromFolder;
         } catch (final MinioException | InvalidKeyException | NoSuchAlgorithmException | IllegalArgumentException |

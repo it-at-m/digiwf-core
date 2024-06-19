@@ -6,6 +6,7 @@ import de.muenchen.oss.digiwf.s3.integration.adapter.out.persistence.FileReposit
 import de.muenchen.oss.digiwf.s3.integration.adapter.out.s3.S3Repository;
 import de.muenchen.oss.digiwf.s3.integration.application.port.in.FileSystemAccessException;
 import de.muenchen.oss.digiwf.s3.integration.application.port.in.FolderOperationsInPort;
+import de.muenchen.oss.digiwf.s3.integration.domain.model.FileSizesInFolder;
 import de.muenchen.oss.digiwf.s3.integration.domain.model.FilesInFolder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +16,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -93,6 +95,20 @@ public class FolderOperationsUseCase implements FolderOperationsInPort {
         final Set<String> filePathsInFolder = this.s3Repository.getFilePathsFromFolder(pathToFolderWithSeparatorAtTheEnd);
         filesInFolder.setPathToFiles(filePathsInFolder);
         return filesInFolder;
+    }
+
+    /**
+     * @param pathToFolder
+     * @return
+     * @throws FileSystemAccessException
+     */
+    @Override
+    public FileSizesInFolder getAllFileSizesInFolderRecursively(String pathToFolder) throws FileSystemAccessException {
+        final String pathToFolderWithSeparatorAtTheEnd = addPathSeparatorToTheEnd(pathToFolder);
+        final FileSizesInFolder filesSizesInFolder = new FileSizesInFolder();
+        final Map<String, Long> mapFilepathsToSize = this.s3Repository.getFileSizesFromFolder(pathToFolder);
+        filesSizesInFolder.setFileSizes(mapFilepathsToSize);
+        return filesSizesInFolder;
     }
 
 }

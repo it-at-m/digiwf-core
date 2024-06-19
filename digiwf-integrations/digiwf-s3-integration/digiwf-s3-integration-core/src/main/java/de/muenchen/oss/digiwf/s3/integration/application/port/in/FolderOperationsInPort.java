@@ -1,5 +1,6 @@
 package de.muenchen.oss.digiwf.s3.integration.application.port.in;
 
+import de.muenchen.oss.digiwf.s3.integration.domain.model.FileSizesInFolder;
 import de.muenchen.oss.digiwf.s3.integration.domain.model.FilesInFolder;
 import org.springframework.lang.NonNull;
 
@@ -16,5 +17,9 @@ public interface FolderOperationsInPort {
   @NonNull
   FilesInFolder getAllFilesInFolderRecursively(@NonNull String pathToFolder) throws FileSystemAccessException;
 
+  FileSizesInFolder getAllFileSizesInFolderRecursively(@NonNull String pathToFolder) throws FileSystemAccessException;
+
   void deleteFolder(@NonNull String pathToFolder) throws FileSystemAccessException;
+
+
 }
