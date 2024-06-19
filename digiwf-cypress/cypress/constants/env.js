@@ -9,3 +9,4 @@ export const USER_GROUP = Cypress.env("user_group");
 export const USER2 = Cypress.env("user2");
 export const USER2_REALNAME = Cypress.env("user2_realname");
 export const USER2_GROUP = Cypress.env("user2_group");
+export const LOADING_TIMEOUT = 30000;

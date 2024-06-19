@@ -1,13 +1,16 @@
+import { LOADING_TIMEOUT } from "../constants/env";
+
 class Pagination {
   paginationElements = {
     headline: () => cy.get(".container h1"),
     searchBox: () => cy.get('[data-test="search-field"]'),
-    update: () => cy.get("button").contains("Aktualisieren"),
+    update: () =>
+      cy.get("button").contains("Aktualisieren", { timeout: LOADING_TIMEOUT }),
     updateLoading: () =>
       cy
         .get("button")
-        .contains("Aktualisieren")
-        .get(".v-progress-circular", { timeout: 30000 }),
+        .contains("Aktualisieren", { timeout: LOADING_TIMEOUT })
+        .get(".v-progress-circular", { timeout: LOADING_TIMEOUT }),
     list: () => cy.get(".container .v-list"),
     listElement: (elementNumber) =>
       cy.get(`.container .v-list .v-list-item:nth-child(${elementNumber + 1})`),
