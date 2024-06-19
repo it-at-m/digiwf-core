@@ -6,7 +6,7 @@ class ExampleAllInputFields extends Task {
     textfield: (suffix = "") =>
       this.formElements.inputElement(`FormField_text${suffix}`),
     textarea: (suffix = "") =>
-      this.formElements.inputElement(`FormField_textarea${suffix}`),
+      this.formElements.textareaElement(`FormField_textarea${suffix}`),
     integer: (suffix = "") =>
       this.formElements.inputElement(`FormField_integer${suffix}`),
     number: (suffix = "") =>
@@ -37,10 +37,11 @@ class ExampleAllInputFields extends Task {
     this.elements.integer().type("123");
     this.elements.number().type("123,123");
     this.elements.checkbox().click();
-    this.elements.date().type("30.01.2024");
+    this.elements.date().type("2024-01-30");
     this.elements.time().type("13:45");
-    this.elements.select().select("1");
-    this.elements.multiselect().select(["1", "2"]);
+    this.setSelect(this.elements.select(), 0);
+    this.elements.textfield().click();
+    this.setSelect(this.elements.multiselect(), [0, 1]);
   }
 }
 

@@ -20,10 +20,11 @@ describe("Example Usertask", () => {
 
     cy.log("First task");
     let myTasks = nav.openMyTasks();
-    myTasks.itemContainsText(0, "User Task");
+    myTasks.itemContainsText(0, exampleAllInputFields.headline1);
     myTasks.itemContainsText(0, exampleAllInputFieldsStart.headline);
     myTasks.clickItem(0);
     exampleAllInputFields.checkHeadline1();
+    exampleAllInputFields.waitFormVisible();
     exampleAllInputFields.clickComplete();
     exampleAllInputFields.hasValidationAlert();
     exampleAllInputFields.fillDefault();
