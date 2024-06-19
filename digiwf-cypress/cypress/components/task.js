@@ -5,6 +5,7 @@ class Task extends Form {
   taskElements = {
     completeButton: () => cy.get(`.container form .form-submit-button`),
     headline: () => cy.get(".container h1"),
+    errorAlert: () => cy.get(".container .v-alert.error"),
   };
   groupTaskElements = {
     assignSelfBtn: () => cy.get("button").contains("Bearbeiten"),
@@ -26,6 +27,10 @@ class Task extends Form {
     this.taskElements.completeButton().should("be.visible");
     this.taskElements.completeButton().click();
     cy.wait("@dataGetMyTasks").its("response.statusCode").should("equal", 200);
+  }
+
+  _hasAlertMessage(message) {
+    this.taskElements.errorAlert().contains(message).should("be.visible");
   }
 
   assignGroupTaskSelf() {
