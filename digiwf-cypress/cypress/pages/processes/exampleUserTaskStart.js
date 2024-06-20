@@ -12,7 +12,7 @@ class ExampleUserTaskStart extends Task {
   }
 
   setUserName(user) {
-    this.setSingleUserInput(this.elements.userForTask(), user);
+    this.setUserInput(this.elements.userForTask(), user);
   }
 
   clickComplete() {

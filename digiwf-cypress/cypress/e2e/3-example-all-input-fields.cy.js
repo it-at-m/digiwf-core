@@ -18,7 +18,7 @@ describe("Example Usertask", () => {
     exampleAllInputFieldsStart.setUser(USER_REALNAME);
     exampleAllInputFieldsStart.clickComplete();
 
-    cy.log("First task");
+    cy.log("Fill out first task");
     let myTasks = nav.openMyTasks();
     myTasks.itemContainsText(0, exampleAllInputFields.headline1);
     myTasks.itemContainsText(0, exampleAllInputFieldsStart.headline);
@@ -28,5 +28,17 @@ describe("Example Usertask", () => {
     exampleAllInputFields.clickComplete();
     exampleAllInputFields.hasValidationAlert();
     exampleAllInputFields.fillDefault();
+    exampleAllInputFields.clickComplete();
+
+    cy.log("Validate second task");
+    myTasks.waitNoUncompletedTasks();
+    myTasks.itemContainsText(0, exampleAllInputFields.headline2);
+    myTasks.itemContainsText(0, exampleAllInputFieldsStart.headline);
+    myTasks.clickItem(0);
+    exampleAllInputFields.checkHeadline2();
+    exampleAllInputFields.waitFormVisible();
+    exampleAllInputFields.validateDefault();
+    exampleAllInputFields.clickComplete();
+    myTasks.waitNoUncompletedTasks();
   });
 });

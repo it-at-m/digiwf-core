@@ -12,7 +12,7 @@ class ExampleAllInputFieldsStart extends Task {
   }
 
   setUser(user) {
-    this.setSingleUserInput(this.elements.user(), user);
+    this.setUserInput(this.elements.user(), user);
   }
 
   clickComplete() {
