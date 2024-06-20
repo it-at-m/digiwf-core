@@ -106,10 +106,10 @@ class Pagination {
 
   goToLastPage() {
     let iteration = 1;
-    this.isLast(iteration);
+    this.#isLast(iteration);
   }
 
-  isLast(iteration) {
+  #isLast(iteration) {
     const maxIterations = 1000;
     cy.log(iteration.toString());
     if (iteration > maxIterations) {
@@ -133,7 +133,7 @@ class Pagination {
       .then((last) => {
         if (!last) {
           iteration = iteration + 1;
-          this.isLast(iteration++);
+          this.#isLast(iteration);
         }
       });
   }
