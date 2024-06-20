@@ -9,7 +9,7 @@ axon:
     publisher:
       confirmation-mode: wait_for_ack
     producer:
-      retries: 0 # If we enabled retries, there is a chance of producing duplicate messages out of order.
+      retries: 3
       bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVER}:${KAFKA_BOOTSTRAP_SERVER_PORT:9092}
       event-processor-mode: tracking
       properties:
