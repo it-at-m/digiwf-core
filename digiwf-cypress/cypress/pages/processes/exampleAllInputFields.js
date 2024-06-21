@@ -139,7 +139,7 @@ class ExampleAllInputFields extends Task {
       `${USER2_REALNAME} (${USER2_GROUP})`,
     ]);
     this.comboboxHasValues(this.elements.list(), ["tag1", "tag2"]);
-    this.markdownHasValue(this.elements.markdown(), "# Test1\nTest asd");
+    this.markdownHasValue(this.elements.markdown(), "# Test1Test asd");
   }
 }
 

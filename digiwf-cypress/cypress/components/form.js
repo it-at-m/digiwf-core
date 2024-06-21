@@ -68,7 +68,9 @@ class Form {
             res.push(text.trim().replace(",", ""));
           });
       });
-    cy.wrap(res.sort()).should("deep.equal", items.sort());
+    cy.wrap(res).then((i) => {
+      expect(i.sort()).to.deep.eq(items.sort());
+    });
   }
 
   multiFileInputHasValues(input, values) {
@@ -80,7 +82,9 @@ class Form {
           res.push(text.trim());
         });
     });
-    cy.wrap(res.sort()).should("deep.equal", values.sort());
+    cy.wrap(res).then((i) => {
+      expect(i.sort()).to.deep.eq(values.sort());
+    });
   }
 
   userInputHasValue(input, user) {
@@ -100,11 +104,19 @@ class Form {
           res.push(text.trim());
         });
     });
-    cy.wrap(res.sort()).should("deep.equal", values.sort());
+    cy.wrap(res).then((i) => {
+      expect(i.sort()).to.deep.eq(values.sort());
+    });
   }
 
   markdownHasValue(input, value) {
-    // TODO
+    input
+      .closest(".vjsf-property")
+      .find('div.EasyMDEContainer [role="presentation"] pre:visible')
+      .invoke("text")
+      .then((text) => {
+        cy.wrap(text).should("eq", value);
+      });
   }
 }
 
