@@ -24,6 +24,11 @@ class Form {
       ),
     selectDropdown: (index) =>
       cy.get(`[role="listbox"]:visible .v-list-item:nth-child(${index + 1})`),
+    comboboxValues: (input) => input.parent().find("span span"),
+    multiFileValues: (inputId) =>
+      cy
+        .get(`.container form .vjsf-property[class*="${inputId} "]`)
+        .find(".listWrapper .doc-card .v-card__title div"),
   };
 
   waitFormVisible() {
@@ -64,6 +69,42 @@ class Form {
           });
       });
     cy.wrap(res).should("deep.equal", items);
+  }
+
+  multiFileInputHasValues(inputId, values) {
+    let res = [];
+    this.formElements.multiFileValues(inputId).each((i) => {
+      cy.wrap(i)
+        .invoke("text")
+        .then((text) => {
+          res.push(text.trim());
+        });
+    });
+    cy.wrap(res).should("deep.equal", values);
+  }
+
+  userInputHasValue(input, user) {
+    input
+      .siblings("div")
+      .invoke("text")
+      .then((text) => text.trim())
+      .should("eq", user);
+  }
+
+  comboboxHasValues(input, values) {
+    let res = [];
+    this.formElements.comboboxValues(input).each((i) => {
+      cy.wrap(i)
+        .invoke("text")
+        .then((text) => {
+          res.push(text.trim());
+        });
+    });
+    cy.wrap(res).should("deep.equal", values);
+  }
+
+  markdownHasValue(input, value) {
+    // TODO
   }
 }
 

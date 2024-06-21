@@ -1,5 +1,10 @@
 import Task from "../../components/task";
-import { USER_REALNAME, USER2_REALNAME } from "../../constants/env";
+import {
+  USER_GROUP,
+  USER_REALNAME,
+  USER2_GROUP,
+  USER2_REALNAME,
+} from "../../constants/env";
 
 class ExampleAllInputFields extends Task {
   headline1 = "User Task";
@@ -75,11 +80,18 @@ class ExampleAllInputFields extends Task {
     this.elements.textfield().click();
     this.elements.switch().click();
     this.elements.file().selectFile(
-      {
-        contents: Cypress.Buffer.from("Test text"),
-        fileName: "test.txt",
-        mimeType: "text/plain",
-      },
+      [
+        {
+          contents: Cypress.Buffer.from("Test text"),
+          fileName: "test.txt",
+          mimeType: "text/plain",
+        },
+        {
+          contents: Cypress.Buffer.from("Test text 2"),
+          fileName: "test2.txt",
+          mimeType: "text/plain",
+        },
+      ],
       { force: true }
     );
     this.elements
@@ -92,7 +104,7 @@ class ExampleAllInputFields extends Task {
     this.setUserInput(this.elements.multiUser(), USER2_REALNAME);
     this.elements.textfield().click();
     this.elements.list().type("tag1{enter}tag2{enter}", { force: true });
-    this.elements.markdown().type("# Test1{enter}Test asd", { force: true });
+    this.elements.markdown().type("# Test1\nTest asd", { force: true });
 
     // objects and optionals page
     this.formElements.tab(2).click();
@@ -114,10 +126,18 @@ class ExampleAllInputFields extends Task {
     this.selectHasValue(this.elements.select(), ["1"]);
     this.selectHasValue(this.elements.multiselect(), ["1", "2"]);
     this.elements.switchInput().should("be.checked");
-    // TODO file & file2
-    // TODO single & multi user input
-    // TODO list
-    // TODO markdown
+    // FIXME duplicat input id
+    this.multiFileInputHasValues("FormField_file", ["test.txt", "test2.txt"]);
+    this.multiFileInputHasValues("FormField_file_Validation", [
+      "example-cosys-document.pdf",
+    ]);
+    this.userInputHasValue(this.elements.user(), USER_REALNAME);
+    this.comboboxHasValues(this.elements.multiUser(), [
+      `${USER_REALNAME} (${USER_GROUP})`,
+      `${USER2_REALNAME} (${USER2_GROUP})`,
+    ]);
+    this.comboboxHasValues(this.elements.list(), ["tag1", "tag2"]);
+    this.markdownHasValue(this.elements.markdown(), "# Test1\nTest asd");
   }
 }
 
