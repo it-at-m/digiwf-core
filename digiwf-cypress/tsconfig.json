@@ -17,7 +17,7 @@
       "cypress"
     ],
     "typeRoots": [
-      "./node_modules/@types",
+      "./node_modules/@types"
     ],
     "paths": {
       "@/*": [
@@ -32,7 +32,7 @@
     ]
   },
   "include": [
-    "cypress/**/*.ts",
+    "cypress/**/*.ts"
   ],
   "exclude": [
     "node_modules"
