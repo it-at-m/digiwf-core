@@ -1,6 +1,7 @@
 <template>
   <v-autocomplete
     v-model="selectedUser"
+    :aria-readonly="isReadonly()"
     :aria-required="isRequired()"
     :auto-select-first="!screenreaderMode"
     :filter="filterUsers"

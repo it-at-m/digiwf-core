@@ -2,7 +2,7 @@
   <v-text-field
     :id="schema.key"
     v-model="timeValue"
-    :aria-label="readOnly ? label + ' schreibgeschützt' : ''"
+    :aria-readonly="readOnly"
     :aria-required="isRequired()"
     :dense="dense"
     :label="label"

@@ -3,7 +3,8 @@
     <v-file-input
       v-model="fileValue"
       :accept="schema['accept']"
-      :aria-label="isReadonly ? 'Schreibgeschützt' : 'Datei hochladen'"
+      :aria-label="!isReadonly ? 'Datei hochladen' : ''"
+      :aria-readonly="isReadonly"
       :aria-required="isRequired()"
       :clearable="false"
       :error-messages="errorMessage"
