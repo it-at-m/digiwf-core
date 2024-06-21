@@ -3,6 +3,7 @@
     <v-autocomplete
       ref="autocompletion"
       v-model="selectedUsers"
+      :aria-readonly="isReadonly()"
       :aria-required="isRequired()"
       :auto-select-first="!screenreaderMode"
       :class="[isReadonly() ? 'userInputReadonly' : 'userInput']"
