@@ -127,8 +127,11 @@ class ExampleAllInputFields extends Task {
     this.selectHasValue(this.elements.multiselect(), ["1", "2"]);
     this.elements.switchInput().should("be.checked");
     // FIXME duplicat input id
-    this.multiFileInputHasValues("FormField_file", ["test.txt", "test2.txt"]);
-    this.multiFileInputHasValues("FormField_file_Validation", [
+    this.multiFileInputHasValues(this.elements.file(), [
+      "test.txt",
+      "test2.txt",
+    ]);
+    this.multiFileInputHasValues(this.elements.file2(), [
       "example-cosys-document.pdf",
     ]);
     this.userInputHasValue(this.elements.user(), USER_REALNAME);

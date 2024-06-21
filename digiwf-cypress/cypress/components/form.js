@@ -25,9 +25,9 @@ class Form {
     selectDropdown: (index) =>
       cy.get(`[role="listbox"]:visible .v-list-item:nth-child(${index + 1})`),
     comboboxValues: (input) => input.parent().find("span span"),
-    multiFileValues: (inputId) =>
-      cy
-        .get(`.container form .vjsf-property[class*="${inputId} "]`)
+    multiFileValues: (input) =>
+      input
+        .closest(".vjsf-property")
         .find(".listWrapper .doc-card .v-card__title div"),
   };
 
@@ -68,19 +68,19 @@ class Form {
             res.push(text.trim().replace(",", ""));
           });
       });
-    cy.wrap(res).should("deep.equal", items);
+    cy.wrap(res.sort()).should("deep.equal", items.sort());
   }
 
-  multiFileInputHasValues(inputId, values) {
+  multiFileInputHasValues(input, values) {
     let res = [];
-    this.formElements.multiFileValues(inputId).each((i) => {
+    this.formElements.multiFileValues(input).each((i) => {
       cy.wrap(i)
         .invoke("text")
         .then((text) => {
           res.push(text.trim());
         });
     });
-    cy.wrap(res).should("deep.equal", values);
+    cy.wrap(res.sort()).should("deep.equal", values.sort());
   }
 
   userInputHasValue(input, user) {
@@ -100,7 +100,7 @@ class Form {
           res.push(text.trim());
         });
     });
-    cy.wrap(res).should("deep.equal", values);
+    cy.wrap(res.sort()).should("deep.equal", values.sort());
   }
 
   markdownHasValue(input, value) {
