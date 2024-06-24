@@ -7,7 +7,6 @@ require("dotenv").config({ path: ".env.local" });
 module.exports = defineConfig({
   viewportHeight: 1200,
   viewportWidth: 2000,
-  defaultCommandTimeout: 10000,
   scrollBehavior: "center",
   videosFolder: "output/videos",
   reporter: "junit",
