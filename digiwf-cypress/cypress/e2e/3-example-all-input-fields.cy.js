@@ -40,5 +40,16 @@ describe("Example All Input Fields", () => {
     exampleAllInputFields.validateDefault();
     exampleAllInputFields.clickComplete();
     myTasks.waitNoUncompletedTasks();
+
+    cy.log("Readonly task");
+    myTasks.waitNoUncompletedTasks();
+    myTasks.itemContainsText(0, exampleAllInputFields.headlineReadonly);
+    myTasks.itemContainsText(0, exampleAllInputFieldsStart.headline);
+    myTasks.clickItem(0);
+    exampleAllInputFields.checkHeadlineReadonly();
+    exampleAllInputFields.waitFormVisible();
+    exampleAllInputFields.validateDefault(true);
+    exampleAllInputFields.clickComplete();
+    myTasks.waitNoUncompletedTasks();
   });
 });

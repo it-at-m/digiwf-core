@@ -14,6 +14,8 @@ class Form {
       cy.get(
         `.container form .vjsf-property[class*="${inputId} "] textarea[type!="hidden"]:visible`
       ),
+    markdownReadonly: (inputId) =>
+      cy.get(`.container form .vjsf-property[class*="${inputId} "] .v-card`),
     checkboxElement: (inputId) =>
       cy.get(
         `.container form .vjsf-property[class*="${inputId} "] .v-input--selection-controls__input`
@@ -117,6 +119,12 @@ class Form {
       .then((text) => {
         cy.wrap(text).should("eq", value);
       });
+  }
+
+  markdownHasValueReadonly(input, value) {
+    input.invoke("text").then((text) => {
+      cy.wrap(text).should("eq", value);
+    });
   }
 }
 

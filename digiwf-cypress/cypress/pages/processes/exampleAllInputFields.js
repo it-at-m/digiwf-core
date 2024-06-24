@@ -9,6 +9,7 @@ import {
 class ExampleAllInputFields extends Task {
   headline1 = "User Task";
   headline2 = "Second User Task";
+  headlineReadonly = "Readonly User Task";
   elements = {
     textfield: (suffix = "") =>
       this.formElements.inputElement(`FormField_text${suffix}`),
@@ -46,6 +47,8 @@ class ExampleAllInputFields extends Task {
       this.formElements.inputElement(`FormField_array${suffix}`),
     markdown: (suffix = "") =>
       this.formElements.textareaElement(`FormField_markdown${suffix}`),
+    markdownReadonly: (suffix = "") =>
+      this.formElements.markdownReadonly(`FormField_markdown${suffix}`),
     optionalGroup: () => this.formElements.inputElement("optionalGroup"),
     // workaround selector as optional container has no key itself
     optionalContainer: () =>
@@ -58,6 +61,10 @@ class ExampleAllInputFields extends Task {
 
   checkHeadline2() {
     super._checkHeadline(this.headline2);
+  }
+
+  checkHeadlineReadonly() {
+    super._checkHeadline(this.headlineReadonly);
   }
 
   hasValidationAlert() {
@@ -112,7 +119,7 @@ class ExampleAllInputFields extends Task {
     this.setSelect(this.elements.optionalContainer(), [0]);
   }
 
-  validateDefault() {
+  validateDefault(isReadonly = false) {
     this.waitLoadingFinished();
     // first page
     this.elements.textfield().should("have.value", "textfield_test");
@@ -138,7 +145,14 @@ class ExampleAllInputFields extends Task {
       `${USER2_REALNAME} (${USER2_GROUP})`,
     ]);
     this.comboboxHasValues(this.elements.list(), ["tag1", "tag2"]);
-    this.markdownHasValue(this.elements.markdown(), "# Test1Test asd");
+    if (!isReadonly) {
+      this.markdownHasValue(this.elements.markdown(), "# Test1Test asd");
+    } else {
+      this.markdownHasValueReadonly(
+        this.elements.markdownReadonly(),
+        "Test1\nTest asd\n"
+      );
+    }
   }
 }
 
