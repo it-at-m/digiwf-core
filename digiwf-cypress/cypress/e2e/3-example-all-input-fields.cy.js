@@ -7,7 +7,7 @@ beforeEach(() => {
   cy.loginDefault();
 });
 
-describe("Example Usertask", () => {
+describe("Example All Input Fields", () => {
   it("passes", () => {
     cy.visit("/");
 
