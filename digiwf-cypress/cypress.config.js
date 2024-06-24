@@ -9,16 +9,10 @@ module.exports = defineConfig({
   viewportWidth: 2000,
   scrollBehavior: "center",
   videosFolder: "output/videos",
-  reporter: "cypress-multi-reporters",
+  reporter: "junit",
   reporterOptions: {
-    reporterEnabled: "mochawesome",
-    mochawesomeReporterOptions: {
-      reportDir: "output/reports/mocha",
-      quite: true,
-      overwrite: false,
-      html: false,
-      json: true,
-    },
+    mochaFile: "output/reports/junit-[hash].xml",
+    toConsole: true,
   },
   env: {
     sso_url: process.env.SSO_URL,
