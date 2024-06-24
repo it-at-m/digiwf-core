@@ -69,8 +69,8 @@ class ExampleAllInputFields extends Task {
     this.elements.textfield().type("textfield_test");
     this.elements.textarea().type("textarea_test\ntest");
     this.elements.integer().type("123");
-    // FIXME
-    this.elements.number().type("123,123");
+    // float values currently not working because englisch browser with point and number input validating against comma
+    this.elements.number().type("1234");
     this.elements.checkbox().click();
     this.elements.date().type("2024-01-30");
     this.elements.time().type("13:45");
@@ -118,8 +118,7 @@ class ExampleAllInputFields extends Task {
     this.elements.textfield().should("have.value", "textfield_test");
     this.elements.textarea().should("have.value", "textarea_test\ntest");
     this.elements.integer().should("have.value", "123");
-    // FIXME
-    // this.elements.number().should("have.value", "123.123");
+    this.elements.number().should("have.value", "1234");
     this.elements.checkboxInput().should("be.checked");
     this.elements.date().should("have.value", "2024-01-30");
     this.elements.time().should("have.value", "13:45");
