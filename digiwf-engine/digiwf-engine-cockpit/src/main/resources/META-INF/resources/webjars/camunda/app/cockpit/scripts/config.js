@@ -9,8 +9,7 @@ export default {
         hidden: true
     },
     skipIoMappings: {
-        default: false,
-        hidden: true
+        default: false
     },
     disableWelcomeMessage: true
 }

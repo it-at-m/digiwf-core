@@ -72,6 +72,8 @@ axon:
       auto-offset-reset: earliest
     properties:
       security.protocol: ${KAFKA_SECURITY_PROTOCOL}
+    producer:
+      retries: 3
 
 
 polyflow:
