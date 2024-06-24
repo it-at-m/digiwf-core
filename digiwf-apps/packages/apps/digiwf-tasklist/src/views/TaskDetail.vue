@@ -205,7 +205,7 @@ import {HumanTaskDetails} from "../middleware/tasks/tasksModels";
 import {mergeObjects} from "../utils/mergeObjects";
 import {parseQueryParameterInputs} from "../utils/urlQueryForFormFields";
 import {validateSchema} from "../utils/validateSchema";
-import {MessageType, useNotificationContext} from "@/middleware/snackbar";
+import {MessageType, useNotificationContext} from "../middleware/snackbar";
 import {useAccessibility} from "../store/modules/accessibility";
 
 const props = defineProps({
