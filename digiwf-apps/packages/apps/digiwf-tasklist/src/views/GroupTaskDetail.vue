@@ -23,9 +23,9 @@
             cols="12"
             sm="6"
           >
-            <span class="processName">{{ task.processName }}</span>
-            <h1>{{ task.name }}</h1>
-            <span>{{ task.description }}</span>
+            <span class="processName" tabindex="0">{{ task.processName }}</span>
+            <h1 tabindex="0">{{ task.name }}</h1>
+            <span v-if="!!task.description" tabindex="0">{{ task.description }}</span>
           </v-col>
           <v-col
             cols="12"
