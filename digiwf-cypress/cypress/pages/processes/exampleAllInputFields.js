@@ -47,7 +47,7 @@ class ExampleAllInputFields extends Task {
     markdown: (suffix = "") =>
       this.formElements.textareaElement(`FormField_markdown${suffix}`),
     optionalGroup: () => this.formElements.inputElement("optionalGroup"),
-    // FIXME selector
+    // workaround selector as optional container has no key itself
     optionalContainer: () =>
       this.formElements.inputElement("vjsf-property-allOf-2-allOf-2"),
   };
