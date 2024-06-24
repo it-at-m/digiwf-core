@@ -1,0 +1,42 @@
+{
+  "key": "TestProcessConfig",
+  "statusConfig": [
+    {
+      "key": "Offen",
+      "label": "Offen",
+      "position": 1
+    },
+    {
+      "key": "inBear",
+      "label": "In Bearbeitung",
+      "position": 2
+    },
+    {
+      "key": "abgeschlossen",
+      "label": "Abgeschlossen",
+      "position": 3
+    }
+  ],
+  "configs": [
+    {
+      "key": "app_file_paths_readonly",
+      "value": "Documents42/test42"
+    },
+    {
+      "key": "app_file_paths",
+      "value": "Documents42/test42"
+    },
+    {
+      "key": "app_instance_file_paths",
+      "value": "Documents42"
+    },
+    {
+      "key": "app_instance_schema_key",
+      "value": "TestIncident_Start_V01"
+    },
+    {
+      "key": "app_incident_notification_addresses",
+      "value": "itm.digiwf@muenchen.de"
+    }
+  ]
+}

@@ -8,8 +8,6 @@ import de.muenchen.oss.digiwf.process.definition.domain.mapper.ServiceDefinition
 import de.muenchen.oss.digiwf.process.definition.domain.model.ServiceDefinition;
 import de.muenchen.oss.digiwf.process.definition.domain.model.ServiceDefinitionDetail;
 import de.muenchen.oss.digiwf.process.definition.domain.model.StartContext;
-import de.muenchen.oss.digiwf.process.instance.domain.model.ServiceInstance;
-import de.muenchen.oss.digiwf.process.instance.domain.service.ServiceInstanceService;
 import de.muenchen.oss.digiwf.process.instance.process.ProcessConstants;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -48,7 +46,6 @@ public class ServiceDefinitionService {
     private final HistoryService historyService;
 
     private final ServiceDefinitionMapper serviceDefinitionMapper;
-    private final ServiceInstanceService serviceInstanceService;
 
     /**
      * Start a service definition with the given parameters.
@@ -61,16 +58,11 @@ public class ServiceDefinitionService {
     public void startInstance(final ServiceDefinitionDetail detail, final String businessKey, final Map<String, Object> variables, final String userId, final StartContext startContext) {
         log.debug("Start Process: " + detail.getKey());
 
-        //create service instance
-        final ServiceInstance serviceInstance = this.serviceInstanceService.creatServiceInstance(detail.getName(), detail.getKey());
-
-        //add other serializer
+        //add variables
         variables.put(ProcessConstants.PROCESS_STARTER_OF_INSTANCE, userId);
         variables.put(ProcessConstants.PROCESS_START_DATE, ZonedDateTime.now().format(DateTimeFormatter.ISO_INSTANT));
         variables.put(ProcessConstants.PROCESS_STATUS, "Gestartet");
         variables.put(ProcessConstants.PROCESS_FILE_CONTEXT, startContext.getFileContext());
-        variables.put(ProcessConstants.PROCESS_INFO_ID, Variables.stringValue(serviceInstance.getId(), true));
-
 
         //start instance
         ProcessInstance processInstance;
@@ -79,12 +71,6 @@ public class ServiceDefinitionService {
         } else {
             processInstance = this.runtimeService.startProcessInstanceByKey(detail.getKey(), businessKey, variables);
         }
-
-        //Authorization hinzufügen
-        this.serviceInstanceService.authorizeServiceInstance(processInstance.getId(), userId);
-
-        //Update processInstanceId
-        this.serviceInstanceService.updateInstanceId(serviceInstance.getId(), processInstance.getId());
 
         log.info("process instance for key {} started: {}", detail.getKey(), processInstance.getId());
     }

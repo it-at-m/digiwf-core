@@ -43,7 +43,6 @@ spring:
             user-info-uri: http://localhost-itest/auth/realms/P82/protocol/openid-connect/userinfo
             jwk-set-uri: http://localhost-itest/auth/realms/P82/protocol/openid-connect/certs
 
-
 feign:
   client:
     config:
@@ -59,12 +58,14 @@ ezldap:
     port: 8183
     url: "http://localhost:${ezldap.client.port}"
     request: "/test"
-io:
-  muenchendigital:
-    digiwf:
-      s3:
-        client:
-          securityEnabled: false
+
+de:
+  muenchen:
+    oss:
+      digiwf:
+        s3:
+          client:
+            enable-security: false
 
 digiwf:
   s3service:

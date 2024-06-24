@@ -1,5 +1,5 @@
 {
-  "name": "E-Mail mit Logo und Link senden",
+  "name": "Mail: E-Mail aus Vorlage mit Logo und Link senden",
   "id": "de.muenchen.digitalwf.templates.send-email-with-logo-and-link",
   "appliesTo": [
     "bpmn:CallActivity"
@@ -79,7 +79,7 @@
       "type": "String",
       "value": "",
       "binding": {
-        "type": "camunda:in",
+        "type": "camunda:inputParameter",
         "expression": true,
         "name": "receiversCc",
         "target": "receiversCc"
@@ -89,17 +89,41 @@
       }
     },
     {
+      "type": "Hidden",
+      "value": "${receiversCc}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "receiversCc"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
       "label": "Receiver (BCC)",
       "type": "String",
       "value": "",
       "binding": {
-        "type": "camunda:in",
+        "type": "camunda:inputParameter",
         "expression": true,
         "name": "receiversBcc",
         "target": "receiversBcc"
       },
       "constraints": {
         "notEmpty": false
+      }
+    },
+    {
+      "type": "Hidden",
+      "value": "${receiversBcc}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "receiversBcc"
+      },
+      "constraints": {
+        "notEmpty": true
       }
     },
     {
@@ -121,9 +145,20 @@
       "type": "Text",
       "value": "",
       "binding": {
+        "type": "camunda:inputParameter",
+        "expression": true,
+        "name": "text"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "type": "Hidden",
+      "value": "${text}",
+      "binding": {
         "type": "camunda:in",
         "expression": true,
-        "name": "text",
         "target": "text"
       },
       "constraints": {
@@ -177,10 +212,22 @@
       "type": "String",
       "value": "",
       "binding": {
-        "type": "camunda:in",
+        "type": "camunda:inputParameter",
         "expression": true,
         "name": "replyTo",
         "target": "replyTo"
+      }
+    },
+    {
+      "type": "Hidden",
+      "value": "${replyTo}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "replyTo"
+      },
+      "constraints": {
+        "notEmpty": true
       }
     },
     {
@@ -189,13 +236,25 @@
       "value": "",
       "description": "Array of presigned urls created with s3 integration",
       "binding": {
-        "type": "camunda:in",
+        "type": "camunda:inputParameter",
         "expression": true,
         "name": "attachments",
         "target": "attachments"
       },
       "constraints": {
         "notEmpty": false
+      }
+    },
+    {
+      "type": "Hidden",
+      "value": "${attachments}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "target": "attachments"
+      },
+      "constraints": {
+        "notEmpty": true
       }
     },
     {
@@ -210,5 +269,6 @@
         "notEmpty": false
       }
     }
-  ]
+  ],
+  "entriesVisible": true
 }

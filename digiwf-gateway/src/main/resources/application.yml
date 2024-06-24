@@ -38,13 +38,18 @@ spring:
   cloud:
     gateway:
       globalcors:
-        add-to-simple-url-handler-mapping: true
         cors-configurations:
           '[/public/**]':
             allowedOriginPatterns: ${ALLOWED_ORIGINS_PUBLIC}
           '[/clients/**]':
             allowedOriginPatterns: ${ALLOWED_ORIGINS_CLIENTS}
+            allowedHeaders: "*"
             allowCredentials: true
+
+digiwf:
+  security:
+    csrf-whitelisted:
+      - "/optimize/**"
 
 server:
   port: ${GATEWAY_SERVER_PORT:8082}
@@ -69,6 +74,8 @@ management:
           - "http://keycloak:8083" # for cgi notebooks necessary
           - "http://127.0.0.1:8084"
           - "http://localhost:8084"
+          - "http://127.0.0.1:8085"
+          - "http://localhost:8085"
         allowedMethods: "*"
         allowedHeaders: "*"
         allowCredentials: on

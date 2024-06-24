@@ -10,7 +10,7 @@
     <parent>
         <groupId>de.muenchen.oss.digiwf</groupId>
         <artifactId>digiwf-connector</artifactId>
-        <version>1.9.0-SNAPSHOT</version>
+        <version>1.13.0-SNAPSHOT</version>
     </parent>
 
     <dependencies>
@@ -34,6 +34,7 @@
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-spring-logging-and-tracing</artifactId>
+            <type>pom</type>
         </dependency>
         <!-- json etc. -->
         <dependency>

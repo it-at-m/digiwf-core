@@ -8,16 +8,16 @@
     <parent>
         <groupId>de.muenchen.oss.digiwf</groupId>
         <artifactId>digiwf-engine</artifactId>
-        <version>1.9.0-SNAPSHOT</version>
+        <version>1.13.0-SNAPSHOT</version>
     </parent>
 
     <properties>
         <apache.commons.collections4>4.4</apache.commons.collections4>
-        <apache.commons.csv>1.10.0</apache.commons.csv>
-        <apache.commons.io>2.16.0</apache.commons.io>
+        <apache.commons.csv>1.11.0</apache.commons.csv>
+        <apache.commons.io>2.16.1</apache.commons.io>
         <apache.commons.lang3>3.12.0</apache.commons.lang3>
-        <apache.commons.text>1.11.0</apache.commons.text>
-        <apache.commons.validator>1.8.0</apache.commons.validator>
+        <apache.commons.text>1.12.0</apache.commons.text>
+        <apache.commons.validator>1.9.0</apache.commons.validator>
 
         <miranum-ide.version>0.3.2</miranum-ide.version>
         <ojdbc10.version>19.22.0.0</ojdbc10.version>
@@ -76,6 +76,7 @@
         <dependency>
             <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-spring-logging-and-tracing</artifactId>
+            <type>pom</type>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -306,7 +307,7 @@
         <dependency>
             <groupId>org.camunda.community.mockito</groupId>
             <artifactId>camunda-platform-7-mockito</artifactId>
-            <version>7.20.0</version>
+            <version>7.20.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -485,7 +486,7 @@
                 <jdk>[12,</jdk>
             </activation>
             <properties>
-                <graalvm.version>23.0.3</graalvm.version>
+                <graalvm.version>23.0.4</graalvm.version>
             </properties>
             <dependencies>
                 <dependency>

@@ -21,7 +21,7 @@
   "configs": [
     {
       "key": "app_file_paths",
-      "value": "test;test2"
+      "value": "test01;test02;test03;test04"
     }
   ]
 }

@@ -1,8 +1,10 @@
 package de.muenchen.oss.digiwf.dms.integration.adapter.in;
 
+import de.muenchen.oss.digiwf.dms.integration.domain.DocumentResponse;
 import de.muenchen.oss.digiwf.dms.integration.domain.DocumentType;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import jakarta.validation.ValidationException;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,6 +14,7 @@ import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHeaders;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 
 import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_PROCESS_INSTANCE_ID;
@@ -42,16 +45,19 @@ class CreateDocumentMessageProcessorTest extends MessageProcessorTestBase {
                         createDocumentDto.getUser(),
                         DocumentType.valueOf(createDocumentDto.getType()),
                         createDocumentDto.getFilepathsAsList(),
-                        createDocumentDto.getFileContext()))
-                .thenReturn("documentCOO");
+                        createDocumentDto.getFileContext(),
+                        processDefinitionId))
+                .thenReturn(new DocumentResponse("documentCOO", List.of("contentCoo1")));
 
         this.message = new Message<>() {
 
+            @NotNull
             @Override
             public CreateDocumentDto getPayload() {
                 return createDocumentDto;
             }
 
+            @NotNull
             @Override
             public MessageHeaders getHeaders() {
                 return messageHeaders;
@@ -69,24 +75,26 @@ class CreateDocumentMessageProcessorTest extends MessageProcessorTestBase {
                 createDocumentDto.getUser(),
                 DocumentType.valueOf(createDocumentDto.getType()),
                 createDocumentDto.getFilepathsAsList(),
-                createDocumentDto.getFileContext());
+                createDocumentDto.getFileContext(),
+                processDefinitionId);
     }
 
     @Test
     void testDmsIntegrationCreateDocumentHandlesValidationException() {
-        Mockito.doThrow(new ValidationException("Test ValidationException")).when(createDocumentInPortMock).createDocument(any(), any(), any(), any(), any(), any(), any());
+        Mockito.doThrow(new ValidationException("Test ValidationException")).when(createDocumentInPortMock)
+                .createDocument(any(), any(), any(), any(), any(), any(), any(), any());
         messageProcessor.createDocument().accept(this.message);
-        final ArgumentCaptor<Map> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
+        final ArgumentCaptor<Map<String, Object>> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
         verify(errorApiMock, times(1)).handleIncident(messageHeaderArgumentCaptor.capture(), any(IncidentError.class));
         Assertions.assertTrue(messageHeaderArgumentCaptor.getValue().containsKey(DIGIWF_PROCESS_INSTANCE_ID));
     }
 
-
     @Test
     void testDmsCreateDocumentIntegrationHandlesIncidentError() {
-        Mockito.doThrow(new IncidentError("Error Message")).when(createDocumentInPortMock).createDocument(any(), any(), any(), any(), any(), any(), any());
+        Mockito.doThrow(new IncidentError("Error Message")).when(createDocumentInPortMock)
+                .createDocument(any(), any(), any(), any(), any(), any(), any(), any());
         messageProcessor.createDocument().accept(this.message);
-        final ArgumentCaptor<Map> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
+        final ArgumentCaptor<Map<String, Object>> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
         verify(errorApiMock, times(1)).handleIncident(messageHeaderArgumentCaptor.capture(), any(IncidentError.class));
         Assertions.assertTrue(messageHeaderArgumentCaptor.getValue().containsKey(DIGIWF_PROCESS_INSTANCE_ID));
     }

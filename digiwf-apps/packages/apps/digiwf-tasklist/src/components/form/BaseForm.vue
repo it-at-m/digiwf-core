@@ -123,6 +123,11 @@ export default class TaskForm extends Vue {
     return this.model;
   }
 
+  @Emit("completion-failed")
+  emitCompletionFailed(): any {
+    return "Validierung Ihrer Eingaben fehlgeschlagen. Bitte überprüfen Sie diese.";
+  }
+
   created(): void {
     this.model = {...this.initModel};
     this.parsedSchema = this.parseSchema();
@@ -146,6 +151,7 @@ export default class TaskForm extends Vue {
           domRect.top + document.documentElement.scrollTop - domRect.height - 20
         );
       });
+      this.emitCompletionFailed();
     }
   }
 

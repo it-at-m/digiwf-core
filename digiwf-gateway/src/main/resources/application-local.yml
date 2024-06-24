@@ -20,6 +20,14 @@ spring:
             - RewritePath=/api/digitalwf-backend-service/(?<urlsegments>.*), /$\{urlsegments}
             - RemoveResponseHeader=WWW-Authenticate
 
+        - id: optimize
+          uri: http://${OPTIMIZE_HOST:localhost}:${OPTIMIZE_PORT}/
+          predicates:
+            - Path=/optimize/**
+          filters:
+            - RewritePath=/optimize/(?<urlsegments>.*), /$\{urlsegments}
+            - RemoveResponseHeader=WWW-Authenticate
+
         - id: backend-cockpit
           uri: http://${ENGINE_SERVER_HOST:localhost}:${ENGINE_SERVER_PORT}
           predicates:
@@ -66,14 +74,22 @@ spring:
             - RemoveResponseHeader=WWW-Authenticate
 
         - id: frontend
-          uri: http://localhost:8081/
+          uri: http://localhost:4173/
           predicates:
-            - Path=/app/**
+            - Path=/**
+
+        - id: webcomponent
+          uri: http://localhost:8085/
+          predicates:
+            - Path=/public/webcomponent/**
+          filters:
+            - RewritePath=/public/webcomponent/(?<urlsegments>.*), /$\{urlsegments}
+            - RemoveResponseHeader=WWW-Authenticate
 
       default-filters:
         - RemoveResponseHeader=Expires
-#        - RemoveRequestHeader=cookie
-#        - RemoveRequestHeader=x-xsrf-token
+        #        - RemoveRequestHeader=cookie
+        #        - RemoveRequestHeader=x-xsrf-token
         - TokenRelay=
 
   mvc:

@@ -22,14 +22,14 @@ import static org.mockito.Mockito.when;
  */
 class UserTaskNotificationListenerV02Test extends BaseUserTaskNotificationListenerTest {
 
-    private final Map<String, String> userTaskDefaultMailContent =  Map.of(
+    private final Map<String, String> userTaskDefaultMailContent = Map.of(
             "%%body_top%%", "Sie haben eine Aufgabe in DigiWF.",
             "%%body_bottom%%", "",
             "%%button_link%%", this.frontendUrl + "/#/task/" + this.taskId,
             "%%button_text%%", "Aufgabe öffnen",
             "%%footer%%", "DigiWF 2.0<br>IT-Referat der Stadt München"
     );
-    private final Map<String, String> groupTaskDefaultMailContent =  Map.of(
+    private final Map<String, String> groupTaskDefaultMailContent = Map.of(
             "%%body_top%%", "Sie haben eine Gruppenaufgabe in DigiWF.",
             "%%body_bottom%%", "",
             "%%button_link%%", this.frontendUrl + "/#/opengrouptask/" + this.taskId,
@@ -117,6 +117,21 @@ class UserTaskNotificationListenerV02Test extends BaseUserTaskNotificationListen
         assertThat(mail.getBody()).isEqualTo(this.defaultEmailBody);
     }
 
+    @Test
+    void testDelegateTask_WithCandidateGroupCustomAddresses() throws Exception {
+        final DelegateTask task = this.prepareDelegateTask(Map.of(
+                "app_notification_send_assignee", "false",
+                "app_notification_send_candidate_users", "false",
+                "app_notification_send_candidate_groups", "true",
+                "app_notification_candidate_groups_addresses", "custommail@muenchen.de"
+        ), "create");
+        when(task.getCandidates()).thenReturn(this.groupCandidates);
+
+        final Mail mail = this.notifyUsers(task, this.groupTaskDefaultMailContent, 1);
+
+        assertThat(mail.getReceivers()).isEqualTo("custommail@muenchen.de");
+        assertThat(mail.getBody()).isEqualTo(this.defaultEmailBody);
+    }
 
     @Test
     void testDelegateTask_WithCustomMailContentForUserTaskNotifications() throws Exception {

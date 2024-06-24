@@ -3,12 +3,12 @@
     <template v-slot:activator="{ on, attrs }">
       <v-btn
         aria-label="Barrierefreiheit und Hilfe Menü mit Entertaste öffnen und mit den Pfeiltasten darin navigieren"
-        text
         fab
+        text
         v-bind="attrs"
         v-on="on"
       >
-        <HelpIcon />
+        <HelpIcon/>
       </v-btn>
     </template>
     <v-list>
@@ -16,17 +16,35 @@
         class="max-v-list-item-height"
         @click.stop="changeMode"
       >
-        <HighContrastIcon class="mr-2" />
+        <HighContrastIcon class="mr-2"/>
         Hoher Kontrast
         <v-switch
-          class="ml-2"
-          dense
           :aria-label="
             isHighContrastModeEnabled()
-              ? 'Hohen Kontrast deaktivieren'
-              : 'Hohen Kontrast aktivieren'
+              ? 'ist aktiviert, deaktivieren mit Entertaste'
+              : 'ist deaktiviert, aktivieren mit Entertaste'
           "
-          :value="isHighContrastModeEnabled()"
+          :input-value="isHighContrastModeEnabled()"
+          class="ml-2"
+          dense
+        >
+        </v-switch>
+      </v-list-item>
+      <v-list-item
+        class="max-v-list-item-height"
+        @click.stop="changeA11YScreenreaderMode"
+      >
+        <HighContrastIcon class="mr-2"/>
+        Screenreader Optimierung
+        <v-switch
+          :aria-label="
+            a11YScreenreaderModeEnabled()
+              ? 'ist aktiviert, deaktivieren mit Entertaste'
+              : 'ist deaktiviert, aktivieren mit Entertaste'
+          "
+          :input-value="a11YScreenreaderModeEnabled()"
+          class="ml-2"
+          dense
         >
         </v-switch>
       </v-list-item>
@@ -35,7 +53,7 @@
         class="max-v-list-item-height"
         @click="$emit('openKeyBindingsDialoge')"
       >
-        <KeyboardAccessibilityIcon class="mr-2" />
+        <KeyboardAccessibilityIcon class="mr-2"/>
         Anleitung öffnen
       </v-list-item>
       <v-list-item
@@ -43,7 +61,7 @@
         class="max-v-list-item-height"
         to="/accessibilitystatement"
       >
-        <StatementIcon class="mr-2" />
+        <StatementIcon class="mr-2"/>
         Barrierefreiheitserklärung
       </v-list-item>
     </v-list>
@@ -51,13 +69,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import {defineComponent} from "vue";
 
 import HelpIcon from "@/components/UI/icons/HelpIcon.vue";
 import KeyboardAccessibilityIcon from "@/components/UI/icons/KeyboardAccessibilityIcon.vue";
 import StatementIcon from "@/components/UI/icons/StatementIcon.vue";
-import { useTheme } from "../../../plugins/vuetify";
-import { useAccessibility } from "../../../store/modules/accessibility";
+import {useTheme} from "../../../plugins/vuetify";
+import {useAccessibility} from "../../../store/modules/accessibility";
 import HighContrastIcon from "../icons/HighContrastIcon.vue";
 
 export default defineComponent({
@@ -68,9 +86,14 @@ export default defineComponent({
     HighContrastIcon,
   },
   emits: ["openKeyBindingsDialoge", "closeKeyBindingsDialoge"],
-  setup: (components, { emit }) => {
+  setup: (components, {emit}) => {
     const theme = useTheme();
-    const { isHighContrastModeEnabled, setHighContrastModeEnabled } =
+    const {
+      isHighContrastModeEnabled,
+      setHighContrastModeEnabled,
+      a11YScreenreaderModeEnabled,
+      setA11YScreenreaderModeEnabled
+    } =
       useAccessibility();
 
     emit("openKeyBindingsDialoge");
@@ -86,9 +109,17 @@ export default defineComponent({
       setHighContrastModeEnabled(!isEnabled);
     };
 
+    const changeA11YScreenreaderMode = () => {
+      const isEnabled = a11YScreenreaderModeEnabled();
+      setA11YScreenreaderModeEnabled(!isEnabled);
+    };
+
     return {
       changeMode,
       isHighContrastModeEnabled,
+      a11YScreenreaderModeEnabled,
+      changeA11YScreenreaderMode
+
     };
   },
 });

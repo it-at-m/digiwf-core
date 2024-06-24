@@ -84,6 +84,45 @@
                   "dense": true
                 },
                 "x-rules": []
+              },
+              "FORMFIELD_send_notification": {
+                "fieldType": "switch",
+                "title": "Send notification?",
+                "x-display": "switch",
+                "default": false,
+                "type": "boolean",
+                "key": "FORMFIELD_send_notification",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  },
+                  "messages": {}
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              },
+              "FORMFIELD_group_addresses": {
+                "fieldType": "text",
+                "title": "Custom group address",
+                "default": "",
+                "type": "string",
+                "key": "FORMFIELD_group_addresses",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
               }
             },
             "key": "94506404-7664-4be4-bdaa-1262d5483a8d"

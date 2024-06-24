@@ -4,12 +4,14 @@
       v-model="fileValue"
       :accept="schema['accept']"
       :aria-required="isRequired()"
+      :clearable="false"
       :disabled="isReadonly"
       :error-messages="errorMessage"
       :hint="hint"
       :label="label"
       :loading="isLoading"
       :rules="rules"
+      aria-label="Datei hochladen"
       multiple
       outlined
       persistent-hint
@@ -19,13 +21,14 @@
       @change="changeInput"
     >
       <template #label>
-        <span>{{ label }}</span>
-        <span v-if="isRequired()" aria-hidden="true" style="font-weight: bold; color: red"> *</span>
+        <span tabindex="0">{{ label }}</span>
+        <span v-if="isRequired()" aria-hidden="true" aria-label="Eingabe ist ein Pflichtfeld"
+              style="font-weight: bold; color: red"> *</span>
       </template>
       <template #append-outer>
         <v-tooltip v-if="schema.description" :open-on-hover="false" left>
           <template v-slot:activator="{ on }">
-            <v-btn icon retain-focus-on-click @blur="on.blur" @click="on.click">
+            <v-btn aria-label="Beschreibung anzeigen" icon retain-focus-on-click @blur="on.blur" @click="on.click">
               <v-icon> mdi-information</v-icon>
             </v-btn>
           </template>
@@ -62,8 +65,17 @@ import {
 } from "@/middleware/presignedUrls";
 import {checkRequired} from "@/validation/required";
 import {getMimeType, validateFileType} from "@/validation/fileType";
+import DwfFilePreview from "@/components/DwfFilePreview.vue";
 
+/**
+ * existing bug!. Prepend icon cannot be overridden for set tabindex="-1". More information https://github.com/vuetifyjs/vuetify/issues/9580
+ */
 export default defineComponent({
+  computed: {
+    DwfFilePreview() {
+      return DwfFilePreview
+    }
+  },
   props: [
     'valid',
     'readonly',
@@ -79,20 +91,19 @@ export default defineComponent({
     'on'
   ],
   setup(props) {
-    let model = "";
-    let fileValue = ref<File[] | null>(null);
-    let data: any = {};
-    let documents = ref<DocumentData[]>([]);
-    let errorMessage = ref<string>("");
-    let isLoading = ref<boolean>(false);
-    let uuid = "";
+    const fileValue = ref<File[]>([]);
+    const data: any = {};
+    const documents = ref<DocumentData[]>([]);
+    const errorMessage = ref<string>("");
+    const isLoading = ref<boolean>(false);
+    const uuid = ref<string>("");
     const maxFiles = props.schema.maxFiles || 10;
     const maxFileSize = props.schema.maxFileSize || 10;
     const maxTotalSize = props.schema.maxTotalSize;
     const mbInByte = 1048576;
     const hint = !!maxTotalSize ?
-      "Es dürfen maximal " + maxFiles + " Dateien mit einer Gesamtgröße von " + maxTotalSize + " MB hochgeladen werden" :
-      "Es dürfen maximal " + maxFiles + " Dateien hochgeladen werden";
+      `Es dürfen maximal ${maxFiles} Dateien mit einer Gesamtgröße von ${maxTotalSize} MB hochgeladen werden` :
+      `Es dürfen maximal ${maxFiles} Dateien hochgeladen werden`;
     let rules = props.rules ? props.rules : true;
 
     const apiEndpoint = inject<string>('apiEndpoint');
@@ -127,6 +138,10 @@ export default defineComponent({
     });
 
     watch(documents.value, (updatedDocuments) => {
+      // set dummy value to satisfy "required"-rule
+      if (updatedDocuments.length > 0) {
+        fileValue.value.push(new File([""], documents.value[0].name));
+      }
       if (updatedDocuments.length > maxFiles) {
         errorMessage.value = 'Es dürfen maximal ' + maxFiles + ' Dateien übergeben werden';
       } else if (!!maxTotalSize && validateTotalSize() > maxTotalSize) {
@@ -141,7 +156,7 @@ export default defineComponent({
 
       //append uuid to path if enabled
       if (props.schema.uuidEnabled) {
-        path = path !== '' ? path + "/" + uuid : uuid;
+        path = path !== '' ? path + "/" + uuid.value : uuid.value;
       }
 
       return path;
@@ -274,7 +289,7 @@ export default defineComponent({
     const validateFileName = (name: string) => {
 
       const error = validateFileType(name, props.schema.accept)
-      if(error) {
+      if (error) {
         errorMessage.value = error;
         throw new Error(error);
       }
@@ -319,7 +334,7 @@ export default defineComponent({
           try {
             addDocument(event.target?.result, file);
           } catch (e: any) {
-            errorMessage = e.message;
+            errorMessage.value = e.message;
           }
         };
         reader.readAsArrayBuffer(file);
@@ -342,8 +357,8 @@ export default defineComponent({
             await globalAxios.delete(presignedDeleteUrl);
             documents.value.splice(i, 1);
             if (documents.value.length == 0) {
-              // set null value to violate "required"-rule
-              fileValue.value = null;
+              // set empty array to violate "required"-rule
+              fileValue.value = [];
             }
             break; // only remove first item
           } catch (error) {
@@ -385,20 +400,19 @@ export default defineComponent({
       //initialize uuid if enabled
       if (props.schema.uuidEnabled) {
         if (props.value && props.value.key) {
-          uuid = props.value.key;
+          uuid.value = props.value.key;
         } else {
-          uuid = uuidv4();
+          uuid.value = uuidv4();
         }
       }
-      rules.push(() => documents.value.length <= maxFiles || 'Es dürfen maximal ' + maxFiles + ' Dateien übergeben werden');
+      rules.push(() => documents.value.length <= maxFiles || `Es dürfen maximal ${maxFiles} Dateien übergeben werden`);
       if (!!maxTotalSize) {
-        rules.push(() => validateTotalSize() <= maxTotalSize || 'Die Gesamtgröße aller Dateien darf ' + maxTotalSize + ' MB nicht überschreiten');
+        rules.push(() => validateTotalSize() <= maxTotalSize || `Die Gesamtgröße aller Dateien darf ${maxTotalSize} MB nicht überschreiten`);
       }
       loadInitialValues();
     })
 
     return {
-      model,
       fileValue,
       data,
       documents,
@@ -412,7 +426,6 @@ export default defineComponent({
       removeDocument,
       isRequired
     }
-
   }
 });
 </script>

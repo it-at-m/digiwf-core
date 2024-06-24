@@ -1,0 +1,45 @@
+id: optimize-client
+author: Simon Zambrovski
+realm: ${SSO_REALM}
+changes:
+  - addSimpleClient:
+      clientId: ${SSO_OPTIMIZE_CLIENT_ID}
+      secret: ${SSO_OPTIMIZE_CLIENT_SECRET}
+      publicClient: false
+  - updateClient:
+      clientId: ${SSO_OPTIMIZE_CLIENT_ID}
+      serviceAccountsEnabled: true
+
+      #
+      # The following client roles are needed to be able tu read users and roles from keycloak using Keycloak Admin client.
+      #
+
+  - assignRoleToClient:
+      clientId: ${SSO_OPTIMIZE_CLIENT_ID}
+      role: query-clients
+      roleClientId: realm-management
+  - assignRoleToClient:
+      clientId: ${SSO_OPTIMIZE_CLIENT_ID}
+      role: query-groups
+      roleClientId: realm-management
+  - assignRoleToClient:
+      clientId: ${SSO_OPTIMIZE_CLIENT_ID}
+      role: query-realms
+      roleClientId: realm-management
+  - assignRoleToClient:
+      clientId: ${SSO_OPTIMIZE_CLIENT_ID}
+      role: query-users
+      roleClientId: realm-management
+  - assignRoleToClient:
+      clientId: ${SSO_OPTIMIZE_CLIENT_ID}
+      role: view-clients
+      roleClientId: realm-management
+  - assignRoleToClient:
+      clientId: ${SSO_OPTIMIZE_CLIENT_ID}
+      role: view-realm
+      roleClientId: realm-management
+  - assignRoleToClient:
+      clientId: ${SSO_OPTIMIZE_CLIENT_ID}
+      role: view-users
+      roleClientId: realm-management
+

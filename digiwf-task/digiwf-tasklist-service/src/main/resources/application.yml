@@ -72,6 +72,8 @@ axon:
       auto-offset-reset: earliest
     properties:
       security.protocol: ${KAFKA_SECURITY_PROTOCOL}
+    producer:
+      retries: 3
 
 
 polyflow:
@@ -128,13 +130,14 @@ digiwf:
         url-template: "${MUCS_DMS_URL_TEMPLATE:https://eakte.muenchen.de/fsc/mx/{0}}"
         label-template: "${MUCS_DMS_LABEL:MUCS DMS {0}}"
 
-io:
-  muenchendigital:
-    digiwf:
-      s3:
-        client:
-          documentStorageUrl: '${digiwf.s3service.httpAPI}'
-          securityEnabled: true
+de:
+  muenchen:
+    oss:
+      digiwf:
+        s3:
+          client:
+            document-storage-url: '${digiwf.s3service.httpAPI}'
+            enable-security: true
 
 management:
   endpoint:

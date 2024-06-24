@@ -8,27 +8,25 @@ import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageCli
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageException;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageServerErrorException;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.transfer.S3FileTransferRepository;
+import de.muenchen.oss.digiwf.s3.integration.client.service.FileExtensionService;
 import jakarta.mail.util.ByteArrayDataSource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.tika.Tika;
 
 @Slf4j
 @RequiredArgsConstructor
 public class S3Adapter implements LoadMailAttachmentOutPort {
 
     private final S3FileTransferRepository s3FileTransferRepository;
+    private final FileExtensionService fileExtensionService;
 
     @Override
     public FileAttachment loadAttachment(final PresignedUrl attachment) throws BpmnError {
         try {
             final String fileName = StringUtils.substringAfterLast(attachment.getPath(), "/");
-            // Note: Tika throws an IOException that is immediately caught and logged. It may be confusing but the
-            // IOException that is logged can be ignored. See https://stackoverflow.com/q/66592801
-            final Tika tika = new Tika();
             final byte[] bytes = this.s3FileTransferRepository.getFile(attachment.getUrl());
-            final String type = tika.detect(bytes);
+            final String type = fileExtensionService.detectFileType(bytes);
             // Note: Create the ByteArrayDataSource with the bytes and the type to avoid auto type detection by ByteArrayDataSource
             // https://github.com/it-at-m/digiwf-core/issues/616
             final ByteArrayDataSource file = new ByteArrayDataSource(bytes, type);

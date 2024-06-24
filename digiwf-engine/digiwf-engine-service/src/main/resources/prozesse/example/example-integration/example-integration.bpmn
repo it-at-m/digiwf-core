@@ -6,9 +6,9 @@
     </bpmn:startEvent>
     <bpmn:callActivity id="Activity_1481t7n" name="Call Example Integration" camunda:modelerTemplate="de.muenchen.digitalwf.templates.example-integration" calledElement="StreamingTemplateV02">
       <bpmn:extensionElements>
-        <camunda:in source="exampleIntegration" target="app_integration_name" />
-        <camunda:in source="exampleIntegration" target="app_type_name" />
-        <camunda:in source="${FORMFIELD_someData}" target="someData" />
+        <camunda:in sourceExpression="exampleIntegration" target="app_integration_name" />
+        <camunda:in sourceExpression="exampleIntegration" target="app_type_name" />
+        <camunda:in sourceExpression="${FORMFIELD_someData}" target="someData" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1jz5sat</bpmn:incoming>
       <bpmn:outgoing>Flow_02rtz4d</bpmn:outgoing>

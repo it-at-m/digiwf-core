@@ -59,6 +59,10 @@ wie Notepad++ oder Visual Studio Code zurückzugreifen.
       "key": "app_file_paths",
       "value": "writabledocs"
     }
+    {
+      "key": "app_incident_notification_addresses",
+      "value": "myFirstNotificationAddress@muenchen.de, mySecondNotificationAddress@muenchen.de"
+    }
   ]
 }
 
@@ -94,3 +98,5 @@ In den configs können zudem DigiWF-spezifische Einstellungen angegeben werden:
   werden können.
 - **app_instance_file_paths:** Die Dateipfade, auf die in der Prozessinstanzübersicht (Meine Vorgänge) geschrieben
   werden kann.
+- **app_incident_notification_addresses:** Eine Liste von E-Mail-Adressen, die im Falle eines Incidents benachrichtigt
+  werden sollen.

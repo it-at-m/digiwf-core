@@ -46,5 +46,3 @@ Distributed under the MIT License. See the [LICENSE](LICENSE) file for more info
 ## Contact
 
 it@M - opensource@muenchen.de
-
-[join our slack channel](https://join.slack.com/t/digiwf/shared_invite/zt-14jxazj1j-jq0WNtXp7S7HAwJA7tKgpw)

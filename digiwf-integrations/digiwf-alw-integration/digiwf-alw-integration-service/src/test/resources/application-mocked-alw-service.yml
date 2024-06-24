@@ -15,3 +15,9 @@ io:
         incidentDestination: "dwf-connector-incident-itest-01"
         bpmnErrorDestination: "dwf-connector-bpmnerror-itest-01"
         correlateMessageDestination: "dwf-connector-itest-01"
+spring:
+  cloud:
+    stream:
+      kafka:
+        binder:
+          auto-create-topics: 'true'

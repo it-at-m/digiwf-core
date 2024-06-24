@@ -105,7 +105,8 @@ module.exports = {
                                 'components/connector',
                                 'components/tasks',
                                 'components/frontend',
-                                'components/deployment'
+                                'components/webcomponents',
+                                'components/deployment',
                             ]
                         },
                         {
@@ -212,6 +213,13 @@ module.exports = {
                                 'templates/bpmn/',
                                 'templates/element-templates/',
                                 'templates/examples/'
+                            ]
+                        },
+                        {
+                            title: 'Best Practices',
+                            collapsable: false,
+                            children: [
+                                'bestpractices/'
                             ]
                         }
                     ],

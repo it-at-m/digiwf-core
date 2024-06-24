@@ -5,6 +5,7 @@
 package de.muenchen.oss.digiwf.process.definition.api.resource;
 
 import de.muenchen.oss.digiwf.process.definition.domain.service.ServiceStartFileService;
+import de.muenchen.oss.digiwf.s3.integration.client.exception.PropertyNotSetException;
 import de.muenchen.oss.digiwf.shared.file.presignedUrlAdapters.PresignedUrlAction;
 import de.muenchen.oss.digiwf.shared.security.AppAuthenticationProvider;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -39,12 +40,12 @@ public class ServiceStartFileRestController {
      * @return file names
      */
     @GetMapping("/{definitionKey}")
-    public ResponseEntity<List<String>> getFileNames(@PathVariable final String definitionKey, @RequestParam final String filePath) {
+    public ResponseEntity<List<String>> getFileNames(@PathVariable final String definitionKey, @RequestParam final String filePath)
+            throws PropertyNotSetException {
         final List<String> fileNames = this.serviceStartFileService.getFileNames(
                 definitionKey,
                 filePath,
-                this.authenticationProvider.getCurrentUserId(),
-                this.authenticationProvider.getCurrentUserGroups());
+                this.authenticationProvider.getCurrentUserId());
         return ResponseEntity.ok(fileNames);
     }
 
@@ -57,14 +58,14 @@ public class ServiceStartFileRestController {
      * @return presignedUrl
      */
     @GetMapping("/{definitionKey}/{fileName}")
-    public ResponseEntity<String> getPresignedUrlForFileDownload(@PathVariable final String definitionKey, @PathVariable final String fileName, @RequestParam final String filePath) {
+    public ResponseEntity<String> getPresignedUrlForFileDownload(@PathVariable final String definitionKey, @PathVariable final String fileName, @RequestParam final String filePath)
+            throws PropertyNotSetException {
         final String presignedUrl = this.serviceStartFileService.getPresignedUrl(
                 PresignedUrlAction.GET,
                 definitionKey,
                 filePath,
                 fileName,
-                this.authenticationProvider.getCurrentUserId(),
-                this.authenticationProvider.getCurrentUserGroups());
+                this.authenticationProvider.getCurrentUserId());
         return ResponseEntity.ok(presignedUrl);
     }
 
@@ -77,14 +78,14 @@ public class ServiceStartFileRestController {
      * @return presignedUrl
      */
     @PostMapping("/{definitionKey}/{filename}")
-    public ResponseEntity<String> getPresignedUrlForFileUpload(@PathVariable final String definitionKey, @PathVariable final String filename, @RequestParam final String filePath) {
+    public ResponseEntity<String> getPresignedUrlForFileUpload(@PathVariable final String definitionKey, @PathVariable final String filename, @RequestParam final String filePath)
+            throws PropertyNotSetException {
         final String presignedUrls = this.serviceStartFileService.getPresignedUrl(
                 PresignedUrlAction.POST,
                 definitionKey,
                 filePath,
                 filename,
-                this.authenticationProvider.getCurrentUserId(),
-                this.authenticationProvider.getCurrentUserGroups());
+                this.authenticationProvider.getCurrentUserId());
         return ResponseEntity.ok(presignedUrls);
     }
 
@@ -98,14 +99,14 @@ public class ServiceStartFileRestController {
      */
     //TODO I guess this should be only one url?
     @DeleteMapping("/{definitionKey}/{filename}")
-    public ResponseEntity<String> getPresignedUrlForFileDeletion(@PathVariable final String definitionKey, @PathVariable final String filename, @RequestParam final String filePath) {
+    public ResponseEntity<String> getPresignedUrlForFileDeletion(@PathVariable final String definitionKey, @PathVariable final String filename, @RequestParam final String filePath)
+            throws PropertyNotSetException {
         final String presignedUrl = this.serviceStartFileService.getPresignedUrl(
                 PresignedUrlAction.DELETE,
                 definitionKey,
                 filePath,
                 filename,
-                this.authenticationProvider.getCurrentUserId(),
-                this.authenticationProvider.getCurrentUserGroups());
+                this.authenticationProvider.getCurrentUserId());
         return ResponseEntity.ok(presignedUrl);
     }
 

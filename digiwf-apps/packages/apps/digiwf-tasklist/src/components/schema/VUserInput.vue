@@ -1,6 +1,8 @@
 <template>
   <v-autocomplete
+    v-model="selectedUser"
     :aria-required="isRequired()"
+    :auto-select-first="!screenreaderMode"
     :filter="filterUsers"
     :items="entries()"
     :label="label"
@@ -9,8 +11,6 @@
     :readonly="isReadonly()"
     :rules="rules ? rules : true"
     :search-input.sync="searchText"
-    :value="selectedUser"
-    auto-select-first
     item-text="lhmObjectId"
     item-value="lhmObjectId"
     placeholder="Benutzer suchen..."
@@ -18,7 +18,11 @@
     @input="input"
   >
     <template #label>
-      <span>{{ label }}</span>
+      <span
+        :aria-label="label"
+        :aria-required="isRequired()"
+        tabindex="0"
+      >{{ label }}</span>
       <span
         v-if="isRequired()"
         aria-hidden="true"
@@ -28,18 +32,35 @@
       >
     </template>
     <template #selection="data">
-      {{ getFullName(data.item) }}
+      <div
+        :aria-label="'Aktuelle Auswahl ' + getFullName(data.item)"
+        tabindex="0"
+      >
+        {{ getFullName(data.item) }}
+      </div>
+    </template>
+    <template #append>
+      <v-icon
+        v-if="!isReadonly() && !!selectedUser"
+        aria-label="Auswahl entfernen"
+        @click.stop="removeUser()">
+        mdi-close
+      </v-icon>
     </template>
     <template #item="data">
       <template>
-        <v-list-item-avatar class="avatar">
+        <v-list-item-avatar
+          aria-hidden="true"
+          class="avatar"
+        >
           {{ getNamePrefix(data.item) }}
         </v-list-item-avatar>
         <v-list-item-content>
           <v-list-item-title>{{ getFullName(data.item) }}</v-list-item-title>
-          <v-list-item-subtitle>{{
-            castNoAttrAvailable(data.item.email)
-          }}</v-list-item-subtitle>
+          <v-list-item-subtitle aria-hidden="true">{{
+              castNoAttrAvailable(data.item.email)
+            }}
+          </v-list-item-subtitle>
           <v-list-item-subtitle>
             {{ castNoAttrAvailable(data.item.department) }}
             <span class="dot">&#8226;</span>
@@ -65,24 +86,12 @@
 </style>
 
 <script lang="ts">
-import {
-  FetchUtils,
-  SearchUserTO,
-  UserRestControllerApiFactory,
-  UserTO,
-} from "@muenchen/digiwf-engine-api-internal";
-import { AxiosResponse } from "axios";
-import { defineComponent, PropType, ref, watch } from "vue";
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
-
-import { ApiConfig } from "../../api/ApiConfig";
-import {
-  callGetUserById,
-  callGetUserByUsername,
-  callSearchUser,
-} from "../../api/user/userApiCalls";
-import { mucatarURL } from "../../constants";
-import { checkRequired } from "./validation/required";
+import {UserTO,} from "@muenchen/digiwf-engine-api-internal";
+import {computed, defineComponent, PropType, ref, watch} from "vue";
+import {callGetUserById, callGetUserByUsername, callSearchUser,} from "../../api/user/userApiCalls";
+import {mucatarURL} from "../../constants";
+import {checkRequired} from "./validation/required";
+import {useAccessibility} from "../../store/modules/accessibility";
 
 export interface OnProperty {
   input: (value: any) => void;
@@ -136,9 +145,13 @@ export default defineComponent({
      */
     const locked = ref(false);
     const errorMessage = ref("");
-    const lastSearch = ref("");
+    const currentSearch = ref("");
 
     const noDataText = ref<string>("Tippen, um Suche zu starten");
+
+    const a11YScreenreaderModeEnabled = useAccessibility().a11YScreenreaderModeEnabled;
+
+    const screenreaderMode = computed(() => a11YScreenreaderModeEnabled());
 
     watch(searchText, (newValue) => {
       searchUsersBySearchString(newValue);
@@ -156,11 +169,12 @@ export default defineComponent({
       const isId = idOrUsername.match(/^-?\d+$/);
       locked.value = true;
       (isId
-        ? callGetUserById(idOrUsername)
-        : callGetUserByUsername(idOrUsername)
+          ? callGetUserById(idOrUsername)
+          : callGetUserByUsername(idOrUsername)
       )
         .then((user) => {
           selectedUser.value = user;
+          items.value.push(user);
           errorMessage.value = "";
         })
         .catch(() => {
@@ -183,6 +197,7 @@ export default defineComponent({
     const removeUser = (): void => {
       resetInput();
       selectedUser.value = undefined;
+      props.on.input(selectedUser.value);
     };
 
     const mucatarUrl = (uid: string) => mucatarURL(uid);
@@ -190,17 +205,15 @@ export default defineComponent({
     const searchUsersBySearchString = (searchString: string) => {
       if (!searchString || searchString.length < 3) return;
 
-      if (lastSearch.value === searchString.slice(0, 3)) return;
-
-      lastSearch.value = searchString.slice(0, 3);
+      currentSearch.value = searchString.slice(0, 3);
 
       isLoading.value = true;
 
       noDataText.value = "Benutzer werden gesucht...";
 
-      callSearchUser(lastSearch.value, ldapGroups)
+      callSearchUser(currentSearch.value, ldapGroups)
         .then((users) => {
-          if (lastSearch.value === searchText.value.slice(0, 3)) {
+          if (currentSearch.value === searchText.value.slice(0, 3)) {
             items.value = users;
           }
           errorMessage.value = "";
@@ -215,7 +228,7 @@ export default defineComponent({
     };
 
     const resetInput = (): void => {
-      lastSearch.value = "";
+      currentSearch.value = "";
       searchText.value = "";
       items.value = [];
     };
@@ -243,6 +256,7 @@ export default defineComponent({
     }
 
     return {
+      screenreaderMode,
       resetInput,
       input,
       getFullName,

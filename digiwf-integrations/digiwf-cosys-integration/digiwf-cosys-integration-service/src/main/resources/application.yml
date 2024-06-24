@@ -14,9 +14,14 @@ io:
           inputLanguage: Deutsch
           outputLanguage: Deutsch
           keepFields: unresolved-ref
-      s3:
-        client:
-          documentStorageUrl: '${DIGIWF_S3_HTTPAPI:http://localhost:8086}'
+
+de:
+  muenchen:
+    oss:
+      digiwf:
+        s3:
+          client:
+            document-storage-url: '${DIGIWF_S3_HTTPAPI:http://localhost:8086}'
 
 management:
   endpoint:

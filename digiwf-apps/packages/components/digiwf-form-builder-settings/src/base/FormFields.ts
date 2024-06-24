@@ -1,4 +1,4 @@
-import { Labels } from "@/base/labels";
+import {Labels} from "@/base/labels";
 
 export function schemaBuilder(fieldType: string, labels: Labels) {
   return {
@@ -495,7 +495,7 @@ export const timeSchema = (labels: Labels) => {
   };
   (schema.allOf[1].properties as any)["x-options"].properties[
     "timePickerProps"
-  ] = {
+    ] = {
     type: "object",
     properties: {
       format: {
@@ -679,7 +679,7 @@ export const fileSchema = (labels: Labels) => {
     },
   };
   (schema.allOf[0].properties as any)["properties"] = {
-    const: { key: { type: "string" }, amount: { type: "integer" } },
+    const: {key: {type: "string"}, amount: {type: "integer"}},
   };
   (schema.allOf[0].properties as any)["uuidEnabled"] = {
     type: "boolean",
@@ -933,11 +933,18 @@ export const dmsInputSchema = (labels: Labels) => {
     "x-props": {
       outlined: true,
     },
-    "x-rules": ["required"],
     "x-options": {
       fieldColProps: {
         cols: 12,
         sm: 12,
+      },
+    },
+  };
+  (schema.allOf[0].properties as any)["items"] = {
+    type: "object",
+    properties: {
+      type: {
+        const: "string",
       },
     },
   };

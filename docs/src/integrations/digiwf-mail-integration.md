@@ -115,9 +115,8 @@ Nachfolgend sind die BPMN-Errors aufgeführt, die von der E-Mail-Integration gew
 
 ### Ressourcen
 
-Um die Prozessentwicklung zu beschleunigen, können Sie die Element-Templates [sendMail.json](/element-template/sendMail.json) in einer
-Element-Templates [sendMailV02.json](/element-template/email-integration/sendMailV02.json), [sendMailWithLogo.json](/element-template/email-integration/sendMailWithLogo.json)
-und [sendMailWithLogoAndLink.json](/element-template/email-integration/sendMailWithLogoAndLink.json)
+Um die Prozessentwicklung zu beschleunigen, können Sie die Element-Templates [sendMailV02.json](/element-template/email-integration/sendMailV02.json), [sendMailWithLogo.json](/element-template/email-integration/sendMailWithLogo.json)
+und [sendMailWithLogoAndLink.json](/element-template/email-integration/sendMailWithLogoAndLink.json) verwenden.
 
 ## DigiWF Mail Integration anpassen
 
@@ -149,7 +148,7 @@ implementation group: 'de.muenchen.oss.digiwf', name: 'digiwf-email-integration-
 Machen Sie sich mit
 dem [`digiwf-email-integration-core`](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-email-integration/digiwf-email-integration-core)
 und [`digiwf-email-integration-starter`](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-email-integration/digiwf-email-integration-starter)
-Modul vertraut und fügen Sie Ihre eigenen `@bean`s hinzu oder überschreiben Sie die bereitgestellten `@bean`s.
+Modul vertraut und fügen Sie Ihre eigenen `@Bean`s hinzu oder überschreiben Sie die bereitgestellten `@Bean`s.
 
 ## Konfigurationen
 

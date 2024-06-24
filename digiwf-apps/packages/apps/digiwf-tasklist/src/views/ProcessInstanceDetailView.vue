@@ -166,6 +166,7 @@ const panel = ref([0, 1]);
 provide("formContext", { id: props.processId, type: "instance" });
 
 provide("apiEndpoint", ApiConfig.base);
+provide("taskServiceApiEndpoint", ApiConfig.tasklistBase);
 
 const onInit = () => {
   loadProcessInstanceDetail();

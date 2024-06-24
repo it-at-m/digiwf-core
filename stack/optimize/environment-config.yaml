@@ -1,0 +1,49 @@
+plugin:
+  engineRestFilter:
+    basePackages: [ "de.muenchen.oss.digiwf.optimize.plugin" ]
+  authenticationExtractor:
+    basePackages: [ "de.muenchen.oss.digiwf.optimize.plugin" ]
+#####
+
+engines:
+  camunda-engine-rest:
+    name: default
+    defaultTenant:
+      # the id used for this default tenant on persisted entities
+      id: null
+      # the name used for this tenant when displayed in the UI
+      name: null
+    # rest: http://camunda-webapp:8082/rest
+    rest: http://host.docker.internal:18089/engine-rest
+    importEnabled: true
+    authentication:
+      # Toggles basic authentication on or off. When enabling basic
+      # authentication, please be aware that you also need to adjust the values
+      # of the user and password.
+      # Also note, when enabled, it is required that the user has
+      # * READ & READ_HISTORY permission on the Process and Decision Definition resources
+      # * READ permission on the Authorization, Group, User, Deployment & Tenant resources
+      # to enable users to log in and Optimize to import the engine data.
+      enabled: false
+      # When basic authentication is enabled, this password is used to
+      # authenticate against the engine.
+      password: "secret"
+      # When basic authentication is enabled, this user is used to authenticate
+      # against the engine.
+      user: "basic"
+    webapps:
+      enabled: false
+      # endpoint: http://camunda-webapp:8082/camunda
+      # endpoint: http://host.docker.internal:8082/camunda
+
+import:
+  data:
+    user-task:
+      worker:
+        metadata:
+          includeUserMetaData: false
+  identitySync:
+    includeUserMetaData: false
+
+ui:
+  logoutHidden: true
