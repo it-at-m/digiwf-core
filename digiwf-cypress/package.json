@@ -4,9 +4,10 @@
   "description": "DigiWF E2E-Tests with Cypress",
   "scripts": {
     "cypress:open": "cypress open",
+    "start": "npm run cypress:open",
     "cypress:run": "npm run reports:clean && cypress run",
-    "reports:clean": "rm -rf output",
-    "test": "npm run cypress:run"
+    "test": "npm run cypress:run",
+    "reports:clean": "rm -rf output"
   },
   "repository": {
     "type": "git",
