@@ -40,16 +40,21 @@ class Task extends Form {
   assignGroupTask(userRealname) {
     this.groupTaskElements.assignBtn().click();
     this.groupTaskElements.assignInput().should("be.visible");
-    this.groupTaskElements.assignInput().type(userRealname);
+    // workaround as input already searches after 3 chars and interrupts input
+    this.groupTaskElements.assignInput().type(userRealname.substring(0, 3));
     cy.wait("@dataUserSearch").its("response.statusCode").should("equal", 200);
+    this.groupTaskElements.assignInput().type(userRealname.substring(3));
+    this.groupTaskElements.assignInput().should("have.value", userRealname);
     this.groupTaskElements.assignInput().type("{enter}");
     this.groupTaskElements.assignSubmit().click();
+    cy.wait("@dataAssignTask").its("response.statusCode").should("equal", 204);
     openGroupTasks.waitLoadingFinished();
   }
 
   assignGroupTaskSelfOverride() {
     this.groupTaskElements.assignSelfBtn().click();
     this.groupTaskElements.assignSelfSubmit().click();
+    cy.wait("@dataAssignTask").its("response.statusCode").should("equal", 204);
     this.taskElements.headline().should("be.visible");
   }
 }
