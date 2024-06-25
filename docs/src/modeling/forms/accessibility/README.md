@@ -36,3 +36,8 @@ Bei barrierefreien Formularen muss ein Markdown-Feld auf readonly gesetzt sein.
 Das Markdown-Feld ist für ein Formular mit Barrierefreiheit im Bearbeitungsmodus nicht geeignet. Es ist nicht auf die
 reine
 Nutzung mit der Tastatur ausgelegt und kann nicht durch einen Tastenbefehl verlassen werden.
+
+::: tip
+Bei Links beschreibenden Linktext verwenden, da Screenreader diesen Text als Linkbeschreibung vorlesen.
+Zum Beispiel `weitere Informationen zum Thema` statt `hier`.
+:::

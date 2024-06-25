@@ -3,6 +3,7 @@
     <v-autocomplete
       ref="autocompletion"
       v-model="selectedUsers"
+      :aria-label="!isReadonly() ? label + ' Name eingeben und mit Pfeiltaste runter durch die Liste navigieren' : ''"
       :aria-readonly="isReadonly()"
       :aria-required="isRequired()"
       :auto-select-first="!screenreaderMode"
