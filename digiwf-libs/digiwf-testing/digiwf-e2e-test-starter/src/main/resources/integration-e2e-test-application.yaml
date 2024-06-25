@@ -41,7 +41,7 @@ spring:
               deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
             value:
               deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
-          brokers: localhost:19999
+          brokers: ${spring.embedded.kafka.brokers}
   kafka:
     consumer:
       properties:
