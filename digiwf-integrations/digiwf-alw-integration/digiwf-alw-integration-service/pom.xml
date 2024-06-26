@@ -13,10 +13,6 @@
     <artifactId>digiwf-alw-integration-service</artifactId>
     <name>digiwf-alw-integration-service</name>
 
-    <properties>
-        <wiremock.version>3.7.0</wiremock.version>
-    </properties>
-
     <dependencies>
 
         <!-- alw-integration -->

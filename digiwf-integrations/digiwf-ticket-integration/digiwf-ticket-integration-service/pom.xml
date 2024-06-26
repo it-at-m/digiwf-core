@@ -13,10 +13,6 @@
     <artifactId>digiwf-ticket-integration-service</artifactId>
     <name>digiwf-ticket-integration-service</name>
 
-    <properties>
-        <wiremock.version>3.7.0</wiremock.version>
-    </properties>
-
     <dependencies>
 
         <!-- ticket-integration -->
