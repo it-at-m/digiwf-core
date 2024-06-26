@@ -38,6 +38,8 @@ reine
 Nutzung mit der Tastatur ausgelegt und kann nicht durch einen Tastenbefehl verlassen werden.
 
 ::: tip
-Bei Links beschreibenden Linktext verwenden, da Screenreader diesen Text als Linkbeschreibung vorlesen.
-Zum Beispiel `weitere Informationen zum Thema` statt `hier`.
+Bei der Verwendung von Links müssen beschreibende Linktexte angegben werden, da mit der Tabulatortaste jeder Link
+einzeln angesprungen wird. Der Screenreader liest lediglich den Linktext und die Information, dass es sich um einen
+Link handelt, vor.
+Beispiel für den Linktext: `weitere Informationen zum Thema` statt `hier`
 :::
