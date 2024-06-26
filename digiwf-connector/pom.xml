@@ -17,7 +17,7 @@
 
     <properties>
         <okhttp.version>4.12.0</okhttp.version>
-        <camunda.version>7.20.0</camunda.version>
+        <camunda.version>7.21.0</camunda.version>
     </properties>
 
     <modules>
