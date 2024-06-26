@@ -14,7 +14,7 @@
     <name>digiwf-ticket-integration-service</name>
 
     <properties>
-        <wiremock.version>3.3.1</wiremock.version>
+        <wiremock.version>3.7.0</wiremock.version>
     </properties>
 
     <dependencies>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <artifactId>digiwf-s3-integration-client</artifactId>
@@ -13,7 +13,7 @@
     </parent>
 
     <properties>
-        <wiremock.version>3.3.1</wiremock.version>
+        <wiremock.version>3.7.0</wiremock.version>
     </properties>
 
     <dependencies>
@@ -79,7 +79,8 @@
                         </goals>
                         <configuration>
                             <inputSpec>${project.basedir}/src/main/api/api-docs.json</inputSpec>
-                            <ignoreFileOverride>${project.basedir}/src/main/api/.openapi-generator-ignore</ignoreFileOverride>
+                            <ignoreFileOverride>${project.basedir}/src/main/api/.openapi-generator-ignore
+                            </ignoreFileOverride>
                             <generatorName>java</generatorName>
                             <library>webclient</library>
                             <apiPackage>de.muenchen.oss.digiwf.s3.integration.client.api</apiPackage>
