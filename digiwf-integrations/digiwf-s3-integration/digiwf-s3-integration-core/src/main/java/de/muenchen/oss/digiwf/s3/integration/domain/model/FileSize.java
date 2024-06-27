@@ -3,11 +3,11 @@ package de.muenchen.oss.digiwf.s3.integration.domain.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.util.Map;
-
 @Data
 @AllArgsConstructor
-public class FileSizesInFolder {
+public class FileSize {
 
-    private Map<String, Long> fileSizes;
+    public static final int LENGTH_PATH_TO_FILE = 1024;
+
+    private long fileSize;
 }

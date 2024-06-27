@@ -84,6 +84,16 @@ public class DocumentStorageFolderRepository {
         }
     }
 
+    /**
+     * Returns all file sizes of files within a folder given in the parameter from document storage.
+     *
+     * @param pathToFolder       defines the folder in the document storage.
+     * @param documentStorageUrl defines to which document storage the request goes.
+     * @return file paths with their file sizes.
+     * @throws DocumentStorageClientErrorException if the problem is with the client.
+     * @throws DocumentStorageServerErrorException if the problem is with the document storage.
+     * @throws DocumentStorageException            if the problem cannot be assigned directly to the document storage.
+     */
     public Mono<Map<String, Long>> getAllFileSizesInFolderRecursively(final String pathToFolder, final String documentStorageUrl)
             throws DocumentStorageClientErrorException, DocumentStorageServerErrorException, DocumentStorageException {
         try {

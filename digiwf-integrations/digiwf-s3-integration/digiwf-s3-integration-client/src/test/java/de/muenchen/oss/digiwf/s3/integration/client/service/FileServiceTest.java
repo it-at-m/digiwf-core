@@ -2,24 +2,24 @@ package de.muenchen.oss.digiwf.s3.integration.client.service;
 
 import de.muenchen.oss.digiwf.s3.integration.client.exception.NoFileTypeException;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.util.unit.DataSize;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class FileExtensionServiceTest {
+class FileServiceTest {
 
-    private FileExtensionService service;
+    private FileService service;
 
     @BeforeEach
     void setUp() {
         final Map<String, String> fileExtensions = new HashMap<>();
         fileExtensions.put("pdf", "application/pdf");
         fileExtensions.put("txt", "text/plain");
-        service = new FileExtensionService(fileExtensions);
+        service = new FileService(fileExtensions, DataSize.ofMegabytes(100), DataSize.ofMegabytes(500));
     }
 
     @Test
@@ -46,7 +46,7 @@ class FileExtensionServiceTest {
 
     @Test
     void testSupportCheckWithEmptyMap() {
-        final FileExtensionService emptyService = new FileExtensionService(new HashMap<>());
+        final FileService emptyService = new FileService(new HashMap<>(), DataSize.ofMegabytes(100), DataSize.ofMegabytes(500));
         assertTrue(emptyService.isSupported("anyType"));
     }
 }

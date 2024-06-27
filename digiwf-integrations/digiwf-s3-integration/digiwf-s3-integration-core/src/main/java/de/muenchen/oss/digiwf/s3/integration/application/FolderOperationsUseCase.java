@@ -71,7 +71,7 @@ public class FolderOperationsUseCase implements FolderOperationsInPort {
         } else {
             // Out of sync
             final Set<String> filePathDisjunction = SetUtils.disjunction(filePathsInDatabase, filePathsInFolder).toSet();
-            final StringBuilder message = new StringBuilder(String.format("The following files on S3 and the file entities in database for folder %s are out of sync.\n", pathToFolderWithSeparatorAtTheEnd));
+            final StringBuilder message = new StringBuilder(String.format("The following files on S3 and the file entities in database for folder %s are out of sync.%n", pathToFolderWithSeparatorAtTheEnd));
             filePathDisjunction.stream()
                     .map(pathToFile -> pathToFile.concat("\n"))
                     .forEach(message::append);
@@ -98,17 +98,17 @@ public class FolderOperationsUseCase implements FolderOperationsInPort {
     }
 
     /**
-     * @param pathToFolder
-     * @return
-     * @throws FileSystemAccessException
+     * Retrieves the sizes of all files within the specified folder and its subfolders recursively.
+     *
+     * @param pathToFolder the path to the folder whose file sizes are to be retrieved.
+     * @return a {@link FileSizesInFolder} object containing the sizes of all files within the folder and its subfolders.
+     * @throws FileSystemAccessException if the S3 storage cannot be accessed.
      */
     @Override
-    public FileSizesInFolder getAllFileSizesInFolderRecursively(String pathToFolder) throws FileSystemAccessException {
+    public FileSizesInFolder getAllFileSizesInFolderRecursively(@NotNull final String pathToFolder) throws FileSystemAccessException {
         final String pathToFolderWithSeparatorAtTheEnd = addPathSeparatorToTheEnd(pathToFolder);
-        final FileSizesInFolder filesSizesInFolder = new FileSizesInFolder();
-        final Map<String, Long> mapFilepathsToSize = this.s3Repository.getFileSizesFromFolder(pathToFolder);
-        filesSizesInFolder.setFileSizes(mapFilepathsToSize);
-        return filesSizesInFolder;
+        final Map<String, Long> mapFilePathsToSize = this.s3Repository.getFileSizesFromFolder(pathToFolderWithSeparatorAtTheEnd);
+        return new FileSizesInFolder(mapFilePathsToSize);
     }
 
 }
