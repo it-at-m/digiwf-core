@@ -7,11 +7,12 @@ import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageCli
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageException;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageServerErrorException;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.transfer.S3FileTransferRepository;
-import de.muenchen.oss.digiwf.s3.integration.client.service.FileExtensionService;
+import de.muenchen.oss.digiwf.s3.integration.client.service.FileService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.util.unit.DataSize;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -26,13 +27,13 @@ import static org.mockito.Mockito.when;
 class S3AdapterTest {
 
     private final S3FileTransferRepository s3FileTransferRepository = mock(S3FileTransferRepository.class);
-    private final FileExtensionService fileExtensionService = new FileExtensionService(null);
+    private final FileService fileService = new FileService(null, DataSize.ofMegabytes(50), DataSize.ofMegabytes(110));
 
     private S3Adapter s3Adapter;
 
     @BeforeEach
     void setup() {
-        s3Adapter = new S3Adapter(s3FileTransferRepository, fileExtensionService);
+        s3Adapter = new S3Adapter(s3FileTransferRepository, fileService);
     }
 
     @Test
