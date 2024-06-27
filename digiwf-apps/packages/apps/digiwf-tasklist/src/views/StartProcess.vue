@@ -7,8 +7,8 @@
       />
     </v-flex>
     <v-flex v-if="process !== null">
-      <h1>{{ process.name }}</h1>
-      <p>{{ process.description }}</p>
+      <h1 tabindex="0">{{ process.name }}</h1>
+      <p v-if="!!process.description" tabindex="0">{{ process.description }}</p>
       <base-form
         v-if="process.startForm"
         :form="process.startForm"
