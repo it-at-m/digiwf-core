@@ -58,10 +58,12 @@ public class S3Adapter implements LoadFileOutPort, TransferContentOutPort {
             final List<Content> contents = new ArrayList<>();
             final Set<String> filepath;
             filepath = documentStorageFolderRepository.getAllFilesInFolderRecursively(folderpath, domainSpecificS3Storage).block();
-            if (Objects.isNull(filepath)) throw new BpmnError(LOAD_FOLDER_FAILED, "An folder could not be loaded from url: " + folderpath);
+            if (Objects.isNull(filepath))
+                throw new BpmnError(LOAD_FOLDER_FAILED, "An folder could not be loaded from url: " + folderpath);
             filepath.forEach(file -> contents.add(getFile(file, domainSpecificS3Storage)));
             return contents;
-        } catch (final DocumentStorageException | DocumentStorageServerErrorException | DocumentStorageClientErrorException e) {
+        } catch (final DocumentStorageException | DocumentStorageServerErrorException |
+                       DocumentStorageClientErrorException e) {
             throw new BpmnError(LOAD_FOLDER_FAILED, "An folder could not be loaded from url: " + folderpath);
         }
     }
@@ -78,7 +80,8 @@ public class S3Adapter implements LoadFileOutPort, TransferContentOutPort {
                 throw new BpmnError("FILE_TYPE_NOT_SUPPORTED", "The type of this file is not supported: " + filepath);
 
             return new Content(fileExtensionService.getFileExtension(mimeType), filename, bytes);
-        } catch (final DocumentStorageException | DocumentStorageServerErrorException | DocumentStorageClientErrorException e) {
+        } catch (final DocumentStorageException | DocumentStorageServerErrorException |
+                       DocumentStorageClientErrorException e) {
             throw new BpmnError("LOAD_FILE_FAILED", "An file could not be loaded from url: " + filepath);
         }
     }
@@ -96,7 +99,8 @@ public class S3Adapter implements LoadFileOutPort, TransferContentOutPort {
 
         for (val file : content) {
             try {
-                this.documentStorageFileRepository.saveFile(fullPath + "/" + file.getName() + "." + file.getExtension(), file.getContent(), 1, null,
+                val fullFilePath = (fullPath + "/" + file.getName() + "." + file.getExtension()).replace("//", "/");
+                this.documentStorageFileRepository.saveFile(fullFilePath, file.getContent(), 1, null,
                         s3Storage);
             } catch (Exception e) {
                 throw new BpmnError("SAVE_FILE_FAILED", "An file could not be saved to path: " + fullPath);

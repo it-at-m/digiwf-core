@@ -1,5 +1,5 @@
 {
-  "key": "all-inputs",
+  "key": "all-inputs-readonly",
   "schema": {
     "type": "object",
     "x-display": "tabs",
@@ -36,6 +36,7 @@
                 "fieldType": "text",
                 "title": "Textfield",
                 "type": "string",
+                "readOnly": true,
                 "x-rules": [
                   "required"
                 ]
@@ -55,6 +56,7 @@
                 "title": "Textarea",
                 "x-display": "textarea",
                 "type": "string",
+                "readOnly": true,
                 "x-rules": [
                   "required"
                 ]
@@ -73,6 +75,7 @@
                 "fieldType": "integer",
                 "title": "Number",
                 "type": "integer",
+                "readOnly": true,
                 "x-rules": [
                   "required"
                 ]
@@ -91,6 +94,7 @@
                 "fieldType": "number",
                 "title": "Floating Number",
                 "type": "number",
+                "readOnly": true,
                 "x-rules": [
                   "required"
                 ]
@@ -99,6 +103,7 @@
                 "fieldType": "boolean",
                 "title": "Checkbox",
                 "type": "boolean",
+                "readOnly": true,
                 "x-options": {
                   "fieldColProps": {
                     "cols": 12,
@@ -131,7 +136,8 @@
                 "x-display": "custom-date-input",
                 "title": "Date",
                 "type": "string",
-                "format": "date"
+                "format": "date",
+                "readOnly": true
               },
               "FormField_time": {
                 "fieldType": "time",
@@ -139,6 +145,7 @@
                 "title": "Time",
                 "type": "string",
                 "format": "time",
+                "readOnly": true,
                 "x-options": {
                   "fieldColProps": {
                     "cols": 12,
@@ -161,6 +168,7 @@
                 "title": "Select",
                 "type": "string",
                 "key": "66e6c72f-2fbd-4ed4-9dd5-d27f567f88db",
+                "readOnly": true,
                 "anyOf": [
                   {
                     "title": "1",
@@ -195,6 +203,7 @@
                 "title": "Multiselect",
                 "type": "array",
                 "key": "7cf743b5-436f-4225-a77b-d9685e314029",
+                "readOnly": true,
                 "default": [],
                 "items": {
                   "anyOf": [
@@ -248,6 +257,7 @@
                 "uuidEnabled": true,
                 "type": "object",
                 "filePath": "test01",
+                "readOnly": true,
                 "properties": {
                   "key": {
                     "type": "string"
@@ -280,6 +290,7 @@
                 "maxFileSize": 1,
                 "maxTotalSize": 2,
                 "accept": "application/pdf,image/png",
+                "readOnly": true,
                 "properties": {
                   "key": {
                     "type": "string"
@@ -305,6 +316,7 @@
                 "x-display": "switch",
                 "default": false,
                 "type": "boolean",
+                "readOnly": true,
                 "x-rules": [
                   "required"
                 ]
@@ -337,7 +349,8 @@
                 "fieldType": "user-input",
                 "title": "Benutzerauswahl",
                 "x-display": "custom-user-input",
-                "type": "string"
+                "type": "string",
+                "readOnly": true
               },
               "FormField_multi-user-input": {
                 "x-options": {
@@ -358,6 +371,7 @@
                 "title": "Mehrfache Benutzerauswahl",
                 "x-display": "custom-multi-user-input",
                 "type": "array",
+                "readOnly": true,
                 "items": {
                   "type": "string"
                 }
@@ -376,6 +390,7 @@
                 "fieldType": "array",
                 "title": "List",
                 "type": "array",
+                "readOnly": true,
                 "items": {
                   "type": "string"
                 },
@@ -416,6 +431,7 @@
                 "title": "Markdown",
                 "type": "string",
                 "x-display": "markdown",
+                "readOnly": true,
                 "x-rules": [
                   "required"
                 ]
@@ -457,7 +473,8 @@
                 },
                 "fieldType": "text",
                 "title": "Textfield",
-                "type": "string"
+                "type": "string",
+                "readOnly": true
               },
               "FormField_textarea2": {
                 "x-options": {
@@ -473,7 +490,8 @@
                 "fieldType": "textarea",
                 "title": "Textarea",
                 "x-display": "textarea",
-                "type": "string"
+                "type": "string",
+                "readOnly": true
               },
               "FormField_integer2": {
                 "x-options": {
@@ -488,7 +506,8 @@
                 },
                 "fieldType": "integer",
                 "title": "Number",
-                "type": "integer"
+                "type": "integer",
+                "readOnly": true
               },
               "FormField_number2": {
                 "x-options": {
@@ -503,7 +522,8 @@
                 },
                 "fieldType": "number",
                 "title": "Floating Number",
-                "type": "number"
+                "type": "number",
+                "readOnly": true
               },
               "FormField_boolean2": {
                 "x-options": {
@@ -519,7 +539,8 @@
                 "fieldType": "boolean",
                 "title": "Checkbox",
                 "default": false,
-                "type": "boolean"
+                "type": "boolean",
+                "readOnly": true
               },
               "FormField_date2": {
                 "x-options": {
@@ -536,7 +557,8 @@
                 "x-display": "custom-date-input",
                 "title": "Date",
                 "type": "string",
-                "format": "date"
+                "format": "date",
+                "readOnly": true
               },
               "FormField_time2": {
                 "fieldType": "time",
@@ -544,6 +566,7 @@
                 "title": "Time",
                 "type": "string",
                 "format": "time",
+                "readOnly": true,
                 "x-options": {
                   "fieldColProps": {
                     "cols": 12,
@@ -563,6 +586,7 @@
                 "title": "Select",
                 "type": "string",
                 "key": "6b301e4c-f2c4-4276-9699-3142d811cfe1",
+                "readOnly": true,
                 "anyOf": [
                   {
                     "title": "A",
@@ -595,6 +619,7 @@
                 "title": "Multiselect",
                 "type": "array",
                 "key": "547ecf94-e001-4140-9a59-4bf25295275f",
+                "readOnly": true,
                 "default": [],
                 "items": {
                   "anyOf": [
@@ -642,6 +667,7 @@
                 "x-display": "custom-multi-file-input",
                 "type": "object",
                 "filePath": "test03",
+                "readOnly": true,
                 "properties": {
                   "key": {
                     "type": "string"
@@ -672,6 +698,7 @@
                 "maxFileSize": 1,
                 "maxTotalSize": 2,
                 "accept": "application/pdf,image/png",
+                "readOnly": true,
                 "properties": {
                   "key": {
                     "type": "string"
@@ -696,7 +723,8 @@
                 "title": "Switch",
                 "x-display": "switch",
                 "default": false,
-                "type": "boolean"
+                "type": "boolean",
+                "readOnly": true
               }
             }
           },
@@ -723,7 +751,8 @@
                 "fieldType": "user-input",
                 "title": "Benutzerauswahl",
                 "x-display": "custom-user-input",
-                "type": "string"
+                "type": "string",
+                "readOnly": true
               },
               "FormField_multi-user-input2": {
                 "x-options": {
@@ -740,6 +769,7 @@
                 "title": "Mehrfache Benutzerauswahl",
                 "x-display": "custom-multi-user-input",
                 "type": "array",
+                "readOnly": true,
                 "items": {
                   "type": "string"
                 }
@@ -758,6 +788,7 @@
                 "fieldType": "array",
                 "title": "List",
                 "type": "array",
+                "readOnly": true,
                 "items": {
                   "type": "string"
                 }
@@ -794,7 +825,8 @@
                 "fieldType": "markdown",
                 "title": "Markdown",
                 "type": "string",
-                "x-display": "markdown"
+                "x-display": "markdown",
+                "readOnly": true
               }
             }
           }
@@ -824,6 +856,7 @@
                 "title": "Objekt mit Textfeld und Zahl",
                 "type": "object",
                 "additionalProperties": false,
+                "readOnly": true,
                 "x-options": {
                   "fieldColProps": {
                     "cols": 12,
@@ -873,6 +906,7 @@
                 "fieldType": "arrayObject",
                 "title": "Dynamische Objektliste mit 2 Textfeldern",
                 "type": "array",
+                "readOnly": true,
                 "items": {
                   "type": "object",
                   "properties": {
@@ -936,6 +970,7 @@
                 "fieldType": "optionalContainer",
                 "title": "Optionale Gruppe",
                 "type": "object",
+                "readOnly": true,
                 "x-options": {
                   "sectionsTitlesClasses": []
                 },
@@ -1032,6 +1067,7 @@
                 "fieldType": "optionalContainer",
                 "title": "Optionale Felder",
                 "type": "object",
+                "readOnly": true,
                 "x-options": {
                   "sectionsTitlesClasses": []
                 },
