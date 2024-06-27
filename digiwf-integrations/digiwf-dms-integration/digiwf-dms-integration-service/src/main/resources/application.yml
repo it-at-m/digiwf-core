@@ -77,6 +77,7 @@ de:
           client:
             document-storage-url: "${DOCUMENT_STORAGE_HOST:http://localhost}:${DOCUMENT_STORAGE_PORT:8080}"
             enable-security: true
+            max-file-size: ${S3_MAX_FILE_SIZE:1000MB}
         dms:
           supported-file-extensions:
             pdf: "application/pdf"
