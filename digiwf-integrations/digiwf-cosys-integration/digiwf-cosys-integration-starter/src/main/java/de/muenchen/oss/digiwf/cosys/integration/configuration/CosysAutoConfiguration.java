@@ -18,6 +18,7 @@ import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
 import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
 import de.muenchen.oss.digiwf.s3.integration.client.configuration.S3IntegrationClientAutoConfiguration;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.transfer.S3FileTransferRepository;
+import de.muenchen.oss.digiwf.s3.integration.client.service.FileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -113,8 +114,8 @@ public class CosysAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public SaveFileToStorageOutPort getSaveFileToStorageOutPort(final S3FileTransferRepository s3FileTransferRepository) {
-        return new S3Adapter(s3FileTransferRepository);
+    public SaveFileToStorageOutPort getSaveFileToStorageOutPort(final S3FileTransferRepository s3FileTransferRepository, final FileService fileService) {
+        return new S3Adapter(s3FileTransferRepository, fileService);
     }
 
     @Bean

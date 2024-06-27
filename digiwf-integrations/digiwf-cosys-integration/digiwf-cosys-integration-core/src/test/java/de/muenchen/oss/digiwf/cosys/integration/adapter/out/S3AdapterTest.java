@@ -7,10 +7,13 @@ import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageCli
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageException;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageServerErrorException;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.transfer.S3FileTransferRepository;
+import de.muenchen.oss.digiwf.s3.integration.client.service.FileService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.util.unit.DataSize;
 
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -25,6 +28,7 @@ import static org.mockito.Mockito.anyString;
 class S3AdapterTest {
 
     private final S3FileTransferRepository s3FileTransferRepository = mock(S3FileTransferRepository.class);
+    private final FileService fileService = new FileService(Map.of(), DataSize.ofMegabytes(100), DataSize.ofMegabytes(100));
     private S3Adapter s3Adapter;
 
     private final String data = "In Cosys generiertes Dokument";
@@ -32,7 +36,7 @@ class S3AdapterTest {
 
     @BeforeEach
     void setup() {
-        s3Adapter = new S3Adapter(s3FileTransferRepository);
+        s3Adapter = new S3Adapter(s3FileTransferRepository, fileService);
     }
 
     @Test
