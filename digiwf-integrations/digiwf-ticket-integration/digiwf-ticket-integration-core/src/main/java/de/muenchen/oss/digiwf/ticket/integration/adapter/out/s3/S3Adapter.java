@@ -71,7 +71,7 @@ public class S3Adapter implements LoadFileOutPort {
         final DataSize totalFileSize = fileService.getTotalBatchSize(fileSizesWithPaths);
         if (!fileService.isValidBatchSize(totalFileSize))
             throw new BpmnError(BATCH_SIZE_ERROR, String.format("Batch size of %d MB is too large. Allowed are %d MB.",
-                    totalFileSize.toMegabytes(), fileService.getMaxFolderSize().toMegabytes()));
+                    totalFileSize.toMegabytes(), fileService.getMaxBatchSize().toMegabytes()));
     }
 
     private Map<String, Long> getFileSizesWithPaths(final List<String> filePaths, final String fileContext, final String s3Storage) {

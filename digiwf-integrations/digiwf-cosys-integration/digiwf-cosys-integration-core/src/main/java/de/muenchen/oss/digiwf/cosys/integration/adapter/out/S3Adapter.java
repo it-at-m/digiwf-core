@@ -18,6 +18,7 @@ import org.springframework.util.unit.DataSize;
 public class S3Adapter implements SaveFileToStorageOutPort {
 
     private static final String S3_FILE_SAVE_ERROR = "S3_FILE_SAVE_ERROR";
+    private static final String S3_FILE_SIZE_ERROR = "S3_FILE_SAVE_ERROR";
     private final S3FileTransferRepository s3FileTransferRepository;
     private final FileService fileService;
 
@@ -43,7 +44,7 @@ public class S3Adapter implements SaveFileToStorageOutPort {
 
     private void validateFileSize(final byte[] data) {
         if (!fileService.isValidFileSize(data))
-            throw new BpmnError(S3_FILE_SAVE_ERROR,
+            throw new BpmnError(S3_FILE_SIZE_ERROR,
                     String.format("Invalid file size %d MB. Allowed are %d MB.", DataSize.ofBytes(data.length).toMegabytes(),
                             fileService.getMaxFileSize().toMegabytes()));
     }

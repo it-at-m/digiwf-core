@@ -66,14 +66,15 @@ public class S3Adapter implements LoadFileOutPort, TransferContentOutPort {
             final String filesOverMaxString = oversizedFiles.entrySet().stream()
                     .map(entry -> entry.getKey() + ": " + DataSize.ofBytes(entry.getValue()).toMegabytes() + " MB")
                     .collect(Collectors.joining(System.lineSeparator()));
-            throw new BpmnError(FILE_SIZE_ERROR, String.format("The following files exceed the maximum size:%n%s", filesOverMaxString));
+            throw new BpmnError(FILE_SIZE_ERROR,
+                    String.format("The following files exceed the maximum size of %d MB:%n%s", fileService.getMaxFileSize(), filesOverMaxString));
         }
 
         // Validate total batch size
         final DataSize totalFileSize = fileService.getTotalBatchSize(fileSizesWithPaths);
         if (!fileService.isValidBatchSize(totalFileSize))
             throw new BpmnError(BATCH_SIZE_ERROR, String.format("Batch size of %d MB is too large. Allowed are %d MB.",
-                    totalFileSize.toMegabytes(), fileService.getMaxFolderSize().toMegabytes()));
+                    totalFileSize.toMegabytes(), fileService.getMaxBatchSize().toMegabytes()));
     }
 
     private Map<String, Long> getFileSizesWithPaths(final List<String> filePaths, final String fileContext, final String s3Storage) {

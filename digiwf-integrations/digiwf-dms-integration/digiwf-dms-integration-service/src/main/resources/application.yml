@@ -56,6 +56,12 @@ digiwf:
         address: "${FABASOFT_DMS_HOST:http://localhost}:${FABASOFT_DMS_PORT:8191}/services/dms"
         uiurl: ${FABASOFT_DMS_UIURL}
         enable-MTOM: ${FABASOFT_ENABLE_MTOM:true}
+  s3:
+    client:
+      document-storage-url: "${DOCUMENT_STORAGE_HOST:http://localhost}:${DOCUMENT_STORAGE_PORT:8080}"
+      enable-security: true
+      max-file-size: ${S3_MAX_FILE_SIZE:10MB}
+      max-batch-size: ${S3_MAX_BATCH_SIZE:100MB}
   security:
     client-id: ${SSO_DMS_CLIENT_ID}
     client-secret: ${SSO_DMS_CLIENT_SECRET}
@@ -73,11 +79,6 @@ de:
   muenchen:
     oss:
       digiwf:
-        s3:
-          client:
-            document-storage-url: "${DOCUMENT_STORAGE_HOST:http://localhost}:${DOCUMENT_STORAGE_PORT:8080}"
-            enable-security: true
-            max-file-size: ${S3_MAX_FILE_SIZE:1000MB}
         dms:
           supported-file-extensions:
             pdf: "application/pdf"

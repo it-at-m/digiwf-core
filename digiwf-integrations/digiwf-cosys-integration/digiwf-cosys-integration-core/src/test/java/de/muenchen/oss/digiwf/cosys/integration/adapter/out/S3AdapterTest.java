@@ -17,18 +17,12 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.anyString;
-
+import static org.mockito.Mockito.*;
 
 class S3AdapterTest {
 
     private final S3FileTransferRepository s3FileTransferRepository = mock(S3FileTransferRepository.class);
-    private final FileService fileService = new FileService(Map.of(), DataSize.ofMegabytes(100), DataSize.ofMegabytes(100));
+    private final FileService fileService = mock(FileService.class);
     private S3Adapter s3Adapter;
 
     private final String data = "In Cosys generiertes Dokument";
@@ -77,20 +71,23 @@ class S3AdapterTest {
 
         final GenerateDocument generateDocument = new GenerateDocument("Client", "Role", "guid", null, listOfURls);
 
-        BpmnError bpmnError = assertThrows(BpmnError.class,  () -> { s3Adapter.saveDocumentInStorage(generateDocument, dataAsByteArray);});
+        BpmnError bpmnError = assertThrows(BpmnError.class, () -> {
+            s3Adapter.saveDocumentInStorage(generateDocument, dataAsByteArray);
+        });
 
         String expectedMessage = "Document storage action GET is not supported.";
         String actualMessage = bpmnError.getErrorMessage();
 
         assertEquals(expectedMessage, actualMessage);
-        assertEquals("S3_FILE_SAVE_ERROR",bpmnError.getErrorCode());
-
+        assertEquals("S3_FILE_SAVE_ERROR", bpmnError.getErrorCode());
 
     }
 
     @Test
-    void saveDocumentInStorageWithThrowsDocumentStorageException() throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
-        doThrow(new DocumentStorageException("DocumentStorageClientErrorException", new Exception())).when(s3FileTransferRepository).saveFile(anyString(), any());
+    void saveDocumentInStorageWithThrowsDocumentStorageException()
+            throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
+        doThrow(new DocumentStorageException("DocumentStorageClientErrorException", new Exception())).when(s3FileTransferRepository)
+                .saveFile(anyString(), any());
 
         final DocumentStorageUrl documentStorageUrl = new DocumentStorageUrl("URL", "Path", "POST");
         List<DocumentStorageUrl> listOfURls = List.of(documentStorageUrl);
@@ -106,8 +103,23 @@ class S3AdapterTest {
 
         assertEquals(expectedMessage, actualMessage);
 
-        assertEquals("S3_FILE_SAVE_ERROR",bpmnError.getErrorCode());
+        assertEquals("S3_FILE_SAVE_ERROR", bpmnError.getErrorCode());
 
+    }
+
+    @Test
+    public void testSaveDocumentInStorageThrowsBpmnErrorForInvalidFileSize() throws Exception {
+        final DocumentStorageUrl documentStorageUrl = new DocumentStorageUrl("URL", "Path", "POST");
+        final List<DocumentStorageUrl> listOfURls = List.of(documentStorageUrl);
+
+        final GenerateDocument generateDocument = new GenerateDocument("Client", "Role", "guid", null, listOfURls);
+
+        when(fileService.isValidFileSize(any(byte[].class))).thenAnswer(invocation -> false);
+        when(fileService.getMaxFileSize()).thenAnswer(invocation -> DataSize.ofBytes(2));
+
+        BpmnError bpmnError = assertThrows(BpmnError.class, () -> s3Adapter.saveDocumentInStorage(generateDocument, dataAsByteArray));
+
+        verify(fileService, times(1)).isValidFileSize(any(byte[].class));
     }
 
 }
