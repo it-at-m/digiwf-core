@@ -12,26 +12,26 @@ import org.springframework.scheduling.annotation.Scheduled;
 @Configuration
 @RequiredArgsConstructor
 @ConditionalOnProperty(
-    prefix = "de.muenchen.oss.digiwf.s3.cronjob.cleanup",
-    name = {
-        "expired-files",
-        "unused-files"
-    }
+        prefix = "digiwf.s3.cronjob.cleanup",
+        name = {
+                "expired-files",
+                "unused-files"
+        }
 )
 public class CronJobConfiguration {
 
-  private final CleanUpExpiredFilesInPort cleanUpExpiredFiles;
-  private final CleanUpUnusedFoldersInPort cleanUpUnusedFolders;
+    private final CleanUpExpiredFilesInPort cleanUpExpiredFiles;
+    private final CleanUpUnusedFoldersInPort cleanUpUnusedFolders;
 
-  @Scheduled(cron = "${io.muenchendigital.digiwf.s3.cronjob.cleanup.expired-files}")
-  public void cronJobDefinitionCleanUpExpiredFolders() {
-    this.cleanUpExpiredFiles.cleanUpExpiredFolders();
-  }
+    @Scheduled(cron = "${digiwf.s3.cronjob.cleanup.expired-files}")
+    public void cronJobDefinitionCleanUpExpiredFolders() {
+        this.cleanUpExpiredFiles.cleanUpExpiredFolders();
+    }
 
-  @Scheduled(cron = "${io.muenchendigital.digiwf.s3.cronjob.cleanup.unused-files}")
-  public void cronJobCleanUpUnusedFolders() {
-    this.cleanUpUnusedFolders.cleanUpUnusedFolders();
-  }
+    @Scheduled(cron = "${digiwf.s3.cronjob.cleanup.unused-files}")
+    public void cronJobCleanUpUnusedFolders() {
+        this.cleanUpUnusedFolders.cleanUpUnusedFolders();
+    }
 
 }
 
