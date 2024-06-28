@@ -25,7 +25,8 @@ describe("Example Usertask", () => {
 
     cy.log("Test task exists");
     let myTasks = nav.openMyTasks();
-    myTasks.itemContainsText(0, "User Task");
+    myTasks.itemContainsText(0, exampleUserTask.headline);
+    myTasks.itemContainsText(0, exampleUserTaskStart.headline);
     nav.gatherTaskMetrics("created", ["myTasks"]);
     nav.compareTaskMetrics("initial", "created", { myTasks: 1 });
 

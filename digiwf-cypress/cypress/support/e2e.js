@@ -59,4 +59,11 @@ beforeEach(() => {
     },
     setupDefaultIntercept
   ).as("dataUserSearch");
+  cy.intercept(
+    {
+      method: "POST",
+      url: "/api/digitalwf-tasklist-service/rest/tasks/id/*/assign",
+    },
+    setupDefaultIntercept
+  ).as("dataAssignTask");
 });

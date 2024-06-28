@@ -99,6 +99,7 @@ class Nav {
 
   /**
    * Compares two via {@link gatherTaskMetrics} collected task counts.
+   * Uses difference calculation to use values via Cypress aliases and support existing tasks.
    * @param prefix1 Prefix used for the first collection.
    * @param prefix2 Prefix used for the second collection.
    * @param differences Map of differences between first and second collections.

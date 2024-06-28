@@ -1,18 +1,18 @@
 import Task from "../../components/task";
 import startProcess from "../startProcess";
 
-class ExampleUserTaskStart extends Task {
-  headline = "Example Usertask";
+class ExampleAllInputFieldsStart extends Task {
+  headline = "Example All Input Fields";
   elements = {
-    userForTask: () => this.formElements.inputElement("FORMFIELD_User"),
+    user: () => this.formElements.inputElement("FormField_User"),
   };
 
   checkHeadline() {
     super._checkHeadline(this.headline);
   }
 
-  setUserName(user) {
-    this.setUserInput(this.elements.userForTask(), user);
+  setUser(user) {
+    this.setUserInput(this.elements.user(), user);
   }
 
   clickComplete() {
@@ -21,4 +21,4 @@ class ExampleUserTaskStart extends Task {
   }
 }
 
-module.exports = new ExampleUserTaskStart();
+module.exports = new ExampleAllInputFieldsStart();
