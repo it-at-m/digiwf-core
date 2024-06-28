@@ -11,19 +11,17 @@ import java.util.Map;
 @Getter
 @Setter
 @Validated
-@ConfigurationProperties(prefix = "de.muenchen.oss.digiwf.s3.client")
+@ConfigurationProperties(prefix = "digiwf.s3.client")
 public class S3IntegrationClientProperties {
 
     private String documentStorageUrl;
     private boolean enableSecurity;
 
-    /** Maximum allowed file size. Default is 100MB. */
-    private DataSize maxFileSize = DataSize.ofMegabytes(100);
-    /** Maximum allowed folder size. Default is 500MB. */
-    private DataSize maxFolderSize = DataSize.ofMegabytes(500);
-    /**
-     * Supported file extensions.
-     */
+    /** Maximum allowed file size. Default is 0, which indicates that there is no limit. */
+    private DataSize maxFileSize = DataSize.ofBytes(0L);
+    /** Maximum allowed size of a batch of files. Default is 0, which indicates that there is no limit. */
+    private DataSize maxBatchSize = DataSize.ofBytes(0L);
+    /** Supported file extensions. */
     private Map<String, String> supportedFileExtensions;
 
 }

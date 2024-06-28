@@ -382,7 +382,7 @@
       "FileSizesInFolderDto": {
         "type": "object",
         "properties": {
-          "files": {
+          "fileSizes": {
             "type": "object",
             "additionalProperties": {
               "type": "integer",

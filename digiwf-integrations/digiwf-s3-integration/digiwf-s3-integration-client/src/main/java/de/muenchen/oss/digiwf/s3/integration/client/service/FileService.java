@@ -25,38 +25,78 @@ public class FileService {
      */
     private final Map<String, String> supportedFileExtensions;
 
+    /** The maximum allowed file size. A value of 0 indicates no limits. */
     @Getter
     private final DataSize maxFileSize;
 
+    /** The maximum allowed batch size. A value of 0 indicates no limits. */
     @Getter
-    private final DataSize maxFolderSize;
+    private final DataSize maxBatchSize;
 
-    public FileService(final Map<String, String> supportedFileExtensions, final DataSize maxFileSize, final DataSize maxFolderSize) {
+    public FileService(final Map<String, String> supportedFileExtensions, final DataSize maxFileSize, final DataSize maxBatchSize) {
         this.supportedFileExtensions = Objects.nonNull(supportedFileExtensions) ? supportedFileExtensions : new HashMap<>();
         this.maxFileSize = maxFileSize;
-        this.maxFolderSize = maxFolderSize;
+        this.maxBatchSize = maxBatchSize;
     }
 
+    /**
+     * Checks if the given file size is valid.
+     *
+     * @param file the byte array representing the file content.
+     * @return {@code true} if the file size is valid, {@code false} otherwise.
+     */
     public boolean isValidFileSize(final byte[] file) {
-        return isValidBatchSize(file.length);
+        return isValidFileSize(file.length);
     }
 
+    /**
+     * Checks if the given file size is valid.
+     *
+     * @param fileSizeInBytes the size of the file in bytes.
+     * @return {@code true} if the file size is valid, {@code false} otherwise.
+     */
     public boolean isValidFileSize(final long fileSizeInBytes) {
+        if (Objects.isNull(maxFileSize) || maxFileSize.toBytes() == 0L) return true;
         return DataSize.ofBytes(fileSizeInBytes).compareTo(maxFileSize) <= 0;
     }
 
-    public DataSize getTotalBatchSize(final Map<String, Long> fileSizesWithPaths){
+    /**
+     * Calculates the total size of a batch of files.
+     *
+     * @param fileSizesWithPaths a map of file paths and their corresponding sizes.
+     * @return the total size of the batch as a DataSize object.
+     */
+    public DataSize getTotalBatchSize(final Map<String, Long> fileSizesWithPaths) {
         return DataSize.ofBytes(fileSizesWithPaths.values().stream().mapToLong(Long::valueOf).sum());
     }
 
-    public boolean isValidBatchSize(final long folderSizeInBytes) {
-        return DataSize.ofBytes(folderSizeInBytes).compareTo(maxFolderSize) <= 0;
+    /**
+     * Checks if the given batch size is valid.
+     *
+     * @param batchSizeInBytes the size of the batch in bytes.
+     * @return {@code true} if the batch size is valid, {@code false} otherwise.
+     */
+    public boolean isValidBatchSize(final long batchSizeInBytes) {
+        return DataSize.ofBytes(batchSizeInBytes).compareTo(maxBatchSize) <= 0;
     }
 
-    public boolean isValidBatchSize(final DataSize folderSizeInBytes) {
-        return folderSizeInBytes.compareTo(maxFolderSize) <= 0;
+    /**
+     * Checks if the given batch size is valid.
+     *
+     * @param batchSizeInBytes the size of the batch as a  {@link DataSize} object.
+     * @return {@code true} if the batch size is valid, {@code false} otherwise.
+     */
+    public boolean isValidBatchSize(final DataSize batchSizeInBytes) {
+        if (Objects.isNull(maxBatchSize) || maxBatchSize.toBytes() == 0L) return true;
+        return batchSizeInBytes.compareTo(maxBatchSize) <= 0;
     }
 
+    /**
+     * Retrieves a map of oversized files.
+     *
+     * @param fileSizesWithPaths a map containing file paths and their corresponding sizes.
+     * @return a map of oversized files.
+     */
     public Map<String, Long> getOversizedFiles(final Map<String, Long> fileSizesWithPaths) {
         return fileSizesWithPaths.entrySet().stream()
                 .filter(entry -> !isValidFileSize(entry.getValue()))
@@ -86,13 +126,13 @@ public class FileService {
         try {
             mimeType = allMimeTypes.forName(type);
         } catch (MimeTypeException e) {
-            throw new NoFileTypeException(NO_FILE_EXTENSION + type);
+            throw new NoFileTypeException(String.format(NO_FILE_EXTENSION, type));
         }
         final String extension = mimeType.getExtension();
         final int lastDotIndex = extension.lastIndexOf('.');
-        if (lastDotIndex == -1) throw new NoFileTypeException(NO_FILE_EXTENSION + type);
+        if (lastDotIndex == -1) throw new NoFileTypeException(String.format(NO_FILE_EXTENSION, type));
         final String fileExtension = extension.substring(lastDotIndex + 1);
-        if (fileExtension.isEmpty()) throw new NoFileTypeException(NO_FILE_EXTENSION + type);
+        if (fileExtension.isEmpty()) throw new NoFileTypeException(String.format(NO_FILE_EXTENSION, type));
         return fileExtension;
     }
 

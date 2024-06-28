@@ -102,7 +102,7 @@ public class S3IntegrationClientAutoConfiguration {
     @ConditionalOnBean(SupportedFileExtensions.class)
     public FileService fileService(final SupportedFileExtensions supportedFileExtensions) {
         return new FileService(supportedFileExtensions, this.s3IntegrationClientProperties.getMaxFileSize(),
-                this.s3IntegrationClientProperties.getMaxFolderSize());
+                this.s3IntegrationClientProperties.getMaxBatchSize());
     }
 
     /**
@@ -114,7 +114,7 @@ public class S3IntegrationClientAutoConfiguration {
     @ConditionalOnMissingBean(SupportedFileExtensions.class)
     public FileService fileServiceFromS3IntegrationClientProperties() {
         return new FileService(this.s3IntegrationClientProperties.getSupportedFileExtensions(), this.s3IntegrationClientProperties.getMaxFileSize(),
-                this.s3IntegrationClientProperties.getMaxFolderSize());
+                this.s3IntegrationClientProperties.getMaxBatchSize());
     }
 
     /**

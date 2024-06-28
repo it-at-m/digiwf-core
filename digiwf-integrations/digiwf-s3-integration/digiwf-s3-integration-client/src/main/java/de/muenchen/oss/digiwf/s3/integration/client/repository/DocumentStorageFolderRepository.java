@@ -99,7 +99,7 @@ public class DocumentStorageFolderRepository {
         try {
             final FolderApiApi folderApi = this.apiClientFactory.getFolderApiForDocumentStorageUrl(documentStorageUrl);
             final Mono<FileSizesInFolderDto> fileSizesInFolderDtoMono = folderApi.getAllFileSizesInFolderRecursively(pathToFolder);
-            return fileSizesInFolderDtoMono.mapNotNull(FileSizesInFolderDto::getFiles);
+            return fileSizesInFolderDtoMono.mapNotNull(FileSizesInFolderDto::getFileSizes);
         } catch (final HttpClientErrorException exception) {
             final String message = String.format("The request to get all file sizes within a folder failed %s.", exception.getStatusCode());
             log.error(message);
