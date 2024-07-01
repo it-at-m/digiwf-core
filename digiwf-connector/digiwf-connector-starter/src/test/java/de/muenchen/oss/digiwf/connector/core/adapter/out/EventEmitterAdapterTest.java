@@ -2,6 +2,7 @@ package de.muenchen.oss.digiwf.connector.core.adapter.out;
 
 
 import de.muenchen.oss.digiwf.connector.BaseSpringTest;
+import de.muenchen.oss.digiwf.connector.core.adapter.out.streaming.EventEmitterAdapter;
 import de.muenchen.oss.digiwf.connector.core.application.port.out.EmitEventOutPort;
 import org.junit.jupiter.api.*;
 import org.mockito.Mock;
