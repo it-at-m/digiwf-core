@@ -22,7 +22,7 @@ import static org.mockito.Mockito.*;
 class S3AdapterTest {
 
     private final S3FileTransferRepository s3FileTransferRepository = mock(S3FileTransferRepository.class);
-    private final FileService fileService = mock(FileService.class);
+    private final FileService fileService = new FileService(null, null, null);
     private S3Adapter s3Adapter;
 
     private final String data = "In Cosys generiertes Dokument";

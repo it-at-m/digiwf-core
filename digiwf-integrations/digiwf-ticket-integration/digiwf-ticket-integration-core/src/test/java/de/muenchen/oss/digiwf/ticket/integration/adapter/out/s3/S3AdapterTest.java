@@ -164,8 +164,8 @@ class S3AdapterTest {
         try {
             this.s3Adapter.loadFiles(filePaths, fileContext, processDefinition);
         } catch (BpmnError bpmnError) {
-            String expectedMessage = String.format("The following files exceed the maximum size:%n%s/%s: %d MB", fileContext, pathLargeFile,
-                    DataSize.ofBytes(TOO_LARGE_FILE_SIZE).toMegabytes());
+            String expectedMessage = String.format("The following files exceed the maximum size of %d MB:%n%s/%s: %d MB", ALLOWED_FILE_SIZE.toMegabytes(),
+                    fileContext, pathLargeFile, DataSize.ofBytes(TOO_LARGE_FILE_SIZE).toMegabytes());
             String actualMessage = bpmnError.getErrorMessage();
 
             assertEquals(expectedMessage, actualMessage);

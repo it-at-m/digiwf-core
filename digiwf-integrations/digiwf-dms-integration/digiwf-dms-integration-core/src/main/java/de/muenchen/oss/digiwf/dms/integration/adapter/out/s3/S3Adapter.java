@@ -67,7 +67,7 @@ public class S3Adapter implements LoadFileOutPort, TransferContentOutPort {
                     .map(entry -> entry.getKey() + ": " + DataSize.ofBytes(entry.getValue()).toMegabytes() + " MB")
                     .collect(Collectors.joining(System.lineSeparator()));
             throw new BpmnError(FILE_SIZE_ERROR,
-                    String.format("The following files exceed the maximum size of %d MB:%n%s", fileService.getMaxFileSize(), filesOverMaxString));
+                    String.format("The following files exceed the maximum size of %d MB:%n%s", fileService.getMaxFileSize().toMegabytes(), filesOverMaxString));
         }
 
         // Validate total batch size

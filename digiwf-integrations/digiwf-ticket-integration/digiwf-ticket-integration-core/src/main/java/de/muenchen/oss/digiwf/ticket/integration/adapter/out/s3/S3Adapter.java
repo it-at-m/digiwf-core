@@ -26,6 +26,8 @@ public class S3Adapter implements LoadFileOutPort {
     private static final String LOAD_FOLDER_FAILED = "LOAD_FOLDER_FAILED";
     private static final String FILE_SIZE_ERROR = "FILE_SIZE_ERROR";
     private static final String BATCH_SIZE_ERROR = "BATCH_SIZE_ERROR";
+    private static final String FILE_TYPE_NOT_SUPPORTED = "FILE_TYPE_NOT_SUPPORTED";
+    private static final String LOAD_FILE_FAILED = "LOAD_FILE_FAILED";
 
     private final DocumentStorageFileRepository documentStorageFileRepository;
     private final DocumentStorageFolderRepository documentStorageFolderRepository;
@@ -64,7 +66,8 @@ public class S3Adapter implements LoadFileOutPort {
             final String filesOverMaxString = oversizedFiles.entrySet().stream()
                     .map(entry -> entry.getKey() + ": " + DataSize.ofBytes(entry.getValue()).toMegabytes() + " MB")
                     .collect(Collectors.joining(System.lineSeparator()));
-            throw new BpmnError(FILE_SIZE_ERROR, String.format("The following files exceed the maximum size:%n%s", filesOverMaxString));
+            throw new BpmnError(FILE_SIZE_ERROR,
+                    String.format("The following files exceed the maximum size of %d MB:%n%s", fileService.getMaxFileSize().toMegabytes(), filesOverMaxString));
         }
 
         // Validate total batch size
@@ -130,11 +133,11 @@ public class S3Adapter implements LoadFileOutPort {
 
             // check if mimeType exists
             if (!fileService.isSupported(mimeType))
-                throw new BpmnError("FILE_TYPE_NOT_SUPPORTED", "The type of this file is not supported: " + filepath);
+                throw new BpmnError(FILE_TYPE_NOT_SUPPORTED, "The type of this file is not supported: " + filepath);
 
             return new FileContent(mimeType, filename, bytes);
         } catch (final DocumentStorageException | DocumentStorageServerErrorException | DocumentStorageClientErrorException e) {
-            throw new BpmnError("LOAD_FILE_FAILED", "An file could not be loaded from url: " + filepath);
+            throw new BpmnError(LOAD_FILE_FAILED, "A file could not be loaded from url: " + filepath);
         }
     }
 

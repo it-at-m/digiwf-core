@@ -36,7 +36,7 @@ class S3AdapterTest {
 
     private static final DataSize ALLOWED_FILE_SIZE = DataSize.ofMegabytes(100);
     private static final DataSize ALLOWED_BATCH_SIZE = DataSize.ofMegabytes(110);
-    private static final long TOO_LARGE_FILE_SIZE = ALLOWED_FILE_SIZE.toBytes() + 1L; // 1 byte over allowed
+    private static final long TOO_LARGE_FILE_SIZE = ALLOWED_FILE_SIZE.toBytes() + DataSize.ofMegabytes(1L).toBytes(); // 1 Mbyte over allowed
 
     private final DocumentStorageFileRepository documentStorageFileRepository = mock(DocumentStorageFileRepository.class);
 
@@ -329,8 +329,8 @@ class S3AdapterTest {
         try {
             this.s3Adapter.loadFiles(filePaths, fileContext, processDefinition);
         } catch (BpmnError bpmnError) {
-            String expectedMessage = String.format("The following files exceed the maximum size:%n%s/%s: %d MB", fileContext, pathLargeFile,
-                    DataSize.ofBytes(TOO_LARGE_FILE_SIZE).toMegabytes());
+            String expectedMessage = String.format("The following files exceed the maximum size of %d MB:%n%s/%s: %d MB", ALLOWED_FILE_SIZE.toMegabytes(),
+                    fileContext, pathLargeFile, DataSize.ofBytes(TOO_LARGE_FILE_SIZE).toMegabytes());
             String actualMessage = bpmnError.getErrorMessage();
 
             assertEquals(expectedMessage, actualMessage);
