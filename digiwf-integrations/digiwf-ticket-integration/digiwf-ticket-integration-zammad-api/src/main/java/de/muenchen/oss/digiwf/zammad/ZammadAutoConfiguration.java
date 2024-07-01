@@ -4,9 +4,9 @@
  */
 package de.muenchen.oss.digiwf.zammad;
 
-import de.muenchen.oss.digiwf.ticket.integration.adapter.zammad.ApiClient;
-import de.muenchen.oss.digiwf.ticket.integration.adapter.zammad.api.ArticlesApi;
-import de.muenchen.oss.digiwf.ticket.integration.adapter.zammad.api.TicketsApi;
+import de.muenchen.oss.digiwf.ticket.integration.adapter.out.zammad.ApiClient;
+import de.muenchen.oss.digiwf.ticket.integration.adapter.out.zammad.api.ArticlesApi;
+import de.muenchen.oss.digiwf.ticket.integration.adapter.out.zammad.api.TicketsApi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;

@@ -1,9 +1,7 @@
-package de.muenchen.oss.digiwf.ticket.integration.adapter.in;
+package de.muenchen.oss.digiwf.ticket.integration.adapter.in.streaming;
 
 import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
 import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
-import de.muenchen.oss.digiwf.ticket.integration.adapter.in.streaming.TicketMessageProcessor;
-import de.muenchen.oss.digiwf.ticket.integration.adapter.in.streaming.WriteArticleDto;
 import de.muenchen.oss.digiwf.ticket.integration.application.port.in.WriteArticleInPort;
 import de.muenchen.oss.digiwf.ticket.integration.domain.model.Article;
 import de.muenchen.oss.digiwf.ticket.integration.domain.model.TicketStatus;
@@ -20,7 +18,7 @@ import java.util.Map;
 import static de.muenchen.oss.digiwf.message.common.MessageConstants.*;
 import static org.mockito.ArgumentMatchers.any;
 
-class WriteArticleMessageProcessorTest {
+class WriteArticleStreamingAdapterTest {
 
     private final WriteArticleInPort writeArticleInPort = Mockito.mock(WriteArticleInPort.class);
 
@@ -28,7 +26,7 @@ class WriteArticleMessageProcessorTest {
 
     private final ErrorApi errorApi = Mockito.mock(ErrorApi.class);
 
-    private final TicketMessageProcessor messageProcessor = new TicketMessageProcessor(
+    private final TicketStreamingAdapter messageProcessor = new TicketStreamingAdapter(
             writeArticleInPort,
             processApi,
             errorApi);

@@ -30,7 +30,7 @@ import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_PROC
 
 @Slf4j
 @RequiredArgsConstructor
-public class TicketMessageProcessor {
+public class TicketStreamingAdapter {
 
     private static final String VALIDATION_ERROR_CODE = "VALIDATION_ERROR";
 

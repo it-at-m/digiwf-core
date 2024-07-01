@@ -1,4 +1,4 @@
-package de.muenchen.oss.digiwf.ticket.integration.application;
+package de.muenchen.oss.digiwf.ticket.integration.application.usecase;
 
 import de.muenchen.oss.digiwf.ticket.integration.application.port.in.WriteArticleInPort;
 import de.muenchen.oss.digiwf.ticket.integration.application.port.out.LoadFileOutPort;
