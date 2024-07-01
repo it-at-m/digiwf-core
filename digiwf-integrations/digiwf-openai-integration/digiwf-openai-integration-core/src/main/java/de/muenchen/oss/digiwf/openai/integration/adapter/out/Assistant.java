@@ -23,10 +23,6 @@ public interface Assistant {
     @UserMessage("Generate a mail from the template: {{template}} with the following json: {{json}} as input for the template placeholders defined by curly braces and translate the mail to the language: {{language}} ")
     String generateMail(@V("json") String json, @V("language") String language, @V("template") String template);
 
-    @SystemMessage("You are a simple json mapper bot and only return the mapped json without any explanation")
-    @UserMessage("Map the following json: {{json}} to the following json type: {{type}}")
-    String mapJson(@V("json") String json, @V("type") String type);
-
     @SystemMessage("You are a simple data extractor bot and only return the extracted data as json without any explanation")
     @UserMessage("Extract from the following json: {{json}} the following fields: {{fields}}")
     String extractData(@V("json") String json, @V("fields") String fields);

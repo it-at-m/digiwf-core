@@ -5,7 +5,6 @@ import de.muenchen.oss.digiwf.openai.integration.adapter.out.dto.ChatRequest;
 import de.muenchen.oss.digiwf.openai.integration.adapter.out.dto.ClassifyRequest;
 import de.muenchen.oss.digiwf.openai.integration.adapter.out.dto.ExtractDataRequest;
 import de.muenchen.oss.digiwf.openai.integration.adapter.out.dto.GenerateMailRequest;
-import de.muenchen.oss.digiwf.openai.integration.adapter.out.dto.MapJsonRequest;
 import de.muenchen.oss.digiwf.openai.integration.adapter.out.dto.OpenAiResponse;
 import de.muenchen.oss.digiwf.openai.integration.adapter.out.dto.SummarizeRequest;
 import de.muenchen.oss.digiwf.openai.integration.adapter.out.dto.TranslateRequest;
@@ -84,22 +83,6 @@ class OpenAiClientOutAdapterTest {
         when(this.assistant.generateMail("{\"test\": \"test\"}", "de", "Hallo {{test}}")).thenThrow(new RuntimeException("error"));
         Assertions.assertThrows(IncidentError.class, () -> this.openAiClientOutAdapter.generateMail(new GenerateMailRequest("{\"test\": \"test\"}", "de", "Hallo {{test}}")), "error");
         Mockito.verify(this.assistant).generateMail("{\"test\": \"test\"}", "de", "Hallo {{test}}");
-    }
-
-    @Test
-    void mapJson() {
-        when(this.assistant.mapJson("{\"test\": \"test\"}", "{\"tester\": \"\"}")).thenReturn("{\"tester\": \"test\"}");
-
-        final OpenAiResponse result = this.openAiClientOutAdapter.mapJson(new MapJsonRequest("{\"test\": \"test\"}", "{\"tester\": \"\"}"));
-
-        assertEquals("{\"tester\": \"test\"}", result.getAnswer());
-        Mockito.verify(this.assistant).mapJson("{\"test\": \"test\"}", "{\"tester\": \"\"}");
-
-        Mockito.reset(this.assistant);
-
-        when(this.assistant.mapJson("{\"test\": \"test\"}", "{\"tester\": \"\"}")).thenThrow(new RuntimeException("error"));
-        Assertions.assertThrows(IncidentError.class, () -> this.openAiClientOutAdapter.mapJson(new MapJsonRequest("{\"test\": \"test\"}", "{\"tester\": \"\"}")), "error");
-        Mockito.verify(this.assistant).mapJson("{\"test\": \"test\"}", "{\"tester\": \"\"}");
     }
 
     @Test

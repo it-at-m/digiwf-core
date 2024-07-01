@@ -6,7 +6,6 @@ import de.muenchen.oss.digiwf.openai.integration.adapter.out.dto.ChatRequest;
 import de.muenchen.oss.digiwf.openai.integration.adapter.out.dto.ClassifyRequest;
 import de.muenchen.oss.digiwf.openai.integration.adapter.out.dto.ExtractDataRequest;
 import de.muenchen.oss.digiwf.openai.integration.adapter.out.dto.GenerateMailRequest;
-import de.muenchen.oss.digiwf.openai.integration.adapter.out.dto.MapJsonRequest;
 import de.muenchen.oss.digiwf.openai.integration.adapter.out.dto.OpenAiResponse;
 import de.muenchen.oss.digiwf.openai.integration.adapter.out.dto.SummarizeRequest;
 import de.muenchen.oss.digiwf.openai.integration.adapter.out.dto.TranslateRequest;
@@ -51,15 +50,6 @@ public class OpenAiClientOutAdapter implements OpenAiClientOutPort {
     public OpenAiResponse generateMail(GenerateMailRequest generateMailRequest) throws BpmnError, IncidentError {
         try {
             return new OpenAiResponse(this.assistant.generateMail(generateMailRequest.getJson(), generateMailRequest.getLanguage(), generateMailRequest.getTemplate()));
-        } catch (final Exception exception) {
-            throw new IncidentError(exception.getMessage());
-        }
-    }
-
-    @Override
-    public OpenAiResponse mapJson(MapJsonRequest mapJsonRequest) throws BpmnError, IncidentError {
-        try {
-            return new OpenAiResponse(this.assistant.mapJson(mapJsonRequest.getJson(), mapJsonRequest.getType()));
         } catch (final Exception exception) {
             throw new IncidentError(exception.getMessage());
         }

@@ -6,7 +6,6 @@ import de.muenchen.oss.digiwf.openai.integration.adapter.out.dto.ChatRequest;
 import de.muenchen.oss.digiwf.openai.integration.adapter.out.dto.ClassifyRequest;
 import de.muenchen.oss.digiwf.openai.integration.adapter.out.dto.ExtractDataRequest;
 import de.muenchen.oss.digiwf.openai.integration.adapter.out.dto.GenerateMailRequest;
-import de.muenchen.oss.digiwf.openai.integration.adapter.out.dto.MapJsonRequest;
 import de.muenchen.oss.digiwf.openai.integration.adapter.out.dto.OpenAiResponse;
 import de.muenchen.oss.digiwf.openai.integration.adapter.out.dto.SummarizeRequest;
 import de.muenchen.oss.digiwf.openai.integration.adapter.out.dto.TranslateRequest;
@@ -37,11 +36,6 @@ public class OpenAiUseCase implements OpenAiInPort {
     @Override
     public OpenAiResponse generateMail(GenerateMailRequest generateMailRequest) throws BpmnError, IncidentError {
         return openAiClientOutPort.generateMail(generateMailRequest);
-    }
-
-    @Override
-    public OpenAiResponse mapJson(MapJsonRequest mapJsonRequest) throws BpmnError, IncidentError {
-        return openAiClientOutPort.mapJson(mapJsonRequest);
     }
 
     @Override
