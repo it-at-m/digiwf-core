@@ -25,6 +25,14 @@
             <groupId>de.muenchen.oss.digiwf</groupId>
             <artifactId>digiwf-message-starter</artifactId>
         </dependency>
+
+        <!-- Testing -->
+        <dependency>
+            <groupId>de.muenchen.oss.digiwf</groupId>
+            <artifactId>digiwf-unit-test</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
 </project>
