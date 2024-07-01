@@ -211,7 +211,7 @@ jobs:
 
       - name: Build and push ticket-integration
         if: inputs.build-images == true
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: ./digiwf-integrations/digiwf-openai-integration/digiwf-openai-integration-service
           push: true
