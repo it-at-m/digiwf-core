@@ -1,17 +1,7 @@
 package de.muenchen.oss.digiwf.openai.integration.adapter.in.streaming;
 
-import de.muenchen.oss.digiwf.openai.integration.adapter.in.streaming.dto.ClassifyDto;
-import de.muenchen.oss.digiwf.openai.integration.adapter.in.streaming.dto.ExtractDataDto;
-import de.muenchen.oss.digiwf.openai.integration.adapter.in.streaming.dto.GenerateMailDto;
-import de.muenchen.oss.digiwf.openai.integration.adapter.in.streaming.dto.PromptDto;
-import de.muenchen.oss.digiwf.openai.integration.adapter.in.streaming.dto.SummarizeDto;
-import de.muenchen.oss.digiwf.openai.integration.adapter.in.streaming.dto.TranslateDto;
-import de.muenchen.oss.digiwf.openai.integration.adapter.out.dto.ChatRequest;
-import de.muenchen.oss.digiwf.openai.integration.adapter.out.dto.ClassifyRequest;
-import de.muenchen.oss.digiwf.openai.integration.adapter.out.dto.ExtractDataRequest;
-import de.muenchen.oss.digiwf.openai.integration.adapter.out.dto.GenerateMailRequest;
-import de.muenchen.oss.digiwf.openai.integration.adapter.out.dto.SummarizeRequest;
-import de.muenchen.oss.digiwf.openai.integration.adapter.out.dto.TranslateRequest;
+import de.muenchen.oss.digiwf.openai.integration.adapter.in.streaming.dto.*;
+import de.muenchen.oss.digiwf.openai.integration.domain.*;
 import org.mapstruct.Mapper;
 
 @Mapper

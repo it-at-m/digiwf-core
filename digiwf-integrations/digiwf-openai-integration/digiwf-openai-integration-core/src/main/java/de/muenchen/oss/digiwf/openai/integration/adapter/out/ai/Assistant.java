@@ -1,4 +1,4 @@
-package de.muenchen.oss.digiwf.openai.integration.adapter.out;
+package de.muenchen.oss.digiwf.openai.integration.adapter.out.ai;
 
 import dev.langchain4j.service.SystemMessage;
 import dev.langchain4j.service.UserMessage;

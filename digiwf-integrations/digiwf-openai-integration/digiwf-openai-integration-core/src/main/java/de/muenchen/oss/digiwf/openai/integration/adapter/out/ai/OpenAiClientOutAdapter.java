@@ -1,15 +1,9 @@
-package de.muenchen.oss.digiwf.openai.integration.adapter.out;
+package de.muenchen.oss.digiwf.openai.integration.adapter.out.ai;
 
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
-import de.muenchen.oss.digiwf.openai.integration.adapter.out.dto.ChatRequest;
-import de.muenchen.oss.digiwf.openai.integration.adapter.out.dto.ClassifyRequest;
-import de.muenchen.oss.digiwf.openai.integration.adapter.out.dto.ExtractDataRequest;
-import de.muenchen.oss.digiwf.openai.integration.adapter.out.dto.GenerateMailRequest;
-import de.muenchen.oss.digiwf.openai.integration.adapter.out.dto.OpenAiResponse;
-import de.muenchen.oss.digiwf.openai.integration.adapter.out.dto.SummarizeRequest;
-import de.muenchen.oss.digiwf.openai.integration.adapter.out.dto.TranslateRequest;
 import de.muenchen.oss.digiwf.openai.integration.application.port.out.OpenAiClientOutPort;
+import de.muenchen.oss.digiwf.openai.integration.domain.*;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 

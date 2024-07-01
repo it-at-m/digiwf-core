@@ -1,21 +1,12 @@
 package de.muenchen.oss.digiwf.openai.integration.adapter.in.streaming;
 
+import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
+import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
-import de.muenchen.oss.digiwf.openai.integration.adapter.in.streaming.dto.ClassifyDto;
-import de.muenchen.oss.digiwf.openai.integration.adapter.in.streaming.dto.ExtractDataDto;
-import de.muenchen.oss.digiwf.openai.integration.adapter.in.streaming.dto.GenerateMailDto;
-import de.muenchen.oss.digiwf.openai.integration.adapter.in.streaming.dto.PromptDto;
-import de.muenchen.oss.digiwf.openai.integration.adapter.in.streaming.dto.SummarizeDto;
-import de.muenchen.oss.digiwf.openai.integration.adapter.in.streaming.dto.TranslateDto;
-import de.muenchen.oss.digiwf.openai.integration.adapter.out.dto.ChatRequest;
-import de.muenchen.oss.digiwf.openai.integration.adapter.out.dto.ClassifyRequest;
-import de.muenchen.oss.digiwf.openai.integration.adapter.out.dto.ExtractDataRequest;
-import de.muenchen.oss.digiwf.openai.integration.adapter.out.dto.GenerateMailRequest;
-import de.muenchen.oss.digiwf.openai.integration.adapter.out.dto.OpenAiResponse;
-import de.muenchen.oss.digiwf.openai.integration.adapter.out.dto.SummarizeRequest;
-import de.muenchen.oss.digiwf.openai.integration.adapter.out.dto.TranslateRequest;
+import de.muenchen.oss.digiwf.openai.integration.adapter.in.streaming.dto.*;
 import de.muenchen.oss.digiwf.openai.integration.application.port.in.OpenAiInPort;
-import de.muenchen.oss.digiwf.openai.integration.application.port.out.IntegrationOutPort;
+import de.muenchen.oss.digiwf.openai.integration.domain.*;
+import lombok.val;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -24,23 +15,19 @@ import org.springframework.messaging.MessageHeaders;
 
 import java.util.Map;
 
-import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_INTEGRATION_NAME;
-import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_PROCESS_DEFINITION;
-import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_PROCESS_INSTANCE_ID;
-import static de.muenchen.oss.digiwf.message.common.MessageConstants.TYPE;
+import static de.muenchen.oss.digiwf.message.common.MessageConstants.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
-class MessageProcessorTest {
-
-    private final OpenAiInPort openAiInPort = Mockito.mock(OpenAiInPort.class);
-    private final IntegrationOutPort integrationOutPort = Mockito.mock(IntegrationOutPort.class);
-    private final OpenAiMapper openAiMapper = new OpenAiMapperImpl();
-
-    private final MessageProcessor unitUnderTest = new MessageProcessor(openAiInPort, integrationOutPort, openAiMapper);
+class StreamingAdapterTest {
 
     private static final String RESPONSE = "response";
+    private final ProcessApi processApi = Mockito.mock(ProcessApi.class);
+    private final ErrorApi errorApi = Mockito.mock(ErrorApi.class);
+    private final OpenAiInPort openAiInPort = Mockito.mock(OpenAiInPort.class);
+    private final OpenAiMapper openAiMapper = new OpenAiMapperImpl();
+    private final StreamingAdapter unitUnderTest = new StreamingAdapter(processApi, errorApi, openAiInPort, openAiMapper);
 
     @Test
     void basicChat() {
@@ -64,18 +51,19 @@ class MessageProcessorTest {
         unitUnderTest.basicChat().accept(message);
 
         Mockito.verify(openAiInPort).chat(new ChatRequest("this is a test"));
-        Mockito.verify(integrationOutPort).correlateProcessMessage(any(), eq(Map.of(RESPONSE, "this is an answer")));
-        Mockito.verifyNoMoreInteractions(openAiInPort, integrationOutPort);
+        Mockito.verify(processApi).correlateMessage(any(), any(), any(), eq(Map.of(RESPONSE, "this is an answer")));
+        Mockito.verifyNoMoreInteractions(openAiInPort, processApi);
 
-        Mockito.reset(openAiInPort, integrationOutPort);
+        Mockito.reset(openAiInPort, processApi);
 
-        when(openAiInPort.chat(any())).thenThrow(new IncidentError("Some error"));
+        val error = new IncidentError("Some error");
+        when(openAiInPort.chat(any())).thenThrow(error);
 
         unitUnderTest.basicChat().accept(message);
 
         Mockito.verify(openAiInPort).chat(new ChatRequest("this is a test"));
-        Mockito.verify(integrationOutPort).handleIncident(any(), eq(new IncidentError("Some error")));
-        Mockito.verifyNoMoreInteractions(openAiInPort, integrationOutPort);
+        Mockito.verify(errorApi).handleIncident(any(), eq(error));
+        Mockito.verifyNoMoreInteractions(openAiInPort, errorApi);
     }
 
     @Test
@@ -100,18 +88,19 @@ class MessageProcessorTest {
         unitUnderTest.translate().accept(message);
 
         Mockito.verify(openAiInPort).translate(new TranslateRequest("this is a test", "en"));
-        Mockito.verify(integrationOutPort).correlateProcessMessage(any(), eq(Map.of(RESPONSE, "this is an answer")));
-        Mockito.verifyNoMoreInteractions(openAiInPort, integrationOutPort);
+        Mockito.verify(processApi).correlateMessage(any(), any(), any(), eq(Map.of(RESPONSE, "this is an answer")));
+        Mockito.verifyNoMoreInteractions(openAiInPort, processApi);
 
-        Mockito.reset(openAiInPort, integrationOutPort);
+        Mockito.reset(openAiInPort, processApi);
 
-        when(openAiInPort.translate(any())).thenThrow(new IncidentError("Some error"));
+        val error = new IncidentError("Some error");
+        when(openAiInPort.translate(any())).thenThrow(error);
 
         unitUnderTest.translate().accept(message);
 
         Mockito.verify(openAiInPort).translate(new TranslateRequest("this is a test", "en"));
-        Mockito.verify(integrationOutPort).handleIncident(any(), eq(new IncidentError("Some error")));
-        Mockito.verifyNoMoreInteractions(openAiInPort, integrationOutPort);
+        Mockito.verify(errorApi).handleIncident(any(), eq(error));
+        Mockito.verifyNoMoreInteractions(openAiInPort, errorApi);
     }
 
     @Test
@@ -136,18 +125,19 @@ class MessageProcessorTest {
         unitUnderTest.summarize().accept(message);
 
         Mockito.verify(openAiInPort).summarize(new SummarizeRequest("this is a test", 1));
-        Mockito.verify(integrationOutPort).correlateProcessMessage(any(), eq(Map.of(RESPONSE, "this is an answer")));
-        Mockito.verifyNoMoreInteractions(openAiInPort, integrationOutPort);
+        Mockito.verify(processApi).correlateMessage(any(), any(), any(), eq(Map.of(RESPONSE, "this is an answer")));
+        Mockito.verifyNoMoreInteractions(openAiInPort, processApi);
 
-        Mockito.reset(openAiInPort, integrationOutPort);
+        Mockito.reset(openAiInPort, processApi);
 
-        when(openAiInPort.summarize(any())).thenThrow(new IncidentError("Some error"));
+        val error = new IncidentError("Some error");
+        when(openAiInPort.summarize(any())).thenThrow(error);
 
         unitUnderTest.summarize().accept(message);
 
         Mockito.verify(openAiInPort).summarize(new SummarizeRequest("this is a test", 1));
-        Mockito.verify(integrationOutPort).handleIncident(any(), eq(new IncidentError("Some error")));
-        Mockito.verifyNoMoreInteractions(openAiInPort, integrationOutPort);
+        Mockito.verify(errorApi).handleIncident(any(), eq(error));
+        Mockito.verifyNoMoreInteractions(openAiInPort, errorApi);
     }
 
     @Test
@@ -171,19 +161,20 @@ class MessageProcessorTest {
 
         unitUnderTest.generateMail().accept(message);
 
-        Mockito.verify(openAiInPort).generateMail(new GenerateMailRequest("{\"name\": \"Rene\"}",  "de", "Hallo {name}"));
-        Mockito.verify(integrationOutPort).correlateProcessMessage(any(), eq(Map.of(RESPONSE, "Hallo Rene")));
-        Mockito.verifyNoMoreInteractions(openAiInPort, integrationOutPort);
+        Mockito.verify(openAiInPort).generateMail(new GenerateMailRequest("{\"name\": \"Rene\"}", "de", "Hallo {name}"));
+        Mockito.verify(processApi).correlateMessage(any(), any(), any(), eq(Map.of(RESPONSE, "Hallo Rene")));
+        Mockito.verifyNoMoreInteractions(openAiInPort, processApi);
 
-        Mockito.reset(openAiInPort, integrationOutPort);
+        Mockito.reset(openAiInPort, processApi);
 
-        when(openAiInPort.generateMail(any())).thenThrow(new IncidentError("Some error"));
+        val error = new IncidentError("Some error");
+        when(openAiInPort.generateMail(any())).thenThrow(error);
 
         unitUnderTest.generateMail().accept(message);
 
-        Mockito.verify(openAiInPort).generateMail(new GenerateMailRequest("{\"name\": \"Rene\"}",  "de", "Hallo {name}"));
-        Mockito.verify(integrationOutPort).handleIncident(any(), eq(new IncidentError("Some error")));
-        Mockito.verifyNoMoreInteractions(openAiInPort, integrationOutPort);
+        Mockito.verify(openAiInPort).generateMail(new GenerateMailRequest("{\"name\": \"Rene\"}", "de", "Hallo {name}"));
+        Mockito.verify(errorApi).handleIncident(any(), eq(error));
+        Mockito.verifyNoMoreInteractions(openAiInPort, errorApi);
     }
 
     @Test
@@ -208,18 +199,19 @@ class MessageProcessorTest {
         unitUnderTest.extractData().accept(message);
 
         Mockito.verify(openAiInPort).extractData(new ExtractDataRequest("{\"name\": \"Rene\", \"language\": \"de\"}", "name"));
-        Mockito.verify(integrationOutPort).correlateProcessMessage(any(), eq(Map.of(RESPONSE, "{\"name\": \"Rene\"}")));
-        Mockito.verifyNoMoreInteractions(openAiInPort, integrationOutPort);
+        Mockito.verify(processApi).correlateMessage(any(), any(), any(), eq(Map.of(RESPONSE, "{\"name\": \"Rene\"}")));
+        Mockito.verifyNoMoreInteractions(openAiInPort, processApi);
 
-        Mockito.reset(openAiInPort, integrationOutPort);
+        Mockito.reset(openAiInPort, processApi);
 
-        when(openAiInPort.extractData(any())).thenThrow(new IncidentError("Some error"));
+        val error = new IncidentError("Some error");
+        when(openAiInPort.extractData(any())).thenThrow(error);
 
         unitUnderTest.extractData().accept(message);
 
         Mockito.verify(openAiInPort).extractData(new ExtractDataRequest("{\"name\": \"Rene\", \"language\": \"de\"}", "name"));
-        Mockito.verify(integrationOutPort).handleIncident(any(), eq(new IncidentError("Some error")));
-        Mockito.verifyNoMoreInteractions(openAiInPort, integrationOutPort);
+        Mockito.verify(errorApi).handleIncident(any(), eq(error));
+        Mockito.verifyNoMoreInteractions(openAiInPort, errorApi);
     }
 
     @Test
@@ -244,17 +236,18 @@ class MessageProcessorTest {
         unitUnderTest.classify().accept(message);
 
         Mockito.verify(openAiInPort).classify(new ClassifyRequest("{\"name\": \"Rene\", \"language\": \"deutsch\"}", "de, en"));
-        Mockito.verify(integrationOutPort).correlateProcessMessage(any(), eq(Map.of(RESPONSE, "de")));
-        Mockito.verifyNoMoreInteractions(openAiInPort, integrationOutPort);
+        Mockito.verify(processApi).correlateMessage(any(), any(), any(), eq(Map.of(RESPONSE, "de")));
+        Mockito.verifyNoMoreInteractions(openAiInPort, processApi);
 
-        Mockito.reset(openAiInPort, integrationOutPort);
+        Mockito.reset(openAiInPort, processApi);
 
-        when(openAiInPort.classify(any())).thenThrow(new IncidentError("Some error"));
+        val error = new IncidentError("Some error");
+        when(openAiInPort.classify(any())).thenThrow(error);
 
         unitUnderTest.classify().accept(message);
 
         Mockito.verify(openAiInPort).classify(new ClassifyRequest("{\"name\": \"Rene\", \"language\": \"deutsch\"}", "de, en"));
-        Mockito.verify(integrationOutPort).handleIncident(any(), eq(new IncidentError("Some error")));
-        Mockito.verifyNoMoreInteractions(openAiInPort, integrationOutPort);
+        Mockito.verify(errorApi).handleIncident(any(), eq(error));
+        Mockito.verifyNoMoreInteractions(openAiInPort, errorApi);
     }
 }

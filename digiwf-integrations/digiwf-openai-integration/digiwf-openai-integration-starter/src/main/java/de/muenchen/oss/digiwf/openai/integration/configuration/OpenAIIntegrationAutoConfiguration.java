@@ -2,19 +2,12 @@ package de.muenchen.oss.digiwf.openai.integration.configuration;
 
 import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
 import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
-import de.muenchen.oss.digiwf.openai.integration.adapter.in.streaming.MessageProcessor;
 import de.muenchen.oss.digiwf.openai.integration.adapter.in.streaming.OpenAiMapper;
-import de.muenchen.oss.digiwf.openai.integration.adapter.in.streaming.dto.ClassifyDto;
-import de.muenchen.oss.digiwf.openai.integration.adapter.in.streaming.dto.ExtractDataDto;
-import de.muenchen.oss.digiwf.openai.integration.adapter.in.streaming.dto.GenerateMailDto;
-import de.muenchen.oss.digiwf.openai.integration.adapter.in.streaming.dto.PromptDto;
-import de.muenchen.oss.digiwf.openai.integration.adapter.in.streaming.dto.SummarizeDto;
-import de.muenchen.oss.digiwf.openai.integration.adapter.in.streaming.dto.TranslateDto;
-import de.muenchen.oss.digiwf.openai.integration.adapter.out.Assistant;
-import de.muenchen.oss.digiwf.openai.integration.adapter.out.IntegrationOutAdapter;
-import de.muenchen.oss.digiwf.openai.integration.adapter.out.OpenAiClientOutAdapter;
+import de.muenchen.oss.digiwf.openai.integration.adapter.in.streaming.StreamingAdapter;
+import de.muenchen.oss.digiwf.openai.integration.adapter.in.streaming.dto.*;
+import de.muenchen.oss.digiwf.openai.integration.adapter.out.ai.Assistant;
+import de.muenchen.oss.digiwf.openai.integration.adapter.out.ai.OpenAiClientOutAdapter;
 import de.muenchen.oss.digiwf.openai.integration.application.port.in.OpenAiInPort;
-import de.muenchen.oss.digiwf.openai.integration.application.port.out.IntegrationOutPort;
 import de.muenchen.oss.digiwf.openai.integration.application.port.out.OpenAiClientOutPort;
 import de.muenchen.oss.digiwf.openai.integration.application.usecase.OpenAiUseCase;
 import de.muenchen.oss.digiwf.openai.integration.properties.AzureIntegrationProperties;
@@ -90,12 +83,6 @@ public class OpenAIIntegrationAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public IntegrationOutPort integrationOutPort(final ProcessApi processApi, final ErrorApi errorApi) {
-        return new IntegrationOutAdapter(processApi, errorApi);
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
     public OpenAiInPort openAiInPort(final OpenAiClientOutPort addressClientOutPort) {
         return new OpenAiUseCase(addressClientOutPort);
     }
@@ -104,45 +91,47 @@ public class OpenAIIntegrationAutoConfiguration {
 
     @ConditionalOnMissingBean
     @Bean
-    public MessageProcessor messageProcessor(
+    public StreamingAdapter messageProcessor(
+            final ProcessApi processApi,
+            final ErrorApi errorApi,
             final OpenAiInPort addressGermanyInPort,
-            final IntegrationOutPort integrationOutPort,
             final OpenAiMapper addressServiceMapper
     ) {
-        return new MessageProcessor(
+        return new StreamingAdapter(
+                processApi,
+                errorApi,
                 addressGermanyInPort,
-                integrationOutPort,
                 addressServiceMapper
         );
     }
 
     @Bean
-    public Consumer<Message<PromptDto>> basicChat(final MessageProcessor messageProcessor) {
-        return messageProcessor.basicChat();
+    public Consumer<Message<PromptDto>> basicChat(final StreamingAdapter streamingAdapter) {
+        return streamingAdapter.basicChat();
     }
 
     @Bean
-    public Consumer<Message<TranslateDto>> translate(final MessageProcessor messageProcessor) {
-        return messageProcessor.translate();
+    public Consumer<Message<TranslateDto>> translate(final StreamingAdapter streamingAdapter) {
+        return streamingAdapter.translate();
     }
 
     @Bean
-    public Consumer<Message<SummarizeDto>> summarize(final MessageProcessor messageProcessor) {
-        return messageProcessor.summarize();
+    public Consumer<Message<SummarizeDto>> summarize(final StreamingAdapter streamingAdapter) {
+        return streamingAdapter.summarize();
     }
 
     @Bean
-    public Consumer<Message<GenerateMailDto>> generateMail(final MessageProcessor messageProcessor) {
-        return messageProcessor.generateMail();
+    public Consumer<Message<GenerateMailDto>> generateMail(final StreamingAdapter streamingAdapter) {
+        return streamingAdapter.generateMail();
     }
 
     @Bean
-    public Consumer<Message<ExtractDataDto>> extractData(final MessageProcessor messageProcessor) {
-        return messageProcessor.extractData();
+    public Consumer<Message<ExtractDataDto>> extractData(final StreamingAdapter streamingAdapter) {
+        return streamingAdapter.extractData();
     }
 
     @Bean
-    public Consumer<Message<ClassifyDto>> classify(final MessageProcessor messageProcessor) {
-        return messageProcessor.classify();
+    public Consumer<Message<ClassifyDto>> classify(final StreamingAdapter streamingAdapter) {
+        return streamingAdapter.classify();
     }
 }

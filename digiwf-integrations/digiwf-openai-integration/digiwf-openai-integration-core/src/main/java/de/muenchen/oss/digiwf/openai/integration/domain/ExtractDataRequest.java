@@ -1,4 +1,4 @@
-package de.muenchen.oss.digiwf.openai.integration.adapter.out.dto;
+package de.muenchen.oss.digiwf.openai.integration.domain;
 
 import lombok.Value;
 
