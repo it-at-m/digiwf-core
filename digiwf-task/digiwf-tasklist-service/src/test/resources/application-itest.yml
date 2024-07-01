@@ -59,18 +59,13 @@ ezldap:
     url: "http://localhost:${ezldap.client.port}"
     request: "/test"
 
-de:
-  muenchen:
-    oss:
-      digiwf:
-        s3:
-          client:
-            enable-security: false
-
 digiwf:
   s3service:
     topic: 'dwf-s3-itest'
     httpAPI: http://localhost:8086
+  s3:
+    client:
+      enable-security: false
   task-links:
     task-link-types:
       - link-type: zammad

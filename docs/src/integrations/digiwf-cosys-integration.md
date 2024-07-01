@@ -125,6 +125,6 @@ sind, können Sie die folgenden Konfigurationen für die DigiWF Cosys Integratio
 
 ### S3 Konfiguration
 
-| Eigenschaft                                                | Bedeutung            |
-|------------------------------------------------------------|----------------------|
-| `io.muenchendigital.digiwf.s3.client.document-storage-url` | Document Storage URL |
+| Eigenschaft                             | Bedeutung            |
+|-----------------------------------------|----------------------|
+| `digiwf.s3.client.document-storage-url` | Document Storage URL |

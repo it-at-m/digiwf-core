@@ -51,14 +51,6 @@ spring:
             client-secret: ${SSO_S3_CLIENT_SECRET}
             scope: email, profile, openid  # needed for userInfo endpoint
 
-de:
-  muenchen:
-    oss:
-      digiwf:
-        s3:
-          client:
-            document-storage-url: ${DIGIWF_S3_HTTPAPI:http://localhost:8086}
-            enable-security: true # security is on and uses the "s3" client
 
 io:
   muenchendigital:
@@ -74,7 +66,12 @@ logging:
       muenchendigital: info
 server:
   port: 8079
+
 digiwf:
   security:
     client-id: ${SSO_S3_CLIENT_ID}
     client-secret: ${SSO_S3_CLIENT_SECRET}
+  s3:
+    client:
+      document-storage-url: ${DIGIWF_S3_HTTPAPI:http://localhost:8086}
+      enable-security: true # security is on and uses the "s3" client
