@@ -6,12 +6,12 @@
     width="800"
   >
     <v-card>
-      <v-card-title> Aufgabenzuweisung </v-card-title>
+      <v-card-title> Aufgabenzuweisung</v-card-title>
       <v-card-text>
         <div>
           Die Aufgabe ist aktuell folgender Person zugewiesen:
           <h3>{{ assigneeFormatted }}</h3>
-          <br />
+          <br>
           Wollen Sie die Aufgabe übernehmen?
         </div>
       </v-card-text>
@@ -29,6 +29,7 @@
           aria-label="Seite verlassen"
           class="e2e-assign-task-to-yourself-btn-yes"
           color="primary"
+          data-test="assign-self-submit"
           @click="$emit('submit')"
         >
           Ja
@@ -39,7 +40,7 @@
 </template>
 
 <script lang="ts">
-import { PropType } from "vue";
+import {PropType} from "vue";
 
 export default {
   props: {

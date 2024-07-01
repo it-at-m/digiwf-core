@@ -35,7 +35,10 @@
                 },
                 "fieldType": "text",
                 "title": "Textfield",
-                "type": "string"
+                "type": "string",
+                "x-rules": [
+                  "required"
+                ]
               },
               "FormField_textarea": {
                 "x-options": {
@@ -51,7 +54,10 @@
                 "fieldType": "textarea",
                 "title": "Textarea",
                 "x-display": "textarea",
-                "type": "string"
+                "type": "string",
+                "x-rules": [
+                  "required"
+                ]
               },
               "FormField_integer": {
                 "x-options": {
@@ -66,7 +72,10 @@
                 },
                 "fieldType": "integer",
                 "title": "Number",
-                "type": "integer"
+                "type": "integer",
+                "x-rules": [
+                  "required"
+                ]
               },
               "FormField_number": {
                 "x-options": {
@@ -81,7 +90,10 @@
                 },
                 "fieldType": "number",
                 "title": "Floating Number",
-                "type": "number"
+                "type": "number",
+                "x-rules": [
+                  "required"
+                ]
               },
               "FormField_boolean": {
                 "fieldType": "boolean",
@@ -96,7 +108,10 @@
                 "x-props": {
                   "outlined": true,
                   "dense": true
-                }
+                },
+                "x-rules": [
+                  "required"
+                ]
               },
               "FormField_date": {
                 "x-options": {
@@ -171,7 +186,9 @@
                   "outlined": true,
                   "dense": true
                 },
-                "x-rules": []
+                "x-rules": [
+                  "required"
+                ]
               },
               "FormField_multiselect": {
                 "fieldType": "multiselect",
@@ -207,7 +224,9 @@
                   "outlined": true,
                   "dense": true
                 },
-                "x-rules": []
+                "x-rules": [
+                  "required"
+                ]
               },
               "FormField_file": {
                 "x-options": {
@@ -285,7 +304,10 @@
                 "title": "Switch",
                 "x-display": "switch",
                 "default": false,
-                "type": "boolean"
+                "type": "boolean",
+                "x-rules": [
+                  "required"
+                ]
               }
             }
           },
@@ -356,7 +378,28 @@
                 "type": "array",
                 "items": {
                   "type": "string"
-                }
+                },
+                "x-rules": [
+                  "required"
+                ]
+              },
+              "FormField_markdown_readonly": {
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "fieldType": "markdown",
+                "title": "Markdown mit Link",
+                "type": "string",
+                "x-display": "markdown",
+                "readOnly": true,
+                "default": "Hier ist ein Markdown mit Verlinkung auf [muenchen.de](https://www.muenchen.de/)"
               },
               "FormField_markdown": {
                 "x-options": {
@@ -372,7 +415,10 @@
                 "fieldType": "markdown",
                 "title": "Markdown",
                 "type": "string",
-                "x-display": "markdown"
+                "x-display": "markdown",
+                "x-rules": [
+                  "required"
+                ]
               }
             }
           }
@@ -715,6 +761,24 @@
                 "items": {
                   "type": "string"
                 }
+              },
+              "FormField_markdown_readonly2": {
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "fieldType": "markdown",
+                "title": "Markdown ohne Link",
+                "type": "string",
+                "x-display": "markdown",
+                "readOnly": true,
+                "default": "Hier ist ein Markdown "
               },
               "FormField_markdown2": {
                 "x-options": {

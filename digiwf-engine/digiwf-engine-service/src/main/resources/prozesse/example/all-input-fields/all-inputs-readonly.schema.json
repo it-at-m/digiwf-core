@@ -1,0 +1,1152 @@
+{
+  "key": "all-inputs-readonly",
+  "schema": {
+    "type": "object",
+    "x-display": "tabs",
+    "allOf": [
+      {
+        "key": "sectionKey1",
+        "title": "Startseite",
+        "type": "object",
+        "description": "Beschreibung der Startseite",
+        "x-options": {
+          "sectionsTitlesClasses": []
+        },
+        "allOf": [
+          {
+            "containerType": "group",
+            "title": "Einfache Eingabefelder",
+            "description": "",
+            "key": "28656bcf-8add-4f52-a0b1-4d3b68696f3a",
+            "x-options": {
+              "childrenClass": "pl-0"
+            },
+            "properties": {
+              "FormField_text": {
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "fieldType": "text",
+                "title": "Textfield",
+                "type": "string",
+                "readOnly": true,
+                "x-rules": [
+                  "required"
+                ]
+              },
+              "FormField_textarea": {
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "fieldType": "textarea",
+                "title": "Textarea",
+                "x-display": "textarea",
+                "type": "string",
+                "readOnly": true,
+                "x-rules": [
+                  "required"
+                ]
+              },
+              "FormField_integer": {
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "fieldType": "integer",
+                "title": "Number",
+                "type": "integer",
+                "readOnly": true,
+                "x-rules": [
+                  "required"
+                ]
+              },
+              "FormField_number": {
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "fieldType": "number",
+                "title": "Floating Number",
+                "type": "number",
+                "readOnly": true,
+                "x-rules": [
+                  "required"
+                ]
+              },
+              "FormField_boolean": {
+                "fieldType": "boolean",
+                "title": "Checkbox",
+                "type": "boolean",
+                "readOnly": true,
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": [
+                  "required"
+                ]
+              },
+              "FormField_date": {
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": [
+                  "required"
+                ],
+                "fieldType": "date",
+                "x-display": "custom-date-input",
+                "title": "Date",
+                "type": "string",
+                "format": "date",
+                "readOnly": true
+              },
+              "FormField_time": {
+                "fieldType": "time",
+                "x-display": "custom-time-input",
+                "title": "Time",
+                "type": "string",
+                "format": "time",
+                "readOnly": true,
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  },
+                  "timePickerProps": {
+                    "format": "24hr"
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": [
+                  "required"
+                ]
+              },
+              "FormField_select": {
+                "fieldType": "select",
+                "title": "Select",
+                "type": "string",
+                "key": "66e6c72f-2fbd-4ed4-9dd5-d27f567f88db",
+                "readOnly": true,
+                "anyOf": [
+                  {
+                    "title": "1",
+                    "const": "1"
+                  },
+                  {
+                    "title": "2",
+                    "const": "2"
+                  },
+                  {
+                    "title": "3",
+                    "const": "3"
+                  }
+                ],
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": [
+                  "required"
+                ]
+              },
+              "FormField_multiselect": {
+                "fieldType": "multiselect",
+                "title": "Multiselect",
+                "type": "array",
+                "key": "7cf743b5-436f-4225-a77b-d9685e314029",
+                "readOnly": true,
+                "default": [],
+                "items": {
+                  "anyOf": [
+                    {
+                      "title": "1",
+                      "const": "1"
+                    },
+                    {
+                      "title": "2",
+                      "const": "2"
+                    },
+                    {
+                      "title": "3",
+                      "const": "3"
+                    }
+                  ],
+                  "type": "string"
+                },
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": [
+                  "required"
+                ]
+              },
+              "FormField_file": {
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": [
+                  "requiredObject"
+                ],
+                "fieldType": "file",
+                "title": "Dateien ohne Einschränkungen",
+                "x-display": "custom-multi-file-input",
+                "uuidEnabled": true,
+                "type": "object",
+                "filePath": "test01",
+                "readOnly": true,
+                "properties": {
+                  "key": {
+                    "type": "string"
+                  },
+                  "amount": {
+                    "type": "integer"
+                  }
+                }
+              },
+              "FormField_file_Validation": {
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "fieldType": "file",
+                "title": "Dateien mit Validierung",
+                "x-display": "custom-multi-file-input",
+                "type": "object",
+                "filePath": "test02",
+                "x-rules": [
+                  "requiredObject"
+                ],
+                "maxFiles": 4,
+                "maxFileSize": 1,
+                "maxTotalSize": 2,
+                "accept": "application/pdf,image/png",
+                "readOnly": true,
+                "properties": {
+                  "key": {
+                    "type": "string"
+                  },
+                  "amount": {
+                    "type": "integer"
+                  }
+                }
+              },
+              "FormField_switch": {
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "fieldType": "switch",
+                "title": "Switch",
+                "x-display": "switch",
+                "default": false,
+                "type": "boolean",
+                "readOnly": true,
+                "x-rules": [
+                  "required"
+                ]
+              }
+            }
+          },
+          {
+            "containerType": "group",
+            "title": "Komplexe Eingabefelder",
+            "description": "",
+            "key": "53ca6289-8ef2-41d5-8e07-0aee07b08c2d",
+            "x-options": {
+              "childrenClass": "pl-0"
+            },
+            "properties": {
+              "FormField_user-input": {
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": [
+                  "required"
+                ],
+                "fieldType": "user-input",
+                "title": "Benutzerauswahl",
+                "x-display": "custom-user-input",
+                "type": "string",
+                "readOnly": true
+              },
+              "FormField_multi-user-input": {
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": [
+                  "required"
+                ],
+                "minItems": 1,
+                "fieldType": "multi-user-input",
+                "title": "Mehrfache Benutzerauswahl",
+                "x-display": "custom-multi-user-input",
+                "type": "array",
+                "readOnly": true,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "FormField_array": {
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": false
+                },
+                "fieldType": "array",
+                "title": "List",
+                "type": "array",
+                "readOnly": true,
+                "items": {
+                  "type": "string"
+                },
+                "x-rules": [
+                  "required"
+                ]
+              },
+              "FormField_markdown_readonly": {
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "fieldType": "markdown",
+                "title": "Markdown mit Link",
+                "type": "string",
+                "x-display": "markdown",
+                "readOnly": true,
+                "default": "Hier ist ein Markdown mit Verlinkung auf [muenchen.de](https://www.muenchen.de/)"
+              },
+              "FormField_markdown": {
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "fieldType": "markdown",
+                "title": "Markdown",
+                "type": "string",
+                "x-display": "markdown",
+                "readOnly": true,
+                "x-rules": [
+                  "required"
+                ]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "title": "zweite Seite",
+        "description": "",
+        "type": "object",
+        "key": "d3cf9903-dfd1-4da2-8ffa-4a6406bd63aa",
+        "x-options": {
+          "sectionsTitlesClasses": [
+            "d-none"
+          ]
+        },
+        "allOf": [
+          {
+            "containerType": "group",
+            "title": "Einfache Eingaben",
+            "description": "",
+            "key": "534104a2-82e1-42c0-a4de-3b1c262c6a87",
+            "x-options": {
+              "childrenClass": "pl-0"
+            },
+            "properties": {
+              "FormField_text2": {
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "fieldType": "text",
+                "title": "Textfield",
+                "type": "string",
+                "readOnly": true
+              },
+              "FormField_textarea2": {
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "fieldType": "textarea",
+                "title": "Textarea",
+                "x-display": "textarea",
+                "type": "string",
+                "readOnly": true
+              },
+              "FormField_integer2": {
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "fieldType": "integer",
+                "title": "Number",
+                "type": "integer",
+                "readOnly": true
+              },
+              "FormField_number2": {
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "fieldType": "number",
+                "title": "Floating Number",
+                "type": "number",
+                "readOnly": true
+              },
+              "FormField_boolean2": {
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "fieldType": "boolean",
+                "title": "Checkbox",
+                "default": false,
+                "type": "boolean",
+                "readOnly": true
+              },
+              "FormField_date2": {
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "fieldType": "date",
+                "x-display": "custom-date-input",
+                "title": "Date",
+                "type": "string",
+                "format": "date",
+                "readOnly": true
+              },
+              "FormField_time2": {
+                "fieldType": "time",
+                "x-display": "custom-time-input",
+                "title": "Time",
+                "type": "string",
+                "format": "time",
+                "readOnly": true,
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  },
+                  "timePickerProps": {
+                    "format": "24hr"
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                }
+              },
+              "FormField_select2": {
+                "fieldType": "select",
+                "title": "Select",
+                "type": "string",
+                "key": "6b301e4c-f2c4-4276-9699-3142d811cfe1",
+                "readOnly": true,
+                "anyOf": [
+                  {
+                    "title": "A",
+                    "const": "A"
+                  },
+                  {
+                    "title": "B",
+                    "const": "B"
+                  },
+                  {
+                    "title": "C",
+                    "const": "C"
+                  }
+                ],
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              },
+              "FormField_multiselect2": {
+                "fieldType": "multiselect",
+                "title": "Multiselect",
+                "type": "array",
+                "key": "547ecf94-e001-4140-9a59-4bf25295275f",
+                "readOnly": true,
+                "default": [],
+                "items": {
+                  "anyOf": [
+                    {
+                      "title": "A",
+                      "const": "A"
+                    },
+                    {
+                      "title": "B",
+                      "const": "B"
+                    },
+                    {
+                      "title": "C",
+                      "const": "C"
+                    }
+                  ],
+                  "type": "string"
+                },
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": []
+              },
+              "FormField_file2": {
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "fieldType": "file",
+                "title": "Files",
+                "x-display": "custom-multi-file-input",
+                "type": "object",
+                "filePath": "test03",
+                "readOnly": true,
+                "properties": {
+                  "key": {
+                    "type": "string"
+                  },
+                  "amount": {
+                    "type": "integer"
+                  }
+                }
+              },
+              "FormField_file_Validation2": {
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "fieldType": "file",
+                "title": "Files with validation",
+                "x-display": "custom-multi-file-input",
+                "type": "object",
+                "filePath": "test04",
+                "x-rules": [],
+                "maxFiles": 4,
+                "maxFileSize": 1,
+                "maxTotalSize": 2,
+                "accept": "application/pdf,image/png",
+                "readOnly": true,
+                "properties": {
+                  "key": {
+                    "type": "string"
+                  },
+                  "amount": {
+                    "type": "integer"
+                  }
+                }
+              },
+              "FormField_switch2": {
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "fieldType": "switch",
+                "title": "Switch",
+                "x-display": "switch",
+                "default": false,
+                "type": "boolean",
+                "readOnly": true
+              }
+            }
+          },
+          {
+            "containerType": "group",
+            "title": "komplexe Eingaben",
+            "description": "",
+            "key": "d96bd57a-d428-44e5-8fca-eeb542f91948",
+            "x-options": {
+              "childrenClass": "pl-0"
+            },
+            "properties": {
+              "FormField_user-input2": {
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "fieldType": "user-input",
+                "title": "Benutzerauswahl",
+                "x-display": "custom-user-input",
+                "type": "string",
+                "readOnly": true
+              },
+              "FormField_multi-user-input2": {
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "fieldType": "multi-user-input",
+                "title": "Mehrfache Benutzerauswahl",
+                "x-display": "custom-multi-user-input",
+                "type": "array",
+                "readOnly": true,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "FormField_array2": {
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": false
+                },
+                "fieldType": "array",
+                "title": "List",
+                "type": "array",
+                "readOnly": true,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "FormField_markdown_readonly2": {
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "fieldType": "markdown",
+                "title": "Markdown ohne Link",
+                "type": "string",
+                "x-display": "markdown",
+                "readOnly": true,
+                "default": "Hier ist ein Markdown "
+              },
+              "FormField_markdown2": {
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "fieldType": "markdown",
+                "title": "Markdown",
+                "type": "string",
+                "x-display": "markdown",
+                "readOnly": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "key": "sectionKey3",
+        "title": "Objekte und Optionals",
+        "type": "object",
+        "description": "Reiter für Tests von Objektlisten und Optionals",
+        "x-options": {
+          "sectionsTitlesClasses": []
+        },
+        "allOf": [
+          {
+            "containerType": "group",
+            "title": "Dynamisches Objekt",
+            "description": "",
+            "key": "28656bcf-8add-4f52-a0b1-4d3b68696f3a",
+            "x-options": {
+              "childrenClass": "pl-0"
+            },
+            "properties": {
+              "FormField_object": {
+                "key": "FormField_object",
+                "fieldType": "object",
+                "title": "Objekt mit Textfeld und Zahl",
+                "type": "object",
+                "additionalProperties": false,
+                "readOnly": true,
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "properties": {
+                  "FormField_object_integer": {
+                    "x-options": {
+                      "fieldColProps": {
+                        "cols": 12,
+                        "sm": 12
+                      }
+                    },
+                    "x-props": {
+                      "outlined": true,
+                      "dense": true
+                    },
+                    "fieldType": "integer",
+                    "title": "Number",
+                    "type": "integer"
+                  },
+                  "FormField_object_text": {
+                    "x-options": {
+                      "fieldColProps": {
+                        "cols": 12,
+                        "sm": 12
+                      }
+                    },
+                    "x-props": {
+                      "outlined": true,
+                      "dense": true
+                    },
+                    "fieldType": "text",
+                    "title": "Textfield",
+                    "type": "string"
+                  }
+                }
+              },
+              "FormField_arrayObject": {
+                "key": "FormField_arrayObject",
+                "fieldType": "arrayObject",
+                "title": "Dynamische Objektliste mit 2 Textfeldern",
+                "type": "array",
+                "readOnly": true,
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "FormField_arrayObject_text": {
+                      "x-options": {
+                        "fieldColProps": {
+                          "cols": 12,
+                          "sm": 12
+                        }
+                      },
+                      "x-props": {
+                        "outlined": true,
+                        "dense": true
+                      },
+                      "fieldType": "text",
+                      "title": "Textfield",
+                      "type": "string"
+                    },
+                    "FormField_arrayObject_text2": {
+                      "x-options": {
+                        "fieldColProps": {
+                          "cols": 12,
+                          "sm": 12
+                        }
+                      },
+                      "x-props": {
+                        "outlined": true,
+                        "dense": true
+                      },
+                      "fieldType": "text",
+                      "title": "Textfield",
+                      "type": "string"
+                    }
+                  }
+                },
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12,
+                    "messages": {}
+                  }
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": false
+                }
+              }
+            }
+          },
+          {
+            "containerType": "group",
+            "title": "Optional in Group",
+            "description": "",
+            "key": "5a883352-793e-4777-9ca6-62bba701e89e",
+            "x-options": {
+              "childrenClass": "pl-0"
+            },
+            "properties": {
+              "optionalGroup": {
+                "key": "optionalGroup",
+                "fieldType": "optionalContainer",
+                "title": "Optionale Gruppe",
+                "type": "object",
+                "readOnly": true,
+                "x-options": {
+                  "sectionsTitlesClasses": []
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "oneOf": [
+                  {
+                    "title": "Optionales Auswahl-Item 1",
+                    "key": "4ae29e5b-c9c7-4869-a640-1e9640022850",
+                    "x-options": {
+                      "childrenClass": "pl-0"
+                    },
+                    "properties": {
+                      "selection": {
+                        "fieldType": "const",
+                        "type": "string",
+                        "const": "selection1",
+                        "key": "selection"
+                      },
+                      "FormField_optionalTextfield": {
+                        "fieldType": "text",
+                        "title": "Textfield",
+                        "type": "string",
+                        "key": "FormField_optionalTextfield",
+                        "x-options": {
+                          "fieldColProps": {
+                            "cols": 12,
+                            "sm": 12
+                          },
+                          "messages": {}
+                        },
+                        "x-props": {
+                          "outlined": true,
+                          "dense": true
+                        },
+                        "x-rules": []
+                      }
+                    }
+                  },
+                  {
+                    "title": "Optionales Auswahl-Item 2",
+                    "key": "eb21ade4-ff7f-441b-8e1a-2727ea8df2c4",
+                    "x-options": {
+                      "childrenClass": "pl-0"
+                    },
+                    "properties": {
+                      "selection": {
+                        "fieldType": "const",
+                        "type": "string",
+                        "const": "selection2",
+                        "key": "selection"
+                      },
+                      "FormField_optionalNumber": {
+                        "fieldType": "integer",
+                        "title": "Number",
+                        "type": "integer",
+                        "key": "FormField_optionalNumber",
+                        "x-options": {
+                          "fieldColProps": {
+                            "cols": 12,
+                            "sm": 12
+                          },
+                          "messages": {}
+                        },
+                        "x-props": {
+                          "outlined": true,
+                          "dense": true
+                        },
+                        "x-rules": []
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "containerType": "optionalContainer",
+            "title": "Optionales Objekt",
+            "type": "object",
+            "x-options": {
+              "sectionsTitlesClasses": [
+                "d-none"
+              ]
+            },
+            "x-props": {
+              "outlined": true,
+              "dense": true
+            },
+            "allOf": [
+              {
+                "fieldType": "optionalContainer",
+                "title": "Optionale Felder",
+                "type": "object",
+                "readOnly": true,
+                "x-options": {
+                  "sectionsTitlesClasses": []
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "oneOf": [
+                  {
+                    "title": "Optionales Auswahl-Item 3",
+                    "key": "a128c1cb-1661-4a64-8555-75e9c00edd3d",
+                    "x-options": {
+                      "childrenClass": "pl-0"
+                    },
+                    "properties": {
+                      "selection2": {
+                        "fieldType": "const",
+                        "type": "string",
+                        "const": "selection3",
+                        "key": "selection2"
+                      },
+                      "FormField_optionalTextarea": {
+                        "x-options": {
+                          "fieldColProps": {
+                            "cols": 12,
+                            "sm": 12
+                          }
+                        },
+                        "x-props": {
+                          "outlined": true,
+                          "dense": true
+                        },
+                        "fieldType": "textarea",
+                        "title": "Textarea",
+                        "x-display": "textarea",
+                        "type": "string",
+                        "key": "FormField_optionalTextarea"
+                      }
+                    }
+                  },
+                  {
+                    "title": "Optionales Auswahl-Item 4",
+                    "key": "cff28458-766b-41d4-ae77-ebce553f485d",
+                    "x-options": {
+                      "childrenClass": "pl-0"
+                    },
+                    "properties": {
+                      "selection2": {
+                        "fieldType": "const",
+                        "type": "string",
+                        "const": "selection4",
+                        "key": "selection2"
+                      },
+                      "FormField_optionalFloatingNumber": {
+                        "x-options": {
+                          "fieldColProps": {
+                            "cols": 12,
+                            "sm": 12
+                          }
+                        },
+                        "x-props": {
+                          "outlined": true,
+                          "dense": true
+                        },
+                        "fieldType": "number",
+                        "title": "Floating Number",
+                        "type": "number",
+                        "key": "FormField_optionalFloatingNumber"
+                      }
+                    }
+                  }
+                ],
+                "key": "6472edef-f5ae-4cc3-be09-7bddffd3af65"
+              }
+            ],
+            "key": "e11839bf-b5e6-4853-8f77-f12249ef299b"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "key": "OpenAI_Extract-Data_Start_Form",
+  "schema": {
+    "key": "MyStartForm",
+    "type": "object",
+    "x-display": "stepper",
+    "allOf": [
+      {
+        "key": "sectionKey1",
+        "title": "OpenAI: Daten extrahieren",
+        "type": "object",
+        "x-options": {
+          "sectionsTitlesClasses": [
+            "d-none"
+          ]
+        },
+        "allOf": [
+          {
+            "key": "feldgruppe1",
+            "title": "Daten extrahieren",
+            "x-options": {
+              "childrenClass": "pr-5 pl-0"
+            },
+            "properties": {
+              "OpenAI_JSON": {
+                "fieldType": "textarea",
+                "title": "Daten als JSON",
+                "x-display": "textarea",
+                "type": "string",
+                "key": "OpenAI_JSON",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  },
+                  "messages": {}
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": [
+                  "required"
+                ]
+              },
+
+              "OpenAI_Fields": {
+                "fieldType": "textarea",
+                "title": "Felder",
+                "x-display": "textarea",
+                "type": "string",
+                "key": "OpenAI_Fields",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  },
+                  "messages": {}
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": [
+                  "required"
+                ]
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
