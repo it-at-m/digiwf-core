@@ -116,11 +116,11 @@ public class S3Repository {
                     .recursive(true)
                     .build();
             final List<Result<Item>> resultItemList = IteratorUtils.toList(this.client.listObjects(listObjectsArgs).iterator());
-            final Map<String, Long> filepathesFromFolder = new HashMap<>();
+            final Map<String, Long> filePathsFromFolder = new HashMap<>();
             for (final Result<Item> resultItem : resultItemList) {
-                filepathesFromFolder.put(resultItem.get().objectName(), resultItem.get().size());
+                filePathsFromFolder.put(resultItem.get().objectName(), resultItem.get().size());
             }
-            return filepathesFromFolder;
+            return filePathsFromFolder;
         } catch (final MinioException | InvalidKeyException | NoSuchAlgorithmException | IllegalArgumentException |
                 IOException exception) {
             final String message = String.format("Failed to extract file paths from folder %s.", folder);
