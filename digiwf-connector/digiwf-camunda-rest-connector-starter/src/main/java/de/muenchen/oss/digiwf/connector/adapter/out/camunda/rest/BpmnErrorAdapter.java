@@ -19,7 +19,7 @@ public class BpmnErrorAdapter implements CreateBpmnErrorOutPort {
     public static final String VARIABLEKEY_ERROR_MESSAGE = "errorMessage";
 
     private final MessageApi messageApi;
-    private final EngineDataMapper mapper;
+    private final ToEngineDataMapper mapper;
 
     @Override
     public void createBpmnError(final BpmnError bpmnError) {

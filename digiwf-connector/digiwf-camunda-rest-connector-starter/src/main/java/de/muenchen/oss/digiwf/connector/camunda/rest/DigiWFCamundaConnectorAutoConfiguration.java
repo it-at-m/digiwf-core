@@ -2,6 +2,7 @@ package de.muenchen.oss.digiwf.connector.camunda.rest;
 
 import de.muenchen.oss.digiwf.connector.adapter.in.camunda.rest.CamundaClient;
 import de.muenchen.oss.digiwf.connector.adapter.in.camunda.rest.CamundaClientConfiguration;
+import de.muenchen.oss.digiwf.connector.adapter.in.camunda.rest.FromEngineDataMapper;
 import de.muenchen.oss.digiwf.connector.core.adapter.out.streaming.EventEmitterAdapter;
 import de.muenchen.oss.digiwf.connector.core.application.port.in.ExecuteTaskInPort;
 import de.muenchen.oss.digiwf.connector.core.application.port.out.EmitEventOutPort;
@@ -21,9 +22,9 @@ import java.util.Map;
 
 
 @RequiredArgsConstructor
-@ComponentScan(basePackages = "de.muenchen.oss.digiwf.connector.adapter.camunda.rest")
+@ComponentScan(basePackages = "de.muenchen.oss.digiwf.connector.adapter.*.camunda.rest")
 @EnableConfigurationProperties(DigiWFCamundaConnectorProperties.class)
-@EnableFeignClients(basePackages = "de.muenchen.oss.digiwf.connector.adapter.camunda.rest.out")
+@EnableFeignClients(basePackages = "de.muenchen.oss.digiwf.connector.adapter.out.camunda.rest")
 public class DigiWFCamundaConnectorAutoConfiguration {
 
 
@@ -44,8 +45,8 @@ public class DigiWFCamundaConnectorAutoConfiguration {
     @Bean
     @ExternalTaskSubscription("generic-output")
     public CamundaClient camundaOutputClient(final ExecuteTaskInPort executeTaskInPort, final CamundaClientConfiguration camundaOutputConfiguration, final
-    de.muenchen.oss.digiwf.connector.adapter.in.camunda.rest.EngineDataMapper engineDataMapper) {
-        return new CamundaClient(executeTaskInPort, camundaOutputConfiguration, engineDataMapper);
+    FromEngineDataMapper fromEngineDataMapper) {
+        return new CamundaClient(executeTaskInPort, camundaOutputConfiguration, fromEngineDataMapper);
     }
 
 }

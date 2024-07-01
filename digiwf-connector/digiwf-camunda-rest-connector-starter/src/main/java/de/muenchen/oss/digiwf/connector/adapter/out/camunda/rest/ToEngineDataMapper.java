@@ -10,7 +10,7 @@ import java.util.Map;
 
 
 @Component
-public class EngineDataMapper {
+public class ToEngineDataMapper {
 
     public Map<String, VariableValueDto> toEngineData(final Map<String, Object> data) {
         final JSONObject jsonData = new JSONObject(data);

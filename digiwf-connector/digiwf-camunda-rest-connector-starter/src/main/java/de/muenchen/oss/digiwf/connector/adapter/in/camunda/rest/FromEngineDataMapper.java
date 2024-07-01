@@ -11,7 +11,7 @@ import java.util.Map;
 
 
 @Component
-public class EngineDataMapper {
+public class FromEngineDataMapper {
 
     public Map<String, Object> fromEngineData(final VariableMap variables) {
         final Map<String, Object> data = new HashMap<>();

@@ -19,7 +19,7 @@ import java.util.Map;
 public class MessageAdapter implements CorrelateMessageOutPort {
 
     private final MessageApi messageApi;
-    private final EngineDataMapper mapper;
+    private final ToEngineDataMapper mapper;
 
     @Override
     public void correlateMessage(final MessageCorrelation messageCorrelation) {

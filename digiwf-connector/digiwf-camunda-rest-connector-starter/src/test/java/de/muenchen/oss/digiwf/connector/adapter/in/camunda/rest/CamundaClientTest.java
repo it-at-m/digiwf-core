@@ -26,7 +26,7 @@ class CamundaClientTest {
     private CamundaClientConfiguration clientConfiguration;
 
     @Mock
-    private EngineDataMapper serializer;
+    private FromEngineDataMapper serializer;
 
     @Mock
     private ExternalTask externalTask;

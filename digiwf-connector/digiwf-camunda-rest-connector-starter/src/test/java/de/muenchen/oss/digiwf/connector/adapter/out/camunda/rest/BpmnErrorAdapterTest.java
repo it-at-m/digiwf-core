@@ -13,7 +13,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 
 @DisplayName("Bpmn error Service Test")
-@Import({EngineDataMapper.class})
+@Import({ToEngineDataMapper.class})
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class BpmnErrorAdapterTest extends BaseSpringTest {
 
@@ -21,13 +21,13 @@ public class BpmnErrorAdapterTest extends BaseSpringTest {
     private MessageApi messageApi;
 
     @Autowired
-    private EngineDataMapper engineDataMapper;
+    private ToEngineDataMapper toEngineDataMapper;
 
     private BpmnErrorAdapter bpmnErrorService;
 
     @BeforeEach
     private void initTests() {
-        this.bpmnErrorService = new BpmnErrorAdapter(this.messageApi, this.engineDataMapper);
+        this.bpmnErrorService = new BpmnErrorAdapter(this.messageApi, this.toEngineDataMapper);
     }
 
     @Order(1)

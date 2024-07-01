@@ -21,7 +21,7 @@ public class CamundaClient implements ExternalTaskHandler {
 
     private final ExecuteTaskInPort executeTaskInPort;
     private final CamundaClientConfiguration outputConfiguration;
-    private final EngineDataMapper mapper;
+    private final FromEngineDataMapper mapper;
 
     @Override
     public void execute(final ExternalTask externalTask, final ExternalTaskService externalTaskService) {

@@ -17,13 +17,13 @@ import static org.mockito.Mockito.verify;
 class MessageAdapterTest {
     private final MessageApi messageApi = mock(MessageApi.class);
 
-    private final EngineDataMapper engineDataMapper = new EngineDataMapper();
+    private final ToEngineDataMapper toEngineDataMapper = new ToEngineDataMapper();
 
     private CorrelateMessageOutPort messageService;
 
     @BeforeEach
     void initTests() {
-        this.messageService = new MessageAdapter(this.messageApi, this.engineDataMapper);
+        this.messageService = new MessageAdapter(this.messageApi, this.toEngineDataMapper);
     }
 
     @Order(1)
