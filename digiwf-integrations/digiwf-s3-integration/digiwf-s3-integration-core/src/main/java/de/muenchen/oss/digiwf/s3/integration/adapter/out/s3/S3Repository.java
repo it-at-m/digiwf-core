@@ -101,6 +101,13 @@ public class S3Repository {
         }
     }
 
+    /**
+     * Retrieves the sizes of all files within a specified folder.
+     *
+     * @param folder the folder path for which to retrieve file sizes.
+     * @return a map where the keys are file paths and the values are the corresponding file sizes in bytes.
+     * @throws FileSystemAccessException if the file sizes cannot be retrieved.
+     */
     public Map<String, Long> getFileSizesFromFolder(final String folder) throws FileSystemAccessException {
         try {
             final ListObjectsArgs listObjectsArgs = ListObjectsArgs.builder()
@@ -122,6 +129,13 @@ public class S3Repository {
         }
     }
 
+    /**
+     * Retrieves the size of a specified file.
+     *
+     * @param pathToFile the path of the file for which to retrieve the size.
+     * @return the size of the file in bytes.
+     * @throws FileSystemAccessException if the file size cannot be retrieved.
+     */
     public long getFileSize(final String pathToFile) throws FileSystemAccessException {
         try {
             return client.statObject(StatObjectArgs.builder()
@@ -163,8 +177,11 @@ public class S3Repository {
     /**
      * Creates the presigned URL fora file to the given file path.
      *
-     * @param pathToFile       The path to the file. The path must be absolute and without specifying the bucket. Example: File in bucket:
-     *                         "BUCKET/outerFolder/innerFolder/thefile.csv" Specification in parameter: "outerFolder/innerFolder/thefile.csv"
+     * @param pathToFile       The path to the file. The path must be absolute and without specifying the bucket.<br>
+     *                         Example:<br>
+     *                         File in bucket:<br>
+     *                         "BUCKET/outerFolder/innerFolder/thefile.csv"<br>
+     *                         Specification in parameter: "outerFolder/innerFolder/thefile.csv"<br>
      * @param action           to determine the file permissions.
      * @param expiresInMinutes to define the validity period of the presigned URL.
      * @return the presigned URL for a file.
