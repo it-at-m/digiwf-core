@@ -19,7 +19,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-class SendMailWithTextMessageProcessorTest extends MessageProcessorTestBase {
+class SendMailWithTextStreamingAdapterTest extends StreamingAdapterTestBase {
     private final TextMail mail = new TextMail(
             "mailReceiver1@muenchen.de,mailReceiver2@muenchen.de",
             "receiverCC@muenchen.de",
@@ -50,15 +50,15 @@ class SendMailWithTextMessageProcessorTest extends MessageProcessorTestBase {
 
     @Test
     void testEmailIntegrationSendsMailSuccessfully() {
-        messageProcessor.emailIntegration().accept(this.message);
+        streamingAdapter.emailIntegration().accept(this.message);
         verify(monitoringServiceMock, times(1)).sendMailSucceeded();
-        verify(sendMailInPortMock, times(1)).sendMailWithText(processInstanceId, "emailType", "emailIntegration", mail);
+        verify(sendMailInPortMock, times(1)).sendMailWithText(mail);
     }
 
     @Test
     void testEmailIntegrationHandlesValidationException() {
-        Mockito.doThrow(new ValidationException("Test ValidationException")).when(sendMailInPortMock).sendMailWithText(any(), any(), any(), any());
-        messageProcessor.emailIntegration().accept(this.message);
+        Mockito.doThrow(new ValidationException("Test ValidationException")).when(sendMailInPortMock).sendMailWithText(any());
+        streamingAdapter.emailIntegration().accept(this.message);
         verify(monitoringServiceMock, times(1)).sendMailFailed();
         final ArgumentCaptor<Map> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
         verify(errorApiMock, times(1)).handleBpmnError(messageHeaderArgumentCaptor.capture(), any(BpmnError.class));
@@ -70,8 +70,8 @@ class SendMailWithTextMessageProcessorTest extends MessageProcessorTestBase {
 
     @Test
     void testEmailIntegrationHandlesBpmnError() {
-        Mockito.doThrow(new BpmnError("errorCode", "errorMessage")).when(sendMailInPortMock).sendMailWithText(any(), any(), any(), any());
-        messageProcessor.emailIntegration().accept(this.message);
+        Mockito.doThrow(new BpmnError("errorCode", "errorMessage")).when(sendMailInPortMock).sendMailWithText(any());
+        streamingAdapter.emailIntegration().accept(this.message);
         verify(monitoringServiceMock, times(1)).sendMailFailed();
         final ArgumentCaptor<Map> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
         verify(errorApiMock, times(1)).handleBpmnError(messageHeaderArgumentCaptor.capture(), any(BpmnError.class));
@@ -83,8 +83,8 @@ class SendMailWithTextMessageProcessorTest extends MessageProcessorTestBase {
 
     @Test
     void testEmailIntegrationHandlesIncidentError() {
-        Mockito.doThrow(new IncidentError("Error Message")).when(sendMailInPortMock).sendMailWithText(any(), any(), any(), any());
-        messageProcessor.emailIntegration().accept(this.message);
+        Mockito.doThrow(new IncidentError("Error Message")).when(sendMailInPortMock).sendMailWithText(any());
+        streamingAdapter.emailIntegration().accept(this.message);
         verify(monitoringServiceMock, times(1)).sendMailFailed();
         final ArgumentCaptor<Map> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
         verify(errorApiMock, times(1)).handleIncident(messageHeaderArgumentCaptor.capture(), any(IncidentError.class));

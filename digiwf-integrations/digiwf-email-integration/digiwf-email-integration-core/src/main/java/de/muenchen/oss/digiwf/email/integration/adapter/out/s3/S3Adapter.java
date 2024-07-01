@@ -1,4 +1,4 @@
-package de.muenchen.oss.digiwf.email.integration.adapter.out;
+package de.muenchen.oss.digiwf.email.integration.adapter.out.s3;
 
 import de.muenchen.oss.digiwf.email.integration.application.port.out.LoadMailAttachmentOutPort;
 import de.muenchen.oss.digiwf.email.integration.model.PresignedUrl;
@@ -32,7 +32,8 @@ public class S3Adapter implements LoadMailAttachmentOutPort {
             final ByteArrayDataSource file = new ByteArrayDataSource(bytes, type);
             file.setName(fileName);
             return new FileAttachment(fileName, file);
-        } catch (final DocumentStorageException | DocumentStorageServerErrorException | DocumentStorageClientErrorException e) {
+        } catch (final DocumentStorageException | DocumentStorageServerErrorException |
+                       DocumentStorageClientErrorException e) {
             log.debug("An attachment could not be loaded from presigned url: {}", attachment);
             throw new BpmnError("LOAD_FILE_FAILED", "An attachment could not be loaded from presigned url: " + attachment);
         }

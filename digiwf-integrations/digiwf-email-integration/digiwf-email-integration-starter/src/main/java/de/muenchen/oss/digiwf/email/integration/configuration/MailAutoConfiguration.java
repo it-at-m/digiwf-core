@@ -1,13 +1,11 @@
 package de.muenchen.oss.digiwf.email.integration.configuration;
 
 import de.muenchen.oss.digiwf.email.api.DigiwfEmailApi;
-import de.muenchen.oss.digiwf.email.integration.adapter.in.MailWithLogoAndLinkDto;
-import de.muenchen.oss.digiwf.email.integration.adapter.in.MessageProcessor;
-import de.muenchen.oss.digiwf.email.integration.adapter.out.MailAdapter;
-import de.muenchen.oss.digiwf.email.integration.adapter.out.ProcessAdapter;
-import de.muenchen.oss.digiwf.email.integration.adapter.out.S3Adapter;
+import de.muenchen.oss.digiwf.email.integration.adapter.in.streaming.MailWithLogoAndLinkDto;
+import de.muenchen.oss.digiwf.email.integration.adapter.in.streaming.StreamingAdapter;
+import de.muenchen.oss.digiwf.email.integration.adapter.out.mail.MailAdapter;
+import de.muenchen.oss.digiwf.email.integration.adapter.out.s3.S3Adapter;
 import de.muenchen.oss.digiwf.email.integration.application.port.in.SendMailInPort;
-import de.muenchen.oss.digiwf.email.integration.application.port.out.CorrelateMessageOutPort;
 import de.muenchen.oss.digiwf.email.integration.application.port.out.LoadMailAttachmentOutPort;
 import de.muenchen.oss.digiwf.email.integration.application.port.out.MailOutPort;
 import de.muenchen.oss.digiwf.email.integration.application.usecase.SendMailUseCase;
@@ -38,27 +36,20 @@ public class MailAutoConfiguration {
     /**
      * Configures the {@link SendMailInPort} use case.
      *
-     * @param loadAttachmentPort   LoadMailAttachmentPort
-     * @param correlateMessageOutPort CorrelateMessagePort
-     * @param mailOutPort             MailPort
+     * @param loadAttachmentPort LoadMailAttachmentPort
+     * @param mailOutPort        MailPort
      * @return configured SendMail use case
      */
     @Bean
     @ConditionalOnMissingBean
-    public SendMailInPort getSendMailUseCase(final LoadMailAttachmentOutPort loadAttachmentPort, final CorrelateMessageOutPort correlateMessageOutPort, final MailOutPort mailOutPort) {
-        return new SendMailUseCase(loadAttachmentPort, correlateMessageOutPort, mailOutPort);
+    public SendMailInPort getSendMailUseCase(final LoadMailAttachmentOutPort loadAttachmentPort, final MailOutPort mailOutPort) {
+        return new SendMailUseCase(loadAttachmentPort, mailOutPort);
     }
 
     @Bean
     @ConditionalOnMissingBean
     public MonitoringService getMonitoringService(final MeterRegistry meterRegistry) {
         return new MonitoringService(meterRegistry, this.metricsProperties.getTotalMailCounterName(), this.metricsProperties.getFailureCounterName());
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public CorrelateMessageOutPort getCorrelateMessagePort(final ProcessApi processApi) {
-        return new ProcessAdapter(processApi);
     }
 
     @Bean
@@ -74,23 +65,25 @@ public class MailAutoConfiguration {
     }
 
     @Bean
-    public Consumer<Message<TextMail>> sendMailFromEventBus(final MessageProcessor messageProcessor) {
-        return messageProcessor.emailIntegration();
+    public Consumer<Message<TextMail>> sendMailFromEventBus(final StreamingAdapter streamingAdapter) {
+        return streamingAdapter.emailIntegration();
     }
 
     @Bean
-    public Consumer<Message<MailWithLogoAndLinkDto>> sendMailWithLogoAndLink(final MessageProcessor messageProcessor) {
-        return messageProcessor.sendMailWithLogoAndLink();
+    public Consumer<Message<MailWithLogoAndLinkDto>> sendMailWithLogoAndLink(final StreamingAdapter streamingAdapter) {
+        return streamingAdapter.sendMailWithLogoAndLink();
     }
 
     @ConditionalOnMissingBean
     @Bean
-    public MessageProcessor createMessageProcessor(
+    public StreamingAdapter createMessageProcessor(
+            final ProcessApi processApi,
             final ErrorApi errorApi,
             final MonitoringService monitoringService,
             final SendMailInPort mailUseCase
     ) {
-        return new MessageProcessor(
+        return new StreamingAdapter(
+                processApi,
                 errorApi,
                 mailUseCase,
                 monitoringService);

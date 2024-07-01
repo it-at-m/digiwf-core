@@ -1,4 +1,4 @@
-package de.muenchen.oss.digiwf.email.integration.adapter.in;
+package de.muenchen.oss.digiwf.email.integration.adapter.in.streaming;
 
 import de.muenchen.oss.digiwf.email.integration.model.PresignedUrl;
 import jakarta.validation.constraints.NotBlank;

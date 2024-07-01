@@ -1,10 +1,11 @@
-package de.muenchen.oss.digiwf.email.integration.adapter.in;
+package de.muenchen.oss.digiwf.email.integration.adapter.in.streaming;
 
 import de.muenchen.oss.digiwf.email.integration.application.port.in.SendMailInPort;
 import de.muenchen.oss.digiwf.email.integration.infrastructure.MonitoringService;
-import de.muenchen.oss.digiwf.email.integration.model.TextMail;
 import de.muenchen.oss.digiwf.email.integration.model.TemplateMail;
+import de.muenchen.oss.digiwf.email.integration.model.TextMail;
 import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
+import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import jakarta.validation.ValidationException;
@@ -17,8 +18,9 @@ import java.util.function.Consumer;
 import static de.muenchen.oss.digiwf.message.common.MessageConstants.*;
 
 @RequiredArgsConstructor
-public class MessageProcessor {
+public class StreamingAdapter {
 
+    private final ProcessApi processApi;
     private final ErrorApi errorApi;
     private final SendMailInPort mailInPort;
     private final MonitoringService monitoringService;
@@ -27,11 +29,12 @@ public class MessageProcessor {
 
         return message -> {
             withErrorHandling(message, () -> {
-                this.mailInPort.sendMailWithText(
+                this.mailInPort.sendMailWithText(message.getPayload());
+                this.processApi.correlateMessage(
                         message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID, String.class),
                         message.getHeaders().get(TYPE, String.class),
                         message.getHeaders().get(DIGIWF_INTEGRATION_NAME, String.class),
-                        message.getPayload());
+                        Map.of("mailSentStatus", true));
                 this.monitoringService.sendMailSucceeded();
             });
         };
@@ -43,10 +46,12 @@ public class MessageProcessor {
             withErrorHandling(message, () -> {
                 MailWithLogoAndLinkDto mail = message.getPayload();
                 this.mailInPort.sendMailWithTemplate(
+                        convertToTemplateMail(mail, mail.getTemplate(), Map.of("mail", mail)));
+                this.processApi.correlateMessage(
                         message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID, String.class),
                         message.getHeaders().get(TYPE, String.class),
                         message.getHeaders().get(DIGIWF_INTEGRATION_NAME, String.class),
-                        convertToTemplateMail(mail, mail.getTemplate(), Map.of("mail", mail)));
+                        Map.of("mailSentStatus", true));
                 this.monitoringService.sendMailSucceeded();
             });
         };

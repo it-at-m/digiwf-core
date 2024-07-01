@@ -1,12 +1,11 @@
 package de.muenchen.oss.digiwf.email.integration.application.usecase;
 
 import de.muenchen.oss.digiwf.email.integration.application.port.in.SendMailInPort;
-import de.muenchen.oss.digiwf.email.integration.application.port.out.CorrelateMessageOutPort;
 import de.muenchen.oss.digiwf.email.integration.application.port.out.LoadMailAttachmentOutPort;
 import de.muenchen.oss.digiwf.email.integration.application.port.out.MailOutPort;
 import de.muenchen.oss.digiwf.email.integration.model.BasicMail;
-import de.muenchen.oss.digiwf.email.integration.model.TextMail;
 import de.muenchen.oss.digiwf.email.integration.model.TemplateMail;
+import de.muenchen.oss.digiwf.email.integration.model.TextMail;
 import de.muenchen.oss.digiwf.email.model.FileAttachment;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import freemarker.template.TemplateException;
@@ -30,7 +29,6 @@ import java.util.Map;
 public class SendMailUseCase implements SendMailInPort {
 
     private final LoadMailAttachmentOutPort loadAttachmentOutPort;
-    private final CorrelateMessageOutPort correlateMessageOutPort;
     private final MailOutPort mailOutPort;
 
     /**
@@ -39,15 +37,15 @@ public class SendMailUseCase implements SendMailInPort {
      * @param mail mail that is sent
      */
     @Override
-    public void sendMailWithText(final String processInstanceIde, final String type, final String integrationName, @Valid final TextMail mail) throws BpmnError {
+    public void sendMailWithText(@Valid final TextMail mail) throws BpmnError {
         de.muenchen.oss.digiwf.email.model.Mail mailModel = createMail(mail);
         mailModel.setBody(mail.getBody());
 
-        this.sendMail(processInstanceIde, type, integrationName, mailModel, null);
+        this.sendMail(mailModel, null);
     }
 
     @Override
-    public void sendMailWithTemplate(final String processInstanceIde, final String type, final String integrationName, @Valid final TemplateMail mail) throws BpmnError {
+    public void sendMailWithTemplate(@Valid final TemplateMail mail) throws BpmnError {
         // get body from template
         try {
             Map<String, Object> content = new HashMap<>(mail.getContent());
@@ -58,7 +56,7 @@ public class SendMailUseCase implements SendMailInPort {
             mailModel.setBody(body);
             mailModel.setHtmlBody(true);
 
-            this.sendMail(processInstanceIde, type, integrationName, mailModel, "templates/email-logo.png");
+            this.sendMail(mailModel, "templates/email-logo.png");
 
         } catch (IOException ioException) {
             throw new BpmnError("LOAD_TEMPLATE_FAILED", "The template " + mail.getTemplate() + " could not be loaded");
@@ -86,13 +84,9 @@ public class SendMailUseCase implements SendMailInPort {
                 .build();
     }
 
-    private void sendMail(final String processInstanceIde, final String type, final String integrationName, de.muenchen.oss.digiwf.email.model.Mail mailModel, String logoPath) throws BpmnError {
+    private void sendMail(de.muenchen.oss.digiwf.email.model.Mail mailModel, String logoPath) throws BpmnError {
         try {
             this.mailOutPort.sendMail(mailModel, logoPath);
-            // correlate message
-            final Map<String, Object> correlatePayload = new HashMap<>();
-            correlatePayload.put("mailSentStatus", true);
-            this.correlateMessageOutPort.correlateMessage(processInstanceIde, type, integrationName, correlatePayload);
         } catch (final MessagingException ex) {
             log.error("Sending mail failed with exception: {}", ex.getMessage());
             throw new BpmnError("MAIL_SENDING_FAILED", ex.getMessage());

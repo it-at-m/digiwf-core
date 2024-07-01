@@ -1,5 +1,6 @@
 package de.muenchen.oss.digiwf.email.integration.adapter.out;
 
+import de.muenchen.oss.digiwf.email.integration.adapter.out.s3.S3Adapter;
 import de.muenchen.oss.digiwf.email.integration.model.PresignedUrl;
 import de.muenchen.oss.digiwf.email.model.FileAttachment;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
@@ -49,9 +50,9 @@ class S3AdapterTest {
     @Test
     void testLoadAttachment_Success() throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
         final Map<String, String> files = Map.of(
-          "digiwf_logo.png", "image/png",
-          "test-pdf.pdf", "application/pdf",
-          "test-word.docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                "digiwf_logo.png", "image/png",
+                "test-pdf.pdf", "application/pdf",
+                "test-word.docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
         );
 
         for (final Map.Entry<String, String> file : files.entrySet()) {

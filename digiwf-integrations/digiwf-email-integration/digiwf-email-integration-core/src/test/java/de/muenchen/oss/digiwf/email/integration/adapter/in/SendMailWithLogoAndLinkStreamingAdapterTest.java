@@ -1,5 +1,6 @@
 package de.muenchen.oss.digiwf.email.integration.adapter.in;
 
+import de.muenchen.oss.digiwf.email.integration.adapter.in.streaming.MailWithLogoAndLinkDto;
 import de.muenchen.oss.digiwf.email.integration.model.TemplateMail;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
@@ -19,7 +20,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-class SendMailWithLogoAndLinkMessageProcessorTest extends MessageProcessorTestBase {
+class SendMailWithLogoAndLinkStreamingAdapterTest extends StreamingAdapterTestBase {
 
     private final MailWithLogoAndLinkDto mailWithLogoAndLinkDto = new MailWithLogoAndLinkDto(
             "mailReceiver1@muenchen.de,mailReceiver2@muenchen.de",
@@ -65,15 +66,15 @@ class SendMailWithLogoAndLinkMessageProcessorTest extends MessageProcessorTestBa
                 "template",
                 Map.of("mail", mailWithLogoAndLinkDto)
         );
-        messageProcessor.sendMailWithLogoAndLink().accept(this.message);
+        streamingAdapter.sendMailWithLogoAndLink().accept(this.message);
         verify(monitoringServiceMock, times(1)).sendMailSucceeded();
-        verify(sendMailInPortMock, times(1)).sendMailWithTemplate(processInstanceId, "emailType", "emailIntegration", templateMail);
+        verify(sendMailInPortMock, times(1)).sendMailWithTemplate(templateMail);
     }
 
     @Test
     void testEmailIntegrationHandlesValidationException() {
-        Mockito.doThrow(new ValidationException("Test ValidationException")).when(sendMailInPortMock).sendMailWithTemplate(any(), any(), any(), any());
-        messageProcessor.sendMailWithLogoAndLink().accept(this.message);
+        Mockito.doThrow(new ValidationException("Test ValidationException")).when(sendMailInPortMock).sendMailWithTemplate(any());
+        streamingAdapter.sendMailWithLogoAndLink().accept(this.message);
         verify(monitoringServiceMock, times(1)).sendMailFailed();
         final ArgumentCaptor<Map> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
         verify(errorApiMock, times(1)).handleBpmnError(messageHeaderArgumentCaptor.capture(), any(BpmnError.class));
@@ -85,8 +86,8 @@ class SendMailWithLogoAndLinkMessageProcessorTest extends MessageProcessorTestBa
 
     @Test
     void testEmailIntegrationHandlesBpmnError() {
-        Mockito.doThrow(new BpmnError("errorCode", "errorMessage")).when(sendMailInPortMock).sendMailWithTemplate(any(), any(), any(), any());
-        messageProcessor.sendMailWithLogoAndLink().accept(this.message);
+        Mockito.doThrow(new BpmnError("errorCode", "errorMessage")).when(sendMailInPortMock).sendMailWithTemplate(any());
+        streamingAdapter.sendMailWithLogoAndLink().accept(this.message);
         verify(monitoringServiceMock, times(1)).sendMailFailed();
         final ArgumentCaptor<Map> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
         verify(errorApiMock, times(1)).handleBpmnError(messageHeaderArgumentCaptor.capture(), any(BpmnError.class));
@@ -98,8 +99,8 @@ class SendMailWithLogoAndLinkMessageProcessorTest extends MessageProcessorTestBa
 
     @Test
     void testEmailIntegrationHandlesIncidentError() {
-        Mockito.doThrow(new IncidentError("Error Message")).when(sendMailInPortMock).sendMailWithTemplate(any(), any(), any(), any());
-        messageProcessor.sendMailWithLogoAndLink().accept(this.message);
+        Mockito.doThrow(new IncidentError("Error Message")).when(sendMailInPortMock).sendMailWithTemplate(any());
+        streamingAdapter.sendMailWithLogoAndLink().accept(this.message);
         verify(monitoringServiceMock, times(1)).sendMailFailed();
         final ArgumentCaptor<Map> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
         verify(errorApiMock, times(1)).handleIncident(messageHeaderArgumentCaptor.capture(), any(IncidentError.class));

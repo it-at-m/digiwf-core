@@ -1,4 +1,4 @@
-package de.muenchen.oss.digiwf.email.integration.adapter.out;
+package de.muenchen.oss.digiwf.email.integration.adapter.out.mail;
 
 import de.muenchen.oss.digiwf.email.api.DigiwfEmailApi;
 import de.muenchen.oss.digiwf.email.integration.application.port.out.MailOutPort;

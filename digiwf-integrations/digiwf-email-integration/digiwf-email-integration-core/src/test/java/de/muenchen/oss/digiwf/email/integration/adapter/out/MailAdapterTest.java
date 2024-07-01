@@ -1,6 +1,7 @@
 package de.muenchen.oss.digiwf.email.integration.adapter.out;
 
 import de.muenchen.oss.digiwf.email.api.DigiwfEmailApi;
+import de.muenchen.oss.digiwf.email.integration.adapter.out.mail.MailAdapter;
 import de.muenchen.oss.digiwf.email.model.Mail;
 import freemarker.template.TemplateException;
 import jakarta.mail.MessagingException;
