@@ -19,6 +19,7 @@ digiwf:
   s3:
     client:
       document-storage-url: '${DIGIWF_S3_HTTPAPI:http://localhost:8086}'
+      max-file-size: ${S3_MAX_FILE_SIZE:10MB}
 
 management:
   endpoint:
