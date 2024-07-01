@@ -1,6 +1,7 @@
 {
   "name": "OpenAI: Zusammenfassung",
   "id": "de.muenchen.digitalwf.templates.openai.summarize",
+  "version": 1,
   "appliesTo": [
     "bpmn:CallActivity"
   ],

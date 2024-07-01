@@ -1,6 +1,7 @@
 {
   "name": "OpenAI: Translate",
   "id": "de.muenchen.digitalwf.templates.openai.translate",
+  "version": 1,
   "appliesTo": [
     "bpmn:CallActivity"
   ],

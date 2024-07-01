@@ -1,6 +1,7 @@
 {
   "name": "OpenAI: Mail Generator",
   "id": "de.muenchen.digitalwf.templates.openai.generate-mail",
+  "version": 1,
   "appliesTo": [
     "bpmn:CallActivity"
   ],

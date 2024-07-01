@@ -1,6 +1,7 @@
 {
   "name": "OpenAI: Klassifikation",
   "id": "de.muenchen.digitalwf.templates.openai.classify",
+  "version": 1,
   "appliesTo": [
     "bpmn:CallActivity"
   ],

@@ -1,6 +1,7 @@
 {
   "name": "OpenAI: Data extrahieren",
   "id": "de.muenchen.digitalwf.templates.openai.extract-data",
+  "version": 1,
   "appliesTo": [
     "bpmn:CallActivity"
   ],
