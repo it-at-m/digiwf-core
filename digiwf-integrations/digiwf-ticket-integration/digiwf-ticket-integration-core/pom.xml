@@ -43,14 +43,6 @@
             <artifactId>digiwf-ticket-integration-zammad-api</artifactId>
             <version>${project.version}</version>
         </dependency>
-
-        <!-- Testing -->
-        <dependency>
-            <groupId>de.muenchen.oss.digiwf</groupId>
-            <artifactId>digiwf-unit-test</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
 </project>
