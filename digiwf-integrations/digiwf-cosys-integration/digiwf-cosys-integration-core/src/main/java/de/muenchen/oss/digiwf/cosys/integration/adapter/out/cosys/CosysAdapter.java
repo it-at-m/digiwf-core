@@ -1,4 +1,4 @@
-package de.muenchen.oss.digiwf.cosys.integration.adapter.out;
+package de.muenchen.oss.digiwf.cosys.integration.adapter.out.cosys;
 
 import de.muenchen.oss.digiwf.cosys.integration.api.GenerationApi;
 import de.muenchen.oss.digiwf.cosys.integration.application.port.out.GenerateDocumentOutPort;
@@ -14,7 +14,7 @@ import reactor.core.publisher.Mono;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-import static de.muenchen.oss.digiwf.cosys.integration.adapter.out.FileUtils.createFile;
+import static de.muenchen.oss.digiwf.cosys.integration.adapter.out.cosys.FileUtils.createFile;
 
 @Slf4j
 @RequiredArgsConstructor

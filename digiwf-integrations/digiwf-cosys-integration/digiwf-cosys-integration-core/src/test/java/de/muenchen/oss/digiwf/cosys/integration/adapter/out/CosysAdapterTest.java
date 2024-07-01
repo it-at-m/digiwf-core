@@ -2,6 +2,7 @@ package de.muenchen.oss.digiwf.cosys.integration.adapter.out;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import de.muenchen.oss.digiwf.cosys.integration.adapter.out.cosys.CosysAdapter;
 import de.muenchen.oss.digiwf.cosys.integration.api.GenerationApi;
 import de.muenchen.oss.digiwf.cosys.integration.configuration.CosysConfiguration;
 import de.muenchen.oss.digiwf.cosys.integration.model.DocumentStorageUrl;

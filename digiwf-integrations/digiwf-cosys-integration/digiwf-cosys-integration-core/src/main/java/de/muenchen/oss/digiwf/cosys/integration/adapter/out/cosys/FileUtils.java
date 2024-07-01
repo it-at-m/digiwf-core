@@ -1,4 +1,4 @@
-package de.muenchen.oss.digiwf.cosys.integration.adapter.out;
+package de.muenchen.oss.digiwf.cosys.integration.adapter.out.cosys;
 
 import java.io.File;
 import java.io.IOException;

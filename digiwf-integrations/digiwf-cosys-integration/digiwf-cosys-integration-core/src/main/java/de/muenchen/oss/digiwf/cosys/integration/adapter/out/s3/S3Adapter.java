@@ -1,4 +1,4 @@
-package de.muenchen.oss.digiwf.cosys.integration.adapter.out;
+package de.muenchen.oss.digiwf.cosys.integration.adapter.out.s3;
 
 import de.muenchen.oss.digiwf.cosys.integration.application.port.out.SaveFileToStorageOutPort;
 import de.muenchen.oss.digiwf.cosys.integration.model.DocumentStorageUrl;
