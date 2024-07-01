@@ -1,0 +1,52 @@
+{
+  "key": "OpenAI_Chat_Start_Form",
+  "schema": {
+    "key": "MyStartForm",
+    "type": "object",
+    "x-display": "stepper",
+    "allOf": [
+      {
+        "key": "sectionKey1",
+        "title": "OpenAI: Basic Chat",
+        "type": "object",
+        "x-options": {
+          "sectionsTitlesClasses": [
+            "d-none"
+          ]
+        },
+        "allOf": [
+          {
+            "key": "feldgruppe1",
+            "title": "Chat",
+            "x-options": {
+              "childrenClass": "pr-5 pl-0"
+            },
+            "properties": {
+              "OpenAI_Message": {
+                "fieldType": "textarea",
+                "title": "Nachricht",
+                "x-display": "textarea",
+                "type": "string",
+                "key": "OpenAI_Message",
+                "x-options": {
+                  "fieldColProps": {
+                    "cols": 12,
+                    "sm": 12
+                  },
+                  "messages": {}
+                },
+                "x-props": {
+                  "outlined": true,
+                  "dense": true
+                },
+                "x-rules": [
+                  "required"
+                ]
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
