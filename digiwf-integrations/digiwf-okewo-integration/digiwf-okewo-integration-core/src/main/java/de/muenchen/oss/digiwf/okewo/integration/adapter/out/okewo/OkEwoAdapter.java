@@ -1,6 +1,6 @@
-package de.muenchen.oss.digiwf.okewo.integration.adapter.out;
+package de.muenchen.oss.digiwf.okewo.integration.adapter.out.okewo;
 
-import de.muenchen.oss.digiwf.okewo.integration.application.out.OkEwoClientOutPort;
+import de.muenchen.oss.digiwf.okewo.integration.application.port.out.OkEwoClientOutPort;
 import de.muenchen.oss.digiwf.okewo.integration.client.api.PersonApi;
 import de.muenchen.oss.digiwf.okewo.integration.client.api.PersonErweitertApi;
 import de.muenchen.oss.digiwf.okewo.integration.client.model.*;

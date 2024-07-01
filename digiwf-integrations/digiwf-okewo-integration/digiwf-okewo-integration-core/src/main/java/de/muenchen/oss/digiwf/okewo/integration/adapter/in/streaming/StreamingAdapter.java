@@ -1,11 +1,13 @@
 package de.muenchen.oss.digiwf.okewo.integration.adapter.in.streaming;
 
+import de.muenchen.oss.digiwf.message.common.MessageConstants;
+import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
+import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
-import de.muenchen.oss.digiwf.okewo.integration.application.in.GetPersonErweitertInPort;
-import de.muenchen.oss.digiwf.okewo.integration.application.in.GetPersonInPort;
-import de.muenchen.oss.digiwf.okewo.integration.application.in.SearchPersonErweitertInPort;
-import de.muenchen.oss.digiwf.okewo.integration.application.in.SearchPersonInPort;
-import de.muenchen.oss.digiwf.okewo.integration.application.out.IntegrationOutPort;
+import de.muenchen.oss.digiwf.okewo.integration.application.port.in.GetPersonErweitertInPort;
+import de.muenchen.oss.digiwf.okewo.integration.application.port.in.GetPersonInPort;
+import de.muenchen.oss.digiwf.okewo.integration.application.port.in.SearchPersonErweitertInPort;
+import de.muenchen.oss.digiwf.okewo.integration.application.port.in.SearchPersonInPort;
 import de.muenchen.oss.digiwf.okewo.integration.client.model.*;
 import de.muenchen.oss.digiwf.okewo.integration.domain.model.request.OkEwoOmBasedRequest;
 import de.muenchen.oss.digiwf.okewo.integration.domain.model.request.OkEwoSearchPersonExtendedRequest;
@@ -15,18 +17,23 @@ import de.muenchen.oss.digiwf.okewo.integration.domain.model.response.OkEwoError
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
+import org.springframework.lang.NonNull;
 import org.springframework.messaging.Message;
+import org.springframework.messaging.MessageHeaders;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 @Slf4j
 @RequiredArgsConstructor
-public class MessageProcessor {
+public class StreamingAdapter {
 
     private static final String RESPONSE = "response";
 
-    private final IntegrationOutPort integration;
+    private final ProcessApi processApi;
+    private final ErrorApi errorApi;
 
     private final GetPersonInPort getPersonInPort;
     private final GetPersonErweitertInPort getPersonErweitertInPort;
@@ -49,9 +56,9 @@ public class MessageProcessor {
             try {
                 val response = getPersonInPort.getPerson(request.getOrdnungsmerkmal());
                 Map<String, Object> result = Map.of(RESPONSE, response);
-                integration.correlateProcessMessage(headers, result);
+                this.correlateProcessMessage(headers, result);
             } catch (Exception e) {
-                integration.handleIncident(headers, new IncidentError(e.getMessage()));
+                errorApi.handleIncident(headers, new IncidentError(e.getMessage()));
             }
 
         };
@@ -73,9 +80,9 @@ public class MessageProcessor {
             try {
                 val response = searchPersonInPort.searchPerson(payload.getRequest());
                 Map<String, Object> result = Map.of(RESPONSE, response);
-                integration.correlateProcessMessage(headers, result);
+                this.correlateProcessMessage(headers, result);
             } catch (Exception e) {
-                integration.handleIncident(headers, new IncidentError(e.getMessage()));
+                errorApi.handleIncident(headers, new IncidentError(e.getMessage()));
             }
         };
     }
@@ -98,9 +105,9 @@ public class MessageProcessor {
             try {
                 val response = getPersonErweitertInPort.getPerson(request.getOrdnungsmerkmal());
                 Map<String, Object> result = Map.of(RESPONSE, response);
-                integration.correlateProcessMessage(headers, result);
+                this.correlateProcessMessage(headers, result);
             } catch (Exception e) {
-                integration.handleIncident(headers, new IncidentError(e.getMessage()));
+                errorApi.handleIncident(headers, new IncidentError(e.getMessage()));
             }
         };
     }
@@ -121,10 +128,20 @@ public class MessageProcessor {
             try {
                 val response = searchPersonErweitertInPort.searchPerson(payload.getRequest());
                 Map<String, Object> result = Map.of(RESPONSE, response);
-                integration.correlateProcessMessage(headers, result);
+                this.correlateProcessMessage(headers, result);
             } catch (Exception e) {
-                integration.handleIncident(headers, new IncidentError(e.getMessage()));
+                errorApi.handleIncident(headers, new IncidentError(e.getMessage()));
             }
         };
+    }
+
+    public void correlateProcessMessage(@NonNull MessageHeaders headers, Map<String, Object> payload) {
+        final String processInstanceId = Objects.requireNonNull(headers.get(MessageConstants.DIGIWF_PROCESS_INSTANCE_ID)).toString();
+        final String integrationName = Objects.requireNonNull(headers.get(MessageConstants.DIGIWF_INTEGRATION_NAME)).toString();
+        final String type = Objects.requireNonNull(headers.get(MessageConstants.TYPE)).toString();
+        if (payload == null) {
+            payload = new HashMap<>();
+        }
+        this.processApi.correlateMessage(processInstanceId, type, integrationName, payload);
     }
 }

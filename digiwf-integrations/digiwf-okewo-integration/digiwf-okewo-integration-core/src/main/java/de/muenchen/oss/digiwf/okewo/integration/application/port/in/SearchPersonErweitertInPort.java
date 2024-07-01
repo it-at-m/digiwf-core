@@ -1,4 +1,4 @@
-package de.muenchen.oss.digiwf.okewo.integration.application.in;
+package de.muenchen.oss.digiwf.okewo.integration.application.port.in;
 
 import de.muenchen.oss.digiwf.okewo.integration.client.model.SuchePersonerweitertAnfrage;
 import de.muenchen.oss.digiwf.okewo.integration.client.model.SuchePersonerweitertAntwort;
@@ -6,5 +6,5 @@ import de.muenchen.oss.digiwf.okewo.integration.domain.exception.OkEwoIntegratio
 
 public interface SearchPersonErweitertInPort {
 
-  SuchePersonerweitertAntwort searchPerson(final SuchePersonerweitertAnfrage request) throws OkEwoIntegrationClientErrorException;
+    SuchePersonerweitertAntwort searchPerson(final SuchePersonerweitertAnfrage request) throws OkEwoIntegrationClientErrorException;
 }

@@ -2,15 +2,13 @@ package de.muenchen.oss.digiwf.okewo.integration.configuration;
 
 import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
 import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
-import de.muenchen.oss.digiwf.okewo.integration.adapter.in.streaming.MessageProcessor;
-import de.muenchen.oss.digiwf.okewo.integration.adapter.out.IntegrationOutAdapter;
-import de.muenchen.oss.digiwf.okewo.integration.adapter.out.OkEwoAdapter;
-import de.muenchen.oss.digiwf.okewo.integration.application.in.GetPersonErweitertInPort;
-import de.muenchen.oss.digiwf.okewo.integration.application.in.GetPersonInPort;
-import de.muenchen.oss.digiwf.okewo.integration.application.in.SearchPersonErweitertInPort;
-import de.muenchen.oss.digiwf.okewo.integration.application.in.SearchPersonInPort;
-import de.muenchen.oss.digiwf.okewo.integration.application.out.IntegrationOutPort;
-import de.muenchen.oss.digiwf.okewo.integration.application.out.OkEwoClientOutPort;
+import de.muenchen.oss.digiwf.okewo.integration.adapter.in.streaming.StreamingAdapter;
+import de.muenchen.oss.digiwf.okewo.integration.adapter.out.okewo.OkEwoAdapter;
+import de.muenchen.oss.digiwf.okewo.integration.application.port.in.GetPersonErweitertInPort;
+import de.muenchen.oss.digiwf.okewo.integration.application.port.in.GetPersonInPort;
+import de.muenchen.oss.digiwf.okewo.integration.application.port.in.SearchPersonErweitertInPort;
+import de.muenchen.oss.digiwf.okewo.integration.application.port.in.SearchPersonInPort;
+import de.muenchen.oss.digiwf.okewo.integration.application.port.out.OkEwoClientOutPort;
 import de.muenchen.oss.digiwf.okewo.integration.client.ApiClient;
 import de.muenchen.oss.digiwf.okewo.integration.client.api.PersonApi;
 import de.muenchen.oss.digiwf.okewo.integration.client.api.PersonErweitertApi;
@@ -102,25 +100,21 @@ public class OkEwoIntegrationAutoConfiguration {
 
     @ConditionalOnMissingBean
     @Bean
-    public IntegrationOutPort integrationOutPort(final ProcessApi processApi, final ErrorApi errorApi) {
-        return new IntegrationOutAdapter(processApi, errorApi);
-    }
-
-    @ConditionalOnMissingBean
-    @Bean
     public OkEwoClientOutPort okEwoClientOutPort(final PersonErweitertApi personErweitertApi, final PersonApi personApi) {
         return new OkEwoAdapter(personErweitertApi, personApi);
     }
 
     @ConditionalOnMissingBean
     @Bean
-    public MessageProcessor messageProcessor(final IntegrationOutPort integrationOutPort,
+    public StreamingAdapter messageProcessor(final ProcessApi processApi,
+                                             final ErrorApi errorApi,
                                              final GetPersonInPort getPersonInPort,
                                              final GetPersonErweitertInPort getPersonErweitertInPort,
                                              final SearchPersonInPort searchPersonInPort,
                                              final SearchPersonErweitertInPort searchPersonErweitertInPort) {
-        return new MessageProcessor(
-                integrationOutPort,
+        return new StreamingAdapter(
+                processApi,
+                errorApi,
                 getPersonInPort,
                 getPersonErweitertInPort,
                 searchPersonInPort,
@@ -129,22 +123,22 @@ public class OkEwoIntegrationAutoConfiguration {
     }
 
     @Bean
-    public Consumer<Message<OkEwoOmBasedRequest>> getPerson(final MessageProcessor messageProcessor) {
-        return messageProcessor.getPerson();
+    public Consumer<Message<OkEwoOmBasedRequest>> getPerson(final StreamingAdapter streamingAdapter) {
+        return streamingAdapter.getPerson();
     }
 
     @Bean
-    public Consumer<Message<OkEwoSearchPersonRequest>> searchPerson(final MessageProcessor messageProcessor) {
-        return messageProcessor.searchPerson();
+    public Consumer<Message<OkEwoSearchPersonRequest>> searchPerson(final StreamingAdapter streamingAdapter) {
+        return streamingAdapter.searchPerson();
     }
 
     @Bean
-    public Consumer<Message<OkEwoOmBasedRequest>> getPersonErweitert(final MessageProcessor messageProcessor) {
-        return messageProcessor.getPersonErweitert();
+    public Consumer<Message<OkEwoOmBasedRequest>> getPersonErweitert(final StreamingAdapter streamingAdapter) {
+        return streamingAdapter.getPersonErweitert();
     }
 
     @Bean
-    public Consumer<Message<OkEwoSearchPersonExtendedRequest>> searchPersonErweitert(final MessageProcessor messageProcessor) {
-        return messageProcessor.searchPersonErweitert();
+    public Consumer<Message<OkEwoSearchPersonExtendedRequest>> searchPersonErweitert(final StreamingAdapter streamingAdapter) {
+        return streamingAdapter.searchPersonErweitert();
     }
 }
