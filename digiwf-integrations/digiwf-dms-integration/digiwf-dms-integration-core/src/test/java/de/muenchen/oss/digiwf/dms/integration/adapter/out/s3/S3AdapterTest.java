@@ -10,7 +10,6 @@ import de.muenchen.oss.digiwf.process.api.config.impl.ProcessConfigClient;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageClientErrorException;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageException;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageServerErrorException;
-import de.muenchen.oss.digiwf.s3.integration.client.exception.PropertyNotSetException;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFileRepository;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFolderRepository;
 import de.muenchen.oss.digiwf.s3.integration.client.service.FileService;
@@ -24,6 +23,7 @@ import org.springframework.util.unit.DataSize;
 import java.io.IOException;
 import java.util.*;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
@@ -277,17 +277,12 @@ class S3AdapterTest {
         when(documentStorageFileRepository.getFileSize(anyString(), anyString())).thenReturn(just(1_000_000L));
         when(processConfigApi.getProcessConfig(anyString())).thenThrow(new RuntimeException("Process Config does not exist"));
 
-        try {
-            this.s3Adapter.loadFiles(filePaths, fileContext, processDefinitionId);
-        } catch (BpmnError bpmnError) {
-            String expectedMessage = "The type of this file is not supported: " + fullHtmlPath;
-            String actualMessage = bpmnError.getErrorMessage();
+        String expectedMessage = "The type of this file is not supported: " + fullHtmlPath;
 
-            assertEquals(expectedMessage, actualMessage);
-
-            assertEquals("FILE_TYPE_NOT_SUPPORTED", bpmnError.getErrorCode());
-        }
-
+        assertThatThrownBy(() -> s3Adapter.loadFiles(filePaths, fileContext, processDefinitionId))
+                .isInstanceOf(BpmnError.class)
+                .extracting("errorCode", "errorMessage")
+                .containsExactly("FILE_TYPE_NOT_SUPPORTED", expectedMessage);
     }
 
     @Test
@@ -302,17 +297,13 @@ class S3AdapterTest {
         when(documentStorageFileRepository.getFileSize(eq(fileContext + "/" + pathSmallFile), anyString())).thenReturn(
                 just(DataSize.ofMegabytes(20).toBytes()));
 
-        try {
-            this.s3Adapter.loadFiles(filePaths, fileContext, processDefinition);
-        } catch (BpmnError bpmnError) {
-            DataSize sum = DataSize.ofBytes(ALLOWED_FILE_SIZE.toBytes() + DataSize.ofMegabytes(20).toBytes());
-            String expectedMessage = String.format("Batch size of %d MB is too large. Allowed are %d MB.", sum.toMegabytes(), ALLOWED_BATCH_SIZE.toMegabytes());
-            String actualMessage = bpmnError.getErrorMessage();
+        DataSize sum = DataSize.ofBytes(ALLOWED_FILE_SIZE.toBytes() + DataSize.ofMegabytes(20).toBytes());
+        String expectedMessage = String.format("Batch size of %d MB is too large. Allowed are %d MB.", sum.toMegabytes(), ALLOWED_BATCH_SIZE.toMegabytes());
 
-            assertEquals(expectedMessage, actualMessage);
-
-            assertEquals("BATCH_SIZE_ERROR", bpmnError.getErrorCode());
-        }
+        assertThatThrownBy(() -> s3Adapter.loadFiles(filePaths, fileContext, processDefinition))
+                .isInstanceOf(BpmnError.class)
+                .extracting("errorCode", "errorMessage")
+                .containsExactly("BATCH_SIZE_ERROR", expectedMessage);
     }
 
     @Test
@@ -326,16 +317,12 @@ class S3AdapterTest {
         when(documentStorageFileRepository.getFileSize(eq(fileContext + "/" + pathLargeFile), anyString())).thenReturn(just(TOO_LARGE_FILE_SIZE));
         when(documentStorageFileRepository.getFileSize(eq(fileContext + "/" + pathSmallFile), anyString())).thenReturn(just(10_240L));
 
-        try {
-            this.s3Adapter.loadFiles(filePaths, fileContext, processDefinition);
-        } catch (BpmnError bpmnError) {
-            String expectedMessage = String.format("The following files exceed the maximum size of %d MB:%n%s/%s: %d MB", ALLOWED_FILE_SIZE.toMegabytes(),
-                    fileContext, pathLargeFile, DataSize.ofBytes(TOO_LARGE_FILE_SIZE).toMegabytes());
-            String actualMessage = bpmnError.getErrorMessage();
+        String expectedMessage = String.format("The following files exceed the maximum size of %d MB:%n%s/%s: %d MB", ALLOWED_FILE_SIZE.toMegabytes(),
+                fileContext, pathLargeFile, DataSize.ofBytes(TOO_LARGE_FILE_SIZE).toMegabytes());
 
-            assertEquals(expectedMessage, actualMessage);
-
-            assertEquals("FILE_SIZE_ERROR", bpmnError.getErrorCode());
-        }
+        assertThatThrownBy(() -> s3Adapter.loadFiles(filePaths, fileContext, processDefinition))
+                .isInstanceOf(BpmnError.class)
+                .extracting("errorCode", "errorMessage")
+                .containsExactly("FILE_SIZE_ERROR", expectedMessage);
     }
 }

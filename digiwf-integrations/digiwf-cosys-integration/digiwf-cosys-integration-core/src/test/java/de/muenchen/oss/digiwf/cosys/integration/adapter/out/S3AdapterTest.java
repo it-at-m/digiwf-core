@@ -13,20 +13,22 @@ import org.junit.jupiter.api.Test;
 import org.springframework.util.unit.DataSize;
 
 import java.util.List;
-import java.util.Map;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 class S3AdapterTest {
+    private static final String DATA = "In CoSys generiertes Dokument";
+    private static final byte[] DATA_AS_BYTE_ARRAY = DATA.getBytes();
+    private static final DataSize ALLOWED_FILE_SIZE = DataSize.ofBytes(DATA_AS_BYTE_ARRAY.length);
+    private static final DataSize ALLOWED_BATCH_SIZE = DataSize.ofMegabytes(110);
+    private static final byte[] TOO_LARGE_FILE = (DATA + "!").getBytes(); // 1 Mbyte over allowed
 
     private final S3FileTransferRepository s3FileTransferRepository = mock(S3FileTransferRepository.class);
-    private final FileService fileService = new FileService(null, null, null);
+    private final FileService fileService = new FileService(null, ALLOWED_FILE_SIZE, ALLOWED_BATCH_SIZE);
     private S3Adapter s3Adapter;
-
-    private final String data = "In Cosys generiertes Dokument";
-    private final byte[] dataAsByteArray = data.getBytes();
 
     @BeforeEach
     void setup() {
@@ -41,9 +43,9 @@ class S3AdapterTest {
 
         final GenerateDocument generateDocument = new GenerateDocument("Client", "Role", "guid", null, listOfURls);
 
-        s3Adapter.saveDocumentInStorage(generateDocument, dataAsByteArray);
+        s3Adapter.saveDocumentInStorage(generateDocument, DATA_AS_BYTE_ARRAY);
 
-        verify(s3FileTransferRepository).saveFile("URL", dataAsByteArray);
+        verify(s3FileTransferRepository).saveFile("URL", DATA_AS_BYTE_ARRAY);
         verifyNoMoreInteractions(s3FileTransferRepository);
 
     }
@@ -56,9 +58,9 @@ class S3AdapterTest {
 
         final GenerateDocument generateDocument = new GenerateDocument("Client", "Role", "guid", null, listOfURls);
 
-        s3Adapter.saveDocumentInStorage(generateDocument, dataAsByteArray);
+        s3Adapter.saveDocumentInStorage(generateDocument, DATA_AS_BYTE_ARRAY);
 
-        verify(s3FileTransferRepository).updateFile("URL", dataAsByteArray);
+        verify(s3FileTransferRepository).updateFile("URL", DATA_AS_BYTE_ARRAY);
         verifyNoMoreInteractions(s3FileTransferRepository);
 
     }
@@ -71,9 +73,7 @@ class S3AdapterTest {
 
         final GenerateDocument generateDocument = new GenerateDocument("Client", "Role", "guid", null, listOfURls);
 
-        BpmnError bpmnError = assertThrows(BpmnError.class, () -> {
-            s3Adapter.saveDocumentInStorage(generateDocument, dataAsByteArray);
-        });
+        BpmnError bpmnError = assertThrows(BpmnError.class, () -> s3Adapter.saveDocumentInStorage(generateDocument, DATA_AS_BYTE_ARRAY));
 
         String expectedMessage = "Document storage action GET is not supported.";
         String actualMessage = bpmnError.getErrorMessage();
@@ -94,9 +94,7 @@ class S3AdapterTest {
 
         final GenerateDocument generateDocument = new GenerateDocument("Client", "Role", "guid", null, listOfURls);
 
-        BpmnError bpmnError = assertThrows(BpmnError.class, () -> {
-            s3Adapter.saveDocumentInStorage(generateDocument, dataAsByteArray);
-        });
+        BpmnError bpmnError = assertThrows(BpmnError.class, () -> s3Adapter.saveDocumentInStorage(generateDocument, DATA_AS_BYTE_ARRAY));
 
         String expectedMessage = "DocumentStorageClientErrorException";
         String actualMessage = bpmnError.getErrorMessage();
@@ -108,18 +106,18 @@ class S3AdapterTest {
     }
 
     @Test
-    public void testSaveDocumentInStorageThrowsBpmnErrorForInvalidFileSize() throws Exception {
+    void testSaveDocumentInStorageThrowsBpmnErrorForInvalidFileSize() {
         final DocumentStorageUrl documentStorageUrl = new DocumentStorageUrl("URL", "Path", "POST");
         final List<DocumentStorageUrl> listOfURls = List.of(documentStorageUrl);
 
         final GenerateDocument generateDocument = new GenerateDocument("Client", "Role", "guid", null, listOfURls);
+        String expectedMessage = String.format("Invalid file size %d MB. Allowed are %d MB.", DataSize.ofBytes(TOO_LARGE_FILE.length).toMegabytes(),
+                ALLOWED_FILE_SIZE.toMegabytes());
 
-        when(fileService.isValidFileSize(any(byte[].class))).thenAnswer(invocation -> false);
-        when(fileService.getMaxFileSize()).thenAnswer(invocation -> DataSize.ofBytes(2));
-
-        BpmnError bpmnError = assertThrows(BpmnError.class, () -> s3Adapter.saveDocumentInStorage(generateDocument, dataAsByteArray));
-
-        verify(fileService, times(1)).isValidFileSize(any(byte[].class));
+        assertThatThrownBy(() -> s3Adapter.saveDocumentInStorage(generateDocument, TOO_LARGE_FILE))
+                .isInstanceOf(BpmnError.class)
+                .extracting("errorCode", "errorMessage")
+                .containsExactly("S3_FILE_SIZE_ERROR", expectedMessage);
     }
 
 }

@@ -27,6 +27,7 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 import static reactor.core.publisher.Mono.just;
@@ -111,7 +112,8 @@ class S3AdapterTest {
         // Set up mock behavior
         when(documentStorageFileRepository.getFileSize(anyString(), anyString())).thenReturn(just(1_000_000L));
         when(documentStorageFileRepository.getFile(startsWith(fileContext), anyInt(), startsWith(DEFAULT_S3_URL))).thenReturn("fileContent".getBytes());
-        when(documentStorageFolderRepository.getAllFilesInFolderRecursively(startsWith(fileContext), startsWith(DEFAULT_S3_URL))).thenReturn(Mono.just(Collections.emptySet()));
+        when(documentStorageFolderRepository.getAllFilesInFolderRecursively(startsWith(fileContext), startsWith(DEFAULT_S3_URL))).thenReturn(
+                Mono.just(Collections.emptySet()));
         when(processConfigApi.getProcessConfig(anyString())).thenThrow(new RuntimeException("Process Config does not exist"));
         final Map<String, String> extensions = Map.of("foo", "baa");
         final FileService tFileService = new FileService(extensions, DataSize.ofMegabytes(50), DataSize.ofMegabytes(100));
@@ -129,49 +131,39 @@ class S3AdapterTest {
     void testLoadFilesThrowsBpmnErrorDueToInvalidBatchSize() throws Exception {
         String pathLargeFile = "path/to/largeFile";
         String pathSmallFile = "path/to/smallFile";
-        List<String> filePaths = Arrays.asList(pathLargeFile, pathSmallFile);
-        String fileContext = "context";
-        String processDefinition = "processDef";
+        List<String> tFilePaths = Arrays.asList(pathLargeFile, pathSmallFile);
+        String tFileContext = "context";
+        String tProcessDefinition = "processDef";
 
-        when(documentStorageFileRepository.getFileSize(eq(fileContext + "/" + pathLargeFile), anyString())).thenReturn(just(ALLOWED_FILE_SIZE.toBytes()));
-        when(documentStorageFileRepository.getFileSize(eq(fileContext + "/" + pathSmallFile), anyString())).thenReturn(
+        when(documentStorageFileRepository.getFileSize(eq(tFileContext + "/" + pathLargeFile), anyString())).thenReturn(just(ALLOWED_FILE_SIZE.toBytes()));
+        when(documentStorageFileRepository.getFileSize(eq(tFileContext + "/" + pathSmallFile), anyString())).thenReturn(
                 just(DataSize.ofMegabytes(20).toBytes()));
 
-        try {
-            this.s3Adapter.loadFiles(filePaths, fileContext, processDefinition);
-        } catch (BpmnError bpmnError) {
-            DataSize sum = DataSize.ofBytes(ALLOWED_FILE_SIZE.toBytes() + DataSize.ofMegabytes(20).toBytes());
-            String expectedMessage = String.format("Batch size of %d MB is too large. Allowed are %d MB.", sum.toMegabytes(), ALLOWED_BATCH_SIZE.toMegabytes());
-            String actualMessage = bpmnError.getErrorMessage();
-
-//            assertEquals(expectedMessage, actualMessage);
-
-            assertEquals("BATCH_SIZE_ERROR", bpmnError.getErrorCode());
-        }
+        DataSize sum = DataSize.ofBytes(ALLOWED_FILE_SIZE.toBytes() + DataSize.ofMegabytes(20).toBytes());
+        String expectedMessage = String.format("Batch size of %d MB is too large. Allowed are %d MB.", sum.toMegabytes(), ALLOWED_BATCH_SIZE.toMegabytes());
+        assertThatThrownBy(() -> s3Adapter.loadFiles(tFilePaths, tFileContext, tProcessDefinition))
+                .isInstanceOf(BpmnError.class)
+                .extracting("errorCode", "errorMessage")
+                .containsExactly("BATCH_SIZE_ERROR", expectedMessage);
     }
 
     @Test
     void testLoadFilesThrowsBpmnErrorDueToFileExceedingMaxSize() throws Exception {
         String pathLargeFile = "path/to/largeFile";
         String pathSmallFile = "path/to/smallFile";
-        List<String> filePaths = Arrays.asList(pathLargeFile, pathSmallFile);
-        String fileContext = "context";
-        String processDefinition = "processDef";
+        List<String> tFilePaths = Arrays.asList(pathLargeFile, pathSmallFile);
+        String tFileContext = "context";
+        String tProcessDefinition = "processDef";
 
-        when(documentStorageFileRepository.getFileSize(eq(fileContext + "/" + pathLargeFile), anyString())).thenReturn(just(TOO_LARGE_FILE_SIZE));
-        when(documentStorageFileRepository.getFileSize(eq(fileContext + "/" + pathSmallFile), anyString())).thenReturn(just(10_240L));
+        when(documentStorageFileRepository.getFileSize(eq(tFileContext + "/" + pathLargeFile), anyString())).thenReturn(just(TOO_LARGE_FILE_SIZE));
+        when(documentStorageFileRepository.getFileSize(eq(tFileContext + "/" + pathSmallFile), anyString())).thenReturn(just(10_240L));
 
-        try {
-            this.s3Adapter.loadFiles(filePaths, fileContext, processDefinition);
-        } catch (BpmnError bpmnError) {
-            String expectedMessage = String.format("The following files exceed the maximum size of %d MB:%n%s/%s: %d MB", ALLOWED_FILE_SIZE.toMegabytes(),
-                    fileContext, pathLargeFile, DataSize.ofBytes(TOO_LARGE_FILE_SIZE).toMegabytes());
-            String actualMessage = bpmnError.getErrorMessage();
+        String expectedMessage = String.format("The following files exceed the maximum size of %d MB:%n%s/%s: %d MB", ALLOWED_FILE_SIZE.toMegabytes(),
+                tFileContext, pathLargeFile, DataSize.ofBytes(TOO_LARGE_FILE_SIZE).toMegabytes());
 
-            assertEquals(expectedMessage, actualMessage);
-
-            assertEquals("FILE_SIZE_ERROR", bpmnError.getErrorCode());
-        }
+        assertThatThrownBy(() -> s3Adapter.loadFiles(tFilePaths, tFileContext, tProcessDefinition))
+                .isInstanceOf(BpmnError.class)
+                .extracting("errorCode", "errorMessage")
+                .containsExactly("FILE_SIZE_ERROR", expectedMessage);
     }
-
 }

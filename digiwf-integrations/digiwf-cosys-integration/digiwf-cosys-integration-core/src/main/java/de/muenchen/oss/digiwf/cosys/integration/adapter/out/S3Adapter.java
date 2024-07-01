@@ -18,7 +18,7 @@ import org.springframework.util.unit.DataSize;
 public class S3Adapter implements SaveFileToStorageOutPort {
 
     private static final String S3_FILE_SAVE_ERROR = "S3_FILE_SAVE_ERROR";
-    private static final String S3_FILE_SIZE_ERROR = "S3_FILE_SAVE_ERROR";
+    private static final String S3_FILE_SIZE_ERROR = "S3_FILE_SIZE_ERROR";
     private final S3FileTransferRepository s3FileTransferRepository;
     private final FileService fileService;
 
