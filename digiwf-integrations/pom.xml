@@ -27,6 +27,7 @@
         <module>digiwf-dms-integration</module>
         <module>digiwf-address-integration</module>
         <module>digiwf-ticket-integration</module>
+        <module>digiwf-openai-integration</module>
     </modules>
 
 </project>

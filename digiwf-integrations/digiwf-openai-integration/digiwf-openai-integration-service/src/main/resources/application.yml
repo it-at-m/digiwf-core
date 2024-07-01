@@ -1,0 +1,62 @@
+management:
+  endpoint:
+    health:
+      enabled: true
+    info:
+      enabled: true
+    prometheus:
+      enabled: true
+  endpoints:
+    enabled-by-default: false
+    web:
+      exposure:
+        include: health, info, prometheus, livenessstate, readinessstate
+        path-mapping:
+          prometheus: metrics
+  server:
+    port: ${server.port}
+server:
+  error:
+    include-exception: false
+    include-stacktrace: never
+    whitelabel:
+      enabled: false
+  port: ${OPENAI_INTEGRATION_SERVER_PORT:-8080}
+  shutdown: graceful
+spring:
+  application:
+    name: '@project.artifactId@'
+  banner.location: banner.txt
+  lifecycle:
+    timeout-per-shutdown-phase: 1m
+  cloud:
+    stream:
+      bindings:
+        functionRouter-in-0:
+          destination: "dwf-openai-${DIGIWF_ENV}"
+          group: dwf-openai-service
+        sendMessage-out-0:
+          destination: "dwf-connector-${DIGIWF_ENV}"
+io:
+  muenchendigital:
+    digiwf:
+      message:
+        incidentDestination: "dwf-connector-incident-${DIGIWF_ENV}"
+        bpmnErrorDestination: "dwf-connector-bpmnerror-${DIGIWF_ENV}"
+        correlateMessageDestination: "dwf-connector-${DIGIWF_ENV}"
+        deadLetterQueueDestination: "dwf-connector-incident-${DIGIWF_ENV}"
+
+
+digiwf:
+  openai:
+    api-key: "${OPENAI_INTEGRATION_API-KEY}"
+    model: "${OPENAI_INTEGRATION_MODEL}"
+    base-url: "${OPENAI_INTEGRATION_BASE-URL}"
+    logging: "${OPENAI_INTEGRATION_LOGGING:false}"
+    temperature: "${OPENAI_INTEGRATION_TEMPERATURE:0.7}"
+    max-tokens: "${OPENAI_INTEGRATION_MAX-TOKENS:1000}"
+    azure:
+      api-version: "${OPENAI_INTEGRATION_AZURE_API-VERSION}"
+      deployment-name: "${OPENAI_INTEGRATION_AZURE_DEPLOYMENT-NAME}"
+      resource: "${OPENAI_INTEGRATION_AZURE_RESOURCE}"
+
