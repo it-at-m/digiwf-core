@@ -119,7 +119,7 @@ public class S3Adapter implements LoadFileOutPort, TransferContentOutPort {
             if (Objects.isNull(filepath)) throw new BpmnError(LOAD_FOLDER_FAILED, "An folder could not be loaded from url: " + folderPath);
             filepath.forEach(file -> contents.add(getFile(file, s3Storage)));
             return contents;
-        } catch (final DocumentStorageException | DocumentStorageServerErrorException |
+        } catch (final DocumentStorageException | DocumentStorageServerErrorException | DocumentStorageClientErrorException e) {
             throw new BpmnError(LOAD_FOLDER_FAILED, "An folder could not be loaded from url: " + folderPath);
         }
     }

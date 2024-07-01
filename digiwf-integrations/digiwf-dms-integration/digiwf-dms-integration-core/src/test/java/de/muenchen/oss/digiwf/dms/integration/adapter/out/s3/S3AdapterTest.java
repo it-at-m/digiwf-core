@@ -306,25 +306,6 @@ class S3AdapterTest {
                 .containsExactly("BATCH_SIZE_ERROR", expectedMessage);
     }
 
-    }
-
-    @Test
-    void testTransferContent() throws IOException, DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
-        when(processConfigApi.getProcessConfig(anyString())).thenThrow(new RuntimeException("Process Config does not exist"));
-        final String folderPathWithSlash = "folder/";
-        final String folderPathWithoutSlash = "folder";
-        final String fileContext = "files";
-        final byte[] testPdf = new ClassPathResource("files/test/test-pdf.pdf").getInputStream().readAllBytes();
-        final Content pdfContent = new Content("pdf", "test-pdf", testPdf);
-        final String fullPath = String.format("%s/%s/%s", fileContext, folderPathWithoutSlash, "test-pdf.pdf");
-        final String fullPathWrong = String.format("%s/%s//%s", fileContext, folderPathWithoutSlash, "test-pdf.pdf");
-
-        this.s3Adapter.transferContent(List.of(pdfContent), folderPathWithSlash, fileContext, processDefinitionId);
-        this.s3Adapter.transferContent(List.of(pdfContent), folderPathWithoutSlash, fileContext, processDefinitionId);
-
-        verify(documentStorageFileRepository, never()).saveFile(eq(fullPathWrong), any(), anyInt(), isNull(), anyString());
-        verify(documentStorageFileRepository, times(2)).saveFile(eq(fullPath), any(), anyInt(), isNull(), anyString());
-
     @Test
     void testLoadFilesThrowsBpmnErrorDueToFileExceedingMaxSize() throws Exception {
         String pathLargeFile = "path/to/largeFile";
@@ -343,5 +324,23 @@ class S3AdapterTest {
                 .isInstanceOf(BpmnError.class)
                 .extracting("errorCode", "errorMessage")
                 .containsExactly("FILE_SIZE_ERROR", expectedMessage);
+    }
+
+    @Test
+    void testTransferContent() throws IOException, DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
+        when(processConfigApi.getProcessConfig(anyString())).thenThrow(new RuntimeException("Process Config does not exist"));
+        final String folderPathWithSlash = "folder/";
+        final String folderPathWithoutSlash = "folder";
+        final String fileContext = "files";
+        final byte[] testPdf = new ClassPathResource("files/test/test-pdf.pdf").getInputStream().readAllBytes();
+        final Content pdfContent = new Content("pdf", "test-pdf", testPdf);
+        final String fullPath = String.format("%s/%s/%s", fileContext, folderPathWithoutSlash, "test-pdf.pdf");
+        final String fullPathWrong = String.format("%s/%s//%s", fileContext, folderPathWithoutSlash, "test-pdf.pdf");
+
+        this.s3Adapter.transferContent(List.of(pdfContent), folderPathWithSlash, fileContext, processDefinitionId);
+        this.s3Adapter.transferContent(List.of(pdfContent), folderPathWithoutSlash, fileContext, processDefinitionId);
+
+        verify(documentStorageFileRepository, never()).saveFile(eq(fullPathWrong), any(), anyInt(), isNull(), anyString());
+        verify(documentStorageFileRepository, times(2)).saveFile(eq(fullPath), any(), anyInt(), isNull(), anyString());
     }
 }
