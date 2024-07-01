@@ -6,6 +6,7 @@ changes:
   - updateRealm:
       id: ${SSO_REALM}
       displayName: Local Realm
+
   - addGroup:
       realm: ${SSO_REALM}
       name: group1
