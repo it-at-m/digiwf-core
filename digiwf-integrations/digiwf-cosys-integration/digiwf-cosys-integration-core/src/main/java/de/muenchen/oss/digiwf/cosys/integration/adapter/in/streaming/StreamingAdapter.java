@@ -36,7 +36,8 @@ public class StreamingAdapter {
                 this.processApi.correlateMessage(
                         message.getHeaders().get(DIGIWF_PROCESS_INSTANCE_ID, String.class),
                         message.getHeaders().get(TYPE, String.class),
-                        message.getHeaders().get(DIGIWF_INTEGRATION_NAME, String.class), Map.of());
+                        message.getHeaders().get(DIGIWF_INTEGRATION_NAME, String.class),
+                        Map.of("status", true));
             } catch (final BpmnError bpmnError) {
                 this.errorApi.handleBpmnError(message.getHeaders(), bpmnError);
             } catch (final ValidationException validationException) {
