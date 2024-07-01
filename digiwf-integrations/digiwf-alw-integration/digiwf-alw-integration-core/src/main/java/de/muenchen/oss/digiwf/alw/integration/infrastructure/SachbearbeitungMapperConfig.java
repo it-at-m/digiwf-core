@@ -4,12 +4,12 @@
  */
 package de.muenchen.oss.digiwf.alw.integration.infrastructure;
 
-import de.muenchen.oss.digiwf.alw.integration.adapter.out.orgstructure.OrgStructureMapperAdapter;
-import de.muenchen.oss.digiwf.alw.integration.application.port.out.OrgStructureMapper;
+import de.muenchen.oss.digiwf.alw.integration.adapter.out.orgstructure.OrgStructureMapperOutPortAdapter;
+import de.muenchen.oss.digiwf.alw.integration.application.port.out.OrgStructureMapperOutPort;
+import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import jakarta.annotation.Resource;
 import java.util.Map;
 
 /**
@@ -27,11 +27,11 @@ public class SachbearbeitungMapperConfig {
     private Map<String, String> sachbearbeitungMap;
 
     @Bean
-    public OrgStructureMapper sachbearbeitungMapper() {
+    public OrgStructureMapperOutPort sachbearbeitungMapper() {
         if (sachbearbeitungMap.isEmpty()) {
             throw new IllegalArgumentException("alw-sachbearbeitung.properties is empty");
         }
-        return new OrgStructureMapperAdapter(sachbearbeitungMap);
+        return new OrgStructureMapperOutPortAdapter(sachbearbeitungMap);
     }
 
 }

@@ -4,13 +4,11 @@
  */
 package de.muenchen.oss.digiwf.alw.integration.configuration;
 
-import de.muenchen.oss.digiwf.alw.integration.adapter.in.streaming.MessageProcessor;
+import de.muenchen.oss.digiwf.alw.integration.adapter.in.streaming.StreamingAdapter;
 import de.muenchen.oss.digiwf.alw.integration.adapter.out.alw.AlwResponsibilityEmulationAdapter;
 import de.muenchen.oss.digiwf.alw.integration.adapter.out.alw.AlwResponsibilityRestAdapter;
 import de.muenchen.oss.digiwf.alw.integration.adapter.out.alw.AlwResponsibilityRestConfig;
-import de.muenchen.oss.digiwf.alw.integration.adapter.out.integration.IntegrationOutAdapter;
 import de.muenchen.oss.digiwf.alw.integration.application.port.in.GetResponsibilityInPort;
-import de.muenchen.oss.digiwf.alw.integration.application.port.out.IntegrationOutPort;
 import de.muenchen.oss.digiwf.alw.integration.domain.model.AlwPingConfig;
 import de.muenchen.oss.digiwf.alw.integration.domain.model.ResponsibilityRequest;
 import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
@@ -66,21 +64,17 @@ public class AlwAutoConfiguration {
         );
     }
 
-    @Bean
-    public IntegrationOutPort integration(ProcessApi processApi, ErrorApi errorApi) {
-        return new IntegrationOutAdapter(processApi, errorApi);
-    }
-
     @ConditionalOnMissingBean
     @Bean
-    public MessageProcessor messageProcessor(final IntegrationOutPort integration,
+    public StreamingAdapter messageProcessor(final ProcessApi processApi,
+                                             final ErrorApi errorApi,
                                              final GetResponsibilityInPort getResponsibilityInPort) {
-        return new MessageProcessor(integration, getResponsibilityInPort);
+        return new StreamingAdapter(processApi, errorApi, getResponsibilityInPort);
     }
 
     @Bean
-    public Consumer<Message<ResponsibilityRequest>> getAlwResponsibility(final MessageProcessor messageProcessor) {
-        return messageProcessor.getAlwResponsibility();
+    public Consumer<Message<ResponsibilityRequest>> getAlwResponsibility(final StreamingAdapter streamingAdapter) {
+        return streamingAdapter.getAlwResponsibility();
     }
 
     @ConditionalOnMissingBean

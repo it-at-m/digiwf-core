@@ -5,29 +5,36 @@
 package de.muenchen.oss.digiwf.alw.integration.adapter.in.streaming;
 
 import de.muenchen.oss.digiwf.alw.integration.application.port.in.GetResponsibilityInPort;
-import de.muenchen.oss.digiwf.alw.integration.application.port.out.IntegrationOutPort;
 import de.muenchen.oss.digiwf.alw.integration.domain.exception.AlwException;
 import de.muenchen.oss.digiwf.alw.integration.domain.model.Responsibility;
 import de.muenchen.oss.digiwf.alw.integration.domain.model.ResponsibilityRequest;
+import de.muenchen.oss.digiwf.message.common.MessageConstants;
+import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
+import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import jakarta.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
+import org.springframework.lang.NonNull;
 import org.springframework.messaging.Message;
+import org.springframework.messaging.MessageHeaders;
 import org.springframework.web.client.HttpStatusCodeException;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 @Slf4j
 @RequiredArgsConstructor
-public class MessageProcessor {
+public class StreamingAdapter {
 
     private static final String ALW_ZUSTAENDIGE_GRUPPE = "alwZustaendigeGruppe";
 
-    private final IntegrationOutPort integration;
+    private final ProcessApi processApi;
+    private final ErrorApi errorApi;
     private final GetResponsibilityInPort getResponsibilityInPort;
 
     /**
@@ -52,18 +59,28 @@ public class MessageProcessor {
             try {
                 final Responsibility response = getResponsibilityInPort.getResponsibility(request);
                 final Map<String, Object> result = Map.of(ALW_ZUSTAENDIGE_GRUPPE, response.getOrgUnit());
-                integration.correlateProcessMessage(headers, result);
+                this.correlateProcessMessage(headers, result);
             } catch (final HttpStatusCodeException httpStatusCodeException) {
-                integration.handleBpmnError(headers,
+                errorApi.handleBpmnError(headers,
                         new BpmnError(AlwErrorCodes.UNEXPECTED_ERROR.toString(), httpStatusCodeException.getResponseBodyAsString()));
             } catch (final ConstraintViolationException cve) {
-                integration.handleBpmnError(headers, new BpmnError(AlwErrorCodes.VALIDATION_ERROR_CODE.toString(), cve.getMessage()));
+                errorApi.handleBpmnError(headers, new BpmnError(AlwErrorCodes.VALIDATION_ERROR_CODE.toString(), cve.getMessage()));
             } catch (final AlwException alwException) {
-                integration.handleBpmnError(headers, new BpmnError(AlwErrorCodes.RESPONSIBILITY_NOT_FOUND.toString(), alwException.getMessage()));
+                errorApi.handleBpmnError(headers, new BpmnError(AlwErrorCodes.RESPONSIBILITY_NOT_FOUND.toString(), alwException.getMessage()));
             } catch (final Exception e) {
                 log.error("Request could not be fulfilled", e);
-                integration.handleIncident(headers, new IncidentError(e.getMessage()));
+                errorApi.handleIncident(headers, new IncidentError(e.getMessage()));
             }
         };
+    }
+
+    public void correlateProcessMessage(@NonNull MessageHeaders headers, Map<String, Object> payload) {
+        final String processInstanceId = Objects.requireNonNull(headers.get(MessageConstants.DIGIWF_PROCESS_INSTANCE_ID)).toString();
+        final String integrationName = Objects.requireNonNull(headers.get(MessageConstants.DIGIWF_INTEGRATION_NAME)).toString();
+        final String type = Objects.requireNonNull(headers.get(MessageConstants.TYPE)).toString();
+        if (payload == null) {
+            payload = new HashMap<>();
+        }
+        this.processApi.correlateMessage(processInstanceId, type, integrationName, payload);
     }
 }
