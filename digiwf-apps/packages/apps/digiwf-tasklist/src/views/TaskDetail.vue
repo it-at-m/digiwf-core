@@ -7,9 +7,9 @@
       />
     </v-flex>
     <v-flex v-if="task">
-      <span class="processName grey--text">{{ task.processName }}</span>
-      <h1>{{ task.name }}</h1>
-      <p>{{ task.description }}</p>
+      <span class="processName grey--text" tabindex="0">{{ task.processName }}</span>
+      <h1 tabindex="0">{{ task.name }}</h1>
+      <p v-if="!!task.description" tabindex="0">{{ task.description }}</p>
       <v-flex
         v-if="task.links.length > 0"
         style="margin-bottom: 1em"
@@ -205,7 +205,7 @@ import {HumanTaskDetails} from "../middleware/tasks/tasksModels";
 import {mergeObjects} from "../utils/mergeObjects";
 import {parseQueryParameterInputs} from "../utils/urlQueryForFormFields";
 import {validateSchema} from "../utils/validateSchema";
-import {MessageType, useNotificationContext} from "@/middleware/snackbar";
+import {MessageType, useNotificationContext} from "../middleware/snackbar";
 import {useAccessibility} from "../store/modules/accessibility";
 
 const props = defineProps({

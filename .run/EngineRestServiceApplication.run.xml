@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="EngineRestServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
-    <option name="ACTIVE_PROFILES" value="local, streaming, no-ldap,no-mail" />
+    <option name="ACTIVE_PROFILES" value="local, groups-mock, internal" />
     <module name="digiwf-engine-rest-service" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="de.muenchen.oss.digiwf.EngineRestServiceApplication" />
     <extension name="net.ashald.envfile">

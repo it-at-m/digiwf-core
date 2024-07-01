@@ -1,11 +1,11 @@
-import Pagination from './pagination'
+import Pagination from "../components/pagination";
 
 class openGroupTasks extends Pagination {
-    headline = "Offene Gruppenaufgaben"
+  headline = "Offene Gruppenaufgaben";
 
-    checkHeadline() {
-        super._checkHeadline(this.headline)
-    }
+  checkHeadline() {
+    super._checkHeadline(this.headline);
+  }
 }
 
-module.exports = new openGroupTasks;
+module.exports = new openGroupTasks();

@@ -107,7 +107,7 @@ jobs:
 
       - name: Build and push connector
         if: inputs.build-images == true
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: ./digiwf-connector/digiwf-camunda-connector-service
           push: true
@@ -115,7 +115,7 @@ jobs:
 
       - name: Build and push gateway
         if: inputs.build-images == true
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: ./digiwf-gateway
           push: true
@@ -123,7 +123,7 @@ jobs:
 
       - name: Build and push cosys
         if: inputs.build-images == true
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: ./digiwf-integrations/digiwf-cosys-integration/digiwf-cosys-integration-service
           push: true
@@ -131,7 +131,7 @@ jobs:
 
       - name: Build and push email integration
         if: inputs.build-images == true
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: ./digiwf-integrations/digiwf-email-integration/digiwf-email-integration-service
           push: true
@@ -139,7 +139,7 @@ jobs:
 
       - name: Build and push alw-integration
         if: inputs.build-images == true
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: ./digiwf-integrations/digiwf-alw-integration/digiwf-alw-integration-service
           push: true
@@ -147,7 +147,7 @@ jobs:
 
       - name: Build and push s3-integration
         if: inputs.build-images == true
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: ./digiwf-integrations/digiwf-s3-integration/digiwf-s3-integration-service
           push: true
@@ -155,7 +155,7 @@ jobs:
 
       - name: Build and push oss engine
         if: inputs.build-images == true
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: ./digiwf-engine/digiwf-engine-service
           push: true
@@ -163,7 +163,7 @@ jobs:
 
       - name: Build and push tasklist backend
         if: inputs.build-images == true
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: ./digiwf-task/digiwf-tasklist-service
           push: true
@@ -171,7 +171,7 @@ jobs:
 
       - name: Build and push alw dms integration
         if: inputs.build-images == true
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: ./digiwf-integrations/digiwf-dms-integration/digiwf-dms-integration-service
           push: true
@@ -179,7 +179,7 @@ jobs:
 
       - name: Build and push mucs dms integration
         if: inputs.build-images == true
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: ./digiwf-integrations/digiwf-dms-integration/digiwf-dms-integration-service
           push: true
@@ -187,7 +187,7 @@ jobs:
 
       - name: Build and push ok ewo integration
         if: inputs.build-images == true
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: ./digiwf-integrations/digiwf-okewo-integration/digiwf-okewo-integration-service
           push: true
@@ -195,7 +195,7 @@ jobs:
 
       - name: Build and push address-integration
         if: inputs.build-images == true
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: ./digiwf-integrations/digiwf-address-integration/digiwf-address-integration-service
           push: true
@@ -203,7 +203,7 @@ jobs:
 
       - name: Build and push ticket-integration
         if: inputs.build-images == true
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: ./digiwf-integrations/digiwf-ticket-integration/digiwf-ticket-integration-service
           push: true
@@ -268,7 +268,7 @@ jobs:
 
       - name: Build and push engine
         if: inputs.build-images == true
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: ./digiwf-engine/digiwf-engine-service
           push: true
@@ -276,7 +276,7 @@ jobs:
 
       - name: Build and push engine rest
         if: inputs.build-images == true
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: ./digiwf-engine/digiwf-engine-rest-service
           push: true
@@ -284,7 +284,7 @@ jobs:
 
       - name: Build and push optimize
         if: inputs.build-images == true
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: ./digiwf-libs/digiwf-optimize-plugins
           push: true

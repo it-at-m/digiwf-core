@@ -192,6 +192,19 @@
       "constraints": {
         "notEmpty": true
       }
+    },
+    {
+      "label": "Content (Coos)",
+      "description": "Out Mapping",
+      "type": "String",
+      "value": "",
+      "binding": {
+        "type": "camunda:out",
+        "source": "contentCoos"
+      },
+      "constraints": {
+        "notEmpty": false
+      }
     }
   ]
 }

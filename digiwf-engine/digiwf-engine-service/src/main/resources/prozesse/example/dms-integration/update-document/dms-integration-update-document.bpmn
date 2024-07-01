@@ -35,6 +35,7 @@
         <camunda:in sourceExpression="${documentCoo}" target="documentCoo" />
         <camunda:in sourceExpression="${user}" target="user" />
         <camunda:in sourceExpression="test/" target="filepaths" />
+        <camunda:out source="contentCoos" target="contentCoos" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_16a04uf</bpmn:incoming>
       <bpmn:outgoing>Flow_1fnfcyp</bpmn:outgoing>

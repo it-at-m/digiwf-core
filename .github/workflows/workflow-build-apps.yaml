@@ -58,7 +58,7 @@ jobs:
 
       - name: Build and push tasklist
         if: inputs.build-images == true
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: ./digiwf-apps/packages/apps/digiwf-tasklist
           push: true
@@ -66,7 +66,7 @@ jobs:
 
       - name: Build and push webcomponent
         if: inputs.build-images == true
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: ./digiwf-apps/packages/apps/digiwf-webcomponent
           push: true

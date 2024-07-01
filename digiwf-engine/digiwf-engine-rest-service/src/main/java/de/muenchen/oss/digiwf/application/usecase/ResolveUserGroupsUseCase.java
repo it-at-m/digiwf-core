@@ -18,7 +18,7 @@ public class ResolveUserGroupsUseCase implements ResolveUserGroupsInPort {
 
     @Override
     @NonNull
-    public List<Group> resolveGroups(@NonNull final String username) {
-        return resolveUserGroupsOutPort.resolveGroups(username);
+    public List<Group> resolveUserGroups(@NonNull final String username) {
+        return resolveUserGroupsOutPort.resolveUserGroups(username);
     }
 }

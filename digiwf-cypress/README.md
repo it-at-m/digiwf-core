@@ -24,8 +24,8 @@ cd digiwf-cypress
 # set proxy (remote env) or unset proxy (local) via env variables if needed
 export HTTP_PROXY=; export HTTPS_PROXY=; export NO_PROXY=
 # setup .env file or needed env variables
-npx cypress run # a) to run all the tests
-npx cypress open # b) to open the cypress app and run each test separate
+npm test # a) to run all the tests
+npm start # b) to open the cypress app and run each test separate
 ```
 
 a) There will be a test summary in the end in the bash and the produced videos and test reports in the

@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.lang.NonNull;
 
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -23,6 +25,7 @@ public class FabasoftAdapter implements
         UpdateDocumentOutPort,
         DepositObjectOutPort,
         CancelObjectOutPort,
+        ListContentOutPort,
         ReadContentOutPort,
         SearchFileOutPort,
         SearchSubjectAreaOutPort,
@@ -317,6 +320,21 @@ public class FabasoftAdapter implements
         final CancelObjectGIResponse response = this.wsClient.cancelObjectGI(cancelObjectGI);
 
         dmsErrorHandler.handleError(response.getStatus(), response.getErrormessage());
+    }
+
+    @Override
+    public List<String> listContentCoos(@NotNull String documentCoo, @NonNull final String user) {
+        ReadDocumentGIObjects request = new ReadDocumentGIObjects();
+        request.setUserlogin(user);
+        request.setBusinessapp(this.properties.getBusinessapp());
+        request.setObjaddress(documentCoo);
+
+        ReadDocumentGIObjectsResponse response = this.wsClient.readDocumentGIObjects(request);
+        dmsErrorHandler.handleError(response.getStatus(), response.getErrormessage());
+
+        return response.getGiobjecttype().getLHMBAI151700GIObjectType().stream()
+                .map(LHMBAI151700GIObjectType::getLHMBAI151700Objaddress)
+                .toList();
     }
 
     @Override

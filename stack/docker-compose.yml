@@ -23,7 +23,7 @@ services:
       - './optimize/environment-config.yaml:/optimize/config/environment-config.yaml'
       - '../digiwf-libs/digiwf-optimize-plugins/target/digiwf-optimize-plugins-jar-with-dependencies.jar:/optimize/plugin/digiwf-plugins.jar'
     networks:
-      - local-keycloak
+      - optimize
       - internal
     profiles:
       - optimize
@@ -49,7 +49,23 @@ services:
       - cluster.routing.allocation.disk.watermark.high=512mb
       - cluster.routing.allocation.disk.watermark.flood_stage=256mb
     networks:
-      - local-keycloak
+      - optimize
+    profiles:
+      - optimize
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.12.1
+    depends_on:
+      - elasticsearch
+    ports:
+      - '5601:5601'
+    environment:
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+      - XPACK_SECURITY_ENABLED=false
+      - SERVER_NAME=kibana
+    networks:
+      - optimize
     profiles:
       - optimize
 
@@ -343,4 +359,5 @@ services:
 
 networks:
   local-keycloak:
+  optimize:
   internal:

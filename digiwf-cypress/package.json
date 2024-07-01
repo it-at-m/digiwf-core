@@ -1,16 +1,13 @@
 {
-  "name": "digiWF-e2e",
+  "name": "@muenchen/digiwf-cypress",
   "version": "1.0.0",
   "description": "DigiWF E2E-Tests with Cypress",
   "scripts": {
     "cypress:open": "cypress open",
-    "cypress:run": "cypress run",
-    "reports:clean": "rm -rf output/reports &&  mkdir -p output/reports/mochareports",
-    "reports:combine": "mochawesome-merge output/reports/mocha/*.json > output/reports/mochareports/report.json",
-    "reports:generate": "marge output/reports/mochareports/report.json -f report -o output/reports/mochareports",
-    "pretest": "npm run reports:clean",
+    "start": "npm run cypress:open",
+    "cypress:run": "npm run reports:clean && cypress run",
     "test": "npm run cypress:run",
-    "posttest": "npm run reports:combine && npm run reports:generate"
+    "reports:clean": "rm -rf output"
   },
   "repository": {
     "type": "git",
@@ -19,14 +16,10 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "cypress": "^12.9.0",
+    "@muenchen/prettier-codeformat": "^1.0.2",
+    "cypress": "^12.17.4",
     "cypress-keycloak": "^2.0.1",
-    "cypress-multi-reporters": "^1.5.0",
     "dotenv": "^16.4.5",
-    "mocha": "^8.4.0",
-    "mochawesome": "^6.3.1",
-    "mochawesome-merge": "^4.2.1",
-    "mochawesome-report-generator": "^5.2.0",
-    "typescript": "^4.6.2"
+    "typescript": "^5.4.5"
   }
 }

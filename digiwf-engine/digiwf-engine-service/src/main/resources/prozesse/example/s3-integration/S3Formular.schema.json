@@ -60,12 +60,12 @@
                 },
                 "x-rules": []
               },
-              "presignedUrls": {
+              "FormField_Email": {
                 "fieldType": "text",
-                "title": "presignedUrls",
+                "title": "Email",
                 "type": "string",
-                "key": "presignedUrls",
-                "readOnly": true,
+                "key": "FormField_Email",
+                "description": "Email to send the created and uploaded files to",
                 "x-options": {
                   "fieldColProps": {
                     "cols": 12,
@@ -77,7 +77,9 @@
                   "outlined": true,
                   "dense": true
                 },
-                "x-rules": []
+                "x-rules": [
+                  "required"
+                ]
               },
               "file_upload": {
                 "fieldType": "file",
@@ -107,27 +109,6 @@
                   "dense": true
                 },
                 "x-rules": []
-              },
-              "FormField_Email": {
-                "fieldType": "text",
-                "title": "Email",
-                "type": "string",
-                "key": "FormField_Email",
-                "description": "Email to send the created and uploaded files to",
-                "x-options": {
-                  "fieldColProps": {
-                    "cols": 12,
-                    "sm": 12,
-                    "messages": {}
-                  }
-                },
-                "x-props": {
-                  "outlined": true,
-                  "dense": true
-                },
-                "x-rules": [
-                  "required"
-                ]
               }
             },
             "key": "03d9bc45-bd0e-4878-8338-79656c87a294"

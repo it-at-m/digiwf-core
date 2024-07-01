@@ -13,7 +13,7 @@ Following plugins are contained:
 
 ## Usage/Deployment
 
-1. Package project to jar with `mvn package`
+1. Package project to jar with `mvn package -Pcamunda-ee,!camunda-ce`
 2. Append jar to Optimize
     1. By building custom image with base optimize and add jar (see [Dockerfile](./Dockerfile))
     2. By attaching jar to container (i.e. via kubernetes/openshift ConfigMap and VolumeMount)
@@ -35,10 +35,10 @@ The following environment variables are required by some plugins and need to be 
 
 ## Development
 
-The build of this package needs to be executed with maven profile `camunda-ee` and without `camunda-ce`.
-
-1. Start [stack](../../stack) with profile `optimize`
+1. Package project to jar with `mvn package -Pcamunda-ee,!camunda-ce`
+2. Start [stack](../../stack) with profile `optimize`: `docker compose --profile optimize up -d`
+    - Can require login to Camunda registry for Optimize image: `docker login registry.camunda.cloud`
     - Starts dependencies: keycloak, elasticsearch and optimize
     - Optimize container needs to be recreated to apply plugin changes
-2. Start [engine-rest-service](../../digiwf-engine/digiwf-engine-rest-service) and [gateway](../../digiwf-gateway)
-3. Goto http://<gateway-url>/optimize i.e. http://localhost:8083/optimize
+3. Start [engine-rest-service](../../digiwf-engine/digiwf-engine-rest-service) and [gateway](../../digiwf-gateway)
+4. Goto http://<gateway-url>/optimize i.e. http://localhost:8083/optimize
