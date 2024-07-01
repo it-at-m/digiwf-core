@@ -1,5 +1,6 @@
 package de.muenchen.oss.digiwf.dms.integration.adapter.in;
 
+import de.muenchen.oss.digiwf.dms.integration.adapter.in.streaming.StreamingAdapter;
 import de.muenchen.oss.digiwf.dms.integration.application.port.in.*;
 import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
 import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
@@ -27,10 +28,10 @@ class MessageProcessorTestBase {
     protected final MessageHeaders messageHeaders = new MessageHeaders(
             Map.of(DIGIWF_PROCESS_INSTANCE_ID, this.processInstanceId, DIGIWF_INTEGRATION_NAME, "dmsIntegration", TYPE, "type", DIGIWF_PROCESS_DEFINITION,
                     processDefinitionId));
-    protected MessageProcessor messageProcessor;
+    protected StreamingAdapter streamingAdapter;
 
     protected void setupBase() {
-        this.messageProcessor = new MessageProcessor(
+        this.streamingAdapter = new StreamingAdapter(
                 processApi,
                 errorApiMock,
                 createFileInPortMock,

@@ -1,4 +1,4 @@
-package de.muenchen.oss.digiwf.dms.integration.adapter.in;
+package de.muenchen.oss.digiwf.dms.integration.adapter.in.streaming;
 
 
 import lombok.AllArgsConstructor;

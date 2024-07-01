@@ -1,18 +1,18 @@
 package de.muenchen.oss.digiwf.dms.integration.adapter.in;
 
+import de.muenchen.oss.digiwf.dms.integration.adapter.in.streaming.SearchObjectDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHeaders;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-class SearchFileMessageProcessorTest extends MessageProcessorTestBase {
+class SearchFileStreamingAdapterTest extends MessageProcessorTestBase {
 
     private final SearchObjectDto searchFileDto = new SearchObjectDto(
             "group.*-file-*",
@@ -47,7 +47,7 @@ class SearchFileMessageProcessorTest extends MessageProcessorTestBase {
 
     @Test
     void testReadFileSuccessfully() {
-        messageProcessor.searchFile().accept(this.message);
+        streamingAdapter.searchFile().accept(this.message);
         verify(searchFileInPort, times(1)).searchFile(
                 searchFileDto.getSearchString(),
                 searchFileDto.getUser(),

@@ -1,5 +1,6 @@
 package de.muenchen.oss.digiwf.dms.integration.adapter.in;
 
+import de.muenchen.oss.digiwf.dms.integration.adapter.in.streaming.SearchObjectDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -9,7 +10,7 @@ import org.springframework.messaging.MessageHeaders;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-class SearchSubjectAreaMessageProcessorTest extends MessageProcessorTestBase {
+class SearchSubjectAreaStreamingAdapterTest extends MessageProcessorTestBase {
 
     private final SearchObjectDto searchSubjectAreaDto = new SearchObjectDto(
             "aktenplan",
@@ -42,7 +43,7 @@ class SearchSubjectAreaMessageProcessorTest extends MessageProcessorTestBase {
 
     @Test
     void testReadFileSuccessfully() {
-        messageProcessor.searchSubjectArea().accept(this.message);
+        streamingAdapter.searchSubjectArea().accept(this.message);
         verify(searchSubjectAreaInPort, times(1)).searchSubjectArea(
                 searchSubjectAreaDto.getSearchString(),
                 searchSubjectAreaDto.getUser());

@@ -1,5 +1,6 @@
 package de.muenchen.oss.digiwf.dms.integration.adapter.in;
 
+import de.muenchen.oss.digiwf.dms.integration.adapter.in.streaming.UpdateDocumentDto;
 import de.muenchen.oss.digiwf.dms.integration.domain.DocumentResponse;
 import de.muenchen.oss.digiwf.dms.integration.domain.DocumentType;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
@@ -21,7 +22,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-class UpdateDocumentMessageProcessorTest extends MessageProcessorTestBase {
+class UpdateDocumentStreamingAdapterTest extends MessageProcessorTestBase {
 
     private final UpdateDocumentDto updateDocumentDto = new UpdateDocumentDto(
             "documentCoo",
@@ -61,7 +62,7 @@ class UpdateDocumentMessageProcessorTest extends MessageProcessorTestBase {
 
     @Test
     void testDmsIntegrationUpdateDocumentSuccessfully() {
-        messageProcessor.updateDocument().accept(this.message);
+        streamingAdapter.updateDocument().accept(this.message);
         verify(updateDocumentInPortMock, times(1)).updateDocument(
                 updateDocumentDto.getDocumentCoo(),
                 updateDocumentDto.getUser(),
@@ -75,7 +76,7 @@ class UpdateDocumentMessageProcessorTest extends MessageProcessorTestBase {
     void testDmsIntegrationUpdateDocumentHandlesValidationException() {
         Mockito.doThrow(new ValidationException("Test ValidationException")).when(updateDocumentInPortMock)
                 .updateDocument(any(), any(), any(), any(), any(), any());
-        messageProcessor.updateDocument().accept(this.message);
+        streamingAdapter.updateDocument().accept(this.message);
         final ArgumentCaptor<Map<String, Object>> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
         verify(errorApiMock, times(1)).handleIncident(messageHeaderArgumentCaptor.capture(), any(IncidentError.class));
         Assertions.assertTrue(messageHeaderArgumentCaptor.getValue().containsKey(DIGIWF_PROCESS_INSTANCE_ID));
@@ -84,7 +85,7 @@ class UpdateDocumentMessageProcessorTest extends MessageProcessorTestBase {
     @Test
     void testDmsUpdateDocumentIntegrationHandlesIncidentError() {
         Mockito.doThrow(new IncidentError("Error Message")).when(updateDocumentInPortMock).updateDocument(any(), any(), any(), any(), any(), any());
-        messageProcessor.updateDocument().accept(this.message);
+        streamingAdapter.updateDocument().accept(this.message);
         final ArgumentCaptor<Map<String, Object>> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
         verify(errorApiMock, times(1)).handleIncident(messageHeaderArgumentCaptor.capture(), any(IncidentError.class));
         Assertions.assertTrue(messageHeaderArgumentCaptor.getValue().containsKey(DIGIWF_PROCESS_INSTANCE_ID));

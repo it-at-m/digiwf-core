@@ -1,4 +1,4 @@
-package de.muenchen.oss.digiwf.dms.integration.adapter.in;
+package de.muenchen.oss.digiwf.dms.integration.adapter.in.streaming;
 
 
 import lombok.AllArgsConstructor;
@@ -10,9 +10,13 @@ import lombok.Setter;
 @NoArgsConstructor
 @Setter
 @Getter
-public class DepositObjectDto {
+public class CreateProcedureDto {
 
-    private String objectCoo;
+    private String fileCOO;
+
+    private String title;
+
+    private String fileSubj;
 
     private String user;
 

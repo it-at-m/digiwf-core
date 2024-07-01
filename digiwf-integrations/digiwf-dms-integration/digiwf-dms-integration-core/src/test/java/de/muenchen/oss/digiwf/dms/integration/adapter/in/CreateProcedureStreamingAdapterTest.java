@@ -1,5 +1,6 @@
 package de.muenchen.oss.digiwf.dms.integration.adapter.in;
 
+import de.muenchen.oss.digiwf.dms.integration.adapter.in.streaming.CreateProcedureDto;
 import de.muenchen.oss.digiwf.dms.integration.domain.Procedure;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import jakarta.validation.ValidationException;
@@ -18,7 +19,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-class CreateProcedureMessageProcessorTest extends MessageProcessorTestBase {
+class CreateProcedureStreamingAdapterTest extends MessageProcessorTestBase {
 
     private final CreateProcedureDto createProcedureDto = new CreateProcedureDto(
             "sachakteCoo",
@@ -52,14 +53,14 @@ class CreateProcedureMessageProcessorTest extends MessageProcessorTestBase {
 
     @Test
     void testDmsIntegrationCreateProcedureSuccessfully() {
-        messageProcessor.createProcedure().accept(this.message);
+        streamingAdapter.createProcedure().accept(this.message);
         verify(createProcedureMock, times(1)).createProcedure(createProcedureDto.getTitle(), createProcedureDto.getFileCOO(), createProcedureDto.getFileSubj(), createProcedureDto.getUser());
     }
 
     @Test
     void testDmsIntegrationHandlesValidationException() {
         Mockito.doThrow(new ValidationException("Test ValidationException")).when(createProcedureMock).createProcedure(any(), any(), any(), any());
-        messageProcessor.createProcedure().accept(this.message);
+        streamingAdapter.createProcedure().accept(this.message);
         final ArgumentCaptor<Map> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
         verify(errorApiMock, times(1)).handleIncident(messageHeaderArgumentCaptor.capture(), any(IncidentError.class));
         Assertions.assertTrue(messageHeaderArgumentCaptor.getValue().containsKey(DIGIWF_PROCESS_INSTANCE_ID));
@@ -69,7 +70,7 @@ class CreateProcedureMessageProcessorTest extends MessageProcessorTestBase {
     @Test
     void testDmsIntegrationHandlesIncidentError() {
         Mockito.doThrow(new IncidentError("Error Message")).when(createProcedureMock).createProcedure(any(), any(), any(), any());
-        messageProcessor.createProcedure().accept(this.message);
+        streamingAdapter.createProcedure().accept(this.message);
         final ArgumentCaptor<Map> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
         verify(errorApiMock, times(1)).handleIncident(messageHeaderArgumentCaptor.capture(), any(IncidentError.class));
         Assertions.assertTrue(messageHeaderArgumentCaptor.getValue().containsKey(DIGIWF_PROCESS_INSTANCE_ID));

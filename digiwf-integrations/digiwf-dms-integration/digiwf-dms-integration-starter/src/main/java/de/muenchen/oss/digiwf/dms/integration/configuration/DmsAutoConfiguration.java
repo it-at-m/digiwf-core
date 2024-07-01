@@ -1,7 +1,7 @@
 package de.muenchen.oss.digiwf.dms.integration.configuration;
 
 import com.fabasoft.schemas.websvc.lhmbai_15_1700_giwsd.LHMBAI151700GIWSDSoap;
-import de.muenchen.oss.digiwf.dms.integration.adapter.in.*;
+import de.muenchen.oss.digiwf.dms.integration.adapter.in.streaming.*;
 import de.muenchen.oss.digiwf.dms.integration.adapter.out.auth.DmsUserAdapter;
 import de.muenchen.oss.digiwf.dms.integration.adapter.out.auth.MockDmsUserAdapter;
 import de.muenchen.oss.digiwf.dms.integration.adapter.out.fabasoft.FabasoftAdapter;
@@ -153,48 +153,48 @@ public class DmsAutoConfiguration {
     }
 
     @Bean
-    public Consumer<Message<CreateFileDto>> createFile(final MessageProcessor messageProcessor) {
-        return messageProcessor.createFile();
+    public Consumer<Message<CreateFileDto>> createFile(final StreamingAdapter streamingAdapter) {
+        return streamingAdapter.createFile();
     }
 
     @Bean
-    public Consumer<Message<CreateProcedureDto>> createProcedure(final MessageProcessor messageProcessor) {
-        return messageProcessor.createProcedure();
+    public Consumer<Message<CreateProcedureDto>> createProcedure(final StreamingAdapter streamingAdapter) {
+        return streamingAdapter.createProcedure();
     }
 
     @Bean
-    public Consumer<Message<CreateDocumentDto>> createDocument(final MessageProcessor messageProcessor) {
-        return messageProcessor.createDocument();
+    public Consumer<Message<CreateDocumentDto>> createDocument(final StreamingAdapter streamingAdapter) {
+        return streamingAdapter.createDocument();
     }
 
     @Bean
-    public Consumer<Message<UpdateDocumentDto>> updateDocument(final MessageProcessor messageProcessor) {
-        return messageProcessor.updateDocument();
+    public Consumer<Message<UpdateDocumentDto>> updateDocument(final StreamingAdapter streamingAdapter) {
+        return streamingAdapter.updateDocument();
     }
 
     @Bean
-    public Consumer<Message<DepositObjectDto>> depositObject(final MessageProcessor messageProcessor) {
-        return messageProcessor.depositObject();
+    public Consumer<Message<DepositObjectDto>> depositObject(final StreamingAdapter streamingAdapter) {
+        return streamingAdapter.depositObject();
     }
 
     @Bean
-    public Consumer<Message<CancelObjectDto>> cancelObject(final MessageProcessor messageProcessor) {
-        return messageProcessor.cancelObject();
+    public Consumer<Message<CancelObjectDto>> cancelObject(final StreamingAdapter streamingAdapter) {
+        return streamingAdapter.cancelObject();
     }
 
     @Bean
-    public Consumer<Message<ReadContentDto>> readContent(final MessageProcessor messageProcessor) {
-        return messageProcessor.readContent();
+    public Consumer<Message<ReadContentDto>> readContent(final StreamingAdapter streamingAdapter) {
+        return streamingAdapter.readContent();
     }
 
     @Bean
-    public Consumer<Message<SearchObjectDto>> searchFile(final MessageProcessor messageProcessor) {
-        return messageProcessor.searchFile();
+    public Consumer<Message<SearchObjectDto>> searchFile(final StreamingAdapter streamingAdapter) {
+        return streamingAdapter.searchFile();
     }
 
     @Bean
-    public Consumer<Message<SearchObjectDto>> searchSubjectArea(final MessageProcessor messageProcessor) {
-        return messageProcessor.searchSubjectArea();
+    public Consumer<Message<SearchObjectDto>> searchSubjectArea(final StreamingAdapter streamingAdapter) {
+        return streamingAdapter.searchSubjectArea();
     }
 
     @Profile("!local")
@@ -213,7 +213,7 @@ public class DmsAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public MessageProcessor createMessageProcessor(
+    public StreamingAdapter createMessageProcessor(
             final ProcessApi processApi,
             final ErrorApi errorApi,
             final CreateFileInPort createFileInPort,
@@ -226,7 +226,7 @@ public class DmsAutoConfiguration {
             final SearchFileInPort searchFileInPort,
             final SearchSubjectAreaInPort searchSubjectAreaInPort
     ) {
-        return new MessageProcessor(
+        return new StreamingAdapter(
                 processApi,
                 errorApi,
                 createFileInPort,

@@ -1,5 +1,6 @@
 package de.muenchen.oss.digiwf.dms.integration.adapter.in;
 
+import de.muenchen.oss.digiwf.dms.integration.adapter.in.streaming.ReadContentDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -11,7 +12,7 @@ import java.util.List;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-class ReadContentMessageProcessorTest extends MessageProcessorTestBase {
+class ReadContentStreamingAdapterTest extends MessageProcessorTestBase {
 
     private final ReadContentDto readContentDto = new ReadContentDto(
             List.of("fileCoo"),
@@ -47,7 +48,7 @@ class ReadContentMessageProcessorTest extends MessageProcessorTestBase {
 
     @Test
     void testDmsIntegrationReadContentSuccessfully() {
-        messageProcessor.readContent().accept(this.message);
+        streamingAdapter.readContent().accept(this.message);
         verify(readContentInPort, times(1)).readContent(
                 readContentDto.getContentCoos(),
                 readContentDto.getUser(),

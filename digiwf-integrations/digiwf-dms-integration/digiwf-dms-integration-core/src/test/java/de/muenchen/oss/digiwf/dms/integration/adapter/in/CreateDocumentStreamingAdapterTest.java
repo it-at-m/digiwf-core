@@ -1,5 +1,6 @@
 package de.muenchen.oss.digiwf.dms.integration.adapter.in;
 
+import de.muenchen.oss.digiwf.dms.integration.adapter.in.streaming.CreateDocumentDto;
 import de.muenchen.oss.digiwf.dms.integration.domain.DocumentResponse;
 import de.muenchen.oss.digiwf.dms.integration.domain.DocumentType;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
@@ -22,7 +23,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-class CreateDocumentMessageProcessorTest extends MessageProcessorTestBase {
+class CreateDocumentStreamingAdapterTest extends MessageProcessorTestBase {
 
     private final CreateDocumentDto createDocumentDto = new CreateDocumentDto(
             "documentCoo",
@@ -67,7 +68,7 @@ class CreateDocumentMessageProcessorTest extends MessageProcessorTestBase {
 
     @Test
     void testDmsIntegrationCreateDocumentSuccessfully() {
-        messageProcessor.createDocument().accept(this.message);
+        streamingAdapter.createDocument().accept(this.message);
         verify(createDocumentInPortMock, times(1)).createDocument(
                 createDocumentDto.getProcedureCoo(),
                 createDocumentDto.getTitle(),
@@ -83,7 +84,7 @@ class CreateDocumentMessageProcessorTest extends MessageProcessorTestBase {
     void testDmsIntegrationCreateDocumentHandlesValidationException() {
         Mockito.doThrow(new ValidationException("Test ValidationException")).when(createDocumentInPortMock)
                 .createDocument(any(), any(), any(), any(), any(), any(), any(), any());
-        messageProcessor.createDocument().accept(this.message);
+        streamingAdapter.createDocument().accept(this.message);
         final ArgumentCaptor<Map<String, Object>> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
         verify(errorApiMock, times(1)).handleIncident(messageHeaderArgumentCaptor.capture(), any(IncidentError.class));
         Assertions.assertTrue(messageHeaderArgumentCaptor.getValue().containsKey(DIGIWF_PROCESS_INSTANCE_ID));
@@ -93,7 +94,7 @@ class CreateDocumentMessageProcessorTest extends MessageProcessorTestBase {
     void testDmsCreateDocumentIntegrationHandlesIncidentError() {
         Mockito.doThrow(new IncidentError("Error Message")).when(createDocumentInPortMock)
                 .createDocument(any(), any(), any(), any(), any(), any(), any(), any());
-        messageProcessor.createDocument().accept(this.message);
+        streamingAdapter.createDocument().accept(this.message);
         final ArgumentCaptor<Map<String, Object>> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
         verify(errorApiMock, times(1)).handleIncident(messageHeaderArgumentCaptor.capture(), any(IncidentError.class));
         Assertions.assertTrue(messageHeaderArgumentCaptor.getValue().containsKey(DIGIWF_PROCESS_INSTANCE_ID));
