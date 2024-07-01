@@ -28,7 +28,7 @@ Um einen Artikel zu erstellen, müssen Sie die folgenden Daten an die Ticket-Int
 }
 ```
 
-Um die Prozessentwicklung zu beschleunigen kann das
+Um die Prozessentwicklung zu beschleunigen, kann das
 Element-Template [Ticketing: Artikel schreiben](/element-template/ticket-integration/ticketing_write_article.json)
 verwendet werden.
 
@@ -72,3 +72,13 @@ Es werden die gleichen Felder wie bei `writeArticle` benötigt, zusätzlich wird
 | Feld     | Typ    | Beschreibung                                                      | Erforderlich |
 |----------|--------|-------------------------------------------------------------------|--------------|
 | `userId` | String | Die ID des Benutzers, zu dem der Artikel hinzugefügt werden soll. | Nein         |
+
+#### BPMN Error
+
+| Error Code                                   | Error Message                                                                                                                                                                                                                 | Beschreibung                                                                      | Handlungsempfehlung                                                                                               | 
+|----------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------|
+| `LOAD_FILE_FAILED`                           | An file could not be loaded from url: filepath                                                                                                                                                                                | Die Datei konnte nicht geladen werden                                             | Stellen Sie sicher, dass die Datei im S3 Bucket vorhanden ist                                                     |
+| `LOAD_FOLDER_FAILED`                         | An folder could not be loaded from url: folderpath                                                                                                                                                                            | Der Ordner konnte nicht geladen werden                                            | Stellen Sie sicher, dass der Ordner im S3 Bucket vorhanden ist                                                    |
+| `FILE_SIZE_ERROR`                            | The following files exceed the maximum size of `<maximal Größe von Dateien>` MB:`<Liste von Dateien mit Größen>`                                                                                                              | Einige Dateien haben die maximal zulässige Größe überschritten                    | Stellen Sie sicher, dass nur Dateien mit der zulässigen Maximalgröße in den S3 Bucket geladen werden.             |
+| `BATCH_SIZE_ERROR`                           | Batch size of `<Summe der auf einmal verarbeiteten Dateien>` MB is too large. Allowed are `<maximal Größe eines Batches>` MB.                                                                                                 | Die Summe von auf einmal zu verarbeitenden Dateien ist zu hoch                    | Stellen Sie sicher, dass die Summe von auf einmal zu verarbeitenden Dateien nicht die Maßimalgröße überschreitet. |
+| `FILE_TYPE_NOT_SUPPORTED`                    | The type of this file is not supported: filepath                                                                                                                                                                              | Der Dateityp der Datei wird nicht unterstützt                                     | Die Datei kann nicht in DMS abgelegt werden                                                                       |
