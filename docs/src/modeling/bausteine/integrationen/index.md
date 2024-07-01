@@ -3,6 +3,17 @@
 Integrationen können über eine Call Activity aufgerufen werden. Für die von der Plattform bereitgestellten Integrationen werden Element-Templates angeboten, die die Modellierung vereinfachen.
 Eine vollständige Liste der verfügbaren Integrationen finden Sie unter [DigiWF Integrationen](/integrations/).
 
+## Übergreifend
+
+Alle Integrationen nutzen Basisinformationen aus dem Prozess und werden über ihren Namen im Connector identifiziert. Dazu werden von DigiWF
+autom. mit den jeweiligen Element-Templates folgende Properties gesetzt. 
+
+### Allgemeine Properties
+
+| Properties         | Typ    | Beschreibung               | Erforderlich |
+|---------------|--------|----------------------------|--------------|
+| `type`        | Header | Der Typ des Events.        | Ja           |
+| `integration` | Header | Der Name der Integration.  | Ja           |
 
 ## CoSys
 
@@ -243,3 +254,73 @@ Um einen Aktenplaneintrag zu suchen, wird das Element Template `DMS: Aktenplanei
 | Suche                         | Suchstring mit Namen des Aktenplaneintrags                                    | Aktenplaneintragname     |
 | User                          | Benutzername des Benutzers, über den der Aktenplaneintrag gesucht werden soll | max.mustermann           |
 | Out: Aktenplaneintrag (Coo)   | Objekt-ID des Aktenplaneintrags                                               | COO.9876.5432.1.9876543  |
+
+## Open AI
+
+Die DigiWF OpenAI-Integration ermöglicht es Prozessentwicklern, Sprachmodelle in BPMN-Prozesse integrieren zu können.
+
+### Chat
+
+Um eine einfache Chat-Anfrage durchzuführen, müssen die folgenden Daten an die OpenAI-Integration übergeben werden:
+
+#### Properties
+
+| Properties         | Typ    | Beschreibung                                                  | Erforderlich |
+|---------------|--------|---------------------------------------------------------------|--------------|
+| `prompt`      | String | Generische Anfrage an das Sprachmodell.                       | Ja           |
+
+### Übersetzung
+
+Um einen Text übersetzen zu lassen, müssen Sie die folgenden Daten an die OpenAI-Integration übergeben werden:
+
+#### Properties
+
+| Properties         | Typ    | Beschreibung                                                  | Erforderlich |
+|---------------|--------|---------------------------------------------------------------|--------------|
+| `text`        | String | Der zu übersetzende Text.                                     | Ja           |
+| `language`    | String | Sprache, in die übersetzt werden soll.                        | Ja           |
+
+### Zusammenfassung
+
+Um einen Text zusammenfassen zu lassen, müssen Sie die folgenden Daten an die OpenAI-Integration übergeben werden:
+
+#### Properties
+
+| Properties         | Typ    | Beschreibung                                                  | Erforderlich |
+|---------------|--------|---------------------------------------------------------------|--------------|
+| `text`        | String | Der zu verkürzende Text.                                      | Ja           |
+| `length`      | Int    | Ungefähre Länge des neuen Textes.                             | Ja           |
+
+### Mail generieren
+
+Um Mail-Texte in beliebigen Sprachen generieren zu lassen, müssen die folgenden Daten an die OpenAI-Integration übergeben werden:
+
+#### Properties
+
+| Properties         | Typ    | Beschreibung                                                  | Erforderlich |
+|---------------|--------|---------------------------------------------------------------|--------------|
+| `json`        | json   | Daten für das Template.                                       | Ja           |
+| `language`    | String | Sprache des Mail-Textes.                                      | Ja           |
+| `template`    | String | Vorlage für den Mail-Text.                                    | Ja           |
+
+### Daten extrahieren
+
+Um Daten aus einem Text oder JSON extrahieren zu lassen, müssen die folgenden Daten an die OpenAI-Integration übergeben werden:
+
+#### Properties
+
+| Properties         | Typ    | Beschreibung                                                  | Erforderlich |
+|---------------|--------|---------------------------------------------------------------|--------------|
+| `json`        | String | Unstrukturierter Text oder unpassende JSON-Daten.             | Ja           |
+| `fields`      | String | Zu extrahierende Informationen als JSON-Felder getrennt.      | Ja           |
+
+### Klassifizierung
+
+Um auf Basis von Daten einfache (Vor-)Entscheidungen zu treffen, müssen die folgenden Daten an die OpenAI-Integration übergeben werden:
+
+#### Properties
+
+| Properties         | Typ    | Beschreibung                                                  | Erforderlich |
+|---------------|--------|---------------------------------------------------------------|--------------|
+| `json`        | String | Unstrukturierter Text oder JSON-Daten als Basis.              | Ja           |
+| `options`     | String | Mögliche Ergebnisse für die Klassifizierung.                  | Ja           |

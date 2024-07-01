@@ -23,7 +23,7 @@ werden.
 - [Email Integration](digiwf-mail-integration.md)
 - [S3 Integration](digiwf-s3-integration.md)
 - [Ticket Integration](digiwf-ticket-integration.md)
-- [OpenAI Integration](digiwf-openai-integration.md)
+- [OpenAI Integration](modeling/bausteine/integrationen/#open-ai)
 
 ## Konzepte
 
