@@ -12,7 +12,7 @@ import org.springframework.validation.annotation.Validated;
 @Setter
 @Validated
 @Component
-@ConfigurationProperties(prefix = "de.muenchen.oss.digiwf.openai.service.azure")
+@ConfigurationProperties(prefix = "digiwf.openai.azure")
 @Profile("azure")
 public class AzureIntegrationProperties {
 

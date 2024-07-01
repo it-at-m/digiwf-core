@@ -46,20 +46,17 @@ io:
         correlateMessageDestination: "dwf-connector-${DIGIWF_ENV}"
         deadLetterQueueDestination: "dwf-connector-incident-${DIGIWF_ENV}"
 
-de:
-  muenchen:
-    oss:
-      digiwf:
-        openai:
-          service:
-            api-key: "${OPENAI_INTEGRATION_API-KEY}"
-            model: "${OPENAI_INTEGRATION_MODEL}"
-            base-url: "${OPENAI_INTEGRATION_BASE-URL}"
-            logging: "${OPENAI_INTEGRATION_LOGGING:false}"
-            temperature: "${OPENAI_INTEGRATION_TEMPERATURE:0.7}"
-            max-tokens: "${OPENAI_INTEGRATION_MAX-TOKENS:1000}"
-            azure:
-              api-version: "${OPENAI_INTEGRATION_AZURE_API-VERSION}"
-              deployment-name: "${OPENAI_INTEGRATION_AZURE_DEPLOYMENT-NAME}"
-              resource: "${OPENAI_INTEGRATION_AZURE_RESOURCE}"
+
+digiwf:
+  openai:
+    api-key: "${OPENAI_INTEGRATION_API-KEY}"
+    model: "${OPENAI_INTEGRATION_MODEL}"
+    base-url: "${OPENAI_INTEGRATION_BASE-URL}"
+    logging: "${OPENAI_INTEGRATION_LOGGING:false}"
+    temperature: "${OPENAI_INTEGRATION_TEMPERATURE:0.7}"
+    max-tokens: "${OPENAI_INTEGRATION_MAX-TOKENS:1000}"
+    azure:
+      api-version: "${OPENAI_INTEGRATION_AZURE_API-VERSION}"
+      deployment-name: "${OPENAI_INTEGRATION_AZURE_DEPLOYMENT-NAME}"
+      resource: "${OPENAI_INTEGRATION_AZURE_RESOURCE}"
 

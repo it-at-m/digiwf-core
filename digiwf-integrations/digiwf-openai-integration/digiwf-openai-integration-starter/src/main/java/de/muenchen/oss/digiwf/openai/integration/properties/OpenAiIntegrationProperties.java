@@ -10,7 +10,7 @@ import org.springframework.validation.annotation.Validated;
 @Getter
 @Setter
 @Validated
-@ConfigurationProperties(prefix = "de.muenchen.oss.digiwf.openai.service")
+@ConfigurationProperties(prefix = "digiwf.openai")
 @Component
 public class OpenAiIntegrationProperties {
 
