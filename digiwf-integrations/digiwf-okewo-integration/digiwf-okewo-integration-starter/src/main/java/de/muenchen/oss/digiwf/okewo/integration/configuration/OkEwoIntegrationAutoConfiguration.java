@@ -106,7 +106,7 @@ public class OkEwoIntegrationAutoConfiguration {
 
     @ConditionalOnMissingBean
     @Bean
-    public StreamingAdapter messageProcessor(final ProcessApi processApi,
+    public StreamingAdapter streamingAdapter(final ProcessApi processApi,
                                              final ErrorApi errorApi,
                                              final GetPersonInPort getPersonInPort,
                                              final GetPersonErweitertInPort getPersonErweitertInPort,

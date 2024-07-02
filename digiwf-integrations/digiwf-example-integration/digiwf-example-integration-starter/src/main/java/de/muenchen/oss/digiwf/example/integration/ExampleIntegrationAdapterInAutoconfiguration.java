@@ -18,7 +18,7 @@ public class ExampleIntegrationAdapterInAutoconfiguration {
 
     @ConditionalOnMissingBean
     @Bean
-    public StreamingAdapter messageProcessor(
+    public StreamingAdapter streamingAdapter(
             final ErrorApi errorApi,
             final ProcessApi processApi,
             final ExampleInPort exampleInPort,

@@ -213,7 +213,7 @@ public class DmsAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public StreamingAdapter createMessageProcessor(
+    public StreamingAdapter streamingAdapter(
             final ProcessApi processApi,
             final ErrorApi errorApi,
             final CreateFileInPort createFileInPort,

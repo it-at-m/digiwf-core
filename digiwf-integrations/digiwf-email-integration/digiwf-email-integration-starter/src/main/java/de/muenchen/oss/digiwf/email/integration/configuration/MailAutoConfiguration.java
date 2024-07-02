@@ -76,7 +76,7 @@ public class MailAutoConfiguration {
 
     @ConditionalOnMissingBean
     @Bean
-    public StreamingAdapter createMessageProcessor(
+    public StreamingAdapter streamingAdapter(
             final ProcessApi processApi,
             final ErrorApi errorApi,
             final MonitoringService monitoringService,

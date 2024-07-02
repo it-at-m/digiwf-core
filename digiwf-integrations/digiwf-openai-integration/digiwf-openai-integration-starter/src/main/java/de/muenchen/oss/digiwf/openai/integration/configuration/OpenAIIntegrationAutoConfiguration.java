@@ -91,7 +91,7 @@ public class OpenAIIntegrationAutoConfiguration {
 
     @ConditionalOnMissingBean
     @Bean
-    public StreamingAdapter messageProcessor(
+    public StreamingAdapter streamingAdapter(
             final ProcessApi processApi,
             final ErrorApi errorApi,
             final OpenAiInPort addressGermanyInPort,

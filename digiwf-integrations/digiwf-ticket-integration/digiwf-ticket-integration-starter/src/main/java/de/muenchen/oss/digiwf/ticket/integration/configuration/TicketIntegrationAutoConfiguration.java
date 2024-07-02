@@ -55,9 +55,9 @@ public class TicketIntegrationAutoConfiguration {
 
     @ConditionalOnMissingBean
     @Bean
-    public TicketStreamingAdapter messageProcessor(final WriteArticleInPort writeArticleInPort,
-                                                   final ProcessApi processApi,
-                                                   final ErrorApi errorApi) {
+    public TicketStreamingAdapter ticketStreamingAdapter(final WriteArticleInPort writeArticleInPort,
+                                                         final ProcessApi processApi,
+                                                         final ErrorApi errorApi) {
         return new TicketStreamingAdapter(writeArticleInPort, processApi, errorApi);
     }
 

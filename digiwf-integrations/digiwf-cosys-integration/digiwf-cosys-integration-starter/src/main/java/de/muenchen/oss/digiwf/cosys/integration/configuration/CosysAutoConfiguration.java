@@ -117,7 +117,7 @@ public class CosysAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public StreamingAdapter messageProcessor(final CreateDocumentInPort createDocumentInPort, final ProcessApi processApi, final ErrorApi errorApi) {
+    public StreamingAdapter streamingAdapter(final CreateDocumentInPort createDocumentInPort, final ProcessApi processApi, final ErrorApi errorApi) {
         return new StreamingAdapter(createDocumentInPort, processApi, errorApi);
     }
 

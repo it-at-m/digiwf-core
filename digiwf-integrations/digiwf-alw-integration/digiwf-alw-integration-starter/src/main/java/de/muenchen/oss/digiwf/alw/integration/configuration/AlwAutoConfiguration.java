@@ -66,7 +66,7 @@ public class AlwAutoConfiguration {
 
     @ConditionalOnMissingBean
     @Bean
-    public StreamingAdapter messageProcessor(final ProcessApi processApi,
+    public StreamingAdapter streamingAdapter(final ProcessApi processApi,
                                              final ErrorApi errorApi,
                                              final GetResponsibilityInPort getResponsibilityInPort) {
         return new StreamingAdapter(processApi, errorApi, getResponsibilityInPort);

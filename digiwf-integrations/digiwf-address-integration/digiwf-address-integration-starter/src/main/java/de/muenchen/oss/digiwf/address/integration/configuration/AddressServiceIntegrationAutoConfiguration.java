@@ -159,7 +159,7 @@ public class AddressServiceIntegrationAutoConfiguration {
 
     @ConditionalOnMissingBean
     @Bean
-    public StreamingAdapter messageProcessor(
+    public StreamingAdapter streamingAdapter(
             final AddressGermanyInPort addressGermanyInPort,
             final AddressMunichInPort addressMunichInPort,
             final StreetsMunichInPort streetsMunichInPort,
