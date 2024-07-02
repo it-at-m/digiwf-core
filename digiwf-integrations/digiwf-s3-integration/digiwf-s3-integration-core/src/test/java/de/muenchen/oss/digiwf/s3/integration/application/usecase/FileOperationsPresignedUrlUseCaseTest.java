@@ -1,6 +1,5 @@
 package de.muenchen.oss.digiwf.s3.integration.application.usecase;
 
-import de.muenchen.oss.digiwf.s3.integration.adapter.out.persistence.File;
 import de.muenchen.oss.digiwf.s3.integration.adapter.out.s3.S3Repository;
 import de.muenchen.oss.digiwf.s3.integration.application.port.in.FileExistenceException;
 import de.muenchen.oss.digiwf.s3.integration.application.port.in.FileOperationsPresignedUrlInPort;
@@ -251,31 +250,16 @@ class FileOperationsPresignedUrlUseCaseTest {
 
         // File not in Database
         this.fileOperations.updateFile(fileData);
-        final var fileToSave1 = new File();
-        fileToSave1.setPathToFile(pathToFile);
-        fileToSave1.setEndOfLife(fileData.getEndOfLife());
         Mockito.verify(this.s3Repository, Mockito.times(1)).getPresignedUrl(pathToFile, Method.PUT, fileData.getExpiresInMinutes());
 
         // File already in Database with older end of life
         Mockito.reset(this.s3Repository);
-        final var fileToFind1 = new File();
-        fileToFind1.setPathToFile(fileData.getPathToFile());
-        fileToFind1.setEndOfLife(fileData.getEndOfLife().minusYears(1));
         this.fileOperations.updateFile(fileData);
-        final var folderToSave2 = new File();
-        folderToSave2.setPathToFile(fileToFind1.getPathToFile());
-        folderToSave2.setEndOfLife(fileData.getEndOfLife());
         Mockito.verify(this.s3Repository, Mockito.times(1)).getPresignedUrl(pathToFile, Method.PUT, fileData.getExpiresInMinutes());
 
         // File already in Database with older and of life
         Mockito.reset(this.s3Repository);
-        final var folderToFind2 = new File();
-        folderToFind2.setPathToFile(fileData.getPathToFile());
-        folderToFind2.setEndOfLife(fileData.getEndOfLife().plusYears(1));
         this.fileOperations.updateFile(fileData);
-        final var folderToSave3 = new File();
-        folderToSave3.setPathToFile(folderToFind2.getPathToFile());
-        folderToSave3.setEndOfLife(fileData.getEndOfLife());
         Mockito.verify(this.s3Repository, Mockito.times(1)).getPresignedUrl(pathToFile, Method.PUT, fileData.getExpiresInMinutes());
     }
 

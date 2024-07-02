@@ -1,7 +1,6 @@
 package de.muenchen.oss.digiwf.s3.integration.application.usecase;
 
 import de.muenchen.oss.digiwf.s3.integration.adapter.in.rest.validation.FolderInFilePathValidator;
-import de.muenchen.oss.digiwf.s3.integration.adapter.out.persistence.File;
 import de.muenchen.oss.digiwf.s3.integration.adapter.out.s3.S3Repository;
 import de.muenchen.oss.digiwf.s3.integration.application.port.in.FileExistenceException;
 import de.muenchen.oss.digiwf.s3.integration.application.port.in.FileOperationsPresignedUrlInPort;
@@ -115,10 +114,8 @@ public class FileOperationsPresignedUrlUseCase implements FileOperationsPresigne
 
     /**
      * Creates a presigned URL to overwrite the file specified in the parameter within the S3 storage.
-     * Furthermore, the entry regarding {@link File#getEndOfLife()} is adjusted in the database.
      * <p>
-     * If the file does not yet exist in the S3 storage, it is newly created and a
-     * corresponding {@link File} is persisted in the database.
+     * If the file does not yet exist in the S3 storage, it is newly created.
      *
      * @param fileData with the file metadata for re-saving.
      * @throws FileSystemAccessException if the S3 storage cannot be accessed.

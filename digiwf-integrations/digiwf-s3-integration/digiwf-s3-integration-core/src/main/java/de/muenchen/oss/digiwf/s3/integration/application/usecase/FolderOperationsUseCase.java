@@ -37,7 +37,7 @@ public class FolderOperationsUseCase implements FolderOperationsInPort {
     }
 
     /**
-     * Deletes the folder with all containing files specified in the parameter together with the corresponding database entries.
+     * Deletes the folder with all containing files specified in the parameter.
      *
      * @param pathToFolder identifies the path to the folder.
      * @throws FileSystemAccessException if the S3 storage cannot be accessed.

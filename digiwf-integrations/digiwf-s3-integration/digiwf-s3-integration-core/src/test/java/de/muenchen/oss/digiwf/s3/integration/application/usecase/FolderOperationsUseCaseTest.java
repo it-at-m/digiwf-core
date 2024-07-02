@@ -1,6 +1,5 @@
 package de.muenchen.oss.digiwf.s3.integration.application.usecase;
 
-import de.muenchen.oss.digiwf.s3.integration.adapter.out.persistence.File;
 import de.muenchen.oss.digiwf.s3.integration.adapter.out.s3.S3Repository;
 import de.muenchen.oss.digiwf.s3.integration.application.port.in.FileSystemAccessException;
 import org.junit.jupiter.api.Assertions;
@@ -38,8 +37,6 @@ class FolderOperationsUseCaseTest {
         final String pathToFile = "folder/file.txt";
         final String pathToFolder = "folder";
         final String pathToFolderWithSeparator = pathToFolder + "/";
-        final File file = new File();
-        file.setPathToFile(pathToFile);
 
         Mockito.when(this.s3Repository.getFilePathsFromFolder(pathToFolderWithSeparator)).thenReturn(new HashSet<>(List.of(pathToFile)));
         Assertions.assertDoesNotThrow(() -> this.folderHandlingService.deleteFolder(pathToFolder));
