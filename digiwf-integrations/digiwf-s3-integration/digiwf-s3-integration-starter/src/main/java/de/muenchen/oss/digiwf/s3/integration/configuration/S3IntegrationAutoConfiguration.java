@@ -5,14 +5,12 @@ import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
 import de.muenchen.oss.digiwf.s3.integration.adapter.in.rest.mapper.PresignedUrlMapper;
 import de.muenchen.oss.digiwf.s3.integration.adapter.in.streaming.CreatePresignedUrlEvent;
 import de.muenchen.oss.digiwf.s3.integration.adapter.in.streaming.FilesDTO;
-import de.muenchen.oss.digiwf.s3.integration.adapter.in.streaming.MessageProcessor;
-import de.muenchen.oss.digiwf.s3.integration.adapter.out.integration.IntegrationOutAdapter;
+import de.muenchen.oss.digiwf.s3.integration.adapter.in.streaming.StreamingAdapter;
 import de.muenchen.oss.digiwf.s3.integration.adapter.out.s3.S3Repository;
 import de.muenchen.oss.digiwf.s3.integration.application.port.in.CreatePresignedUrlsInPort;
 import de.muenchen.oss.digiwf.s3.integration.application.port.in.FileOperationsInPort;
 import de.muenchen.oss.digiwf.s3.integration.application.port.in.FileSystemAccessException;
 import de.muenchen.oss.digiwf.s3.integration.application.port.in.FolderOperationsInPort;
-import de.muenchen.oss.digiwf.s3.integration.application.port.out.IntegrationOutPort;
 import de.muenchen.oss.digiwf.s3.integration.application.usecase.CreatePresignedUrlsUseCase;
 import de.muenchen.oss.digiwf.s3.integration.application.usecase.FileOperationsPresignedUrlUseCase;
 import de.muenchen.oss.digiwf.s3.integration.application.usecase.FileOperationsUseCase;
@@ -60,18 +58,20 @@ public class S3IntegrationAutoConfiguration {
 
     @ConditionalOnMissingBean
     @Bean
-    public MessageProcessor presignedUrlEventListener(
-            CreatePresignedUrlsInPort createPresignedUrlsInPort,
-            FolderOperationsInPort folderOperationsInPort,
-            FileOperationsInPort fileOperationsInPort,
-            IntegrationOutPort integrationOutPort,
-            PresignedUrlMapper presignedUrlsMapper
+    public StreamingAdapter presignedUrlEventListener(
+            final ProcessApi processApi,
+            final ErrorApi errorApi,
+            final CreatePresignedUrlsInPort createPresignedUrlsInPort,
+            final FolderOperationsInPort folderOperationsInPort,
+            final FileOperationsInPort fileOperationsInPort,
+            final PresignedUrlMapper presignedUrlsMapper
     ) {
-        return new MessageProcessor(
+        return new StreamingAdapter(
+                processApi,
+                errorApi,
                 createPresignedUrlsInPort,
                 folderOperationsInPort,
                 fileOperationsInPort,
-                integrationOutPort,
                 presignedUrlsMapper
         );
     }
@@ -91,19 +91,13 @@ public class S3IntegrationAutoConfiguration {
         return new FileOperationsUseCase(s3Repository);
     }
 
-    @ConditionalOnMissingBean
     @Bean
-    public IntegrationOutPort integration(ProcessApi processApi, ErrorApi errorApi) {
-        return new IntegrationOutAdapter(processApi, errorApi);
+    public Consumer<Message<CreatePresignedUrlEvent>> createPresignedUrl(final StreamingAdapter streamingAdapter) {
+        return streamingAdapter.createPresignedUrl();
     }
 
     @Bean
-    public Consumer<Message<CreatePresignedUrlEvent>> createPresignedUrl(final MessageProcessor messageProcessor) {
-        return messageProcessor.createPresignedUrl();
-    }
-
-    @Bean
-    public Consumer<Message<FilesDTO>> deleteFiles(final MessageProcessor messageProcessor) {
-        return messageProcessor.deleteFiles();
+    public Consumer<Message<FilesDTO>> deleteFiles(final StreamingAdapter streamingAdapter) {
+        return streamingAdapter.deleteFiles();
     }
 }

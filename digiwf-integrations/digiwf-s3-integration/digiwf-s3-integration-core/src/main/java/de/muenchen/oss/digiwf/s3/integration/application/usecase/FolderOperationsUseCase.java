@@ -1,9 +1,9 @@
 package de.muenchen.oss.digiwf.s3.integration.application.usecase;
 
 import de.muenchen.oss.digiwf.s3.integration.adapter.in.rest.validation.FolderInFilePathValidator;
-import de.muenchen.oss.digiwf.s3.integration.adapter.out.s3.S3Repository;
 import de.muenchen.oss.digiwf.s3.integration.application.port.in.FileSystemAccessException;
 import de.muenchen.oss.digiwf.s3.integration.application.port.in.FolderOperationsInPort;
+import de.muenchen.oss.digiwf.s3.integration.application.port.out.S3OutPort;
 import de.muenchen.oss.digiwf.s3.integration.domain.model.FilesInFolder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +19,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class FolderOperationsUseCase implements FolderOperationsInPort {
 
-    private final S3Repository s3Repository;
+    private final S3OutPort s3OutPort;
 
     /**
      * The method adds a path separator to the end of the parameter if no separator is already added.
@@ -46,7 +46,7 @@ public class FolderOperationsUseCase implements FolderOperationsInPort {
     @Override
     public void deleteFolder(@NotNull final String pathToFolder) throws FileSystemAccessException {
         final String pathToFolderWithSeparatorAtTheEnd = addPathSeparatorToTheEnd(pathToFolder);
-        final Set<String> filePathsInFolder = this.s3Repository.getFilePathsFromFolder(pathToFolderWithSeparatorAtTheEnd);
+        final Set<String> filePathsInFolder = this.s3OutPort.getFilePathsFromFolder(pathToFolderWithSeparatorAtTheEnd);
         if (filePathsInFolder.isEmpty()) {
             log.info("Folder is empty in s3");
         } else {
@@ -54,7 +54,7 @@ public class FolderOperationsUseCase implements FolderOperationsInPort {
             log.info("Deleting {} files in folder {}", filePathsInFolder.size(), pathToFolderWithSeparatorAtTheEnd);
             for (final String pathToFile : filePathsInFolder) {
                 // Delete file on S3
-                this.s3Repository.deleteFile(pathToFile);
+                this.s3OutPort.deleteFile(pathToFile);
             }
         }
     }
@@ -71,7 +71,7 @@ public class FolderOperationsUseCase implements FolderOperationsInPort {
     public FilesInFolder getAllFilesInFolderRecursively(@NotNull final String pathToFolder) throws FileSystemAccessException {
         final String pathToFolderWithSeparatorAtTheEnd = addPathSeparatorToTheEnd(pathToFolder);
         final FilesInFolder filesInFolder = new FilesInFolder();
-        final Set<String> filePathsInFolder = this.s3Repository.getFilePathsFromFolder(pathToFolderWithSeparatorAtTheEnd);
+        final Set<String> filePathsInFolder = this.s3OutPort.getFilePathsFromFolder(pathToFolderWithSeparatorAtTheEnd);
         filesInFolder.setPathToFiles(filePathsInFolder);
         return filesInFolder;
     }

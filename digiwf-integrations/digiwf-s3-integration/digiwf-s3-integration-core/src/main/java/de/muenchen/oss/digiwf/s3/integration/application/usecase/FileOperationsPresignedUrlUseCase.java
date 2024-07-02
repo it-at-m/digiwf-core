@@ -1,10 +1,10 @@
 package de.muenchen.oss.digiwf.s3.integration.application.usecase;
 
 import de.muenchen.oss.digiwf.s3.integration.adapter.in.rest.validation.FolderInFilePathValidator;
-import de.muenchen.oss.digiwf.s3.integration.adapter.out.s3.S3Repository;
 import de.muenchen.oss.digiwf.s3.integration.application.port.in.FileExistenceException;
 import de.muenchen.oss.digiwf.s3.integration.application.port.in.FileOperationsPresignedUrlInPort;
 import de.muenchen.oss.digiwf.s3.integration.application.port.in.FileSystemAccessException;
+import de.muenchen.oss.digiwf.s3.integration.application.port.out.S3OutPort;
 import de.muenchen.oss.digiwf.s3.integration.domain.model.FileData;
 import de.muenchen.oss.digiwf.s3.integration.domain.model.PresignedUrl;
 import io.minio.http.Method;
@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 @Transactional
 public class FileOperationsPresignedUrlUseCase implements FileOperationsPresignedUrlInPort {
 
-    private final S3Repository s3Repository;
+    private final S3OutPort s3OutPort;
 
     /**
      * Return the path to the folder for the given file path in the parameter.
@@ -154,11 +154,11 @@ public class FileOperationsPresignedUrlUseCase implements FileOperationsPresigne
      * @throws FileSystemAccessException on S3 access errors.
      */
     private PresignedUrl getPresignedUrl(final String path, final Method action, final int expiresInMinutes, final LocalDate endOfLife) throws FileSystemAccessException {
-        return new PresignedUrl(this.s3Repository.getPresignedUrl(path, action, expiresInMinutes), path, action.toString());
+        return new PresignedUrl(this.s3OutPort.getPresignedUrl(path, action, expiresInMinutes), path, action.toString());
     }
 
     private boolean fileExists(final String filePath) throws FileSystemAccessException {
-        return this.s3Repository.fileExists(filePath);
+        return this.s3OutPort.fileExists(filePath);
     }
 
     /**
@@ -181,7 +181,7 @@ public class FileOperationsPresignedUrlUseCase implements FileOperationsPresigne
         }
 
         // PUT, GET, DELETE return single presignedUrl if path is file. Return list of presignedUrls if path is directory
-        final List<String> paths = new ArrayList<>(this.s3Repository.getFilePathsFromFolder(path));
+        final List<String> paths = new ArrayList<>(this.s3OutPort.getFilePathsFromFolder(path));
         final List<PresignedUrl> presignedUrlList = paths.stream()
                 .map(filePath -> this.getPresignedUrlForFile(filePath, action, expiresInMinutes))
                 .filter(Objects::nonNull)
@@ -218,7 +218,7 @@ public class FileOperationsPresignedUrlUseCase implements FileOperationsPresigne
 
     private PresignedUrl getPresignedUrlForFile(final String filePath, final Method action, final int expiresInMinutes) {
         try {
-            final String presignedUrl = this.s3Repository.getPresignedUrl(filePath, action, expiresInMinutes);
+            final String presignedUrl = this.s3OutPort.getPresignedUrl(filePath, action, expiresInMinutes);
             return new PresignedUrl(presignedUrl, filePath, action.toString());
         } catch (final FileSystemAccessException e) {
             log.warn("File not found on path {}", filePath);
