@@ -294,8 +294,8 @@ class S3AdapterTest {
         this.s3Adapter.transferContent(List.of(pdfContent), folderPathWithSlash, fileContext, processDefinitionId);
         this.s3Adapter.transferContent(List.of(pdfContent), folderPathWithoutSlash, fileContext, processDefinitionId);
 
-        verify(documentStorageFileRepository, never()).saveFile(eq(fullPathWrong), any(), anyInt(), isNull(), anyString());
-        verify(documentStorageFileRepository, times(2)).saveFile(eq(fullPath), any(), anyInt(), isNull(), anyString());
+        verify(documentStorageFileRepository, never()).saveFile(eq(fullPathWrong), any(), anyInt(), anyString());
+        verify(documentStorageFileRepository, times(2)).saveFile(eq(fullPath), any(), anyInt(), anyString());
 
     }
 }
