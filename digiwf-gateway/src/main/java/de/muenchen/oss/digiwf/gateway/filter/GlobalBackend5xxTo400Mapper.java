@@ -4,9 +4,8 @@
  */
 package de.muenchen.oss.digiwf.gateway.filter;
 
-import com.hazelcast.org.apache.commons.codec.binary.StringUtils;
-import java.nio.charset.StandardCharsets;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.binary.StringUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.reactivestreams.Publisher;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,6 +26,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.nio.charset.StandardCharsets;
 
 /**
  * Utility methods and constants which are used in multiple

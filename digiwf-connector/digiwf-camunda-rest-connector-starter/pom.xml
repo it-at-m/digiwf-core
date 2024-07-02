@@ -36,7 +36,7 @@
         <dependency>
             <groupId>org.camunda.community.rest</groupId>
             <artifactId>camunda-platform-7-rest-client-spring-boot-starter</artifactId>
-            <version>7.20.1</version>
+            <version>${camunda.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -52,9 +52,8 @@
             <artifactId>camunda-bpm-spring-boot-starter-external-task-client</artifactId>
         </dependency>
         <dependency>
-            <groupId>javax.xml.bind</groupId>
-            <artifactId>jaxb-api</artifactId>
-            <version>2.3.1</version>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
         </dependency>
 
         <!-- DigiWF -->

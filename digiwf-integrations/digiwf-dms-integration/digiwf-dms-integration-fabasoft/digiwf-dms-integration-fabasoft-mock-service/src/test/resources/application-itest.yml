@@ -13,8 +13,12 @@ io:
       message:
         deadLetterQueueDestination: itest_dead
 
+spring:
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: ${spring.embedded.kafka.brokers}
+
 # overwrite vars
 DIGIWF_ENV: itest
-#KAFKA_BOOTSTRAP_SERVER: localhost
-KAFKA_BOOTSTRAP_SERVER_PORT: 19999
-#KAFKA_SECURITY_PROTOCOL: PLAINTEXT
