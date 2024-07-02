@@ -17,7 +17,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 
-import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -229,7 +228,6 @@ class FileOperationsPresignedUrlUseCaseTest {
         final String pathToFolder = "folder";
 
         final FileData fileData = new FileData();
-        fileData.setEndOfLife(LocalDate.of(2022, 1, 1));
         fileData.setPathToFile(pathToFile);
         fileData.setExpiresInMinutes(5);
 
@@ -244,7 +242,6 @@ class FileOperationsPresignedUrlUseCaseTest {
         final String pathToFile = "folder/test.txt";
 
         final FileData fileData = new FileData();
-        fileData.setEndOfLife(LocalDate.of(2022, 1, 1));
         fileData.setPathToFile(pathToFile);
         fileData.setExpiresInMinutes(5);
 

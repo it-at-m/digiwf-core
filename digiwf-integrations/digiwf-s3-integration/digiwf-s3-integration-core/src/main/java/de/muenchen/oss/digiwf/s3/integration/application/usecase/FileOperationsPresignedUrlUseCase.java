@@ -14,7 +14,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -46,7 +45,6 @@ public class FileOperationsPresignedUrlUseCase implements FileOperationsPresigne
     /**
      * Get a list of presigned urls for all files in the paths.
      * If the path is a file the presigned url for the file is returned.
-     * The end of life for the files to save is not set und therefore the files are not deleted automatically.
      *
      * @param paths            list of paths to files and/or folders
      * @param action           http method for the presigned url
@@ -57,12 +55,15 @@ public class FileOperationsPresignedUrlUseCase implements FileOperationsPresigne
      */
     @Override
     public List<PresignedUrl> getPresignedUrls(final List<String> paths, final Method action, final int expiresInMinutes) throws FileSystemAccessException, FileExistenceException {
-        return this.getPresignedUrls(paths, action, expiresInMinutes, null);
+        final List<PresignedUrl> presignedUrls = new ArrayList<>();
+        for (String p : paths) {
+            presignedUrls.addAll(this.getPresignedUrls(p, action, expiresInMinutes));
+        }
+        return presignedUrls;
     }
 
     /**
      * Get a single presigned url for the path.
-     * The end of life for the files to save is not set und therefore the files are not deleted automatically.
      *
      * @param path             path to file or folder
      * @param action           http method for the presigned url
@@ -72,7 +73,7 @@ public class FileOperationsPresignedUrlUseCase implements FileOperationsPresigne
      */
     @Override
     public PresignedUrl getPresignedUrl(final String path, final Method action, final int expiresInMinutes) throws FileSystemAccessException {
-        return this.getPresignedUrl(path, action, expiresInMinutes, null);
+        return new PresignedUrl(this.s3OutPort.getPresignedUrl(path, action, expiresInMinutes), path, action.toString());
     }
 
     /**
@@ -109,7 +110,7 @@ public class FileOperationsPresignedUrlUseCase implements FileOperationsPresigne
             log.error(message);
             throw new FileExistenceException(message);
         }
-        return this.getPresignedUrl(fileData.getPathToFile(), Method.PUT, fileData.getExpiresInMinutes(), fileData.getEndOfLife());
+        return this.getPresignedUrl(fileData.getPathToFile(), Method.PUT, fileData.getExpiresInMinutes());
     }
 
     /**
@@ -122,7 +123,7 @@ public class FileOperationsPresignedUrlUseCase implements FileOperationsPresigne
      */
     @Override
     public PresignedUrl updateFile(final FileData fileData) throws FileSystemAccessException {
-        return this.getPresignedUrl(fileData.getPathToFile(), Method.PUT, fileData.getExpiresInMinutes(), fileData.getEndOfLife());
+        return this.getPresignedUrl(fileData.getPathToFile(), Method.PUT, fileData.getExpiresInMinutes());
     }
 
     /**
@@ -143,20 +144,6 @@ public class FileOperationsPresignedUrlUseCase implements FileOperationsPresigne
         return this.getPresignedUrl(pathToFile, Method.DELETE, expiresInMinutes);
     }
 
-    /**
-     * Get a single presigned url for the path
-     *
-     * @param path             path to file or folder
-     * @param action           http method for the presigned url
-     * @param expiresInMinutes presigned url expiration time
-     * @param endOfLife        the files endOfLife. May be null. If null, no end of life is set
-     * @return pre-signed url.
-     * @throws FileSystemAccessException on S3 access errors.
-     */
-    private PresignedUrl getPresignedUrl(final String path, final Method action, final int expiresInMinutes, final LocalDate endOfLife) throws FileSystemAccessException {
-        return new PresignedUrl(this.s3OutPort.getPresignedUrl(path, action, expiresInMinutes), path, action.toString());
-    }
-
     private boolean fileExists(final String filePath) throws FileSystemAccessException {
         return this.s3OutPort.fileExists(filePath);
     }
@@ -168,16 +155,15 @@ public class FileOperationsPresignedUrlUseCase implements FileOperationsPresigne
      * @param path             path to file or folder
      * @param action           http method for the presigned url
      * @param expiresInMinutes presigned url expiration time
-     * @param endOfLife        the files endOfLife. May be null. If null, no end of life is set
      * @return list of pre-signed urls.
      * @throws FileSystemAccessException on S3 access errors.
      * @throws FileExistenceException    if file doesn't exist.
      */
-    private List<PresignedUrl> getPresignedUrls(final String path, final Method action, final int expiresInMinutes, final LocalDate endOfLife) throws FileSystemAccessException, FileExistenceException {
+    private List<PresignedUrl> getPresignedUrls(final String path, final Method action, final int expiresInMinutes) throws FileSystemAccessException, FileExistenceException {
         // special case file creation (POST)
         // Use method PUT and return a single presignedUrl for the file the user wants to create
         if (action.equals(Method.POST)) {
-            return List.of(this.getPresignedUrl(path, Method.PUT, expiresInMinutes, endOfLife));
+            return List.of(this.getPresignedUrl(path, Method.PUT, expiresInMinutes));
         }
 
         // PUT, GET, DELETE return single presignedUrl if path is file. Return list of presignedUrls if path is directory
@@ -194,26 +180,6 @@ public class FileOperationsPresignedUrlUseCase implements FileOperationsPresigne
         }
 
         return presignedUrlList;
-    }
-
-    /**
-     * Get a list of presigned urls for all files in the paths.
-     * If the path is a file the presigned url for the file is returned.
-     *
-     * @param paths            list of paths to files and/or folders
-     * @param action           http method for the presigned url
-     * @param expiresInMinutes presigned url expiration time
-     * @param endOfLife        the files endOfLife. May be null. If null, no end of life is set
-     * @return list of pre-signed urls.
-     * @throws FileSystemAccessException on S3 access errors.
-     * @throws FileExistenceException    if file doesn't exist.
-     */
-    private List<PresignedUrl> getPresignedUrls(final List<String> paths, final Method action, final int expiresInMinutes, LocalDate endOfLife) throws FileSystemAccessException, FileExistenceException {
-        final List<PresignedUrl> presignedUrls = new ArrayList<>();
-        for (String p : paths) {
-            presignedUrls.addAll(this.getPresignedUrls(p, action, expiresInMinutes, endOfLife));
-        }
-        return presignedUrls;
     }
 
     private PresignedUrl getPresignedUrlForFile(final String filePath, final Method action, final int expiresInMinutes) {

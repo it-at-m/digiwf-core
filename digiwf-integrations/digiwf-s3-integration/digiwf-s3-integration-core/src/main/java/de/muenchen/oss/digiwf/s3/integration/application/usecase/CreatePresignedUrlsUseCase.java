@@ -24,7 +24,6 @@ public class CreatePresignedUrlsUseCase implements CreatePresignedUrlsInPort {
     @Override
     @NonNull
     public List<PresignedUrl> createPresignedUrls(@Valid CreatePresignedUrlEvent event) throws FileSystemAccessException {
-        // No end of life is set for files to be saved
         return this.fileHandlingService.getPresignedUrls(
                 List.of(event.getPath().split(";")),
                 Method.valueOf(event.getAction()),
