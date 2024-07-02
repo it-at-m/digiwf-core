@@ -1,7 +1,6 @@
-package de.muenchen.oss.digiwf.s3.integration.application;
+package de.muenchen.oss.digiwf.s3.integration.application.usecase;
 
 import de.muenchen.oss.digiwf.s3.integration.adapter.out.persistence.File;
-import de.muenchen.oss.digiwf.s3.integration.adapter.out.persistence.FileRepository;
 import de.muenchen.oss.digiwf.s3.integration.adapter.out.s3.S3Repository;
 import de.muenchen.oss.digiwf.s3.integration.application.port.in.FileExistenceException;
 import de.muenchen.oss.digiwf.s3.integration.application.port.in.FileOperationsPresignedUrlInPort;
@@ -22,7 +21,6 @@ import org.mockito.quality.Strictness;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -34,15 +32,11 @@ class FileOperationsPresignedUrlUseCaseTest {
     @Mock
     private S3Repository s3Repository;
 
-    @Mock
-    private FileRepository fileRepository;
-
     private FileOperationsPresignedUrlInPort fileOperations;
 
     @BeforeEach
     public void beforeEach() {
-        this.fileOperations = new FileOperationsPresignedUrlUseCase(this.s3Repository, this.fileRepository);
-        Mockito.reset(this.fileRepository);
+        this.fileOperations = new FileOperationsPresignedUrlUseCase(this.s3Repository);
         Mockito.reset(this.s3Repository);
     }
 
@@ -256,69 +250,33 @@ class FileOperationsPresignedUrlUseCaseTest {
         fileData.setExpiresInMinutes(5);
 
         // File not in Database
-        Mockito.when(this.fileRepository.findByPathToFile(pathToFile)).thenReturn(Optional.empty());
         this.fileOperations.updateFile(fileData);
         final var fileToSave1 = new File();
         fileToSave1.setPathToFile(pathToFile);
         fileToSave1.setEndOfLife(fileData.getEndOfLife());
-        Mockito.verify(this.fileRepository, Mockito.times(1)).save(fileToSave1);
         Mockito.verify(this.s3Repository, Mockito.times(1)).getPresignedUrl(pathToFile, Method.PUT, fileData.getExpiresInMinutes());
 
         // File already in Database with older end of life
-        Mockito.reset(this.fileRepository);
         Mockito.reset(this.s3Repository);
         final var fileToFind1 = new File();
         fileToFind1.setPathToFile(fileData.getPathToFile());
         fileToFind1.setEndOfLife(fileData.getEndOfLife().minusYears(1));
-        Mockito.when(this.fileRepository.findByPathToFile(pathToFile)).thenReturn(Optional.of(fileToFind1));
         this.fileOperations.updateFile(fileData);
         final var folderToSave2 = new File();
         folderToSave2.setPathToFile(fileToFind1.getPathToFile());
         folderToSave2.setEndOfLife(fileData.getEndOfLife());
-        Mockito.verify(this.fileRepository, Mockito.times(1)).save(folderToSave2);
         Mockito.verify(this.s3Repository, Mockito.times(1)).getPresignedUrl(pathToFile, Method.PUT, fileData.getExpiresInMinutes());
 
         // File already in Database with older and of life
-        Mockito.reset(this.fileRepository);
         Mockito.reset(this.s3Repository);
         final var folderToFind2 = new File();
         folderToFind2.setPathToFile(fileData.getPathToFile());
         folderToFind2.setEndOfLife(fileData.getEndOfLife().plusYears(1));
-        Mockito.when(this.fileRepository.findByPathToFile(pathToFile)).thenReturn(Optional.of(folderToFind2));
         this.fileOperations.updateFile(fileData);
         final var folderToSave3 = new File();
         folderToSave3.setPathToFile(folderToFind2.getPathToFile());
         folderToSave3.setEndOfLife(fileData.getEndOfLife());
-        Mockito.verify(this.fileRepository, Mockito.times(1)).save(folderToSave3);
         Mockito.verify(this.s3Repository, Mockito.times(1)).getPresignedUrl(pathToFile, Method.PUT, fileData.getExpiresInMinutes());
-    }
-
-    @Test
-    void updateEndOfLifeException() {
-        final String pathToFile = "folder/test.txt";
-        final LocalDate endOfLife = LocalDate.of(2022, 1, 1);
-
-        Mockito.when(this.fileRepository.findByPathToFile(pathToFile)).thenReturn(Optional.empty());
-        Assertions.assertThrows(FileExistenceException.class, () -> this.fileOperations.updateEndOfLife(pathToFile, endOfLife));
-    }
-
-    @Test
-    void updateEndOfLife() throws FileExistenceException {
-        final String pathToFile = "folder/test.txt";
-        final LocalDate endOfLife = LocalDate.of(2022, 1, 1);
-
-        final File fileToFind = new File();
-        fileToFind.setPathToFile(pathToFile);
-        fileToFind.setEndOfLife(null);
-        final Optional<File> fileOptional = Optional.of(fileToFind);
-
-        Mockito.when(this.fileRepository.findByPathToFile(pathToFile)).thenReturn(fileOptional);
-
-        final File fileToSave = new File();
-        fileToSave.setPathToFile(pathToFile);
-        fileToSave.setEndOfLife(endOfLife);
-        this.fileOperations.updateEndOfLife(pathToFile, endOfLife);
-        Mockito.verify(this.fileRepository, Mockito.times(1)).save(fileToSave);
     }
 
     @Test

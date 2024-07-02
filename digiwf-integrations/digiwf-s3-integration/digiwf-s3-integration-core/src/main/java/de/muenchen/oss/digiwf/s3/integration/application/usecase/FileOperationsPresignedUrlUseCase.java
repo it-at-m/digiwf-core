@@ -1,8 +1,7 @@
-package de.muenchen.oss.digiwf.s3.integration.application;
+package de.muenchen.oss.digiwf.s3.integration.application.usecase;
 
 import de.muenchen.oss.digiwf.s3.integration.adapter.in.rest.validation.FolderInFilePathValidator;
 import de.muenchen.oss.digiwf.s3.integration.adapter.out.persistence.File;
-import de.muenchen.oss.digiwf.s3.integration.adapter.out.persistence.FileRepository;
 import de.muenchen.oss.digiwf.s3.integration.adapter.out.s3.S3Repository;
 import de.muenchen.oss.digiwf.s3.integration.application.port.in.FileExistenceException;
 import de.muenchen.oss.digiwf.s3.integration.application.port.in.FileOperationsPresignedUrlInPort;
@@ -20,7 +19,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -30,7 +28,6 @@ import java.util.stream.Collectors;
 public class FileOperationsPresignedUrlUseCase implements FileOperationsPresignedUrlInPort {
 
     private final S3Repository s3Repository;
-    private final FileRepository fileRepository;
 
     /**
      * Return the path to the folder for the given file path in the parameter.
@@ -132,28 +129,6 @@ public class FileOperationsPresignedUrlUseCase implements FileOperationsPresigne
     }
 
     /**
-     * Updates the end of life for the given file.
-     *
-     * @param pathToFile identifies the path to file.
-     * @param endOfLife  the files endOfLife. May be null. If null, no end of life is set
-     * @throws FileExistenceException if no database entry exists.
-     */
-    @Override
-    public void updateEndOfLife(final String pathToFile, final LocalDate endOfLife) throws FileExistenceException {
-        final Optional<File> fileOptional = this.fileRepository.findByPathToFile(pathToFile);
-        if (fileOptional.isPresent()) {
-            final File file = fileOptional.get();
-            file.setEndOfLife(endOfLife);
-            this.fileRepository.save(file);
-            log.info("End of life updated for file ${} to ${}", file, endOfLife);
-        } else {
-            final String message = String.format("No database entry for file %s is found.", pathToFile);
-            log.error(message);
-            throw new FileExistenceException(message);
-        }
-    }
-
-    /**
      * Creates a presigned URL to delete the file specified in the parameter from the S3 storage.
      *
      * @param pathToFile       identifies the path to file.
@@ -182,34 +157,7 @@ public class FileOperationsPresignedUrlUseCase implements FileOperationsPresigne
      * @throws FileSystemAccessException on S3 access errors.
      */
     private PresignedUrl getPresignedUrl(final String path, final Method action, final int expiresInMinutes, final LocalDate endOfLife) throws FileSystemAccessException {
-        // make sure the file exists before saving files
-        if (action.equals(Method.PUT) || action.equals(Method.POST)) {
-            this.setupFile(path, endOfLife);
-        }
         return new PresignedUrl(this.s3Repository.getPresignedUrl(path, action, expiresInMinutes), path, action.toString());
-    }
-
-    /**
-     * Creates a new file entity within the database, if no entity identified by pathToFile is available.
-     * Otherwise, the existing file entity is updated with endOfLife.
-     *
-     * @param pathToFile for which a file entity should be set up in the database
-     * @param endOfLife  the files endOfLife. May be null. If null, no end of life is set
-     */
-    private void setupFile(final String pathToFile, final LocalDate endOfLife) {
-        final Optional<File> fileOptional = this.fileRepository.findByPathToFile(pathToFile);
-        if (fileOptional.isEmpty()) {
-            log.info("The database entry for file ${} does not exist.", pathToFile);
-            final var folder = new File();
-            folder.setPathToFile(pathToFile);
-            folder.setEndOfLife(endOfLife);
-            this.fileRepository.save(folder);
-        } else {
-            log.info("The database entry for file ${} already exists.", pathToFile);
-            final File folder = fileOptional.get();
-            folder.setEndOfLife(endOfLife);
-            this.fileRepository.save(folder);
-        }
     }
 
     private boolean fileExists(final String filePath) throws FileSystemAccessException {
@@ -229,11 +177,6 @@ public class FileOperationsPresignedUrlUseCase implements FileOperationsPresigne
      * @throws FileExistenceException    if file doesn't exist.
      */
     private List<PresignedUrl> getPresignedUrls(final String path, final Method action, final int expiresInMinutes, final LocalDate endOfLife) throws FileSystemAccessException, FileExistenceException {
-        // make sure the folder exists before saving files
-        if (action.equals(Method.PUT) || action.equals(Method.POST)) {
-            this.setupFile(path, endOfLife);
-        }
-
         // special case file creation (POST)
         // Use method PUT and return a single presignedUrl for the file the user wants to create
         if (action.equals(Method.POST)) {

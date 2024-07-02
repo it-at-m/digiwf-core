@@ -1,4 +1,4 @@
-package de.muenchen.oss.digiwf.s3.integration.application;
+package de.muenchen.oss.digiwf.s3.integration.application.usecase;
 
 import de.muenchen.oss.digiwf.s3.integration.adapter.out.s3.S3Repository;
 import de.muenchen.oss.digiwf.s3.integration.application.port.in.FileOperationsInPort;

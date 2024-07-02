@@ -4,7 +4,6 @@ import de.muenchen.oss.digiwf.s3.integration.domain.model.FileData;
 import de.muenchen.oss.digiwf.s3.integration.domain.model.PresignedUrl;
 import io.minio.http.Method;
 
-import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -22,6 +21,4 @@ public interface FileOperationsPresignedUrlInPort {
     PresignedUrl updateFile(final FileData fileData) throws FileSystemAccessException;
 
     PresignedUrl deleteFile(final String pathToFile, final int expiresInMinutes) throws FileExistenceException, FileSystemAccessException;
-
-    void updateEndOfLife(final String pathToFile, final LocalDate endOfLife);
 }

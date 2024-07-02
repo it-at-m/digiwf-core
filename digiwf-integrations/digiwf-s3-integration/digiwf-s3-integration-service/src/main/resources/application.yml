@@ -41,10 +41,6 @@ io:
         url: ${S3_URL:http://localhost:9000}
         secretkey: ${S3_SECRETKEY}
         proxyUrl: "${S3_PROXY_HOST}:${S3_PROXY_PORT}"
-        cronjob:
-          cleanup:
-            unused-files: 0 15 10 16 * ?
-            expired-files: 0 15 10 15 * ?
         proxyEnabled: 'false'
       message:
         incidentDestination: "dwf-connector-incident-${DIGIWF_ENV}"

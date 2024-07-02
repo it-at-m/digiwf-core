@@ -19,14 +19,11 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.time.LocalDate;
 
 @Slf4j
 @Validated
@@ -83,21 +80,6 @@ public class FileController {
             return ResponseEntity.ok(presignedUrlDto);
         } catch (final Exception exception) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage());
-        }
-    }
-
-    @PatchMapping
-    @Operation(description = "Updates the end of life attribute in the corresponding database entry for the file specified in the parameter")
-    public ResponseEntity<Void> updateEndOfLife(@RequestParam @NotEmpty @Size(max = FileData.LENGTH_PATH_TO_FILE) @FolderInFilePath final String pathToFile,
-                                                @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) final LocalDate endOfLife) {
-        try {
-            log.info("Received a request for updating the end of life of a certain folder.");
-            this.fileOperations.updateEndOfLife(pathToFile, endOfLife);
-            return ResponseEntity.ok().build();
-        } catch (final FileExistenceException exception) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, exception.getMessage());
-        } catch (final Exception exception) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

@@ -1,4 +1,4 @@
-package de.muenchen.oss.digiwf.s3.integration.application;
+package de.muenchen.oss.digiwf.s3.integration.application.usecase;
 
 import de.muenchen.oss.digiwf.s3.integration.adapter.in.streaming.CreatePresignedUrlEvent;
 import de.muenchen.oss.digiwf.s3.integration.application.port.in.CreatePresignedUrlsInPort;
