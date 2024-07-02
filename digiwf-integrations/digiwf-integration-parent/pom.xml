@@ -19,7 +19,7 @@
     <properties>
         <okhttp.version>4.12.0</okhttp.version>
         <tika.version>2.9.2</tika.version>
-        <springdoc-openapi.version>2.5.0</springdoc-openapi.version>
+        <springdoc-openapi.version>2.6.0</springdoc-openapi.version>
         <wiremock.version>3.8.0</wiremock.version>
     </properties>
 
