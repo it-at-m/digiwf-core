@@ -29,7 +29,7 @@ public class ClientFileUsageController {
     private static final String PATH_TO_FILE = ClientFolderUsageController.FOLDER + "/" + FILENAME;
 
     private final DocumentStorageFileRepository documentStorageFileRepository;
-    
+
     private final S3StorageUrlProvider s3StorageUrlProvider;
 
     @GetMapping
@@ -121,17 +121,6 @@ public class ClientFileUsageController {
             );
             log.info("File InputStream updated.");
         }
-    }
-
-    @PatchMapping
-    @ResponseStatus(HttpStatus.OK)
-    public void updateEndOfLife() throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
-        this.documentStorageFileRepository.updateEndOfLife(
-                PATH_TO_FILE,
-                LocalDate.now().plusMonths(999),
-                s3StorageUrlProvider.getDefaultDocumentStorageUrl()
-        );
-        log.info("End of life for file updated.");
     }
 
     @DeleteMapping

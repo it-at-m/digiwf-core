@@ -1,6 +1,5 @@
 package de.muenchen.oss.digiwf.s3.integration.client.repository;
 
-import de.muenchen.oss.digiwf.s3.integration.client.api.FileApiApi;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageClientErrorException;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageException;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageServerErrorException;
@@ -10,9 +9,6 @@ import de.muenchen.oss.digiwf.s3.integration.client.service.ApiClientFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.HttpServerErrorException;
-import org.springframework.web.client.RestClientException;
 import reactor.core.publisher.Mono;
 
 import java.io.InputStream;
@@ -76,7 +72,7 @@ public class DocumentStorageFileRepository {
      * @throws DocumentStorageException            if the problem cannot be assigned to either the client or the S3 storage or the document storage.
      */
     public void saveFile(final String pathToFile, final byte[] file, final int expireInMinutes, final LocalDate endOfLifeFolder,
-            final String documentStorageUrl) throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
+                         final String documentStorageUrl) throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
         final String presignedUrl = this.presignedUrlRepository.getPresignedUrlSaveFile(pathToFile, expireInMinutes, endOfLifeFolder, documentStorageUrl);
         this.s3FileTransferRepository.saveFile(presignedUrl, file);
     }
@@ -94,7 +90,7 @@ public class DocumentStorageFileRepository {
      * @throws DocumentStorageException            if the problem cannot be assigned to either the client or the S3 storage or the document storage.
      */
     public void saveFileInputStream(final String pathToFile, final InputStream file, final int expireInMinutes, final LocalDate endOfLifeFolder,
-            final String documentStorageUrl) throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
+                                    final String documentStorageUrl) throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
         final String presignedUrl = this.presignedUrlRepository.getPresignedUrlSaveFile(pathToFile, expireInMinutes, endOfLifeFolder, documentStorageUrl);
         this.s3FileTransferRepository.saveFileInputStream(presignedUrl, file);
     }
@@ -112,7 +108,7 @@ public class DocumentStorageFileRepository {
      * @throws DocumentStorageException            if the problem cannot be assigned to either the client or the S3 storage or the document storage.
      */
     public void updateFile(final String pathToFile, final byte[] file, final int expireInMinutes, final LocalDate endOfLifeFolder,
-            final String documentStorageUrl) throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
+                           final String documentStorageUrl) throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
         final String presignedUrl = this.presignedUrlRepository.getPresignedUrlUpdateFile(pathToFile, expireInMinutes, endOfLifeFolder, documentStorageUrl);
         this.s3FileTransferRepository.updateFile(presignedUrl, file);
     }
@@ -130,39 +126,9 @@ public class DocumentStorageFileRepository {
      * @throws DocumentStorageException            if the problem cannot be assigned to either the client or the S3 storage or the document storage.
      */
     public void updateFileInputStream(final String pathToFile, final InputStream file, final int expireInMinutes, final LocalDate endOfLifeFolder,
-            final String documentStorageUrl) throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
+                                      final String documentStorageUrl) throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
         final String presignedUrl = this.presignedUrlRepository.getPresignedUrlUpdateFile(pathToFile, expireInMinutes, endOfLifeFolder, documentStorageUrl);
         this.s3FileTransferRepository.updateFileInputStream(presignedUrl, file);
-    }
-
-    /**
-     * Updates the end of life for the file given in the parameter within the document storage.
-     *
-     * @param pathToFile         defines the path to the file.
-     * @param endOfLifeFolder    the end of life of the folder defined in refId.
-     * @param documentStorageUrl to define to which document storage the request goes.
-     * @throws DocumentStorageClientErrorException if the problem is with the client.
-     * @throws DocumentStorageServerErrorException if the problem is with the S3 storage or document storage.
-     * @throws DocumentStorageException            if the problem cannot be assigned to either the client or the S3 storage or the document storage.
-     */
-    public void updateEndOfLife(final String pathToFile, final LocalDate endOfLifeFolder, final String documentStorageUrl)
-            throws DocumentStorageClientErrorException, DocumentStorageServerErrorException, DocumentStorageException {
-        try {
-            final FileApiApi fileApi = this.apiClientFactory.getFileApiForDocumentStorageUrl(documentStorageUrl);
-            fileApi.updateEndOfLife(pathToFile, endOfLifeFolder);
-        } catch (final HttpClientErrorException exception) {
-            final String message = String.format("The request to update the end of life for a file failed %s.", exception.getStatusCode());
-            log.error(message);
-            throw new DocumentStorageClientErrorException(message, exception);
-        } catch (final HttpServerErrorException exception) {
-            final String message = String.format("The request to update the end of life for a file failed %s.", exception.getStatusCode());
-            log.error(message);
-            throw new DocumentStorageServerErrorException(message, exception);
-        } catch (final RestClientException exception) {
-            final String message = "The request to update the end of life for a file failed.";
-            log.error(message);
-            throw new DocumentStorageException(message, exception);
-        }
     }
 
     /**
