@@ -16,7 +16,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
-import java.time.LocalDate;
 
 @Slf4j
 @RestController
@@ -68,7 +67,6 @@ public class ClientFileUsageController {
                 PATH_TO_FILE,
                 binaryFile,
                 3,
-                LocalDate.now().plusMonths(1),
                 s3StorageUrlProvider.getDefaultDocumentStorageUrl()
         );
         log.info("File saved.");
@@ -83,7 +81,6 @@ public class ClientFileUsageController {
                     PATH_TO_FILE,
                     inputStream,
                     3,
-                    LocalDate.now().plusMonths(1),
                     s3StorageUrlProvider.getDefaultDocumentStorageUrl()
             );
             log.info("File InputStream saved.");
@@ -100,7 +97,6 @@ public class ClientFileUsageController {
                 PATH_TO_FILE,
                 binaryFile,
                 3,
-                LocalDate.now().plusMonths(2),
                 s3StorageUrlProvider.getDefaultDocumentStorageUrl()
         );
         log.info("File updated.");
@@ -116,7 +112,6 @@ public class ClientFileUsageController {
                     PATH_TO_FILE,
                     inputStream,
                     3,
-                    LocalDate.now().plusMonths(2),
                     s3StorageUrlProvider.getDefaultDocumentStorageUrl()
             );
             log.info("File InputStream updated.");

@@ -15,8 +15,6 @@ import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestClientException;
 import reactor.core.publisher.Mono;
 
-import java.time.LocalDate;
-
 @Slf4j
 @Repository
 @RequiredArgsConstructor
@@ -61,21 +59,19 @@ public class PresignedUrlRepository {
      *
      * @param pathToFile         defines the path to the file.
      * @param expireInMinutes    the expiration time of the presignedURL in minutes.
-     * @param endOfLifeFolder    the end of life of the folder defined in refId. May be null.
      * @param documentStorageUrl to define to which document storage the request goes.
      * @return the presignedURL.
      * @throws DocumentStorageClientErrorException if the problem is with the client.
      * @throws DocumentStorageServerErrorException if the problem is with the document storage.
      * @throws DocumentStorageException            if the problem cannot be assigned to either the client or the document storage.
      */
-    public String getPresignedUrlSaveFile(final String pathToFile, final int expireInMinutes, final LocalDate endOfLifeFolder, final String documentStorageUrl)
+    public String getPresignedUrlSaveFile(final String pathToFile, final int expireInMinutes, final String documentStorageUrl)
             throws DocumentStorageClientErrorException, DocumentStorageServerErrorException, DocumentStorageException {
         try {
             final FileApiApi fileApi = this.apiClientFactory.getFileApiForDocumentStorageUrl(documentStorageUrl);
             final var fileDataDto = new FileDataDto();
             fileDataDto.setPathToFile(pathToFile);
             fileDataDto.setExpiresInMinutes(expireInMinutes);
-            fileDataDto.setEndOfLife(endOfLifeFolder);
             final Mono<PresignedUrlDto> presignedUrlDto = fileApi.save(fileDataDto);
             return presignedUrlDto.block().getUrl();
         } catch (final HttpClientErrorException exception) {
@@ -98,21 +94,19 @@ public class PresignedUrlRepository {
      *
      * @param pathToFile         defines the path to the file.
      * @param expireInMinutes    the expiration time of the presignedURL in minutes.
-     * @param endOfLifeFolder    the end of life of the folder defined in refId. May be null.
      * @param documentStorageUrl to define to which document storage the request goes.
      * @return the presignedURL.
      * @throws DocumentStorageClientErrorException if the problem is with the client.
      * @throws DocumentStorageServerErrorException if the problem is with the document storage.
      * @throws DocumentStorageException            if the problem cannot be assigned to either the client or the document storage.
      */
-    public String getPresignedUrlUpdateFile(final String pathToFile, final int expireInMinutes, final LocalDate endOfLifeFolder,
-            final String documentStorageUrl) throws DocumentStorageClientErrorException, DocumentStorageServerErrorException, DocumentStorageException {
+    public String getPresignedUrlUpdateFile(final String pathToFile, final int expireInMinutes,
+                                            final String documentStorageUrl) throws DocumentStorageClientErrorException, DocumentStorageServerErrorException, DocumentStorageException {
         try {
             final FileApiApi fileApi = this.apiClientFactory.getFileApiForDocumentStorageUrl(documentStorageUrl);
             final var fileDataDto = new FileDataDto();
             fileDataDto.setPathToFile(pathToFile);
             fileDataDto.setExpiresInMinutes(expireInMinutes);
-            fileDataDto.setEndOfLife(endOfLifeFolder);
             final Mono<PresignedUrlDto> presignedUrlDto = fileApi.update(fileDataDto);
             return presignedUrlDto.block().getUrl();
         } catch (final HttpClientErrorException exception) {

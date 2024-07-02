@@ -3,6 +3,7 @@ info:
     name: '@project.artifactId@'
     version: '@project.version@'
 
+
 spring:
   application:
     name: ${info.application.name}

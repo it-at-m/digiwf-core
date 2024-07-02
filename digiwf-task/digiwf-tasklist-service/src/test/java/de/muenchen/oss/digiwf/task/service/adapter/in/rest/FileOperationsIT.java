@@ -43,8 +43,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles({"itest", "embedded-kafka", "no-security"})
 @AutoConfigureMockMvc(addFilters = true)
 @EmbeddedKafka(
-    partitions = 1,
-    topics = {"${polyflow.axon.kafka.topic-tasks}", "${polyflow.axon.kafka.topic-data-entries}"}
+        partitions = 1,
+        topics = {"${polyflow.axon.kafka.topic-tasks}", "${polyflow.axon.kafka.topic-data-entries}"}
 )
 @Slf4j
 @WireMockTest(httpPort = 7080)
@@ -52,36 +52,32 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class FileOperationsIT {
 
     @Autowired
+    DocumentStorageFolderRepository documentStorageFolderRepository;
+    Task task = generateTask("task_0", Sets.newHashSet(), Sets.newHashSet(), TestUser.USER_ID, null, true,
+            CamundaBpmData
+                    .builder()
+                    .set(TaskVariables.PROCESS_FILE_CONTEXT, "FileContext")
+                    .set(TaskVariables.PROCESS_ASYNC_CONFIG, "AsyncConfig")
+                    .set(TaskVariables.PROCESS_SYNC_CONFIG, "SyncConfig")
+                    .set(TaskVariables.FILE_PATHS, "File;paths")
+                    .set(TaskVariables.FILE_PATHS_READONLY, "File;paths;read;only")
+                    .build()
+    );
+    @Autowired
     private MockMvc mockMvc;
-
     @Autowired
     private JpaPolyflowViewTaskService service;
-
     @Autowired
     private PresignedUrlRepository presignedUrlRepository;
-
-    @Autowired
-    DocumentStorageFolderRepository documentStorageFolderRepository;
-
-    Task task = generateTask("task_0", Sets.newHashSet(), Sets.newHashSet(), TestUser.USER_ID, null, true,
-        CamundaBpmData
-            .builder()
-            .set(TaskVariables.PROCESS_FILE_CONTEXT, "FileContext")
-            .set(TaskVariables.PROCESS_ASYNC_CONFIG, "AsyncConfig")
-            .set(TaskVariables.PROCESS_SYNC_CONFIG, "SyncConfig")
-            .set(TaskVariables.FILE_PATHS, "File;paths")
-            .set(TaskVariables.FILE_PATHS_READONLY, "File;paths;read;only")
-            .build()
-    );
 
     @BeforeEach
     public void produce_task_event() {
         service.on(createEvent(task), MetaData.emptyInstance());
         await().untilAsserted(
-            () -> {
-                var count = service.query(new AllTasksQuery()).getTotalElementCount();
-                assertThat(count).isEqualTo(1);
-            }
+                () -> {
+                    var count = service.query(new AllTasksQuery()).getTotalElementCount();
+                    assertThat(count).isEqualTo(1);
+                }
         );
     }
 
@@ -95,21 +91,21 @@ public class FileOperationsIT {
     public void get_filenames() throws Exception {
 
         when(documentStorageFolderRepository.getAllFilesInFolderRecursively(anyString(), anyString()))
-            .thenReturn(Mono.just(
-                Sets.newHashSet(
-                    "FileContext/only/file1.txt",
-                    "FileContext/only/file2.pdf")
-            ));
+                .thenReturn(Mono.just(
+                        Sets.newHashSet(
+                                "FileContext/only/file1.txt",
+                                "FileContext/only/file2.pdf")
+                ));
 
         mockMvc
-            .perform(
-                get(BASE_PATH + "/tasks/id/task_0/file")
-                    .queryParam("filePath", "only")
-                    .contentType(MediaType.APPLICATION_JSON)
-            )
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$[0]").value("file1.txt"))
-            .andExpect(jsonPath("$[1]").value("file2.pdf"));
+                .perform(
+                        get(BASE_PATH + "/tasks/id/task_0/file")
+                                .queryParam("filePath", "only")
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0]").value("file1.txt"))
+                .andExpect(jsonPath("$[1]").value("file2.pdf"));
 
 
         verify(documentStorageFolderRepository).getAllFilesInFolderRecursively("FileContext/only", "SyncConfig");
@@ -124,14 +120,14 @@ public class FileOperationsIT {
         when(presignedUrlRepository.getPresignedUrlGetFile("FileContext/read/filenameGet", 5, "SyncConfig")).thenReturn(Mono.just("Presigned URL for download"));
 
         mockMvc
-            .perform(
-                get(BASE_PATH + "/tasks/id/task_0/file/filenameGet")
-                    .param("filePath", "read")
-                    .param("requestMethod", "GET")
-                    .contentType(MediaType.APPLICATION_JSON)
-            )
-            .andExpect(status().isOk())
-            .andExpect(content().string("Presigned URL for download"));
+                .perform(
+                        get(BASE_PATH + "/tasks/id/task_0/file/filenameGet")
+                                .param("filePath", "read")
+                                .param("requestMethod", "GET")
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isOk())
+                .andExpect(content().string("Presigned URL for download"));
 
         verify(presignedUrlRepository).getPresignedUrlGetFile("FileContext/read/filenameGet", 5, "SyncConfig");
         verifyNoMoreInteractions(presignedUrlRepository);
@@ -140,19 +136,19 @@ public class FileOperationsIT {
     @Test
     @WithKeycloakUser
     public void get_presignedUrl_for_upload_file() throws Exception {
-        when(presignedUrlRepository.getPresignedUrlSaveFile("FileContext/paths/filenamePost", 5, null, "SyncConfig")).thenReturn("Presigned URL for upload");
+        when(presignedUrlRepository.getPresignedUrlSaveFile("FileContext/paths/filenamePost", 5, "SyncConfig")).thenReturn("Presigned URL for upload");
 
         mockMvc
-            .perform(
-                get(BASE_PATH + "/tasks/id/task_0/file/filenamePost")
-                    .param("filePath", "paths")
-                    .param("requestMethod", "POST")
-                    .contentType(MediaType.APPLICATION_JSON)
-            )
-            .andExpect(status().isOk())
-            .andExpect(content().string("Presigned URL for upload"));
+                .perform(
+                        get(BASE_PATH + "/tasks/id/task_0/file/filenamePost")
+                                .param("filePath", "paths")
+                                .param("requestMethod", "POST")
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isOk())
+                .andExpect(content().string("Presigned URL for upload"));
 
-        verify(presignedUrlRepository).getPresignedUrlSaveFile("FileContext/paths/filenamePost", 5, null, "SyncConfig");
+        verify(presignedUrlRepository).getPresignedUrlSaveFile("FileContext/paths/filenamePost", 5, "SyncConfig");
         verifyNoMoreInteractions(presignedUrlRepository);
     }
 
@@ -162,14 +158,14 @@ public class FileOperationsIT {
         when(presignedUrlRepository.getPresignedUrlDeleteFile("FileContext/File/filenameDelete", 5, "SyncConfig")).thenReturn("Presigned URL for delete");
 
         mockMvc
-            .perform(
-                get(BASE_PATH + "/tasks/id/task_0/file/filenameDelete")
-                    .param("filePath", "File")
-                    .param("requestMethod", "DELETE")
-                    .contentType(MediaType.APPLICATION_JSON)
-            )
-            .andExpect(status().isOk())
-            .andExpect(content().string("Presigned URL for delete"));
+                .perform(
+                        get(BASE_PATH + "/tasks/id/task_0/file/filenameDelete")
+                                .param("filePath", "File")
+                                .param("requestMethod", "DELETE")
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isOk())
+                .andExpect(content().string("Presigned URL for delete"));
 
         verify(presignedUrlRepository).getPresignedUrlDeleteFile("FileContext/File/filenameDelete", 5, "SyncConfig");
         verifyNoMoreInteractions(presignedUrlRepository);

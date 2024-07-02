@@ -13,7 +13,6 @@ import reactor.core.publisher.Mono;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 class PresignedUrlAdapterTest {
@@ -32,7 +31,7 @@ class PresignedUrlAdapterTest {
         String presignedUrl = presignedUrlAdapter.getPresignedUrl("storageURL", "path", 1, PresignedUrlAction.GET);
 
         assertEquals("Presigned URL for download", presignedUrl);
-        verify(presignedUrlRepository).getPresignedUrlGetFile("path",1,"storageURL");
+        verify(presignedUrlRepository).getPresignedUrlGetFile("path", 1, "storageURL");
         verifyNoMoreInteractions(presignedUrlRepository);
 
     }
@@ -40,11 +39,11 @@ class PresignedUrlAdapterTest {
     @Test
     void getPresignedUrlWithPOST() throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
 
-        when(presignedUrlRepository.getPresignedUrlSaveFile(anyString(), anyInt(), any(), anyString())).thenReturn("Presigned URL for upload");
+        when(presignedUrlRepository.getPresignedUrlSaveFile(anyString(), anyInt(), anyString())).thenReturn("Presigned URL for upload");
         String presignedUrl = presignedUrlAdapter.getPresignedUrl("storageURL", "path", 1, PresignedUrlAction.POST);
 
         assertEquals("Presigned URL for upload", presignedUrl);
-        verify(presignedUrlRepository).getPresignedUrlSaveFile("path",1, null,"storageURL");
+        verify(presignedUrlRepository).getPresignedUrlSaveFile("path", 1, "storageURL");
         verifyNoMoreInteractions(presignedUrlRepository);
 
     }
@@ -56,18 +55,18 @@ class PresignedUrlAdapterTest {
         String presignedUrl = presignedUrlAdapter.getPresignedUrl("storageURL", "path", 1, PresignedUrlAction.DELETE);
 
         assertEquals("Presigned URL for delete", presignedUrl);
-        verify(presignedUrlRepository).getPresignedUrlDeleteFile("path",1,"storageURL");
+        verify(presignedUrlRepository).getPresignedUrlDeleteFile("path", 1, "storageURL");
         verifyNoMoreInteractions(presignedUrlRepository);
 
     }
 
     @Test
     void getPresignedUrlWithPUT() throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
-        when(presignedUrlRepository.getPresignedUrlUpdateFile(anyString(), anyInt(), any(), anyString())).thenReturn("Presigned URL for update");
+        when(presignedUrlRepository.getPresignedUrlUpdateFile(anyString(), anyInt(), anyString())).thenReturn("Presigned URL for update");
         String presignedUrl = presignedUrlAdapter.getPresignedUrl("storageURL", "path", 1, PresignedUrlAction.PUT);
 
         assertEquals("Presigned URL for update", presignedUrl);
-        verify(presignedUrlRepository).getPresignedUrlUpdateFile("path", 1, null, "storageURL");
+        verify(presignedUrlRepository).getPresignedUrlUpdateFile("path", 1, "storageURL");
         verifyNoMoreInteractions(presignedUrlRepository);
     }
 
@@ -83,8 +82,8 @@ class PresignedUrlAdapterTest {
         String actualMessage = exception.getStatusText();
 
         assertEquals(expectedMessage, actualMessage);
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR,exception.getStatusCode());
-        verify(presignedUrlRepository).getPresignedUrlGetFile("path",1,"storageURL");
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, exception.getStatusCode());
+        verify(presignedUrlRepository).getPresignedUrlGetFile("path", 1, "storageURL");
         verifyNoMoreInteractions(presignedUrlRepository);
 
     }
@@ -92,7 +91,7 @@ class PresignedUrlAdapterTest {
     @Test
     void getPresignedUrlWithPOSTThrowsException() throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
 
-        when(presignedUrlRepository.getPresignedUrlSaveFile(anyString(), anyInt(), any(), anyString())).thenThrow(new DocumentStorageClientErrorException("DocumentStorageClientErrorException", new Exception()));
+        when(presignedUrlRepository.getPresignedUrlSaveFile(anyString(), anyInt(), anyString())).thenThrow(new DocumentStorageClientErrorException("DocumentStorageClientErrorException", new Exception()));
         HttpServerErrorException exception = assertThrows(HttpServerErrorException.class, () -> {
             presignedUrlAdapter.getPresignedUrl("storageURL", "path", 1, PresignedUrlAction.POST);
         });
@@ -101,8 +100,8 @@ class PresignedUrlAdapterTest {
         String actualMessage = exception.getStatusText();
 
         assertEquals(expectedMessage, actualMessage);
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR,exception.getStatusCode());
-        verify(presignedUrlRepository).getPresignedUrlSaveFile("path",1, null,"storageURL");
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, exception.getStatusCode());
+        verify(presignedUrlRepository).getPresignedUrlSaveFile("path", 1, "storageURL");
         verifyNoMoreInteractions(presignedUrlRepository);
 
     }
@@ -119,8 +118,8 @@ class PresignedUrlAdapterTest {
         String actualMessage = exception.getStatusText();
 
         assertEquals(expectedMessage, actualMessage);
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR,exception.getStatusCode());
-        verify(presignedUrlRepository).getPresignedUrlDeleteFile("path",1,"storageURL");
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, exception.getStatusCode());
+        verify(presignedUrlRepository).getPresignedUrlDeleteFile("path", 1, "storageURL");
         verifyNoMoreInteractions(presignedUrlRepository);
 
     }
@@ -128,7 +127,7 @@ class PresignedUrlAdapterTest {
     @Test
     void getPresignedUrlWithPOSTThrowsConflictingResourceException() throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
 
-        when(presignedUrlRepository.getPresignedUrlSaveFile(anyString(), anyInt(), any(), anyString())).thenThrow(new DocumentStorageException("DocumentStorageException " + HttpStatus.CONFLICT.toString(), new Exception()));
+        when(presignedUrlRepository.getPresignedUrlSaveFile(anyString(), anyInt(), anyString())).thenThrow(new DocumentStorageException("DocumentStorageException " + HttpStatus.CONFLICT, new Exception()));
         Exception exception = assertThrows(ConflictingResourceException.class, () -> {
             presignedUrlAdapter.getPresignedUrl("storageURL", "path", 1, PresignedUrlAction.POST);
         });
@@ -137,7 +136,7 @@ class PresignedUrlAdapterTest {
         String actualMessage = exception.getMessage();
 
         assertEquals(expectedMessage, actualMessage);
-        verify(presignedUrlRepository).getPresignedUrlSaveFile("path",1, null,"storageURL");
+        verify(presignedUrlRepository).getPresignedUrlSaveFile("path", 1, "storageURL");
         verifyNoMoreInteractions(presignedUrlRepository);
 
     }
@@ -145,7 +144,7 @@ class PresignedUrlAdapterTest {
     @Test
     void getPresignedUrlWithGETThrowsNoConflictingResourceException() throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
 
-        when(presignedUrlRepository.getPresignedUrlGetFile(anyString(), anyInt(), anyString())).thenThrow(new DocumentStorageException("DocumentStorageException " + HttpStatus.CONFLICT.toString(), new Exception()));
+        when(presignedUrlRepository.getPresignedUrlGetFile(anyString(), anyInt(), anyString())).thenThrow(new DocumentStorageException("DocumentStorageException " + HttpStatus.CONFLICT, new Exception()));
         HttpServerErrorException exception = assertThrows(HttpServerErrorException.class, () -> {
             presignedUrlAdapter.getPresignedUrl("storageURL", "path", 1, PresignedUrlAction.GET);
         });
@@ -154,8 +153,8 @@ class PresignedUrlAdapterTest {
         String actualMessage = exception.getStatusText();
 
         assertEquals(expectedMessage, actualMessage);
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR,exception.getStatusCode());
-        verify(presignedUrlRepository).getPresignedUrlGetFile("path",1,"storageURL");
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, exception.getStatusCode());
+        verify(presignedUrlRepository).getPresignedUrlGetFile("path", 1, "storageURL");
         verifyNoMoreInteractions(presignedUrlRepository);
 
     }

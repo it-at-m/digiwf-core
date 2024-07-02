@@ -5,14 +5,12 @@ import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageExc
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageServerErrorException;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.presignedurl.PresignedUrlRepository;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.transfer.S3FileTransferRepository;
-import de.muenchen.oss.digiwf.s3.integration.client.service.ApiClientFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Mono;
 
 import java.io.InputStream;
-import java.time.LocalDate;
 
 @Slf4j
 @Repository
@@ -22,8 +20,6 @@ public class DocumentStorageFileRepository {
     private final PresignedUrlRepository presignedUrlRepository;
 
     private final S3FileTransferRepository s3FileTransferRepository;
-
-    private final ApiClientFactory apiClientFactory;
 
     /**
      * Gets the file specified in the parameter from the document storage.
@@ -65,15 +61,14 @@ public class DocumentStorageFileRepository {
      * @param pathToFile         defines the path to the file.
      * @param file               to save.
      * @param expireInMinutes    the expiration time of the presignedURL in minutes.
-     * @param endOfLifeFolder    the end of life of the folder defined in refId.
      * @param documentStorageUrl to define to which document storage the request goes.
      * @throws DocumentStorageClientErrorException if the problem is with the client.
      * @throws DocumentStorageServerErrorException if the problem is with the S3 storage or document storage.
      * @throws DocumentStorageException            if the problem cannot be assigned to either the client or the S3 storage or the document storage.
      */
-    public void saveFile(final String pathToFile, final byte[] file, final int expireInMinutes, final LocalDate endOfLifeFolder,
+    public void saveFile(final String pathToFile, final byte[] file, final int expireInMinutes,
                          final String documentStorageUrl) throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
-        final String presignedUrl = this.presignedUrlRepository.getPresignedUrlSaveFile(pathToFile, expireInMinutes, endOfLifeFolder, documentStorageUrl);
+        final String presignedUrl = this.presignedUrlRepository.getPresignedUrlSaveFile(pathToFile, expireInMinutes, documentStorageUrl);
         this.s3FileTransferRepository.saveFile(presignedUrl, file);
     }
 
@@ -83,15 +78,14 @@ public class DocumentStorageFileRepository {
      * @param pathToFile         defines the path to the file.
      * @param file               to save.
      * @param expireInMinutes    the expiration time of the presignedURL in minutes.
-     * @param endOfLifeFolder    the end of life of the folder defined in refId.
      * @param documentStorageUrl to define to which document storage the request goes.
      * @throws DocumentStorageClientErrorException if the problem is with the client.
      * @throws DocumentStorageServerErrorException if the problem is with the S3 storage or document storage.
      * @throws DocumentStorageException            if the problem cannot be assigned to either the client or the S3 storage or the document storage.
      */
-    public void saveFileInputStream(final String pathToFile, final InputStream file, final int expireInMinutes, final LocalDate endOfLifeFolder,
+    public void saveFileInputStream(final String pathToFile, final InputStream file, final int expireInMinutes,
                                     final String documentStorageUrl) throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
-        final String presignedUrl = this.presignedUrlRepository.getPresignedUrlSaveFile(pathToFile, expireInMinutes, endOfLifeFolder, documentStorageUrl);
+        final String presignedUrl = this.presignedUrlRepository.getPresignedUrlSaveFile(pathToFile, expireInMinutes, documentStorageUrl);
         this.s3FileTransferRepository.saveFileInputStream(presignedUrl, file);
     }
 
@@ -101,15 +95,14 @@ public class DocumentStorageFileRepository {
      * @param pathToFile         defines the path to the file.
      * @param file               which overwrites the file in the document storage.
      * @param expireInMinutes    the expiration time of the presignedURL in minutes.
-     * @param endOfLifeFolder    the end of life of the folder defined in refId.
      * @param documentStorageUrl to define to which document storage the request goes.
      * @throws DocumentStorageClientErrorException if the problem is with the client.
      * @throws DocumentStorageServerErrorException if the problem is with the S3 storage or document storage.
      * @throws DocumentStorageException            if the problem cannot be assigned to either the client or the S3 storage or the document storage.
      */
-    public void updateFile(final String pathToFile, final byte[] file, final int expireInMinutes, final LocalDate endOfLifeFolder,
+    public void updateFile(final String pathToFile, final byte[] file, final int expireInMinutes,
                            final String documentStorageUrl) throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
-        final String presignedUrl = this.presignedUrlRepository.getPresignedUrlUpdateFile(pathToFile, expireInMinutes, endOfLifeFolder, documentStorageUrl);
+        final String presignedUrl = this.presignedUrlRepository.getPresignedUrlUpdateFile(pathToFile, expireInMinutes, documentStorageUrl);
         this.s3FileTransferRepository.updateFile(presignedUrl, file);
     }
 
@@ -119,15 +112,14 @@ public class DocumentStorageFileRepository {
      * @param pathToFile         defines the path to the file.
      * @param file               which overwrites the file in the document storage.
      * @param expireInMinutes    the expiration time of the presignedURL in minutes.
-     * @param endOfLifeFolder    the end of life of the folder defined in refId.
      * @param documentStorageUrl to define to which document storage the request goes.
      * @throws DocumentStorageClientErrorException if the problem is with the client.
      * @throws DocumentStorageServerErrorException if the problem is with the S3 storage or document storage.
      * @throws DocumentStorageException            if the problem cannot be assigned to either the client or the S3 storage or the document storage.
      */
-    public void updateFileInputStream(final String pathToFile, final InputStream file, final int expireInMinutes, final LocalDate endOfLifeFolder,
+    public void updateFileInputStream(final String pathToFile, final InputStream file, final int expireInMinutes,
                                       final String documentStorageUrl) throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
-        final String presignedUrl = this.presignedUrlRepository.getPresignedUrlUpdateFile(pathToFile, expireInMinutes, endOfLifeFolder, documentStorageUrl);
+        final String presignedUrl = this.presignedUrlRepository.getPresignedUrlUpdateFile(pathToFile, expireInMinutes, documentStorageUrl);
         this.s3FileTransferRepository.updateFileInputStream(presignedUrl, file);
     }
 

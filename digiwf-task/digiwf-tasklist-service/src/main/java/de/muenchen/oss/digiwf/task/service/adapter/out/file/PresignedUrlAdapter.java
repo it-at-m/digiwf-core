@@ -31,10 +31,10 @@ public class PresignedUrlAdapter implements PresignedUrlPort {
                 return this.presignedUrlRepository.getPresignedUrlGetFile(pathToFile, expireInMinutes, documentStorageUrl).block();
             } else if (action == PresignedUrlAction.POST) {
                 actionString = "uploading";
-                return this.presignedUrlRepository.getPresignedUrlSaveFile(pathToFile, expireInMinutes, null, documentStorageUrl);
+                return this.presignedUrlRepository.getPresignedUrlSaveFile(pathToFile, expireInMinutes, documentStorageUrl);
             } else if (action == PresignedUrlAction.PUT) {
                 actionString = "updating";
-                return this.presignedUrlRepository.getPresignedUrlUpdateFile(pathToFile, expireInMinutes, null, documentStorageUrl);
+                return this.presignedUrlRepository.getPresignedUrlUpdateFile(pathToFile, expireInMinutes, documentStorageUrl);
             } else if (action == PresignedUrlAction.DELETE) {
                 actionString = "deleting";
                 return this.presignedUrlRepository.getPresignedUrlDeleteFile(pathToFile, expireInMinutes, documentStorageUrl);

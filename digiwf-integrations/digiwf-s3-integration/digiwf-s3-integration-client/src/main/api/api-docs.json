@@ -161,39 +161,6 @@
             }
           }
         }
-      },
-      "patch": {
-        "tags": [
-          "FileAPI"
-        ],
-        "description": "Updates the end of life attribute in the corresponding database entry for the file specified in the parameter",
-        "operationId": "updateEndOfLife",
-        "parameters": [
-          {
-            "name": "pathToFile",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "maxLength": 1024,
-              "minLength": 0,
-              "type": "string"
-            }
-          },
-          {
-            "name": "endOfLife",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "date"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
       }
     },
     "/folder": {
@@ -209,8 +176,6 @@
             "in": "query",
             "required": true,
             "schema": {
-              "maxLength": 1024,
-              "minLength": 0,
               "type": "string"
             }
           }
@@ -232,7 +197,7 @@
         "tags": [
           "FolderAPI"
         ],
-        "description": "Deletes the folder specified in the parameter together with the corresponding database entry",
+        "description": "Deletes the folder specified in the parameter",
         "operationId": "delete",
         "parameters": [
           {
@@ -240,8 +205,6 @@
             "in": "query",
             "required": true,
             "schema": {
-              "maxLength": 1024,
-              "minLength": 0,
               "type": "string"
             }
           }
@@ -272,10 +235,6 @@
             "minimum": 1,
             "type": "integer",
             "format": "int32"
-          },
-          "endOfLife": {
-            "type": "string",
-            "format": "date"
           }
         },
         "description": "File data for requesting a presigned url"
@@ -284,6 +243,12 @@
         "type": "object",
         "properties": {
           "url": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          },
+          "action": {
             "type": "string"
           }
         },
