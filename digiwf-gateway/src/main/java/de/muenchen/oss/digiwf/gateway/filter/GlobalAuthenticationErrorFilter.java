@@ -4,8 +4,8 @@
  */
 package de.muenchen.oss.digiwf.gateway.filter;
 
-import com.hazelcast.org.apache.commons.codec.binary.StringUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.binary.StringUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.reactivestreams.Publisher;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;

@@ -18,7 +18,7 @@ import static org.mockito.Mockito.when;
 
 class MessageApiImplTest {
 
-    private final Sinks.Many<org.springframework.messaging.Message<Object>> messageSink = Mockito.spy(Mockito.mock(Sinks.Many.class));
+    private final Sinks.Many<org.springframework.messaging.Message<Object>> messageSink = Mockito.mock(Sinks.Many.class);
     @InjectMocks
     private final MessageApi messageApi = new MessageApiImpl(this.messageSink);
 

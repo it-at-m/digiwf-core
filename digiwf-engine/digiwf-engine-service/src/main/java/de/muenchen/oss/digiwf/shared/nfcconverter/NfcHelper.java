@@ -4,14 +4,14 @@
  */
 package de.muenchen.oss.digiwf.shared.nfcconverter;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.commons.collections4.map.CaseInsensitiveMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
 import java.text.Normalizer;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -100,7 +100,6 @@ public class NfcHelper {
      */
     public static Cookie nfcConverter(Cookie original) {
         final Cookie nfcCookie = new Cookie(NfcHelper.nfcConverter(original.getName()), NfcHelper.nfcConverter(original.getValue()));
-        nfcCookie.setComment(NfcHelper.nfcConverter(original.getComment()));
         if (original.getDomain() != null) {
             nfcCookie.setDomain(NfcHelper.nfcConverter(original.getDomain()));
         }
