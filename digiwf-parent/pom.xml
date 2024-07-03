@@ -18,7 +18,7 @@
     <properties>
         <spring-boot.version>3.2.4</spring-boot.version>
         <spring.cloud.version>2023.0.1</spring.cloud.version>
-        <springdoc-openapi.version>2.5.0</springdoc-openapi.version>
+        <springdoc-openapi.version>2.6.0</springdoc-openapi.version>
         <flyway.version>10.15.2</flyway.version>
         <okhttp.version>4.12.0</okhttp.version>
         <tika.version>2.9.2</tika.version>
