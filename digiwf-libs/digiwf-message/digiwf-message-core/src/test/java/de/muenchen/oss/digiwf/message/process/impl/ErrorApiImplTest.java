@@ -12,16 +12,20 @@ import org.mockito.Mockito;
 
 import java.util.Map;
 
-import static de.muenchen.oss.digiwf.message.common.MessageConstants.*;
+import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_INTEGRATION_NAME;
+import static de.muenchen.oss.digiwf.message.common.MessageConstants.DIGIWF_PROCESS_INSTANCE_ID;
+import static de.muenchen.oss.digiwf.message.common.MessageConstants.TYPE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyMap;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 
 class ErrorApiImplTest {
 
-    private final MessageApi messageApi = Mockito.spy(Mockito.mock(MessageApi.class));
+    private final MessageApi messageApi = Mockito.mock(MessageApi.class);
 
     private final ErrorApi errorApi = new ErrorApiImpl(
             this.messageApi,
@@ -101,7 +105,7 @@ class ErrorApiImplTest {
         final ArgumentCaptor<BpmnErrorDto> payloadCaptor = ArgumentCaptor.forClass(BpmnErrorDto.class);
         final ArgumentCaptor<Map<String, Object>> headersCaptor = ArgumentCaptor.forClass(Map.class);
         final ArgumentCaptor<String> destinationCaptor = ArgumentCaptor.forClass(String.class);
-        Mockito.verify(this.messageApi, times(2)).sendMessage(payloadCaptor.capture(), headersCaptor.capture(), destinationCaptor.capture());
+        Mockito.verify(this.messageApi, times(1)).sendMessage(payloadCaptor.capture(), headersCaptor.capture(), destinationCaptor.capture());
 
         assertThat(payload.getErrorMessage()).isEqualTo(payloadCaptor.getValue().getErrorMessage());
         assertThat(payload.getErrorCode()).isEqualTo(payloadCaptor.getValue().getErrorCode());
@@ -115,7 +119,7 @@ class ErrorApiImplTest {
         final ArgumentCaptor<String> payloadCaptor = ArgumentCaptor.forClass(String.class);
         final ArgumentCaptor<Map<String, Object>> headersCaptor = ArgumentCaptor.forClass(Map.class);
         final ArgumentCaptor<String> destinationCaptor = ArgumentCaptor.forClass(String.class);
-        Mockito.verify(this.messageApi, times(2)).sendMessage(payloadCaptor.capture(), headersCaptor.capture(), destinationCaptor.capture());
+        Mockito.verify(this.messageApi, times(1)).sendMessage(payloadCaptor.capture(), headersCaptor.capture(), destinationCaptor.capture());
 
         assertThat(payloadCaptor.getValue()).isEqualTo(payload);
 

@@ -18,7 +18,7 @@ import static org.mockito.Mockito.*;
 
 class CreateDocumentUseCaseTest {
 
-    private final MessageApi messageApi = spy(mock(MessageApi.class));
+    private final MessageApi messageApi = mock(MessageApi.class);
 
     private final GenerateDocumentOutPort generateDocumentOutPort = mock(GenerateDocumentOutPort.class);
 
