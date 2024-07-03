@@ -69,13 +69,13 @@ digiwf:
     client-id: ${SSO_S3_CLIENT_ID}
     client-secret: ${SSO_S3_CLIENT_SECRET}
   s3:
-    bucketname: ${S3_BUCKETNAME}
-    accesskey: ${S3_ACCESSKEY}
+    bucket-name: ${S3_BUCKETNAME}
+    access-key: ${S3_ACCESSKEY}
     url: ${S3_URL:http://localhost:9000}
-    secretkey: ${S3_SECRETKEY}
-    proxyUrl: "${S3_PROXY_HOST}:${S3_PROXY_PORT}"
+    secret-key: ${S3_SECRETKEY}
+    proxy-url: "${S3_PROXY_HOST}:${S3_PROXY_PORT}"
     cronjob:
       cleanup:
         unused-files: 0 15 10 16 * ?
         expired-files: 0 15 10 15 * ?
-    proxyEnabled: 'false'
+    proxy-enabled: 'false'
