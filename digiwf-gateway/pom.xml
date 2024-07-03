@@ -17,7 +17,7 @@
 
     <properties>
         <apache.commons.lang.version>3.14.0</apache.commons.lang.version>
-        <apache.commons.codec.version>1.16.1</apache.commons.codec.version>
+        <apache.commons.codec.version>1.17.0</apache.commons.codec.version>
         <hazelcast.version>5.3.6</hazelcast.version>
     </properties>
 
