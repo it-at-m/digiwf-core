@@ -117,6 +117,10 @@ digiwf:
   s3service:
     topic: 'dwf-s3-${DIGIWF_ENV}'
     httpAPI: ${DIGIWF_S3_HTTPAPI:http://localhost:8086}
+  s3:
+    client:
+      document-storage-url: '${digiwf.s3service.httpAPI}'
+      enable-security: true
   security:
     client-id: ${SSO_TASK_CLIENT_ID}
     client-secret: ${SSO_TASK_CLIENT_SECRET}
@@ -129,15 +133,6 @@ digiwf:
       - link-type: mucsdms
         url-template: "${MUCS_DMS_URL_TEMPLATE:https://eakte.muenchen.de/fsc/mx/{0}}"
         label-template: "${MUCS_DMS_LABEL:MUCS DMS {0}}"
-
-de:
-  muenchen:
-    oss:
-      digiwf:
-        s3:
-          client:
-            document-storage-url: '${digiwf.s3service.httpAPI}'
-            enable-security: true
 
 management:
   endpoint:

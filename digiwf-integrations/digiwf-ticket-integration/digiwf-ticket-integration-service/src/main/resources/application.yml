@@ -5,6 +5,10 @@ digiwf:
     client-secret: ${SSO_TICKET_CLIENT_SECRET}
   zammad:
     baseurl: ${TICKETING_ZAMMAD_URL}
+  s3:
+    client:
+      document-storage-url: "${DOCUMENT_STORAGE_HOST:http://localhost}:${DOCUMENT_STORAGE_PORT:8080}"
+      enable-security: true
 
 feign:
   client:
@@ -95,10 +99,6 @@ de:
   muenchen:
     oss:
       digiwf:
-        s3:
-          client:
-            document-storage-url: "${DOCUMENT_STORAGE_HOST:http://localhost}:${DOCUMENT_STORAGE_PORT:8080}"
-            enable-security: true
         ticketing:
           supported-file-extensions:
             pdf: "application/pdf"

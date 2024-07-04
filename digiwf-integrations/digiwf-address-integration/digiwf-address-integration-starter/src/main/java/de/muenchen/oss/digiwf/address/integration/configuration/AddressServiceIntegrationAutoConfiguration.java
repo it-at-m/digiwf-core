@@ -1,15 +1,13 @@
 package de.muenchen.oss.digiwf.address.integration.configuration;
 
 import de.muenchen.oss.digiwf.address.integration.adapter.in.streaming.AddressMapper;
-import de.muenchen.oss.digiwf.address.integration.adapter.in.streaming.MessageProcessor;
+import de.muenchen.oss.digiwf.address.integration.adapter.in.streaming.StreamingAdapter;
 import de.muenchen.oss.digiwf.address.integration.adapter.in.streaming.dto.*;
-import de.muenchen.oss.digiwf.address.integration.adapter.out.AddressClientOutAdapter;
-import de.muenchen.oss.digiwf.address.integration.adapter.out.IntegrationOutAdapter;
+import de.muenchen.oss.digiwf.address.integration.adapter.out.address.AddressClientOutAdapter;
 import de.muenchen.oss.digiwf.address.integration.application.port.in.AddressGermanyInPort;
 import de.muenchen.oss.digiwf.address.integration.application.port.in.AddressMunichInPort;
 import de.muenchen.oss.digiwf.address.integration.application.port.in.StreetsMunichInPort;
 import de.muenchen.oss.digiwf.address.integration.application.port.out.AddressClientOutPort;
-import de.muenchen.oss.digiwf.address.integration.application.port.out.IntegrationOutPort;
 import de.muenchen.oss.digiwf.address.integration.application.usecase.AddressesGermanyUseCase;
 import de.muenchen.oss.digiwf.address.integration.application.usecase.AddressesMunichUseCase;
 import de.muenchen.oss.digiwf.address.integration.application.usecase.StreetsMunichUseCase;
@@ -121,12 +119,6 @@ public class AddressServiceIntegrationAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public IntegrationOutPort integrationOutPort(final ProcessApi processApi, final ErrorApi errorApi) {
-        return new IntegrationOutAdapter(processApi, errorApi);
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
     public AddressGermanyInPort addressGermanyInPort(final AddressClientOutPort addressClientOutPort) {
         return new AddressesGermanyUseCase(addressClientOutPort);
     }
@@ -167,59 +159,61 @@ public class AddressServiceIntegrationAutoConfiguration {
 
     @ConditionalOnMissingBean
     @Bean
-    public MessageProcessor messageProcessor(
+    public StreamingAdapter streamingAdapter(
             final AddressGermanyInPort addressGermanyInPort,
             final AddressMunichInPort addressMunichInPort,
             final StreetsMunichInPort streetsMunichInPort,
-            final IntegrationOutPort integrationOutPort,
+            final ProcessApi processApi,
+            final ErrorApi errorApi,
             final AddressMapper addressServiceMapper
     ) {
-        return new MessageProcessor(
+        return new StreamingAdapter(
                 addressGermanyInPort,
                 addressMunichInPort,
                 streetsMunichInPort,
-                integrationOutPort,
+                processApi,
+                errorApi,
                 addressServiceMapper
         );
     }
 
     @Bean
-    public Consumer<Message<SearchAdressenDeutschlandDto>> searchAddressesGermany(final MessageProcessor messageProcessor) {
-        return messageProcessor.searchAddressesGermany();
+    public Consumer<Message<SearchAdressenDeutschlandDto>> searchAddressesGermany(final StreamingAdapter streamingAdapter) {
+        return streamingAdapter.searchAddressesGermany();
     }
 
     @Bean
-    public Consumer<Message<CheckAdresseMuenchenDto>> checkAddressMunich(final MessageProcessor messageProcessor) {
-        return messageProcessor.checkAddressMunich();
+    public Consumer<Message<CheckAdresseMuenchenDto>> checkAddressMunich(final StreamingAdapter streamingAdapter) {
+        return streamingAdapter.checkAddressMunich();
     }
 
     @Bean
-    public Consumer<Message<ListAdressenMuenchenDto>> listAddressesMunich(final MessageProcessor messageProcessor) {
-        return messageProcessor.listAddressesMunich();
+    public Consumer<Message<ListAdressenMuenchenDto>> listAddressesMunich(final StreamingAdapter streamingAdapter) {
+        return streamingAdapter.listAddressesMunich();
     }
 
     @Bean
-    public Consumer<Message<ListAenderungenMuenchenDto>> listChangesMunich(final MessageProcessor messageProcessor) {
-        return messageProcessor.listChangesMunich();
+    public Consumer<Message<ListAenderungenMuenchenDto>> listChangesMunich(final StreamingAdapter streamingAdapter) {
+        return streamingAdapter.listChangesMunich();
     }
 
     @Bean
-    public Consumer<Message<SearchAdressenMuenchenDto>> searchAddressesMunich(final MessageProcessor messageProcessor) {
-        return messageProcessor.searchAddressesMunich();
+    public Consumer<Message<SearchAdressenMuenchenDto>> searchAddressesMunich(final StreamingAdapter streamingAdapter) {
+        return streamingAdapter.searchAddressesMunich();
     }
 
     @Bean
-    public Consumer<Message<SearchAdressenGeoMuenchenDto>> searchAddressesGeoMunich(final MessageProcessor messageProcessor) {
-        return messageProcessor.searchAddressesGeoMunich();
+    public Consumer<Message<SearchAdressenGeoMuenchenDto>> searchAddressesGeoMunich(final StreamingAdapter streamingAdapter) {
+        return streamingAdapter.searchAddressesGeoMunich();
     }
 
     @Bean
-    public Consumer<Message<StrassenIdDto>> findStreetByIdMunich(final MessageProcessor messageProcessor) {
-        return messageProcessor.findStreetByIdMunich();
+    public Consumer<Message<StrassenIdDto>> findStreetByIdMunich(final StreamingAdapter streamingAdapter) {
+        return streamingAdapter.findStreetByIdMunich();
     }
 
     @Bean
-    public Consumer<Message<ListStrassenDto>> listStreetMunich(final MessageProcessor messageProcessor) {
-        return messageProcessor.listStreetMunich();
+    public Consumer<Message<ListStrassenDto>> listStreetMunich(final StreamingAdapter streamingAdapter) {
+        return streamingAdapter.listStreetMunich();
     }
 }

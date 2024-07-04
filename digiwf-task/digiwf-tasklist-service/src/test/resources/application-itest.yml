@@ -59,14 +59,6 @@ ezldap:
     url: "http://localhost:${ezldap.client.port}"
     request: "/test"
 
-de:
-  muenchen:
-    oss:
-      digiwf:
-        s3:
-          client:
-            enable-security: false
-
 digiwf:
   s3service:
     topic: 'dwf-s3-itest'
@@ -80,6 +72,9 @@ digiwf:
       - link-type: mucsdms
         url-template: "${MUCS_DMS_URL_TEMPLATE:https://eakte.muenchen.de/fsc/mx/{0}}"
         label-template: "${MUCS_DMS_LABEL:MUCS DMS {0}}"
+  s3:
+    client:
+      enable-security: false
 
 logging:
   level:

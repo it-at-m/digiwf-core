@@ -12,7 +12,7 @@ spring:
         sendMessage-out-0:
           destination: dwf-connector-itest
 
-io.muenchendigital.digiwf.s3:
+digiwf.s3:
   url: s3k.muenchen.de
   bucketName: int-dwfk-documentstoragelocal
   accessKey: itest-dummy-access

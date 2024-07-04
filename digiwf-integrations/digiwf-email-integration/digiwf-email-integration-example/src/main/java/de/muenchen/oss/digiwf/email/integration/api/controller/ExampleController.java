@@ -1,6 +1,6 @@
 package de.muenchen.oss.digiwf.email.integration.api.controller;
 
-import de.muenchen.oss.digiwf.email.integration.model.Mail;
+import de.muenchen.oss.digiwf.email.integration.domain.model.Mail;
 import de.muenchen.oss.digiwf.message.common.MessageConstants;
 import de.muenchen.oss.digiwf.message.core.api.MessageApi;
 import lombok.RequiredArgsConstructor;

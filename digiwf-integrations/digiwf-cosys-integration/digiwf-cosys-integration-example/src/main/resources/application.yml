@@ -10,6 +10,8 @@ io:
         ssoTokenClientId: digitalwf
         #ssoTokenRequestUrl:
         #url:
-      s3:
-        client:
-          documentStorageUrl: http://localhost:8081
+
+digiwf:
+  s3:
+    client:
+      documentStorageUrl: http://localhost:8081

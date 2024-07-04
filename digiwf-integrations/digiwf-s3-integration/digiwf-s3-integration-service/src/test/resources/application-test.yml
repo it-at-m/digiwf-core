@@ -1,4 +1,4 @@
-io.muenchendigital.digiwf.s3:
+digiwf.s3:
   url: s3k.muenchen.de
   bucketName: int-dwfk-documentstoragelocal
   accessKey:

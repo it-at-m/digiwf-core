@@ -184,6 +184,10 @@ digiwf:
   s3service:
     topic: 'dwf-s3-${DIGIWF_ENV}'
     httpAPI: ${DIGIWF_S3_HTTPAPI:http://localhost:8086}
+  s3:
+    client:
+      document-storage-url: '${digiwf.s3service.httpAPI}'
+      enable-security: true
   prometheus:
     process-engine:
       update-interval: 30000
@@ -198,13 +202,4 @@ io:
     digiwf:
       mail:
         fromAddress: ${MAIL_USERNAME:digiwf@muenchen.de}
-
-de:
-  muenchen:
-    oss:
-      digiwf:
-        s3:
-          client:
-            document-storage-url: '${digiwf.s3service.httpAPI}'
-            enable-security: true
 

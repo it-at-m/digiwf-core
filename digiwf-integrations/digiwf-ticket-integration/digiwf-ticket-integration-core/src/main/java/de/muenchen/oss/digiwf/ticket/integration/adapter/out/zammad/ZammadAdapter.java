@@ -1,9 +1,9 @@
 package de.muenchen.oss.digiwf.ticket.integration.adapter.out.zammad;
 
-import de.muenchen.oss.digiwf.ticket.integration.adapter.zammad.api.TicketsApi;
-import de.muenchen.oss.digiwf.ticket.integration.adapter.zammad.model.AttachmentDTO;
-import de.muenchen.oss.digiwf.ticket.integration.adapter.zammad.model.UpdateTicketArticleDTO;
-import de.muenchen.oss.digiwf.ticket.integration.adapter.zammad.model.UpdateTicketDTO;
+import de.muenchen.oss.digiwf.ticket.integration.adapter.out.zammad.api.TicketsApi;
+import de.muenchen.oss.digiwf.ticket.integration.adapter.out.zammad.model.AttachmentDTO;
+import de.muenchen.oss.digiwf.ticket.integration.adapter.out.zammad.model.UpdateTicketArticleDTO;
+import de.muenchen.oss.digiwf.ticket.integration.adapter.out.zammad.model.UpdateTicketDTO;
 import de.muenchen.oss.digiwf.ticket.integration.application.port.out.TicketOutPort;
 import de.muenchen.oss.digiwf.ticket.integration.domain.model.Article;
 import de.muenchen.oss.digiwf.ticket.integration.domain.model.FileContent;
