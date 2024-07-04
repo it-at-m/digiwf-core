@@ -17,7 +17,7 @@ spring:
       hibernate:
         format_sql: true
 
-io.muenchendigital.digiwf.s3:
+digiwf.s3:
   cleanupcronjob: "0 15 10 15 * ?"
   url: s3k.muenchen.de
   bucketName: int-dwfk-documentstoragelocal

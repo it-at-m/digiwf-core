@@ -1,6 +1,5 @@
 package de.muenchen.oss.digiwf.s3.integration.client.properties;
 
-import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -11,7 +10,7 @@ import java.util.Map;
 @Getter
 @Setter
 @Validated
-@ConfigurationProperties(prefix = "de.muenchen.oss.digiwf.s3.client")
+@ConfigurationProperties(prefix = "digiwf.s3.client")
 public class S3IntegrationClientProperties {
 
     private String documentStorageUrl;
