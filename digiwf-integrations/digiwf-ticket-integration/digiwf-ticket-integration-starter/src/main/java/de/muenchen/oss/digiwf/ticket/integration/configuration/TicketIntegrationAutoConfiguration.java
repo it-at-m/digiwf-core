@@ -44,7 +44,7 @@ public class TicketIntegrationAutoConfiguration {
     @Bean
     public LoadFileOutPort loadFileOutPort(final DocumentStorageFileRepository documentStorageFileRepository,
             final DocumentStorageFolderRepository documentStorageFolderRepository, final FileService fileService,
-                                           final S3StorageUrlProvider s3StorageUrlProvider) {
+            final S3StorageUrlProvider s3StorageUrlProvider) {
         return new S3Adapter(documentStorageFileRepository, documentStorageFolderRepository, fileService, s3StorageUrlProvider);
     }
 
@@ -55,9 +55,7 @@ public class TicketIntegrationAutoConfiguration {
 
     @ConditionalOnMissingBean
     @Bean
-    public TicketStreamingAdapter ticketStreamingAdapter(final WriteArticleInPort writeArticleInPort,
-                                                         final ProcessApi processApi,
-                                                         final ErrorApi errorApi) {
+    public TicketStreamingAdapter ticketStreamingAdapter(final WriteArticleInPort writeArticleInPort, final ProcessApi processApi, final ErrorApi errorApi) {
         return new TicketStreamingAdapter(writeArticleInPort, processApi, errorApi);
     }
 

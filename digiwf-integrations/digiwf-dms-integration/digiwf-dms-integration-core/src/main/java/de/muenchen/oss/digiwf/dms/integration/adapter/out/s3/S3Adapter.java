@@ -124,21 +124,21 @@ public class S3Adapter implements LoadFileOutPort, TransferContentOutPort {
         }
     }
 
-    private Content getFile(final String filepath, final String s3Storage) {
+    private Content getFile(final String filePath, final String s3Storage) {
         try {
             final byte[] bytes;
-            bytes = this.documentStorageFileRepository.getFile(filepath, 3, s3Storage);
+            bytes = this.documentStorageFileRepository.getFile(filePath, 3, s3Storage);
             final String mimeType = fileService.detectFileType(bytes);
-            final String filename = FilenameUtils.getBaseName(filepath);
+            final String filename = FilenameUtils.getBaseName(filePath);
 
             // check if mimeType exists
             if (!fileService.isSupported(mimeType))
-                throw new BpmnError("FILE_TYPE_NOT_SUPPORTED", "The type of this file is not supported: " + filepath);
+                throw new BpmnError("FILE_TYPE_NOT_SUPPORTED", "The type of this file is not supported: " + filePath);
 
             return new Content(fileService.getFileExtension(mimeType), filename, bytes);
         } catch (final DocumentStorageException | DocumentStorageServerErrorException |
                        DocumentStorageClientErrorException e) {
-            throw new BpmnError("LOAD_FILE_FAILED", "An file could not be loaded from url: " + filepath);
+            throw new BpmnError("LOAD_FILE_FAILED", "An file could not be loaded from url: " + filePath);
         }
     }
 

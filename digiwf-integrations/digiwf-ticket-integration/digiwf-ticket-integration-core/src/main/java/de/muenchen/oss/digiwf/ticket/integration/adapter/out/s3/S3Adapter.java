@@ -114,10 +114,10 @@ public class S3Adapter implements LoadFileOutPort {
     private List<FileContent> getFilesFromFolder(String folderPath, final String domainSpecificS3Storage) {
         try {
             final List<FileContent> contents = new ArrayList<>();
-            final Set<String> filepath;
-            filepath = documentStorageFolderRepository.getAllFilesInFolderRecursively(folderPath, domainSpecificS3Storage).block();
-            if (Objects.isNull(filepath)) throw new BpmnError(LOAD_FOLDER_FAILED, "An folder could not be loaded from url: " + folderPath);
-            filepath.forEach(file -> contents.add(getFile(file, domainSpecificS3Storage)));
+            final Set<String> filePath;
+            filePath = documentStorageFolderRepository.getAllFilesInFolderRecursively(folderPath, domainSpecificS3Storage).block();
+            if (Objects.isNull(filePath)) throw new BpmnError(LOAD_FOLDER_FAILED, "An folder could not be loaded from url: " + folderPath);
+            filePath.forEach(file -> contents.add(getFile(file, domainSpecificS3Storage)));
             return contents;
         } catch (final NullPointerException | DocumentStorageException | DocumentStorageServerErrorException | DocumentStorageClientErrorException e) {
             throw new BpmnError(LOAD_FOLDER_FAILED, "An folder could not be loaded from url: " + folderPath);

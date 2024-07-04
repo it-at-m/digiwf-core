@@ -73,8 +73,6 @@ class S3AdapterTest {
         final GenerateDocument generateDocument = new GenerateDocument("Client", "Role", "guid", null, listOfURls);
 
         BpmnError bpmnError = assertThrows(BpmnError.class, () -> s3Adapter.saveDocumentInStorage(generateDocument, DATA_AS_BYTE_ARRAY));
-            s3Adapter.saveDocumentInStorage(generateDocument, dataAsByteArray);
-        });
 
         String expectedMessage = "Document storage action GET is not supported.";
         String actualMessage = bpmnError.getErrorMessage();
