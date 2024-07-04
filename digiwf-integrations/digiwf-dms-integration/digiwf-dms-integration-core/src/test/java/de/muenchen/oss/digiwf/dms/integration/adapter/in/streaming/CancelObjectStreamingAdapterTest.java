@@ -17,7 +17,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-class CancelObjectStreamingAdapterTest extends MessageProcessorTestBase {
+class CancelObjectStreamingAdapterTest extends StreamingAdapterTestBase {
 
     private final CancelObjectDto cancelObjectDto = new CancelObjectDto(
             "objectCoo",

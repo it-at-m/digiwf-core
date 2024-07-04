@@ -1,7 +1,5 @@
-package integration.adapter.in.streaming;
+package de.muenchen.oss.digiwf.address.integration.adapter.in.streaming;
 
-import de.muenchen.oss.digiwf.address.integration.adapter.in.streaming.AddressMapperImpl;
-import de.muenchen.oss.digiwf.address.integration.adapter.in.streaming.StreamingAdapter;
 import de.muenchen.oss.digiwf.address.integration.adapter.in.streaming.dto.*;
 import de.muenchen.oss.digiwf.address.integration.application.port.in.AddressGermanyInPort;
 import de.muenchen.oss.digiwf.address.integration.application.port.in.AddressMunichInPort;

@@ -21,7 +21,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-class UpdateDocumentStreamingAdapterTest extends MessageProcessorTestBase {
+class UpdateDocumentStreamingAdapterTest extends StreamingAdapterTestBase {
 
     private final UpdateDocumentDto updateDocumentDto = new UpdateDocumentDto(
             "documentCoo",

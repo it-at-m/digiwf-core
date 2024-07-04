@@ -11,7 +11,7 @@ import java.util.List;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-class ReadContentStreamingAdapterTest extends MessageProcessorTestBase {
+class ReadContentStreamingAdapterTest extends StreamingAdapterTestBase {
 
     private final ReadContentDto readContentDto = new ReadContentDto(
             List.of("fileCoo"),

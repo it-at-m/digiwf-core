@@ -9,7 +9,7 @@ import org.springframework.messaging.MessageHeaders;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-class SearchSubjectAreaStreamingAdapterTest extends MessageProcessorTestBase {
+class SearchSubjectAreaStreamingAdapterTest extends StreamingAdapterTestBase {
 
     private final SearchObjectDto searchSubjectAreaDto = new SearchObjectDto(
             "aktenplan",

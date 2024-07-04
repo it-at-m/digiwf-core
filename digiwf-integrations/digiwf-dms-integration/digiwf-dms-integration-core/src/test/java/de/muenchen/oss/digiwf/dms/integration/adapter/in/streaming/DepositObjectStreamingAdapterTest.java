@@ -17,7 +17,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-class DepositObjectStreamingAdapterTest extends MessageProcessorTestBase {
+class DepositObjectStreamingAdapterTest extends StreamingAdapterTestBase {
 
     private final DepositObjectDto depositObjectDto = new DepositObjectDto(
             "objectCoo",

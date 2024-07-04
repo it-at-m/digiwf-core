@@ -1,6 +1,5 @@
-package de.muenchen.oss.digiwf.cosys.integration.adapter.in;
+package de.muenchen.oss.digiwf.cosys.integration.adapter.in.streaming;
 
-import de.muenchen.oss.digiwf.cosys.integration.adapter.in.streaming.StreamingAdapter;
 import de.muenchen.oss.digiwf.cosys.integration.application.port.in.CreateDocumentInPort;
 import de.muenchen.oss.digiwf.cosys.integration.model.DocumentStorageUrl;
 import de.muenchen.oss.digiwf.cosys.integration.model.GenerateDocument;

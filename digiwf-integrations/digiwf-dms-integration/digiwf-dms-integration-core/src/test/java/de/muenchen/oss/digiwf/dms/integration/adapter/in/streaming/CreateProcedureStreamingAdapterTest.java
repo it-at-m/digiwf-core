@@ -18,7 +18,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-class CreateProcedureStreamingAdapterTest extends MessageProcessorTestBase {
+class CreateProcedureStreamingAdapterTest extends StreamingAdapterTestBase {
 
     private final CreateProcedureDto createProcedureDto = new CreateProcedureDto(
             "sachakteCoo",

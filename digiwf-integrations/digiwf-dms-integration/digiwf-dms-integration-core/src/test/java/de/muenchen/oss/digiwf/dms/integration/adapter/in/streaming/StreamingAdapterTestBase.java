@@ -10,7 +10,7 @@ import java.util.Map;
 
 import static de.muenchen.oss.digiwf.message.common.MessageConstants.*;
 
-class MessageProcessorTestBase {
+class StreamingAdapterTestBase {
     protected final ErrorApi errorApiMock = Mockito.mock(ErrorApi.class);
     protected final ProcessApi processApi = Mockito.mock(ProcessApi.class);
     protected final CreateFileInPort createFileInPortMock = Mockito.mock(CreateFileInPort.class);

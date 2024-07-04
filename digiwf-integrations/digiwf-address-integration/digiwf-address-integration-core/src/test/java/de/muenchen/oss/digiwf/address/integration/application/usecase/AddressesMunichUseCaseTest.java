@@ -1,8 +1,7 @@
-package integration.application.usecase;
+package de.muenchen.oss.digiwf.address.integration.application.usecase;
 
 import de.muenchen.oss.digiwf.address.integration.application.port.in.AddressMunichInPort;
 import de.muenchen.oss.digiwf.address.integration.application.port.out.AddressClientOutPort;
-import de.muenchen.oss.digiwf.address.integration.application.usecase.AddressesMunichUseCase;
 import de.muenchen.oss.digiwf.address.integration.client.gen.model.AenderungResponse;
 import de.muenchen.oss.digiwf.address.integration.client.gen.model.MuenchenAdresse;
 import de.muenchen.oss.digiwf.address.integration.client.gen.model.MuenchenAdresseResponse;
@@ -128,7 +127,7 @@ class AddressesMunichUseCaseTest {
 
         when(addressClientOutPort.listChanges(listAddressChangesModel)).thenThrow(expectedError);
 
-        assertThatThrownBy(() ->  addressesMunichUseCase.listChanges(listAddressChangesModel))
+        assertThatThrownBy(() -> addressesMunichUseCase.listChanges(listAddressChangesModel))
                 .isInstanceOf(IncidentError.class)
                 .isEqualTo(expectedError);
     }
@@ -165,7 +164,7 @@ class AddressesMunichUseCaseTest {
 
         when(addressClientOutPort.searchAddresses(searchAddressesModel)).thenThrow(expectedError);
 
-        assertThatThrownBy(() ->  addressesMunichUseCase.searchAddresses(searchAddressesModel))
+        assertThatThrownBy(() -> addressesMunichUseCase.searchAddresses(searchAddressesModel))
                 .isInstanceOf(IncidentError.class)
                 .isEqualTo(expectedError);
     }
@@ -202,7 +201,7 @@ class AddressesMunichUseCaseTest {
 
         when(addressClientOutPort.searchAddressesGeo(searchAddressesGeoModel)).thenThrow(expectedError);
 
-        assertThatThrownBy(() ->  addressesMunichUseCase.searchAddressesGeo(searchAddressesGeoModel))
+        assertThatThrownBy(() -> addressesMunichUseCase.searchAddressesGeo(searchAddressesGeoModel))
                 .isInstanceOf(IncidentError.class)
                 .isEqualTo(expectedError);
     }

@@ -17,7 +17,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-class CreateFileStreamingAdapterTest extends MessageProcessorTestBase {
+class CreateFileStreamingAdapterTest extends StreamingAdapterTestBase {
 
     private final CreateFileDto createFileDto = new CreateFileDto(
             "apentryCoo",

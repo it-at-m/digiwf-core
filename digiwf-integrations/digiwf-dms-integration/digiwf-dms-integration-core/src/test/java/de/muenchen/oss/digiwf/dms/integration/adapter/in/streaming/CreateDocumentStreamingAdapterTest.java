@@ -22,7 +22,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-class CreateDocumentStreamingAdapterTest extends MessageProcessorTestBase {
+class CreateDocumentStreamingAdapterTest extends StreamingAdapterTestBase {
 
     private final CreateDocumentDto createDocumentDto = new CreateDocumentDto(
             "documentCoo",

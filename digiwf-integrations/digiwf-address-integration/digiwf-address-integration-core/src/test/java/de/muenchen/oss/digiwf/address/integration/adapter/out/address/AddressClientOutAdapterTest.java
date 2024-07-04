@@ -1,6 +1,5 @@
-package integration.adapter.out;
+package de.muenchen.oss.digiwf.address.integration.adapter.out.address;
 
-import de.muenchen.oss.digiwf.address.integration.adapter.out.address.AddressClientOutAdapter;
 import de.muenchen.oss.digiwf.address.integration.application.port.out.AddressClientOutPort;
 import de.muenchen.oss.digiwf.address.integration.client.api.AddressGermanyApi;
 import de.muenchen.oss.digiwf.address.integration.client.api.AddressMunichApi;

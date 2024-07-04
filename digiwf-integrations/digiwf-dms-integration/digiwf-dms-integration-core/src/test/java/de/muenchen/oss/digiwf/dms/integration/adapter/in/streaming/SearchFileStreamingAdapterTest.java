@@ -11,7 +11,7 @@ import java.util.List;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-class SearchFileStreamingAdapterTest extends MessageProcessorTestBase {
+class SearchFileStreamingAdapterTest extends StreamingAdapterTestBase {
 
     private final SearchObjectDto searchFileDto = new SearchObjectDto(
             "group.*-file-*",
