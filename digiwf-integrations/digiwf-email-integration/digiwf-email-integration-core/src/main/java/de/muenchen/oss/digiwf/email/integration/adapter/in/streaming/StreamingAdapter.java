@@ -1,9 +1,9 @@
 package de.muenchen.oss.digiwf.email.integration.adapter.in.streaming;
 
 import de.muenchen.oss.digiwf.email.integration.application.port.in.SendMailInPort;
+import de.muenchen.oss.digiwf.email.integration.domain.model.TemplateMail;
+import de.muenchen.oss.digiwf.email.integration.domain.model.TextMail;
 import de.muenchen.oss.digiwf.email.integration.infrastructure.MonitoringService;
-import de.muenchen.oss.digiwf.email.integration.model.TemplateMail;
-import de.muenchen.oss.digiwf.email.integration.model.TextMail;
 import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
 import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;

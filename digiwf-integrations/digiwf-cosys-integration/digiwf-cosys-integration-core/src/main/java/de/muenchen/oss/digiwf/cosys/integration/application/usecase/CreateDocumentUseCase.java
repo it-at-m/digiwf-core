@@ -3,7 +3,7 @@ package de.muenchen.oss.digiwf.cosys.integration.application.usecase;
 import de.muenchen.oss.digiwf.cosys.integration.application.port.in.CreateDocumentInPort;
 import de.muenchen.oss.digiwf.cosys.integration.application.port.out.GenerateDocumentOutPort;
 import de.muenchen.oss.digiwf.cosys.integration.application.port.out.SaveFileToStorageOutPort;
-import de.muenchen.oss.digiwf.cosys.integration.model.GenerateDocument;
+import de.muenchen.oss.digiwf.cosys.integration.domain.model.GenerateDocument;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

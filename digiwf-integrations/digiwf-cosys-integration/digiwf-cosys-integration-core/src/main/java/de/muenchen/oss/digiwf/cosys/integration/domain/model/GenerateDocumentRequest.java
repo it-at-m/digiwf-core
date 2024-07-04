@@ -1,4 +1,4 @@
-package de.muenchen.oss.digiwf.cosys.integration.model;
+package de.muenchen.oss.digiwf.cosys.integration.domain.model;
 
 import lombok.Data;
 

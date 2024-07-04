@@ -1,10 +1,9 @@
-package de.muenchen.oss.digiwf.email.integration.model;
+package de.muenchen.oss.digiwf.email.integration.domain.model;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-
-import jakarta.validation.constraints.NotBlank;
 
 import java.util.List;
 

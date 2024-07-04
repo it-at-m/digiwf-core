@@ -2,7 +2,7 @@ package de.muenchen.oss.digiwf.cosys.integration.adapter.in.streaming;
 
 
 import de.muenchen.oss.digiwf.cosys.integration.application.port.in.CreateDocumentInPort;
-import de.muenchen.oss.digiwf.cosys.integration.model.GenerateDocument;
+import de.muenchen.oss.digiwf.cosys.integration.domain.model.GenerateDocument;
 import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
 import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;

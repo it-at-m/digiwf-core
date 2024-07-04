@@ -1,4 +1,4 @@
-package de.muenchen.oss.digiwf.email.integration.model;
+package de.muenchen.oss.digiwf.email.integration.domain.model;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;

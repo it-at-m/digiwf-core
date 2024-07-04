@@ -2,8 +2,8 @@ package de.muenchen.oss.digiwf.cosys.integration.example.api.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.muenchen.oss.digiwf.cosys.integration.application.port.out.GenerateDocumentOutPort;
-import de.muenchen.oss.digiwf.cosys.integration.model.DocumentStorageUrl;
-import de.muenchen.oss.digiwf.cosys.integration.model.GenerateDocument;
+import de.muenchen.oss.digiwf.cosys.integration.domain.model.DocumentStorageUrl;
+import de.muenchen.oss.digiwf.cosys.integration.domain.model.GenerateDocument;
 import de.muenchen.oss.digiwf.message.common.MessageConstants;
 import de.muenchen.oss.digiwf.message.core.api.MessageApi;
 import lombok.RequiredArgsConstructor;

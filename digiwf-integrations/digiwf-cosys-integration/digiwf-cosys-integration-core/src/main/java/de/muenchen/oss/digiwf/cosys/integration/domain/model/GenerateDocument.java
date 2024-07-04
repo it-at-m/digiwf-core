@@ -2,7 +2,7 @@
  * Copyright (c): it@M - Dienstleister für Informations- und Telekommunikationstechnik
  * der Landeshauptstadt München, 2020
  */
-package de.muenchen.oss.digiwf.cosys.integration.model;
+package de.muenchen.oss.digiwf.cosys.integration.domain.model;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.validation.Valid;

@@ -1,18 +1,18 @@
-package de.muenchen.oss.digiwf.cosys.integration.model;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+package de.muenchen.oss.digiwf.email.integration.domain.model;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
+/**
+ * Attachment File you want to get from the S3 storage.
+ */
 @Data
-@Builder
 @RequiredArgsConstructor
 @AllArgsConstructor
-public class DocumentStorageUrl {
+public class PresignedUrl {
 
     /**
      * Url to the s3 service.
@@ -28,10 +28,10 @@ public class DocumentStorageUrl {
 
     /**
      * Proper Http Method (Post, Put, Get, Delete) to interact with S3.
-     * Note: Only POST and PUT is supported.
+     * Note: Only GET is supported. The mail integration is not intended to modify files!
      */
     @NotBlank(message = "Action is mandatory")
-    @Pattern(regexp = "^(POST|PUT)$", message = "Only action POST or PUT is supported")
+    @Pattern(regexp = "GET", message = "Only action GET is supported")
     private String action;
 
 }

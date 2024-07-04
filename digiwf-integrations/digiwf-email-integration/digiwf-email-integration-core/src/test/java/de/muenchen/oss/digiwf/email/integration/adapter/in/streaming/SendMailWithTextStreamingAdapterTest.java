@@ -1,6 +1,6 @@
 package de.muenchen.oss.digiwf.email.integration.adapter.in.streaming;
 
-import de.muenchen.oss.digiwf.email.integration.model.TextMail;
+import de.muenchen.oss.digiwf.email.integration.domain.model.TextMail;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import jakarta.validation.ValidationException;
