@@ -196,10 +196,6 @@ digiwf:
         job: true
         process: false # deactivate the process definition metrics
         task: true
-  s3:
-    client:
-      document-storage-url: '${digiwf.s3service.httpAPI}'
-      enable-security: true
 
 io:
   muenchendigital:
