@@ -1,6 +1,5 @@
-package de.muenchen.oss.digiwf.email.integration.adapter.out;
+package de.muenchen.oss.digiwf.email.integration.adapter.out.s3;
 
-import de.muenchen.oss.digiwf.email.integration.adapter.out.s3.S3Adapter;
 import de.muenchen.oss.digiwf.email.integration.model.PresignedUrl;
 import de.muenchen.oss.digiwf.email.model.FileAttachment;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;

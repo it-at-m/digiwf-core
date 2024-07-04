@@ -1,8 +1,7 @@
-package de.muenchen.oss.digiwf.ticket.integration.application;
+package de.muenchen.oss.digiwf.ticket.integration.application.usecase;
 
 import de.muenchen.oss.digiwf.ticket.integration.application.port.out.LoadFileOutPort;
 import de.muenchen.oss.digiwf.ticket.integration.application.port.out.TicketOutPort;
-import de.muenchen.oss.digiwf.ticket.integration.application.usecase.WriteArticleUseCase;
 import de.muenchen.oss.digiwf.ticket.integration.domain.model.Article;
 import de.muenchen.oss.digiwf.ticket.integration.domain.model.FileContent;
 import de.muenchen.oss.digiwf.ticket.integration.domain.model.TicketStatus;

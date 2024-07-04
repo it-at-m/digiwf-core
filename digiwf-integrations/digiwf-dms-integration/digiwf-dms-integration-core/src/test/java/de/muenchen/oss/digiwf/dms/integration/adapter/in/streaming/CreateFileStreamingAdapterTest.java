@@ -1,6 +1,5 @@
-package de.muenchen.oss.digiwf.dms.integration.adapter.in;
+package de.muenchen.oss.digiwf.dms.integration.adapter.in.streaming;
 
-import de.muenchen.oss.digiwf.dms.integration.adapter.in.streaming.CreateFileDto;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import jakarta.validation.ValidationException;
 import org.junit.jupiter.api.Assertions;

@@ -1,6 +1,5 @@
-package de.muenchen.oss.digiwf.email.integration.adapter.in;
+package de.muenchen.oss.digiwf.email.integration.adapter.in.streaming;
 
-import de.muenchen.oss.digiwf.email.integration.adapter.in.streaming.StreamingAdapter;
 import de.muenchen.oss.digiwf.email.integration.application.port.in.SendMailInPort;
 import de.muenchen.oss.digiwf.email.integration.infrastructure.MonitoringService;
 import de.muenchen.oss.digiwf.message.process.api.ErrorApi;

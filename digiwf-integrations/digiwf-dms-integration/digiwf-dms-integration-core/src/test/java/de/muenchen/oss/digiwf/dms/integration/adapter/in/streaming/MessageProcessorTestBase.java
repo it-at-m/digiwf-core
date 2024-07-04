@@ -1,6 +1,5 @@
-package de.muenchen.oss.digiwf.dms.integration.adapter.in;
+package de.muenchen.oss.digiwf.dms.integration.adapter.in.streaming;
 
-import de.muenchen.oss.digiwf.dms.integration.adapter.in.streaming.StreamingAdapter;
 import de.muenchen.oss.digiwf.dms.integration.application.port.in.*;
 import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
 import de.muenchen.oss.digiwf.message.process.api.ProcessApi;

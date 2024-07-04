@@ -1,8 +1,6 @@
-package de.muenchen.oss.digiwf.openai.integration.adapter.out;
+package de.muenchen.oss.digiwf.openai.integration.adapter.out.ai;
 
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
-import de.muenchen.oss.digiwf.openai.integration.adapter.out.ai.Assistant;
-import de.muenchen.oss.digiwf.openai.integration.adapter.out.ai.OpenAiClientOutAdapter;
 import de.muenchen.oss.digiwf.openai.integration.domain.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

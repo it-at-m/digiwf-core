@@ -1,9 +1,8 @@
-package de.muenchen.oss.digiwf.alw.integration.application;
+package de.muenchen.oss.digiwf.alw.integration.application.usecase;
 
 import de.muenchen.oss.digiwf.alw.integration.adapter.out.orgstructure.OrgStructureMapperOutPortAdapter;
 import de.muenchen.oss.digiwf.alw.integration.application.port.in.GetResponsibilityInPort;
 import de.muenchen.oss.digiwf.alw.integration.application.port.out.AlwResponsibilityOutPort;
-import de.muenchen.oss.digiwf.alw.integration.application.usecase.GetResponsibilityUseCase;
 import de.muenchen.oss.digiwf.alw.integration.domain.exception.AlwException;
 import de.muenchen.oss.digiwf.alw.integration.domain.model.ResponsibilityRequest;
 import lombok.val;

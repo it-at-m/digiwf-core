@@ -1,6 +1,5 @@
-package de.muenchen.oss.digiwf.dms.integration.adapter.in;
+package de.muenchen.oss.digiwf.dms.integration.adapter.in.streaming;
 
-import de.muenchen.oss.digiwf.dms.integration.adapter.in.streaming.DepositObjectDto;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import jakarta.validation.ValidationException;
 import org.junit.jupiter.api.Assertions;
@@ -18,24 +17,24 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-class DepositObjectStreamingAdapterTest extends MessageProcessorTestBase {
+class CancelObjectStreamingAdapterTest extends MessageProcessorTestBase {
 
-    private final DepositObjectDto depositObjectDto = new DepositObjectDto(
+    private final CancelObjectDto cancelObjectDto = new CancelObjectDto(
             "objectCoo",
             "user"
     );
-    private Message<DepositObjectDto> message;
+    private Message<CancelObjectDto> message;
 
     @BeforeEach
     void setup() {
         setupBase();
-        Mockito.doNothing().when(depositObjectInPortMock).depositObject(
-                depositObjectDto.getObjectCoo(),
-                depositObjectDto.getUser());
+        Mockito.doNothing().when(cancelObjectInPortMock).cancelObject(
+                cancelObjectDto.getObjectCoo(),
+                cancelObjectDto.getUser());
         this.message = new Message<>() {
             @Override
-            public DepositObjectDto getPayload() {
-                return depositObjectDto;
+            public CancelObjectDto getPayload() {
+                return cancelObjectDto;
             }
 
             @Override
@@ -46,15 +45,15 @@ class DepositObjectStreamingAdapterTest extends MessageProcessorTestBase {
     }
 
     @Test
-    void testDepositObjectSuccessful() {
-        streamingAdapter.depositObject().accept(this.message);
-        verify(depositObjectInPortMock, times(1)).depositObject(depositObjectDto.getObjectCoo(), depositObjectDto.getUser());
+    void testCancelObjectSuccessful() {
+        streamingAdapter.cancelObject().accept(this.message);
+        verify(cancelObjectInPortMock, times(1)).cancelObject(cancelObjectDto.getObjectCoo(), cancelObjectDto.getUser());
     }
 
     @Test
-    void testDepositObjectValidationException() {
-        Mockito.doThrow(new ValidationException("Test ValidationException")).when(depositObjectInPortMock).depositObject(any(), any());
-        streamingAdapter.depositObject().accept(this.message);
+    void testCancelObjectValidationException() {
+        Mockito.doThrow(new ValidationException("Test ValidationException")).when(cancelObjectInPortMock).cancelObject(any(), any());
+        streamingAdapter.cancelObject().accept(this.message);
         final ArgumentCaptor<Map> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
         verify(errorApiMock, times(1)).handleIncident(messageHeaderArgumentCaptor.capture(), any(IncidentError.class));
         Assertions.assertTrue(messageHeaderArgumentCaptor.getValue().containsKey(DIGIWF_PROCESS_INSTANCE_ID));
@@ -62,9 +61,9 @@ class DepositObjectStreamingAdapterTest extends MessageProcessorTestBase {
 
 
     @Test
-    void testDepositObjectIncidentError() {
-        Mockito.doThrow(new IncidentError("Error Message")).when(depositObjectInPortMock).depositObject(any(), any());
-        streamingAdapter.depositObject().accept(this.message);
+    void testCancelObjectIncidentError() {
+        Mockito.doThrow(new IncidentError("Error Message")).when(cancelObjectInPortMock).cancelObject(any(), any());
+        streamingAdapter.cancelObject().accept(this.message);
         final ArgumentCaptor<Map> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
         verify(errorApiMock, times(1)).handleIncident(messageHeaderArgumentCaptor.capture(), any(IncidentError.class));
         Assertions.assertTrue(messageHeaderArgumentCaptor.getValue().containsKey(DIGIWF_PROCESS_INSTANCE_ID));

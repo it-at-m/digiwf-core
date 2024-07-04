@@ -1,6 +1,5 @@
-package de.muenchen.oss.digiwf.cosys.integration.adapter.out;
+package de.muenchen.oss.digiwf.cosys.integration.adapter.out.s3;
 
-import de.muenchen.oss.digiwf.cosys.integration.adapter.out.s3.S3Adapter;
 import de.muenchen.oss.digiwf.cosys.integration.model.DocumentStorageUrl;
 import de.muenchen.oss.digiwf.cosys.integration.model.GenerateDocument;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
