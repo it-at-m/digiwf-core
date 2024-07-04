@@ -23,6 +23,8 @@
 - **ZAMMAD_SSO_REALM** - The realm of the SSO service for the ticket service.
 - **SSO_S3_CLIENT_ID** - The client id of the S3 service.
 - **SSO_S3_CLIENT_SECRET** - The client secret of the S3 service.
+- **S3_MAX_FILE_SIZE** - Maximum allowed file size that can be downloaded from S3.
+- **S3_MAX_BATCH_SIZE** - The maximum allowed total size of files that can be processed at one time.
 - **TICKETING_INTEGRATION_SERVER_PORT** - The port of the ticket integration server.
 
 > Note: The Ticket Integration uses 2 different sso clients from two different realms (s3 and zammad). 

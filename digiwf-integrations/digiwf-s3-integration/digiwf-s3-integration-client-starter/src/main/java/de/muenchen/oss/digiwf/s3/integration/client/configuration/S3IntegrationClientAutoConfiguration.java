@@ -6,7 +6,7 @@ import de.muenchen.oss.digiwf.s3.integration.client.api.FolderApiApi;
 import de.muenchen.oss.digiwf.s3.integration.client.properties.S3IntegrationClientProperties;
 import de.muenchen.oss.digiwf.s3.integration.client.properties.SupportedFileExtensions;
 import de.muenchen.oss.digiwf.s3.integration.client.service.ApiClientFactory;
-import de.muenchen.oss.digiwf.s3.integration.client.service.FileExtensionService;
+import de.muenchen.oss.digiwf.s3.integration.client.service.FileService;
 import de.muenchen.oss.digiwf.s3.integration.client.service.S3DomainProvider;
 import de.muenchen.oss.digiwf.s3.integration.client.service.S3StorageUrlProvider;
 import jakarta.annotation.PostConstruct;
@@ -93,26 +93,28 @@ public class S3IntegrationClientAutoConfiguration {
     }
 
     /**
-     * Instance of a {@link FileExtensionService} containing externally given supported file extensions.
+     * Instance of a {@link FileService} containing externally given supported file extensions.
      *
      * @param supportedFileExtensions {@link java.util.Map} of supported file extensions.
-     * @return {@link FileExtensionService} for managing file extensions.
+     * @return {@link FileService} for managing file extensions.
      */
     @Bean
     @ConditionalOnBean(SupportedFileExtensions.class)
-    public FileExtensionService fileExtensionValidation(final SupportedFileExtensions supportedFileExtensions) {
-        return new FileExtensionService(supportedFileExtensions);
+    public FileService fileService(final SupportedFileExtensions supportedFileExtensions) {
+        return new FileService(supportedFileExtensions, this.s3IntegrationClientProperties.getMaxFileSize(),
+                this.s3IntegrationClientProperties.getMaxBatchSize());
     }
 
     /**
-     * Instance of a {@link FileExtensionService} containing supported file extensions configured within in the 'de.muenchen.oss.digiwf.s3' scope.
+     * Instance of a {@link FileService} containing supported file extensions configured within in the 'de.muenchen.oss.digiwf.s3' scope.
      *
-     * @return {@link FileExtensionService} for managing file extensions.
+     * @return {@link FileService} for managing file extensions.
      */
     @Bean
     @ConditionalOnMissingBean(SupportedFileExtensions.class)
-    public FileExtensionService fileExtensionValidationFromS3IntegrationClientProperties() {
-        return new FileExtensionService(this.s3IntegrationClientProperties.getSupportedFileExtensions());
+    public FileService fileServiceFromS3IntegrationClientProperties() {
+        return new FileService(this.s3IntegrationClientProperties.getSupportedFileExtensions(), this.s3IntegrationClientProperties.getMaxFileSize(),
+                this.s3IntegrationClientProperties.getMaxBatchSize());
     }
 
     /**

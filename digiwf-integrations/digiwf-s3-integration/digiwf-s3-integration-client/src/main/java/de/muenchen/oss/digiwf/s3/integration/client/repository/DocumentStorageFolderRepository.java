@@ -4,6 +4,7 @@ import de.muenchen.oss.digiwf.s3.integration.client.api.FolderApiApi;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageClientErrorException;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageException;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageServerErrorException;
+import de.muenchen.oss.digiwf.s3.integration.client.model.FileSizesInFolderDto;
 import de.muenchen.oss.digiwf.s3.integration.client.model.FilesInFolderDto;
 import de.muenchen.oss.digiwf.s3.integration.client.service.ApiClientFactory;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestClientException;
 import reactor.core.publisher.Mono;
 
+import java.util.Map;
 import java.util.Set;
 
 @Slf4j
@@ -77,6 +79,37 @@ public class DocumentStorageFolderRepository {
             throw new DocumentStorageServerErrorException(message, exception);
         } catch (final RestClientException exception) {
             final String message = "The request to get all files within a folder failed.";
+            log.error(message);
+            throw new DocumentStorageException(message, exception);
+        }
+    }
+
+    /**
+     * Returns all file sizes of files within a folder given in the parameter from document storage.
+     *
+     * @param pathToFolder       defines the folder in the document storage.
+     * @param documentStorageUrl defines to which document storage the request goes.
+     * @return file paths with their file sizes.
+     * @throws DocumentStorageClientErrorException if the problem is with the client.
+     * @throws DocumentStorageServerErrorException if the problem is with the document storage.
+     * @throws DocumentStorageException            if the problem cannot be assigned directly to the document storage.
+     */
+    public Mono<Map<String, Long>> getAllFileSizesInFolderRecursively(final String pathToFolder, final String documentStorageUrl)
+            throws DocumentStorageClientErrorException, DocumentStorageServerErrorException, DocumentStorageException {
+        try {
+            final FolderApiApi folderApi = this.apiClientFactory.getFolderApiForDocumentStorageUrl(documentStorageUrl);
+            final Mono<FileSizesInFolderDto> fileSizesInFolderDtoMono = folderApi.getAllFileSizesInFolderRecursively(pathToFolder);
+            return fileSizesInFolderDtoMono.mapNotNull(FileSizesInFolderDto::getFileSizes);
+        } catch (final HttpClientErrorException exception) {
+            final String message = String.format("The request to get all file sizes within a folder failed %s.", exception.getStatusCode());
+            log.error(message);
+            throw new DocumentStorageClientErrorException(message, exception);
+        } catch (final HttpServerErrorException exception) {
+            final String message = String.format("The request to get all file sizes within a folder failed %s.", exception.getStatusCode());
+            log.error(message);
+            throw new DocumentStorageServerErrorException(message, exception);
+        } catch (final RestClientException exception) {
+            final String message = "The request to get all file sizes within a folder failed.";
             log.error(message);
             throw new DocumentStorageException(message, exception);
         }

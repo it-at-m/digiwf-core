@@ -32,7 +32,6 @@ public interface ProcessApi {
      * @param payloadVariables The payload variables to be included in the message correlation.
      * @return true if the message was successfully correlated, false otherwise.
      */
-
     boolean correlateMessage(String processInstanceId, String type, String integrationName, Map<String, Object> payloadVariables);
 
 }

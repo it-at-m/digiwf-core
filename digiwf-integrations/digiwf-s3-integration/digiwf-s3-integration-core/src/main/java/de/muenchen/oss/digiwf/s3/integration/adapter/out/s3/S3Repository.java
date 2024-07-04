@@ -11,10 +11,7 @@ import org.apache.commons.collections4.IteratorUtils;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -78,14 +75,8 @@ public class S3Repository {
     /**
      * Returns the paths to the files in a given folder.
      *
-     * @param folder The folder.
-     *               The path must be absolute and without specifying the bucket.
-     *               Example 1:
-     *               Folder in bucket: "BUCKET/folder"
-     *               Specification in parameter: "folder"
-     *               Example 2:
-     *               Folder in bucket: "BUCKET/folder/subfolder"
-     *               Specification in parameter: "folder/subfolder"
+     * @param folder The folder. The path must be absolute and without specifying the bucket. Example 1: Folder in bucket: "BUCKET/folder" Specification in
+     *               parameter: "folder" Example 2: Folder in bucket: "BUCKET/folder/subfolder" Specification in parameter: "folder/subfolder"
      * @return the paths to the files in a given folder. Also returns the paths to the files in subfolders.
      * @throws FileSystemAccessException if the paths cannot be downloaded.
      */
@@ -111,13 +102,60 @@ public class S3Repository {
     }
 
     /**
+     * Retrieves the sizes of all files within a specified folder.
+     *
+     * @param folder the folder path for which to retrieve file sizes.
+     * @return a map where the keys are file paths and the values are the corresponding file sizes in bytes.
+     * @throws FileSystemAccessException if the file sizes cannot be retrieved.
+     */
+    public Map<String, Long> getFileSizesFromFolder(final String folder) throws FileSystemAccessException {
+        try {
+            final ListObjectsArgs listObjectsArgs = ListObjectsArgs.builder()
+                    .bucket(this.bucketName)
+                    .prefix(folder)
+                    .recursive(true)
+                    .build();
+            final List<Result<Item>> resultItemList = IteratorUtils.toList(this.client.listObjects(listObjectsArgs).iterator());
+            final Map<String, Long> filePathsFromFolder = new HashMap<>();
+            for (final Result<Item> resultItem : resultItemList) {
+                filePathsFromFolder.put(resultItem.get().objectName(), resultItem.get().size());
+            }
+            return filePathsFromFolder;
+        } catch (final MinioException | InvalidKeyException | NoSuchAlgorithmException | IllegalArgumentException |
+                IOException exception) {
+            final String message = String.format("Failed to extract file paths from folder %s.", folder);
+            log.error(message, exception);
+            throw new FileSystemAccessException(message, exception);
+        }
+    }
+
+    /**
+     * Retrieves the size of a specified file.
+     *
+     * @param pathToFile the path of the file for which to retrieve the size.
+     * @return the size of the file in bytes.
+     * @throws FileSystemAccessException if the file size cannot be retrieved.
+     */
+    public long getFileSize(final String pathToFile) throws FileSystemAccessException {
+        try {
+            return client.statObject(StatObjectArgs.builder()
+                            .bucket(bucketName)
+                            .object(pathToFile)
+                            .build())
+                    .size();
+        } catch (ErrorResponseException | InsufficientDataException | InternalException | InvalidKeyException | InvalidResponseException | IOException |
+                NoSuchAlgorithmException | ServerException | XmlParserException exception) {
+            final String message = String.format("Failed to request size of file %s.", pathToFile);
+            log.error(message, exception);
+            throw new FileSystemAccessException(message, exception);
+        }
+    }
+
+    /**
      * Deletes the file given in the parameter.
      *
-     * @param pathToFile The path to the file.
-     *                   The path must be absolute and without specifying the bucket.
-     *                   Example:
-     *                   File in bucket: "BUCKET/outerFolder/innerFolder/thefile.csv"
-     *                   Specification in parameter: "outerFolder/innerFolder/thefile.csv"
+     * @param pathToFile The path to the file. The path must be absolute and without specifying the bucket. Example: File in bucket:
+     *                   "BUCKET/outerFolder/innerFolder/thefile.csv" Specification in parameter: "outerFolder/innerFolder/thefile.csv"
      * @throws FileSystemAccessException if the file cannot be deleted.
      */
     public void deleteFile(final String pathToFile) throws FileSystemAccessException {
@@ -139,11 +177,11 @@ public class S3Repository {
     /**
      * Creates the presigned URL fora file to the given file path.
      *
-     * @param pathToFile       The path to the file.
-     *                         The path must be absolute and without specifying the bucket.
-     *                         Example:
-     *                         File in bucket: "BUCKET/outerFolder/innerFolder/thefile.csv"
-     *                         Specification in parameter: "outerFolder/innerFolder/thefile.csv"
+     * @param pathToFile       The path to the file. The path must be absolute and without specifying the bucket.<br>
+     *                         Example:<br>
+     *                         File in bucket:<br>
+     *                         "BUCKET/outerFolder/innerFolder/thefile.csv"<br>
+     *                         Specification in parameter: "outerFolder/innerFolder/thefile.csv"<br>
      * @param action           to determine the file permissions.
      * @param expiresInMinutes to define the validity period of the presigned URL.
      * @return the presigned URL for a file.

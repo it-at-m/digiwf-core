@@ -51,7 +51,7 @@ Mit Gradle:
 implementation group: 'de.muenchen.oss.digiwf', name: 'digiwf-s3-integration-client-starter', version: '${digiwf.version}'
 ```
 
-Und der Wert der Eigenschaft `io.muenchendigital.digiwf.s3.client.document-storage-url` muss auf die Lokation des
+Und der Wert der Eigenschaft `digiwf.s3.client.document-storage-url` muss auf die Lokation des
 S3-Integration-Dienstes zeigen.
 
 ### Asynchrone Verwendung via Messaging
