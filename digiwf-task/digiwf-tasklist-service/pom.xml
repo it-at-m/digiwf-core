@@ -14,27 +14,13 @@
     <properties>
         <rest.base-package-name>de.muenchen.oss.digiwf.task.service.application.port.in.rest</rest.base-package-name>
 
-        <spring-cloud.version>2022.0.4</spring-cloud.version>
         <camunda-platform-7-rest-client.version>7.20.1</camunda-platform-7-rest-client.version>
         <axon-framework.version>4.9.3</axon-framework.version>
         <axon-extension-kafka.version>4.9.0</axon-extension-kafka.version>
 
         <spin.version>1.23.0</spin.version>
-        <wiremock.version>3.7.0</wiremock.version>
+        <wiremock.version>3.8.0</wiremock.version>
     </properties>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <!-- Import dependency management from Spring Cloud -->
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${spring-cloud.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <dependencies>
         <!-- digiwf task api -->
@@ -245,7 +231,7 @@
         </dependency>
         <dependency>
             <groupId>org.wiremock</groupId>
-            <artifactId>wiremock</artifactId>
+            <artifactId>wiremock-jetty12</artifactId>
             <version>${wiremock.version}</version>
             <scope>test</scope>
         </dependency>
@@ -317,7 +303,8 @@
                                 <hideGenerationTimestamp>true</hideGenerationTimestamp>
                                 <useTags>true</useTags>
                                 <useSpringBoot3>true</useSpringBoot3>
-                                <disallowAdditionalPropertiesIfNotPresent>false</disallowAdditionalPropertiesIfNotPresent>
+                                <disallowAdditionalPropertiesIfNotPresent>false
+                                </disallowAdditionalPropertiesIfNotPresent>
                             </configOptions>
                         </configuration>
                     </execution>

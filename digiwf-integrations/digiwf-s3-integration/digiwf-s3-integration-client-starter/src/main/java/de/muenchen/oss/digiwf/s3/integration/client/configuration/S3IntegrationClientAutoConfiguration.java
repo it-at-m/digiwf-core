@@ -63,7 +63,7 @@ public class S3IntegrationClientAutoConfiguration {
     @Bean
     @ConditionalOnProperty(prefix = "digiwf.s3.client", name = "enable-security", havingValue = "true")
     public ApiClientFactory securedApiClientFactory(final ClientRegistrationRepository clientRegistrationRepository,
-            final OAuth2AuthorizedClientService authorizedClientService) {
+                                                    final OAuth2AuthorizedClientService authorizedClientService) {
         return new ApiClientFactory(
                 this.webClient(clientRegistrationRepository, authorizedClientService)
         );

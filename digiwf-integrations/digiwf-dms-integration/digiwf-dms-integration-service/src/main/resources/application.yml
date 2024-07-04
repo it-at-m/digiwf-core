@@ -65,6 +65,10 @@ digiwf:
   security:
     client-id: ${SSO_DMS_CLIENT_ID}
     client-secret: ${SSO_DMS_CLIENT_SECRET}
+  s3:
+    client:
+      document-storage-url: "${DOCUMENT_STORAGE_HOST:http://localhost}:${DOCUMENT_STORAGE_PORT:8080}"
+      enable-security: true
 
 io:
   muenchendigital:

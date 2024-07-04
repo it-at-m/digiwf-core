@@ -3,17 +3,15 @@ package de.muenchen.oss.digiwf.cosys.integration.configuration;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.muenchen.oss.digiwf.cosys.integration.ApiClient;
-import de.muenchen.oss.digiwf.cosys.integration.adapter.in.MessageProcessor;
-import de.muenchen.oss.digiwf.cosys.integration.adapter.out.CosysAdapter;
-import de.muenchen.oss.digiwf.cosys.integration.adapter.out.ProcessAdapter;
-import de.muenchen.oss.digiwf.cosys.integration.adapter.out.S3Adapter;
+import de.muenchen.oss.digiwf.cosys.integration.adapter.in.streaming.StreamingAdapter;
+import de.muenchen.oss.digiwf.cosys.integration.adapter.out.cosys.CosysAdapter;
+import de.muenchen.oss.digiwf.cosys.integration.adapter.out.s3.S3Adapter;
 import de.muenchen.oss.digiwf.cosys.integration.api.GenerationApi;
 import de.muenchen.oss.digiwf.cosys.integration.application.port.in.CreateDocumentInPort;
-import de.muenchen.oss.digiwf.cosys.integration.application.port.out.CorrelateMessageOutPort;
 import de.muenchen.oss.digiwf.cosys.integration.application.port.out.GenerateDocumentOutPort;
 import de.muenchen.oss.digiwf.cosys.integration.application.port.out.SaveFileToStorageOutPort;
 import de.muenchen.oss.digiwf.cosys.integration.application.usecase.CreateDocumentUseCase;
-import de.muenchen.oss.digiwf.cosys.integration.model.GenerateDocument;
+import de.muenchen.oss.digiwf.cosys.integration.domain.model.GenerateDocument;
 import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
 import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
 import de.muenchen.oss.digiwf.s3.integration.client.configuration.S3IntegrationClientAutoConfiguration;
@@ -102,14 +100,8 @@ public class CosysAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public CreateDocumentInPort getCreateDocumentInPort(final SaveFileToStorageOutPort saveFileToStorageOutPort, final CorrelateMessageOutPort correlateMessageOutPort, final GenerateDocumentOutPort generateDocumentOutPort) {
-        return new CreateDocumentUseCase(saveFileToStorageOutPort, correlateMessageOutPort, generateDocumentOutPort);
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public CorrelateMessageOutPort getCorrelateMessageOutPort(final ProcessApi processApi) {
-        return new ProcessAdapter(processApi);
+    public CreateDocumentInPort getCreateDocumentInPort(final SaveFileToStorageOutPort saveFileToStorageOutPort, final GenerateDocumentOutPort generateDocumentOutPort) {
+        return new CreateDocumentUseCase(saveFileToStorageOutPort, generateDocumentOutPort);
     }
 
     @Bean
@@ -126,12 +118,12 @@ public class CosysAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public MessageProcessor messageProcessor(final CreateDocumentInPort createDocumentInPort, final ErrorApi errorApi) {
-        return new MessageProcessor(createDocumentInPort, errorApi);
+    public StreamingAdapter streamingAdapter(final CreateDocumentInPort createDocumentInPort, final ProcessApi processApi, final ErrorApi errorApi) {
+        return new StreamingAdapter(createDocumentInPort, processApi, errorApi);
     }
 
     @Bean
-    public Consumer<Message<GenerateDocument>> createCosysDocument(final MessageProcessor messageProcessor) {
-        return messageProcessor.createCosysDocument();
+    public Consumer<Message<GenerateDocument>> createCosysDocument(final StreamingAdapter streamingAdapter) {
+        return streamingAdapter.createCosysDocument();
     }
 }

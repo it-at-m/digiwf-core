@@ -82,9 +82,11 @@
                             <library>webclient</library>
                             <generatorName>java</generatorName>
 
-                            <apiPackage>de.muenchen.oss.digiwf.ticket.integration.adapter.zammad.api</apiPackage>
-                            <modelPackage>de.muenchen.oss.digiwf.ticket.integration.adapter.zammad.model</modelPackage>
-                            <invokerPackage>de.muenchen.oss.digiwf.ticket.integration.adapter.zammad</invokerPackage>
+                            <apiPackage>de.muenchen.oss.digiwf.ticket.integration.adapter.out.zammad.api</apiPackage>
+                            <modelPackage>de.muenchen.oss.digiwf.ticket.integration.adapter.out.zammad.model
+                            </modelPackage>
+                            <invokerPackage>de.muenchen.oss.digiwf.ticket.integration.adapter.out.zammad
+                            </invokerPackage>
 
                             <generateApiTests>false</generateApiTests>
                             <generateModelTests>false</generateModelTests>

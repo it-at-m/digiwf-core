@@ -3,7 +3,7 @@ version: '3.9'
 services:
   optimize:
     # docker login registry.camunda.cloud
-    image: registry.camunda.cloud/optimize-ee/optimize:3.12.0
+    image: registry.camunda.cloud/optimize-ee/optimize:3.13.0
     container_name: digiwf-optimize
     hostname: optimize
     depends_on:

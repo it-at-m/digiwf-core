@@ -1,4 +1,3 @@
-
 spring:
   application:
     name: "example client app"
@@ -50,7 +49,6 @@ spring:
             client-id: ${SSO_S3_CLIENT_ID}
             client-secret: ${SSO_S3_CLIENT_SECRET}
             scope: email, profile, openid  # needed for userInfo endpoint
-
 
 io:
   muenchendigital:

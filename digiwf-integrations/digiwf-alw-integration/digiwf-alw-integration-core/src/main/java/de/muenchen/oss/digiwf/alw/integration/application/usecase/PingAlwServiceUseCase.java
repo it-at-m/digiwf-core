@@ -1,0 +1,31 @@
+package de.muenchen.oss.digiwf.alw.integration.application.usecase;
+
+import de.muenchen.oss.digiwf.alw.integration.application.port.in.PingAwlServiceInPort;
+import de.muenchen.oss.digiwf.alw.integration.application.port.out.AlwResponsibilityOutPort;
+import de.muenchen.oss.digiwf.alw.integration.domain.model.AlwPingConfig;
+import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+
+@Component
+@RequiredArgsConstructor
+@Slf4j
+public class PingAlwServiceUseCase implements PingAwlServiceInPort {
+
+    private final AlwResponsibilityOutPort alwResponsibilityOutPort;
+    private final AlwPingConfig alwPingConfiguration;
+
+    @PostConstruct
+    void executeOnStartup() {
+        pingService();
+    }
+
+    @Override
+    public void pingService() {
+        if (alwPingConfiguration.isPingEnabled()) {
+            alwResponsibilityOutPort.getResponsibleSachbearbeiter(alwPingConfiguration.getPingAzrNumber());
+            log.info("Ping to ALW Service successful.");
+        }
+    }
+}

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <artifactId>digiwf-engine-service</artifactId>
@@ -26,6 +26,7 @@
         <cxf.version>3.6.2</cxf.version>
         <postgresql.version>42.7.0</postgresql.version>
         <jaxws.version>2.3.0</jaxws.version>
+        <graalvm.version>23.0.4</graalvm.version>
     </properties>
 
     <dependencies>
@@ -124,6 +125,24 @@
             <version>1.5.0</version>
         </dependency>
 
+        <!-- JavaScript engine -->
+        <dependency>
+            <groupId>org.graalvm.sdk</groupId>
+            <artifactId>graal-sdk</artifactId>
+            <version>${graalvm.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.graalvm.js</groupId>
+            <artifactId>js</artifactId>
+            <version>${graalvm.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.graalvm.js</groupId>
+            <artifactId>js-scriptengine</artifactId>
+            <version>${graalvm.version}</version>
+        </dependency>
+
         <!-- Miranum-IDE -->
         <dependency>
             <groupId>io.miragon.miranum</groupId>
@@ -181,6 +200,10 @@
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-database-oracle</artifactId>
         </dependency>
 
         <!-- Other -->
@@ -342,7 +365,9 @@
                         </goals>
                         <configuration>
                             <sourceRoot>${project.build.directory}/generated/cxf</sourceRoot>
-                            <additionalJvmArgs>-Dlogback.configurationFile=${project.basedir}/src/test/resources/logback-codegen.xml</additionalJvmArgs>
+                            <additionalJvmArgs>
+                                -Dlogback.configurationFile=${project.basedir}/src/test/resources/logback-codegen.xml
+                            </additionalJvmArgs>
                             <wsdlOptions>
                                 <wsdlOption>
                                     <wsdl>${basedir}/src/main/resources/dms.wsdl</wsdl>
@@ -395,7 +420,9 @@
                                         <exclude>com.sun.activation:javax.activation</exclude>
                                         <exclude>javax.activation:activation</exclude>
                                     </excludes>
-                                    <message>use jakarta.activation:jakarta.activation-api or com.sun.activation:jakarta.activation instead of javax.activation</message>
+                                    <message>use jakarta.activation:jakarta.activation-api or
+                                        com.sun.activation:jakarta.activation instead of javax.activation
+                                    </message>
                                 </bannedDependencies>
                             </rules>
                         </configuration>
@@ -426,7 +453,9 @@
                                 </goals>
                                 <configuration>
                                     <dialect>org.hibernate.dialect.H2Dialect</dialect>
-                                    <physicalNamingStrategy>org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy</physicalNamingStrategy>
+                                    <physicalNamingStrategy>
+                                        org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+                                    </physicalNamingStrategy>
                                     <execute>false</execute>
                                     <show>true</show>
                                     <format>true</format>
@@ -439,8 +468,12 @@
                                     <goal>create</goal>
                                 </goals>
                                 <configuration>
-                                    <dialect>de.muenchen.oss.digiwf.shared.configuration.dialect.NoToastPostgresSQLDialect</dialect>
-                                    <physicalNamingStrategy>org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy</physicalNamingStrategy>
+                                    <dialect>
+                                        de.muenchen.oss.digiwf.shared.configuration.dialect.NoToastPostgresSQLDialect
+                                    </dialect>
+                                    <physicalNamingStrategy>
+                                        org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+                                    </physicalNamingStrategy>
                                     <execute>false</execute>
                                     <show>true</show>
                                     <format>true</format>
@@ -454,7 +487,9 @@
                                 </goals>
                                 <configuration>
                                     <dialect>org.hibernate.dialect.Oracle9iDialect</dialect>
-                                    <physicalNamingStrategy>org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy</physicalNamingStrategy>
+                                    <physicalNamingStrategy>
+                                        org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+                                    </physicalNamingStrategy>
                                     <execute>false</execute>
                                     <show>true</show>
                                     <format>true</format>
@@ -478,34 +513,6 @@
                     </plugin>
                 </plugins>
             </build>
-        </profile>
-        <profile>
-            <!-- Starting from JDK 12+, Nashorn is not part of JDK -->
-            <id>jdk12</id>
-            <activation>
-                <jdk>[12,</jdk>
-            </activation>
-            <properties>
-                <graalvm.version>23.0.4</graalvm.version>
-            </properties>
-            <dependencies>
-                <dependency>
-                    <groupId>org.graalvm.sdk</groupId>
-                    <artifactId>graal-sdk</artifactId>
-                    <version>${graalvm.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>org.graalvm.js</groupId>
-                    <artifactId>js</artifactId>
-                    <version>${graalvm.version}</version>
-                    <scope>runtime</scope>
-                </dependency>
-                <dependency>
-                    <groupId>org.graalvm.js</groupId>
-                    <artifactId>js-scriptengine</artifactId>
-                    <version>${graalvm.version}</version>
-                </dependency>
-            </dependencies>
         </profile>
     </profiles>
 </project>
