@@ -1,7 +1,7 @@
 package de.muenchen.oss.digiwf.s3.integration.adapter.out.s3;
 
-import de.muenchen.oss.digiwf.s3.integration.application.port.in.FileSystemAccessException;
 import de.muenchen.oss.digiwf.s3.integration.application.port.out.S3OutPort;
+import de.muenchen.oss.digiwf.s3.integration.domain.exception.FileSystemAccessException;
 import io.minio.*;
 import io.minio.errors.*;
 import io.minio.http.Method;
@@ -19,7 +19,7 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
-public class S3Repository implements S3OutPort {
+public class S3Adapter implements S3OutPort {
 
     /**
      * Response code from S3 storage when an object cannot be found.
@@ -39,7 +39,7 @@ public class S3Repository implements S3OutPort {
      * @param s3InitialConnectionTest to enable initial connection test to the s3 storage when true.
      * @throws FileSystemAccessException if the initial connection test fails.
      */
-    public S3Repository(
+    public S3Adapter(
             final String bucketName,
             final String s3Url,
             final MinioClient client,

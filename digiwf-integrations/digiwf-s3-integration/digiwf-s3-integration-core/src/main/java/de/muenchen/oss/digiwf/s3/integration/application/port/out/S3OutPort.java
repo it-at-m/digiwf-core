@@ -1,6 +1,6 @@
 package de.muenchen.oss.digiwf.s3.integration.application.port.out;
 
-import de.muenchen.oss.digiwf.s3.integration.application.port.in.FileSystemAccessException;
+import de.muenchen.oss.digiwf.s3.integration.domain.exception.FileSystemAccessException;
 import io.minio.http.Method;
 
 import java.util.Set;

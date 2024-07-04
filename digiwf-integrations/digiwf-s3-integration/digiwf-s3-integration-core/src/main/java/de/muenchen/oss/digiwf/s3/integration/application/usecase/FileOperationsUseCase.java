@@ -1,8 +1,8 @@
 package de.muenchen.oss.digiwf.s3.integration.application.usecase;
 
 import de.muenchen.oss.digiwf.s3.integration.application.port.in.FileOperationsInPort;
-import de.muenchen.oss.digiwf.s3.integration.application.port.in.FileSystemAccessException;
 import de.muenchen.oss.digiwf.s3.integration.application.port.out.S3OutPort;
+import de.muenchen.oss.digiwf.s3.integration.domain.exception.FileSystemAccessException;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

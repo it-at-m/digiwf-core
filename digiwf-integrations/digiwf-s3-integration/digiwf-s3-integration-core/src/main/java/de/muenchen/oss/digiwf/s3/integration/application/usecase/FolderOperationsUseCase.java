@@ -1,9 +1,9 @@
 package de.muenchen.oss.digiwf.s3.integration.application.usecase;
 
 import de.muenchen.oss.digiwf.s3.integration.adapter.in.rest.validation.FolderInFilePathValidator;
-import de.muenchen.oss.digiwf.s3.integration.application.port.in.FileSystemAccessException;
 import de.muenchen.oss.digiwf.s3.integration.application.port.in.FolderOperationsInPort;
 import de.muenchen.oss.digiwf.s3.integration.application.port.out.S3OutPort;
+import de.muenchen.oss.digiwf.s3.integration.domain.exception.FileSystemAccessException;
 import de.muenchen.oss.digiwf.s3.integration.domain.model.FilesInFolder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

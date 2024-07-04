@@ -3,17 +3,17 @@ package de.muenchen.oss.digiwf.s3.integration.configuration;
 import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
 import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
 import de.muenchen.oss.digiwf.s3.integration.adapter.in.rest.mapper.PresignedUrlMapper;
-import de.muenchen.oss.digiwf.s3.integration.adapter.in.streaming.CreatePresignedUrlEvent;
 import de.muenchen.oss.digiwf.s3.integration.adapter.in.streaming.FilesDTO;
 import de.muenchen.oss.digiwf.s3.integration.adapter.in.streaming.StreamingAdapter;
-import de.muenchen.oss.digiwf.s3.integration.adapter.out.s3.S3Repository;
+import de.muenchen.oss.digiwf.s3.integration.adapter.out.s3.S3Adapter;
 import de.muenchen.oss.digiwf.s3.integration.application.port.in.CreatePresignedUrlsInPort;
 import de.muenchen.oss.digiwf.s3.integration.application.port.in.FileOperationsInPort;
-import de.muenchen.oss.digiwf.s3.integration.application.port.in.FileSystemAccessException;
 import de.muenchen.oss.digiwf.s3.integration.application.port.in.FolderOperationsInPort;
 import de.muenchen.oss.digiwf.s3.integration.application.usecase.CreatePresignedUrlsUseCase;
 import de.muenchen.oss.digiwf.s3.integration.application.usecase.FileOperationsPresignedUrlUseCase;
 import de.muenchen.oss.digiwf.s3.integration.application.usecase.FileOperationsUseCase;
+import de.muenchen.oss.digiwf.s3.integration.domain.exception.FileSystemAccessException;
+import de.muenchen.oss.digiwf.s3.integration.domain.model.CreatePresignedUrlEvent;
 import de.muenchen.oss.digiwf.s3.integration.properties.S3IntegrationProperties;
 import io.minio.MinioClient;
 import lombok.RequiredArgsConstructor;
@@ -40,12 +40,12 @@ public class S3IntegrationAutoConfiguration {
 
     @ConditionalOnMissingBean
     @Bean
-    public S3Repository s3Repository() throws FileSystemAccessException {
+    public S3Adapter s3Adapter() throws FileSystemAccessException {
         final MinioClient minioClient = MinioClient.builder()
                 .endpoint(this.s3IntegrationProperties.getUrl())
                 .credentials(this.s3IntegrationProperties.getAccessKey(), this.s3IntegrationProperties.getSecretKey())
                 .build();
-        return new S3Repository(
+        return new S3Adapter(
                 this.s3IntegrationProperties.getBucketName(),
                 this.s3IntegrationProperties.getUrl(),
                 minioClient,
@@ -85,8 +85,8 @@ public class S3IntegrationAutoConfiguration {
 
     @ConditionalOnMissingBean
     @Bean
-    public FileOperationsInPort fileOperationsInPort(S3Repository s3Repository) {
-        return new FileOperationsUseCase(s3Repository);
+    public FileOperationsInPort fileOperationsInPort(S3Adapter s3Adapter) {
+        return new FileOperationsUseCase(s3Adapter);
     }
 
     @Bean

@@ -5,9 +5,9 @@ import de.muenchen.oss.digiwf.s3.integration.adapter.in.rest.dto.PresignedUrlDto
 import de.muenchen.oss.digiwf.s3.integration.adapter.in.rest.mapper.FileDataMapper;
 import de.muenchen.oss.digiwf.s3.integration.adapter.in.rest.mapper.PresignedUrlMapper;
 import de.muenchen.oss.digiwf.s3.integration.adapter.in.rest.validation.FolderInFilePath;
-import de.muenchen.oss.digiwf.s3.integration.application.port.in.FileExistenceException;
 import de.muenchen.oss.digiwf.s3.integration.application.port.in.FileOperationsPresignedUrlInPort;
-import de.muenchen.oss.digiwf.s3.integration.application.port.in.FileSystemAccessException;
+import de.muenchen.oss.digiwf.s3.integration.domain.exception.FileExistenceException;
+import de.muenchen.oss.digiwf.s3.integration.domain.exception.FileSystemAccessException;
 import de.muenchen.oss.digiwf.s3.integration.domain.model.FileData;
 import de.muenchen.oss.digiwf.s3.integration.domain.model.PresignedUrl;
 import io.swagger.v3.oas.annotations.Operation;

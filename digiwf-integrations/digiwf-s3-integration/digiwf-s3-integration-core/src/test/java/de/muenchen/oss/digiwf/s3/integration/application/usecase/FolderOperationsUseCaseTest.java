@@ -1,7 +1,7 @@
 package de.muenchen.oss.digiwf.s3.integration.application.usecase;
 
-import de.muenchen.oss.digiwf.s3.integration.adapter.out.s3.S3Repository;
-import de.muenchen.oss.digiwf.s3.integration.application.port.in.FileSystemAccessException;
+import de.muenchen.oss.digiwf.s3.integration.adapter.out.s3.S3Adapter;
+import de.muenchen.oss.digiwf.s3.integration.domain.exception.FileSystemAccessException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,14 +22,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 class FolderOperationsUseCaseTest {
 
     @Mock
-    private S3Repository s3Repository;
+    private S3Adapter s3Adapter;
 
     private FolderOperationsUseCase folderHandlingService;
 
     @BeforeEach
     public void beforeEach() {
-        this.folderHandlingService = new FolderOperationsUseCase(this.s3Repository);
-        Mockito.reset(this.s3Repository);
+        this.folderHandlingService = new FolderOperationsUseCase(this.s3Adapter);
+        Mockito.reset(this.s3Adapter);
     }
 
     @Test
@@ -38,9 +38,9 @@ class FolderOperationsUseCaseTest {
         final String pathToFolder = "folder";
         final String pathToFolderWithSeparator = pathToFolder + "/";
 
-        Mockito.when(this.s3Repository.getFilePathsFromFolder(pathToFolderWithSeparator)).thenReturn(new HashSet<>(List.of(pathToFile)));
+        Mockito.when(this.s3Adapter.getFilePathsFromFolder(pathToFolderWithSeparator)).thenReturn(new HashSet<>(List.of(pathToFile)));
         Assertions.assertDoesNotThrow(() -> this.folderHandlingService.deleteFolder(pathToFolder));
-        Mockito.verify(this.s3Repository, Mockito.times(1)).deleteFile(pathToFile);
+        Mockito.verify(this.s3Adapter, Mockito.times(1)).deleteFile(pathToFile);
     }
 
     @Test
