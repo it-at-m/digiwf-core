@@ -75,9 +75,6 @@ digiwf:
       - link-type: mucsdms
         url-template: "${MUCS_DMS_URL_TEMPLATE:https://eakte.muenchen.de/fsc/mx/{0}}"
         label-template: "${MUCS_DMS_LABEL:MUCS DMS {0}}"
-  s3:
-    client:
-      enable-security: false
 
 logging:
   level:
