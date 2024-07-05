@@ -14,9 +14,6 @@ allow_dependencies_licenses:
   - pkg:npm/yocto-queue
   # false positive: reported as "GPL-2.0-or-later" but is MIT
   - pkg:npm/load-script
-  # runs under BSD License or GNU General Public License (GPL) Version 2
-  # it@m is using BSD License (see also https://github.com/digitalbazaar/forge/blob/main/LICENSE)
-  - pkg:npm/node-forge
   # false positive: only used while build but not part of the software
   - pkg:maven/com.puppycrawl.tools/checkstyle
   # false positive: couldn't parse license but is MIT
