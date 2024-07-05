@@ -1,4 +1,4 @@
-comment_summary_in_pr: on-failure
+comment_summary_in_pr: always
 deny_licenses:
   - GPL-1.0-or-later
   - LGPL-2.0-or-later
