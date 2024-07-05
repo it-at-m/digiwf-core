@@ -1,9 +1,9 @@
-comment-summary-in-pr: on-failure
-deny-licenses:
+comment_summary_in_pr: on-failure
+deny_licenses:
   - GPL-1.0-or-later
   - LGPL-2.0-or-later
   - AGPL-1.0-or-later
-allow-dependencies-licenses:
+allow_dependencies_licenses:
   # false positive: reported as "GPL-3.0 AND MIT" but is MIT
   - pkg:npm/escape-string-regexp
   # false positive: reported as "GPL-3.0 AND MIT" but is MIT
