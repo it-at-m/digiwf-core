@@ -1,14 +1,19 @@
 package de.muenchen.oss.digiwf.s3.integration.client.repository;
 
+import de.muenchen.oss.digiwf.s3.integration.client.api.FileApiApi;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageClientErrorException;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageException;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageServerErrorException;
 import de.muenchen.oss.digiwf.s3.integration.client.model.FileSizeDto;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.presignedurl.PresignedUrlRepository;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.transfer.S3FileTransferRepository;
+import de.muenchen.oss.digiwf.s3.integration.client.service.ApiClientFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.RestClientException;
 import reactor.core.publisher.Mono;
 
 import java.io.InputStream;
@@ -21,6 +26,8 @@ public class DocumentStorageFileRepository {
     private final PresignedUrlRepository presignedUrlRepository;
 
     private final S3FileTransferRepository s3FileTransferRepository;
+
+    private final ApiClientFactory apiClientFactory;
 
     /**
      * Gets the file specified in the parameter from the document storage.
@@ -53,7 +60,7 @@ public class DocumentStorageFileRepository {
             throws DocumentStorageClientErrorException, DocumentStorageServerErrorException, DocumentStorageException {
         try {
             final FileApiApi fileApi = this.apiClientFactory.getFileApiForDocumentStorageUrl(documentStorageUrl);
-            return fileApi.getFileSize(pathToFile).mapNotNull(FileSizeDto::getSize);
+            return fileApi.getFileSize(pathToFile).mapNotNull(FileSizeDto::getFileSize);
         } catch (final HttpClientErrorException exception) {
             final String message = String.format("The request to get file size failed %s.", exception.getStatusCode());
             log.error(message);

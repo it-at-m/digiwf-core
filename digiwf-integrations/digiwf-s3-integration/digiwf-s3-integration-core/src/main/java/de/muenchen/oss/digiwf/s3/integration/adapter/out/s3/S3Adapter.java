@@ -115,6 +115,7 @@ public class S3Adapter implements S3OutPort {
      * @return a map where the keys are file paths and the values are the corresponding file sizes in bytes.
      * @throws FileSystemAccessException if the file sizes cannot be retrieved.
      */
+    @Override
     public Map<String, Long> getFileSizesFromFolder(final String folder) throws FileSystemAccessException {
         try {
             final ListObjectsArgs listObjectsArgs = ListObjectsArgs.builder()
@@ -129,7 +130,7 @@ public class S3Adapter implements S3OutPort {
             }
             return filePathsFromFolder;
         } catch (final MinioException | InvalidKeyException | NoSuchAlgorithmException | IllegalArgumentException |
-                IOException exception) {
+                       IOException exception) {
             final String message = String.format("Failed to extract file paths from folder %s.", folder);
             log.error(message, exception);
             throw new FileSystemAccessException(message, exception);
@@ -143,6 +144,7 @@ public class S3Adapter implements S3OutPort {
      * @return the size of the file in bytes.
      * @throws FileSystemAccessException if the file size cannot be retrieved.
      */
+    @Override
     public long getFileSize(final String pathToFile) throws FileSystemAccessException {
         try {
             return client.statObject(StatObjectArgs.builder()
@@ -150,8 +152,9 @@ public class S3Adapter implements S3OutPort {
                             .object(pathToFile)
                             .build())
                     .size();
-        } catch (ErrorResponseException | InsufficientDataException | InternalException | InvalidKeyException | InvalidResponseException | IOException |
-                NoSuchAlgorithmException | ServerException | XmlParserException exception) {
+        } catch (ErrorResponseException | InsufficientDataException | InternalException | InvalidKeyException |
+                 InvalidResponseException | IOException |
+                 NoSuchAlgorithmException | ServerException | XmlParserException exception) {
             final String message = String.format("Failed to request size of file %s.", pathToFile);
             log.error(message, exception);
             throw new FileSystemAccessException(message, exception);

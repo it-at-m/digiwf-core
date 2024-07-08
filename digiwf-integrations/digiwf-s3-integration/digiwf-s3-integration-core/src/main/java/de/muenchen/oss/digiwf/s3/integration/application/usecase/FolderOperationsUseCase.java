@@ -88,7 +88,7 @@ public class FolderOperationsUseCase implements FolderOperationsInPort {
     @Override
     public FileSizesInFolder getAllFileSizesInFolderRecursively(@NotNull final String pathToFolder) throws FileSystemAccessException {
         final String pathToFolderWithSeparatorAtTheEnd = addPathSeparatorToTheEnd(pathToFolder);
-        final Map<String, Long> mapFilePathsToSize = this.s3Repository.getFileSizesFromFolder(pathToFolderWithSeparatorAtTheEnd);
+        final Map<String, Long> mapFilePathsToSize = this.s3OutPort.getFileSizesFromFolder(pathToFolderWithSeparatorAtTheEnd);
         return new FileSizesInFolder(mapFilePathsToSize);
     }
 

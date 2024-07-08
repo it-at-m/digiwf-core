@@ -29,6 +29,6 @@ public class FileOperationsUseCase implements FileOperationsInPort {
      */
     @Override
     public FileSize getFileSize(String pathToFile) throws FileSystemAccessException {
-        return new FileSize(s3Repository.getFileSize(pathToFile));
+        return new FileSize(s3OutPort.getFileSize(pathToFile));
     }
 }

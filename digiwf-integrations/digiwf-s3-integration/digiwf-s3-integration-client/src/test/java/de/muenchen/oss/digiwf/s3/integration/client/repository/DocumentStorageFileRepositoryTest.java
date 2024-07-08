@@ -16,6 +16,9 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.RestClientException;
 import reactor.core.publisher.Mono;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -43,7 +46,7 @@ class DocumentStorageFileRepositoryTest {
 
     @BeforeEach
     public void beforeEach() {
-        this.documentStorageFileRepository = new DocumentStorageFileRepository(this.presignedUrlRepository, this.s3FileTransferRepository);
+        this.documentStorageFileRepository = new DocumentStorageFileRepository(this.presignedUrlRepository, this.s3FileTransferRepository, this.apiClientFactory);
         Mockito.reset(this.presignedUrlRepository, this.s3FileTransferRepository, this.fileApi, this.apiClientFactory);
     }
 
@@ -64,7 +67,7 @@ class DocumentStorageFileRepositoryTest {
     @Test
     void getFileSize() throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
         final FileSizeDto fileSizeDto = new FileSizeDto();
-        fileSizeDto.setSize(123L);
+        fileSizeDto.setFileSize(123L);
         final String pathToFile = "path/to/file";
 
         when(apiClientFactory.getFileApiForDocumentStorageUrl(anyString())).thenReturn(fileApi);

@@ -7,7 +7,6 @@ import de.muenchen.oss.digiwf.s3.integration.adapter.in.rest.mapper.FileDataMapp
 import de.muenchen.oss.digiwf.s3.integration.adapter.in.rest.mapper.FileSizeMapper;
 import de.muenchen.oss.digiwf.s3.integration.adapter.in.rest.mapper.PresignedUrlMapper;
 import de.muenchen.oss.digiwf.s3.integration.adapter.in.rest.validation.FolderInFilePath;
-import de.muenchen.oss.digiwf.s3.integration.application.port.in.FileExistenceException;
 import de.muenchen.oss.digiwf.s3.integration.application.port.in.FileOperationsInPort;
 import de.muenchen.oss.digiwf.s3.integration.application.port.in.FileOperationsPresignedUrlInPort;
 import de.muenchen.oss.digiwf.s3.integration.domain.exception.FileExistenceException;
@@ -47,7 +46,7 @@ public class FileController {
     @GetMapping
     @Operation(description = "Creates a presigned URL to fetch the file specified in the parameter from the S3 storage")
     public ResponseEntity<PresignedUrlDto> get(@RequestParam @NotEmpty @Size(max = FileData.LENGTH_PATH_TO_FILE) @FolderInFilePath final String pathToFile,
-            @RequestParam @NotNull @Min(FileData.MIN_EXPIRES_IN_MINUTES) final Integer expiresInMinutes) {
+                                               @RequestParam @NotNull @Min(FileData.MIN_EXPIRES_IN_MINUTES) final Integer expiresInMinutes) {
         try {
             log.info("Received a request for S3 presigned url to download a file");
             final PresignedUrl fileResponse = this.fileOperationsPresignedUrl.getFile(pathToFile, expiresInMinutes);
@@ -111,7 +110,7 @@ public class FileController {
     @DeleteMapping
     @Operation(description = "Creates a presigned URL to delete the file specified in the parameter from the S3 storage")
     public ResponseEntity<PresignedUrlDto> delete(@RequestParam @NotEmpty @Size(max = FileData.LENGTH_PATH_TO_FILE) @FolderInFilePath final String pathToFile,
-            @RequestParam @NotNull @Min(FileData.MIN_EXPIRES_IN_MINUTES) final Integer expiresInMinutes) {
+                                                  @RequestParam @NotNull @Min(FileData.MIN_EXPIRES_IN_MINUTES) final Integer expiresInMinutes) {
         try {
             log.info("Received a request for S3 presigned url to delete a file");
             final PresignedUrl presignedUrl = this.fileOperationsPresignedUrl.deleteFile(pathToFile, expiresInMinutes);
