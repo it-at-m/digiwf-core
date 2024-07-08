@@ -12,19 +12,18 @@ import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageExc
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageServerErrorException;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFileRepository;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFolderRepository;
-import de.muenchen.oss.digiwf.s3.integration.client.service.FileExtensionService;
+import de.muenchen.oss.digiwf.s3.integration.client.service.FileService;
 import de.muenchen.oss.digiwf.s3.integration.client.service.S3DomainProvider;
 import de.muenchen.oss.digiwf.s3.integration.client.service.S3StorageUrlProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.util.unit.DataSize;
 
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
@@ -34,6 +33,10 @@ class S3AdapterTest {
 
     private static final String DEFAULT_S3_URL = "defaultURL";
     private static final String DOMAIN_SPECIFIC_S3_URL = "domainSpecificURL";
+
+    private static final DataSize ALLOWED_FILE_SIZE = DataSize.ofMegabytes(100);
+    private static final DataSize ALLOWED_BATCH_SIZE = DataSize.ofMegabytes(110);
+    private static final long TOO_LARGE_FILE_SIZE = ALLOWED_FILE_SIZE.toBytes() + DataSize.ofMegabytes(1L).toBytes(); // 1 Mbyte over allowed
 
     private final DocumentStorageFileRepository documentStorageFileRepository = mock(DocumentStorageFileRepository.class);
 
@@ -47,14 +50,14 @@ class S3AdapterTest {
             "png", "image/png",
             "docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
 
-    private final FileExtensionService fileExtensionService = new FileExtensionService(supportedExtensions);
+    private final FileService fileService = new FileService(supportedExtensions, ALLOWED_FILE_SIZE, ALLOWED_BATCH_SIZE);
     private final String processDefinitionId = "processDefinition";
 
     private S3Adapter s3Adapter;
 
     @BeforeEach
     void setup() {
-        s3Adapter = new S3Adapter(documentStorageFileRepository, documentStorageFolderRepository, fileExtensionService, s3StorageUrlProvider);
+        s3Adapter = new S3Adapter(documentStorageFileRepository, documentStorageFolderRepository, fileService, s3StorageUrlProvider);
     }
 
     @Test
@@ -75,6 +78,7 @@ class S3AdapterTest {
 
         when(documentStorageFileRepository.getFile(fullPdfPath, 3, DEFAULT_S3_URL)).thenReturn(testPdf);
         when(documentStorageFileRepository.getFile(fullPngPath, 3, DEFAULT_S3_URL)).thenReturn(testPng);
+        when(documentStorageFileRepository.getFileSize(anyString(), anyString())).thenReturn(just(1_000_000L));
         when(processConfigApi.getProcessConfig(anyString())).thenThrow(new RuntimeException("Process Config does not exist"));
 
         final List<Content> contents = this.s3Adapter.loadFiles(filePaths, fileContext, processDefinitionId);
@@ -104,6 +108,7 @@ class S3AdapterTest {
 
         when(documentStorageFileRepository.getFile(fullPdfPath, 3, DOMAIN_SPECIFIC_S3_URL)).thenReturn(testPdf);
         when(documentStorageFileRepository.getFile(fullPngPath, 3, DOMAIN_SPECIFIC_S3_URL)).thenReturn(testPng);
+        when(documentStorageFileRepository.getFileSize(anyString(), anyString())).thenReturn(just(1_000_000L));
         when(processConfigApi.getProcessConfig(anyString())).thenReturn(ProcessConfigTO.builder()
                 .configs(List.of(ConfigEntryTO.builder()
                         .key("app_file_s3_sync_config")
@@ -145,6 +150,7 @@ class S3AdapterTest {
         when(documentStorageFileRepository.getFile(fullPdfPath, 3, DEFAULT_S3_URL)).thenReturn(testPdf);
         when(documentStorageFileRepository.getFile(fullPngPath, 3, DEFAULT_S3_URL)).thenReturn(testPng);
         when(documentStorageFileRepository.getFile(fullWordPath, 3, DEFAULT_S3_URL)).thenReturn(testWord);
+        when(documentStorageFolderRepository.getAllFileSizesInFolderRecursively(anyString(), anyString())).thenReturn(just(Map.of("", 1_000_000L)));
         when(processConfigApi.getProcessConfig(anyString())).thenThrow(new RuntimeException("Process Config does not exist"));
 
         final List<Content> contents = this.s3Adapter.loadFiles(paths, fileContext, processDefinitionId);
@@ -183,6 +189,7 @@ class S3AdapterTest {
         when(documentStorageFileRepository.getFile(fullPdfPath, 3, DOMAIN_SPECIFIC_S3_URL)).thenReturn(testPdf);
         when(documentStorageFileRepository.getFile(fullPngPath, 3, DOMAIN_SPECIFIC_S3_URL)).thenReturn(testPng);
         when(documentStorageFileRepository.getFile(fullWordPath, 3, DOMAIN_SPECIFIC_S3_URL)).thenReturn(testWord);
+        when(documentStorageFolderRepository.getAllFileSizesInFolderRecursively(anyString(), anyString())).thenReturn(just(Map.of("", 1_000_000L)));
         when(processConfigApi.getProcessConfig(anyString())).thenReturn(ProcessConfigTO.builder()
                 .configs(List.of(ConfigEntryTO.builder()
                         .key("app_file_s3_sync_config")
@@ -212,6 +219,7 @@ class S3AdapterTest {
 
         final List<String> filePaths = List.of(pdfPath);
 
+        when(documentStorageFileRepository.getFileSize(anyString(), anyString())).thenReturn(just(1_000_000L));
         when(documentStorageFileRepository.getFile(fullPdfPath, 3, DEFAULT_S3_URL)).thenThrow(
                 new DocumentStorageException("Some error", new RuntimeException("Some error")));
         when(processConfigApi.getProcessConfig(anyString())).thenThrow(new RuntimeException("Process Config does not exist"));
@@ -237,6 +245,7 @@ class S3AdapterTest {
 
         final List<String> filePaths = List.of(folderPath);
 
+        when(documentStorageFolderRepository.getAllFileSizesInFolderRecursively(anyString(), anyString())).thenReturn(just(Map.of("", 1_000_000L)));
         when(documentStorageFolderRepository.getAllFilesInFolderRecursively(fullFolderPath, DEFAULT_S3_URL)).thenThrow(
                 new DocumentStorageServerErrorException("Some error", new RuntimeException("Some error")));
         when(processConfigApi.getProcessConfig(anyString())).thenThrow(new RuntimeException("Process Config does not exist"));
@@ -265,19 +274,56 @@ class S3AdapterTest {
         final byte[] testHtml = new ClassPathResource(fullHtmlPath).getInputStream().readAllBytes();
 
         when(documentStorageFileRepository.getFile(fullHtmlPath, 3, DEFAULT_S3_URL)).thenReturn(testHtml);
+        when(documentStorageFileRepository.getFileSize(anyString(), anyString())).thenReturn(just(1_000_000L));
         when(processConfigApi.getProcessConfig(anyString())).thenThrow(new RuntimeException("Process Config does not exist"));
 
-        try {
-            this.s3Adapter.loadFiles(filePaths, fileContext, processDefinitionId);
-        } catch (BpmnError bpmnError) {
-            String expectedMessage = "The type of this file is not supported: " + fullHtmlPath;
-            String actualMessage = bpmnError.getErrorMessage();
+        String expectedMessage = "The type of this file is not supported: " + fullHtmlPath;
 
-            assertEquals(expectedMessage, actualMessage);
+        assertThatThrownBy(() -> s3Adapter.loadFiles(filePaths, fileContext, processDefinitionId))
+                .isInstanceOf(BpmnError.class)
+                .extracting("errorCode", "errorMessage")
+                .containsExactly("FILE_TYPE_NOT_SUPPORTED", expectedMessage);
+    }
 
-            assertEquals("FILE_TYPE_NOT_SUPPORTED", bpmnError.getErrorCode());
-        }
+    @Test
+    void testLoadFilesThrowsBpmnErrorDueToInvalidBatchSize() throws Exception {
+        String pathLargeFile = "path/to/largeFile";
+        String pathSmallFile = "path/to/smallFile";
+        List<String> filePaths = Arrays.asList(pathLargeFile, pathSmallFile);
+        String fileContext = "context";
+        String processDefinition = "processDef";
 
+        when(documentStorageFileRepository.getFileSize(eq(fileContext + "/" + pathLargeFile), anyString())).thenReturn(just(ALLOWED_FILE_SIZE.toBytes()));
+        when(documentStorageFileRepository.getFileSize(eq(fileContext + "/" + pathSmallFile), anyString())).thenReturn(
+                just(DataSize.ofMegabytes(20).toBytes()));
+
+        DataSize sum = DataSize.ofBytes(ALLOWED_FILE_SIZE.toBytes() + DataSize.ofMegabytes(20).toBytes());
+        String expectedMessage = String.format("Batch size of %d MB is too large. Allowed are %d MB.", sum.toMegabytes(), ALLOWED_BATCH_SIZE.toMegabytes());
+
+        assertThatThrownBy(() -> s3Adapter.loadFiles(filePaths, fileContext, processDefinition))
+                .isInstanceOf(BpmnError.class)
+                .extracting("errorCode", "errorMessage")
+                .containsExactly("BATCH_SIZE_ERROR", expectedMessage);
+    }
+
+    @Test
+    void testLoadFilesThrowsBpmnErrorDueToFileExceedingMaxSize() throws Exception {
+        String pathLargeFile = "path/to/largeFile";
+        String pathSmallFile = "path/to/smallFile";
+        List<String> filePaths = Arrays.asList(pathLargeFile, pathSmallFile);
+        String fileContext = "context";
+        String processDefinition = "processDef";
+
+        when(documentStorageFileRepository.getFileSize(eq(fileContext + "/" + pathLargeFile), anyString())).thenReturn(just(TOO_LARGE_FILE_SIZE));
+        when(documentStorageFileRepository.getFileSize(eq(fileContext + "/" + pathSmallFile), anyString())).thenReturn(just(10_240L));
+
+        String expectedMessage = String.format("The following files exceed the maximum size of %d MB:%n%s/%s: %d MB", ALLOWED_FILE_SIZE.toMegabytes(),
+                fileContext, pathLargeFile, DataSize.ofBytes(TOO_LARGE_FILE_SIZE).toMegabytes());
+
+        assertThatThrownBy(() -> s3Adapter.loadFiles(filePaths, fileContext, processDefinition))
+                .isInstanceOf(BpmnError.class)
+                .extracting("errorCode", "errorMessage")
+                .containsExactly("FILE_SIZE_ERROR", expectedMessage);
     }
 
     @Test
@@ -296,6 +342,5 @@ class S3AdapterTest {
 
         verify(documentStorageFileRepository, never()).saveFile(eq(fullPathWrong), any(), anyInt(), anyString());
         verify(documentStorageFileRepository, times(2)).saveFile(eq(fullPath), any(), anyInt(), anyString());
-
     }
 }

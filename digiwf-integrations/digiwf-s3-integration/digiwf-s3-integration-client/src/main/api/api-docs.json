@@ -163,6 +163,40 @@
         }
       }
     },
+    "/file/size": {
+      "get": {
+        "tags": [
+          "FileAPI"
+        ],
+        "description": "Returns size of file specified in the parameter",
+        "operationId": "getFileSize",
+        "parameters": [
+          {
+            "name": "pathToFile",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "maxLength": 1024,
+              "minLength": 0,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileSizeDto"
+                }
+              }
+            }
+          }
+        }
+      }
+
+    },
     "/folder": {
       "get": {
         "tags": [
@@ -212,6 +246,39 @@
         "responses": {
           "200": {
             "description": "OK"
+          }
+        }
+      }
+    },
+    "/folder/size": {
+      "get": {
+        "tags": [
+          "FolderAPI"
+        ],
+        "description": "Returns all file paths for the folder specified in the parameter",
+        "operationId": "getAllFileSizesInFolderRecursively",
+        "parameters": [
+          {
+            "name": "pathToFolder",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "maxLength": 1024,
+              "minLength": 0,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileSizesInFolderDto"
+                }
+              }
+            }
           }
         }
       }
@@ -266,6 +333,29 @@
           }
         },
         "description": "File paths"
+      },
+      "FileSizeDto": {
+        "type": "object",
+        "properties": {
+          "size": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "description": "File size in bytes"
+      },
+      "FileSizesInFolderDto": {
+        "type": "object",
+        "properties": {
+          "fileSizes": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        },
+        "description": "File paths to file sizes in bytes"
       }
     }
   }

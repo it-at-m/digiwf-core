@@ -14,7 +14,7 @@ import de.muenchen.oss.digiwf.email.integration.infrastructure.MonitoringService
 import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
 import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.transfer.S3FileTransferRepository;
-import de.muenchen.oss.digiwf.s3.integration.client.service.FileExtensionService;
+import de.muenchen.oss.digiwf.s3.integration.client.service.FileService;
 import io.micrometer.core.instrument.MeterRegistry;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -54,8 +54,8 @@ public class MailAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public LoadMailAttachmentOutPort getLoadMailAttachmentPort(final S3FileTransferRepository s3FileTransferRepository, final FileExtensionService fileExtensionService) {
-        return new S3Adapter(s3FileTransferRepository, fileExtensionService);
+    public LoadMailAttachmentOutPort getLoadMailAttachmentPort(final S3FileTransferRepository s3FileTransferRepository, final FileService fileService) {
+        return new S3Adapter(s3FileTransferRepository, fileService);
     }
 
     @Bean

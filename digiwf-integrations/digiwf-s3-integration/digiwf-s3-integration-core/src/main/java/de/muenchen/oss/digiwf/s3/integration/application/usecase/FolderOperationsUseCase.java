@@ -4,6 +4,7 @@ import de.muenchen.oss.digiwf.s3.integration.adapter.in.rest.validation.FolderIn
 import de.muenchen.oss.digiwf.s3.integration.application.port.in.FolderOperationsInPort;
 import de.muenchen.oss.digiwf.s3.integration.application.port.out.S3OutPort;
 import de.muenchen.oss.digiwf.s3.integration.domain.exception.FileSystemAccessException;
+import de.muenchen.oss.digiwf.s3.integration.domain.model.FileSizesInFolder;
 import de.muenchen.oss.digiwf.s3.integration.domain.model.FilesInFolder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +13,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Map;
 import java.util.Set;
 
 @Slf4j
@@ -74,6 +76,20 @@ public class FolderOperationsUseCase implements FolderOperationsInPort {
         final Set<String> filePathsInFolder = this.s3OutPort.getFilePathsFromFolder(pathToFolderWithSeparatorAtTheEnd);
         filesInFolder.setPathToFiles(filePathsInFolder);
         return filesInFolder;
+    }
+
+    /**
+     * Retrieves the sizes of all files within the specified folder and its subfolders recursively.
+     *
+     * @param pathToFolder the path to the folder whose file sizes are to be retrieved.
+     * @return a {@link FileSizesInFolder} object containing the sizes of all files within the folder and its subfolders.
+     * @throws FileSystemAccessException if the S3 storage cannot be accessed.
+     */
+    @Override
+    public FileSizesInFolder getAllFileSizesInFolderRecursively(@NotNull final String pathToFolder) throws FileSystemAccessException {
+        final String pathToFolderWithSeparatorAtTheEnd = addPathSeparatorToTheEnd(pathToFolder);
+        final Map<String, Long> mapFilePathsToSize = this.s3Repository.getFileSizesFromFolder(pathToFolderWithSeparatorAtTheEnd);
+        return new FileSizesInFolder(mapFilePathsToSize);
     }
 
 }

@@ -10,7 +10,7 @@ import de.muenchen.oss.digiwf.process.api.config.api.ProcessConfigApi;
 import de.muenchen.oss.digiwf.s3.integration.client.properties.SupportedFileExtensions;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFileRepository;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFolderRepository;
-import de.muenchen.oss.digiwf.s3.integration.client.service.FileExtensionService;
+import de.muenchen.oss.digiwf.s3.integration.client.service.FileService;
 import de.muenchen.oss.digiwf.s3.integration.client.service.S3DomainProvider;
 import de.muenchen.oss.digiwf.s3.integration.client.service.S3StorageUrlProvider;
 import de.muenchen.oss.digiwf.ticket.integration.adapter.in.streaming.TicketStreamingAdapter;
@@ -43,9 +43,9 @@ public class TicketIntegrationAutoConfiguration {
 
     @Bean
     public LoadFileOutPort loadFileOutPort(final DocumentStorageFileRepository documentStorageFileRepository,
-                                           final DocumentStorageFolderRepository documentStorageFolderRepository, final FileExtensionService fileExtensionService,
-                                           final S3StorageUrlProvider s3StorageUrlProvider) {
-        return new S3Adapter(documentStorageFileRepository, documentStorageFolderRepository, fileExtensionService, s3StorageUrlProvider);
+            final DocumentStorageFolderRepository documentStorageFolderRepository, final FileService fileService,
+            final S3StorageUrlProvider s3StorageUrlProvider) {
+        return new S3Adapter(documentStorageFileRepository, documentStorageFolderRepository, fileService, s3StorageUrlProvider);
     }
 
     @Bean
@@ -55,9 +55,7 @@ public class TicketIntegrationAutoConfiguration {
 
     @ConditionalOnMissingBean
     @Bean
-    public TicketStreamingAdapter ticketStreamingAdapter(final WriteArticleInPort writeArticleInPort,
-                                                         final ProcessApi processApi,
-                                                         final ErrorApi errorApi) {
+    public TicketStreamingAdapter ticketStreamingAdapter(final WriteArticleInPort writeArticleInPort, final ProcessApi processApi, final ErrorApi errorApi) {
         return new TicketStreamingAdapter(writeArticleInPort, processApi, errorApi);
     }
 

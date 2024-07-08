@@ -8,7 +8,7 @@ import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageCli
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageException;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageServerErrorException;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.transfer.S3FileTransferRepository;
-import de.muenchen.oss.digiwf.s3.integration.client.service.FileExtensionService;
+import de.muenchen.oss.digiwf.s3.integration.client.service.FileService;
 import jakarta.mail.util.ByteArrayDataSource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,14 +19,14 @@ import org.apache.commons.lang3.StringUtils;
 public class S3Adapter implements LoadMailAttachmentOutPort {
 
     private final S3FileTransferRepository s3FileTransferRepository;
-    private final FileExtensionService fileExtensionService;
+    private final FileService fileService;
 
     @Override
     public FileAttachment loadAttachment(final PresignedUrl attachment) throws BpmnError {
         try {
             final String fileName = StringUtils.substringAfterLast(attachment.getPath(), "/");
             final byte[] bytes = this.s3FileTransferRepository.getFile(attachment.getUrl());
-            final String type = fileExtensionService.detectFileType(bytes);
+            final String type = fileService.detectFileType(bytes);
             // Note: Create the ByteArrayDataSource with the bytes and the type to avoid auto type detection by ByteArrayDataSource
             // https://github.com/it-at-m/digiwf-core/issues/616
             final ByteArrayDataSource file = new ByteArrayDataSource(bytes, type);
