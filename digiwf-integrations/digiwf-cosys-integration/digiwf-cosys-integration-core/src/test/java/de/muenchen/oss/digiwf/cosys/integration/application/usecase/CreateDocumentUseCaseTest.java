@@ -32,7 +32,7 @@ class CreateDocumentUseCaseTest {
 
     private final DocumentStorageUrl documentStorageUrl = new DocumentStorageUrl("URL", "Path", "POST");
     private final List<DocumentStorageUrl> listOfURls = List.of(documentStorageUrl);
-    private final GenerateDocument generateDocument = new GenerateDocument("Client", "Role", "guid", new ObjectMapper().readTree("{\"key1\":\"value\"}"), listOfURls);
+    private final GenerateDocument generateDocument = new GenerateDocument("Client", "Role", "guid", new ObjectMapper().readTree("{\"key1\":\"value\"}"));
 
     CreateDocumentUseCaseTest() throws JsonProcessingException {
     }
@@ -42,13 +42,12 @@ class CreateDocumentUseCaseTest {
         when(generateDocumentOutPort.generateCosysDocument(any())).thenReturn(Mono.just("Document".getBytes()));
 
         final CreateDocumentUseCase useCase = new CreateDocumentUseCase(saveFileToStorageOutPort, generateDocumentOutPort);
-        useCase.createDocument(generateDocument);
+        useCase.createDocument(generateDocument, listOfURls);
 
         verify(generateDocumentOutPort).generateCosysDocument(generateDocument);
         verifyNoMoreInteractions(generateDocumentOutPort);
 
-        verify(saveFileToStorageOutPort).saveDocumentInStorage(generateDocument, "Document".getBytes());
+        verify(saveFileToStorageOutPort).saveDocumentInStorage(listOfURls, "Document".getBytes());
         verifyNoMoreInteractions(saveFileToStorageOutPort);
     }
-
 }

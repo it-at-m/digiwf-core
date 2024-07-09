@@ -2,7 +2,6 @@ package de.muenchen.oss.digiwf.cosys.integration.adapter.in.streaming;
 
 import de.muenchen.oss.digiwf.cosys.integration.application.port.in.CreateDocumentInPort;
 import de.muenchen.oss.digiwf.cosys.integration.domain.model.DocumentStorageUrl;
-import de.muenchen.oss.digiwf.cosys.integration.domain.model.GenerateDocument;
 import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
 import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
@@ -31,16 +30,16 @@ class StreamingAdapterTest {
     private final DocumentStorageUrl documentStorageUrl = new DocumentStorageUrl("URL", "Path", "POST");
     private final MessageHeaders messageHeaders = new MessageHeaders(Map.of(DIGIWF_PROCESS_INSTANCE_ID, this.processInstanceId, DIGIWF_INTEGRATION_NAME, "integrationName", TYPE, "type"));
     private final List<DocumentStorageUrl> listOfURls = List.of(documentStorageUrl);
-    private final GenerateDocument generateDocument = new GenerateDocument("Client", "Role", "guid", null, listOfURls);
-    Message<GenerateDocument> message;
+    private final GenerateDocumentPresignedUrlsDTO generateDocument = new GenerateDocumentPresignedUrlsDTO("Client", "Role", "guid", null, listOfURls);
+    Message<GenerateDocumentPresignedUrlsDTO> message;
     private StreamingAdapter streamingAdapter;
 
     @BeforeEach
     void setup() {
         this.streamingAdapter = new StreamingAdapter(createDocumentMock, processApiMock, errorApiMock);
-        this.message = new Message<GenerateDocument>() {
+        this.message = new Message<>() {
             @Override
-            public GenerateDocument getPayload() {
+            public GenerateDocumentPresignedUrlsDTO getPayload() {
                 return generateDocument;
             }
 
@@ -54,13 +53,13 @@ class StreamingAdapterTest {
     @Test
     void cosysIntegrationCreateDocumentSuccessfully() {
         streamingAdapter.createCosysDocument().accept(this.message);
-        verify(createDocumentMock).createDocument(generateDocument);
+        verify(createDocumentMock).createDocument(generateDocument, generateDocument.getDocumentStorageUrls());
         verifyNoMoreInteractions(createDocumentMock);
     }
 
     @Test
     void cosysIntegrationHandlesValidationException() {
-        doThrow(new ValidationException("ValidationException")).when(createDocumentMock).createDocument(any());
+        doThrow(new ValidationException("ValidationException")).when(createDocumentMock).createDocument(any(), any());
         streamingAdapter.createCosysDocument().accept(this.message);
         final ArgumentCaptor<Map> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
         verify(errorApiMock).handleBpmnError(messageHeaderArgumentCaptor.capture(), any(BpmnError.class));
@@ -70,7 +69,7 @@ class StreamingAdapterTest {
 
     @Test
     void cosysIntegrationHandlesBpmnError() {
-        doThrow(new BpmnError("S3_FILE_SAVE_ERROR", "BpmnErrorCode")).when(createDocumentMock).createDocument(any());
+        doThrow(new BpmnError("S3_FILE_SAVE_ERROR", "BpmnErrorCode")).when(createDocumentMock).createDocument(any(), any());
         streamingAdapter.createCosysDocument().accept(this.message);
         final ArgumentCaptor<Map> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
         verify(errorApiMock).handleBpmnError(messageHeaderArgumentCaptor.capture(), any(BpmnError.class));
@@ -80,7 +79,7 @@ class StreamingAdapterTest {
 
     @Test
     void cosysIntegrationIncidentError() {
-        doThrow(new IncidentError("IncidentError")).when(createDocumentMock).createDocument(any());
+        doThrow(new IncidentError("IncidentError")).when(createDocumentMock).createDocument(any(), any());
         streamingAdapter.createCosysDocument().accept(this.message);
         final ArgumentCaptor<Map> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
         verify(errorApiMock).handleIncident(messageHeaderArgumentCaptor.capture(), any(IncidentError.class));

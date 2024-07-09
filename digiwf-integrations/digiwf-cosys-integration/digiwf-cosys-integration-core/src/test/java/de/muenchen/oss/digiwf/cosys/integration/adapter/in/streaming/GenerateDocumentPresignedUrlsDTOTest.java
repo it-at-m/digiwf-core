@@ -1,8 +1,10 @@
-package de.muenchen.oss.digiwf.cosys.integration.domain.model;
+package de.muenchen.oss.digiwf.cosys.integration.adapter.in.streaming;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import de.muenchen.oss.digiwf.cosys.integration.domain.model.DocumentStorageUrl;
+import de.muenchen.oss.digiwf.cosys.integration.domain.model.GenerateDocument;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
@@ -20,7 +22,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * @author ext.dl.moesle
  */
-public class GenerateDocumentTest {
+public class GenerateDocumentPresignedUrlsDTOTest {
 
     private final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
@@ -32,13 +34,12 @@ public class GenerateDocumentTest {
                     .action(action)
                     .path("/path/to/file")
                     .build();
-            final GenerateDocument validDocument = GenerateDocument.builder()
-                    .client("client")
-                    .role("role")
-                    .guid("guid")
-                    .variables(jsonNode())
-                    .documentStorageUrls(List.of(validDocumentStorageUrl))
-                    .build();
+            final GenerateDocumentPresignedUrlsDTO validDocument = new GenerateDocumentPresignedUrlsDTO(
+                    "client",
+                    "role",
+                    "guid",
+                    jsonNode(),
+                    List.of(validDocumentStorageUrl));
             final Set<ConstraintViolation<GenerateDocument>> v = this.validator.validate(validDocument);
             Assertions.assertTrue(v.isEmpty());
         });
@@ -57,15 +58,15 @@ public class GenerateDocumentTest {
     @Test
     void testGenerateDocumentValidationFailsForNestedDocumentStorageUrls() {
         Set<ConstraintViolation<GenerateDocument>> violations;
-        final GenerateDocument.GenerateDocumentBuilder documentBuilder = GenerateDocument.builder()
-                .client("client")
-                .role("role")
-                .guid("guid")
-                .variables(jsonNode());
 
         // documentStorageUrls are missing
         violations = this.validator.validate(
-                documentBuilder.documentStorageUrls(new ArrayList<>()).build()
+                new GenerateDocumentPresignedUrlsDTO(
+                        "client",
+                        "role",
+                        "guid",
+                        jsonNode(),
+                        new ArrayList<>())
         );
         Assertions.assertEquals(1, violations.size());
 
@@ -76,7 +77,12 @@ public class GenerateDocumentTest {
                 .path("/path/to/file")
                 .build();
         violations = this.validator.validate(
-                documentBuilder.documentStorageUrls(List.of(documentStorageUrl, documentStorageUrl)).build()
+                new GenerateDocumentPresignedUrlsDTO(
+                        "client",
+                        "role",
+                        "guid",
+                        jsonNode(),
+                        List.of(documentStorageUrl, documentStorageUrl))
         );
         Assertions.assertEquals(2, violations.size());
     }
