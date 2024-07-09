@@ -57,6 +57,7 @@ public class S3Adapter implements SaveFileToStorageOutPort {
     ) {
         val fullFilePath = String.format("%s/%s", fileContext, filePath).replace("//", "/");
         try {
+            validateFileSize(data);
             documentStorageFileRepository.saveFile(fullFilePath, data, 1, null);
         } catch (DocumentStorageException | DocumentStorageClientErrorException |
                  DocumentStorageServerErrorException e) {

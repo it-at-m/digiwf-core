@@ -30,17 +30,30 @@ class StreamingAdapterTest {
     private final DocumentStorageUrl documentStorageUrl = new DocumentStorageUrl("URL", "Path", "POST");
     private final MessageHeaders messageHeaders = new MessageHeaders(Map.of(DIGIWF_PROCESS_INSTANCE_ID, this.processInstanceId, DIGIWF_INTEGRATION_NAME, "integrationName", TYPE, "type"));
     private final List<DocumentStorageUrl> listOfURls = List.of(documentStorageUrl);
-    private final GenerateDocumentPresignedUrlsDTO generateDocument = new GenerateDocumentPresignedUrlsDTO("Client", "Role", "guid", null, listOfURls);
-    Message<GenerateDocumentPresignedUrlsDTO> message;
+    private final GenerateDocumentPresignedUrlsDTO generateDocumentPresignedUrlsDTO = new GenerateDocumentPresignedUrlsDTO("Client", "Role", "guid", null, listOfURls);
+    private final GenerateDocumentDTO generateDocumentDTO = new GenerateDocumentDTO("Client", "Role", "guid", null, "fileContext", "filePath.txt");
+    Message<GenerateDocumentPresignedUrlsDTO> messagePresignedUrls;
+    Message<GenerateDocumentDTO> message;
     private StreamingAdapter streamingAdapter;
 
     @BeforeEach
     void setup() {
         this.streamingAdapter = new StreamingAdapter(createDocumentMock, processApiMock, errorApiMock);
-        this.message = new Message<>() {
+        this.messagePresignedUrls = new Message<>() {
             @Override
             public GenerateDocumentPresignedUrlsDTO getPayload() {
-                return generateDocument;
+                return generateDocumentPresignedUrlsDTO;
+            }
+
+            @Override
+            public MessageHeaders getHeaders() {
+                return messageHeaders;
+            }
+        };
+        this.message = new Message<>() {
+            @Override
+            public GenerateDocumentDTO getPayload() {
+                return generateDocumentDTO;
             }
 
             @Override
@@ -52,39 +65,61 @@ class StreamingAdapterTest {
 
     @Test
     void cosysIntegrationCreateDocumentSuccessfully() {
-        streamingAdapter.createCosysDocument().accept(this.message);
-        verify(createDocumentMock).createDocument(generateDocument, generateDocument.getDocumentStorageUrls());
+        // deprecated
+        streamingAdapter.createCosysDocument().accept(this.messagePresignedUrls);
+        verify(createDocumentMock).createDocument(generateDocumentPresignedUrlsDTO, generateDocumentPresignedUrlsDTO.getDocumentStorageUrls());
+        // v2
+        streamingAdapter.createCosysDocumentV2().accept(this.message);
+        verify(createDocumentMock).createDocument(generateDocumentDTO, generateDocumentDTO.getFileContext(), generateDocumentDTO.getFilePath());
         verifyNoMoreInteractions(createDocumentMock);
     }
 
     @Test
     void cosysIntegrationHandlesValidationException() {
         doThrow(new ValidationException("ValidationException")).when(createDocumentMock).createDocument(any(), any());
-        streamingAdapter.createCosysDocument().accept(this.message);
-        final ArgumentCaptor<Map> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
+        // deprecated
+        streamingAdapter.createCosysDocument().accept(this.messagePresignedUrls);
+        ArgumentCaptor<Map> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
         verify(errorApiMock).handleBpmnError(messageHeaderArgumentCaptor.capture(), any(BpmnError.class));
-        verifyNoMoreInteractions(errorApiMock);
         assertTrue(messageHeaderArgumentCaptor.getValue().containsKey(DIGIWF_PROCESS_INSTANCE_ID));
+        // v2
+        streamingAdapter.createCosysDocumentV2().accept(this.message);
+        messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
+        verify(errorApiMock).handleBpmnError(messageHeaderArgumentCaptor.capture(), any(BpmnError.class));
+        assertTrue(messageHeaderArgumentCaptor.getValue().containsKey(DIGIWF_PROCESS_INSTANCE_ID));
+        verifyNoMoreInteractions(errorApiMock);
     }
 
     @Test
     void cosysIntegrationHandlesBpmnError() {
         doThrow(new BpmnError("S3_FILE_SAVE_ERROR", "BpmnErrorCode")).when(createDocumentMock).createDocument(any(), any());
-        streamingAdapter.createCosysDocument().accept(this.message);
-        final ArgumentCaptor<Map> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
+        // deprecated
+        streamingAdapter.createCosysDocument().accept(this.messagePresignedUrls);
+        ArgumentCaptor<Map> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
         verify(errorApiMock).handleBpmnError(messageHeaderArgumentCaptor.capture(), any(BpmnError.class));
-        verifyNoMoreInteractions(errorApiMock);
         assertTrue(messageHeaderArgumentCaptor.getValue().containsKey(DIGIWF_PROCESS_INSTANCE_ID));
+        // v2
+        streamingAdapter.createCosysDocumentV2().accept(this.message);
+        messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
+        verify(errorApiMock).handleBpmnError(messageHeaderArgumentCaptor.capture(), any(BpmnError.class));
+        assertTrue(messageHeaderArgumentCaptor.getValue().containsKey(DIGIWF_PROCESS_INSTANCE_ID));
+        verifyNoMoreInteractions(errorApiMock);
     }
 
     @Test
     void cosysIntegrationIncidentError() {
         doThrow(new IncidentError("IncidentError")).when(createDocumentMock).createDocument(any(), any());
-        streamingAdapter.createCosysDocument().accept(this.message);
-        final ArgumentCaptor<Map> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
+        // deprecated
+        streamingAdapter.createCosysDocument().accept(this.messagePresignedUrls);
+        ArgumentCaptor<Map> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
         verify(errorApiMock).handleIncident(messageHeaderArgumentCaptor.capture(), any(IncidentError.class));
-        verifyNoMoreInteractions(errorApiMock);
         assertTrue(messageHeaderArgumentCaptor.getValue().containsKey(DIGIWF_PROCESS_INSTANCE_ID));
+        // v2
+        streamingAdapter.createCosysDocumentV2().accept(this.message);
+        messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
+        verify(errorApiMock).handleIncident(messageHeaderArgumentCaptor.capture(), any(IncidentError.class));
+        assertTrue(messageHeaderArgumentCaptor.getValue().containsKey(DIGIWF_PROCESS_INSTANCE_ID));
+        verifyNoMoreInteractions(errorApiMock);
     }
 
 }

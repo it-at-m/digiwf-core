@@ -38,7 +38,7 @@ class CreateDocumentUseCaseTest {
     }
 
     @Test
-    void createDocument() {
+    void createDocumentPresignedUrls() {
         when(generateDocumentOutPort.generateCosysDocument(any())).thenReturn(Mono.just("Document".getBytes()));
 
         final CreateDocumentUseCase useCase = new CreateDocumentUseCase(saveFileToStorageOutPort, generateDocumentOutPort);
@@ -48,6 +48,20 @@ class CreateDocumentUseCaseTest {
         verifyNoMoreInteractions(generateDocumentOutPort);
 
         verify(saveFileToStorageOutPort).saveDocumentInStorage(listOfURls, "Document".getBytes());
+        verifyNoMoreInteractions(saveFileToStorageOutPort);
+    }
+
+    @Test
+    void createDocument() {
+        when(generateDocumentOutPort.generateCosysDocument(any())).thenReturn(Mono.just("Document".getBytes()));
+
+        final CreateDocumentUseCase useCase = new CreateDocumentUseCase(saveFileToStorageOutPort, generateDocumentOutPort);
+        useCase.createDocument(generateDocument, "fileContext", "path.file");
+
+        verify(generateDocumentOutPort).generateCosysDocument(generateDocument);
+        verifyNoMoreInteractions(generateDocumentOutPort);
+
+        verify(saveFileToStorageOutPort).saveDocumentInStorage("fileContext", "path.file", "Document".getBytes());
         verifyNoMoreInteractions(saveFileToStorageOutPort);
     }
 }
