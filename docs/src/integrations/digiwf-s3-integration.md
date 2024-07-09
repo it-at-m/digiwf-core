@@ -144,15 +144,13 @@ Zusätzlich zu den allgemeinen Konfigurationen für DigiWF Integrationen, die un
 [Eigene Integration erstellen](/integrations/guides/custom-integration-service.html#anwendung-konfigurieren) beschrieben
 sind, können Sie die folgenden Konfigurationen für die DigiWF S3 Integration verwenden:
 
-| Eigenschaft                                                  | Bedeutung                                                                                              |
-|--------------------------------------------------------------|--------------------------------------------------------------------------------------------------------|
-| `io.muenchendigital.digiwf.s3.bucketName`                    | Name des S3 Buckets                                                                                    |
-| `io.muenchendigital.digiwf.s3.secretKey`                     | Secret für den Zugriff auf den Bucket                                                                  |
-| `io.muenchendigital.digiwf.s3.accessKey`                     | Access Key für den Zugriff auf den Bucket                                                              | 
-| `io.muenchendigital.digiwf.s3.url`                           | URL des S3 Servers                                                                                     |
-| `io.muenchendigital.digiwf.s3.initialConnectionTest`         | Optionale Eigenschaft ('true', 'false') um den Verbindungstest zu S3 während des Starts durchzuführen. |
-| `io.muenchendigital.digiwf.s3.cronjob.cleanup.expired-files` | Cron Ausdruck um die abgelaufende Dateien abzuräumen (z.B. `0 15 10 15 * ?`)                           |
-| `io.muenchendigital.digiwf.s3.cronjob.cleanup.unused-files`  | Cron Ausdruck um die ungenutze Dateien abzuräumen (z.B. `0 15 10 16 * ?`)                              |
+| Eigenschaft                                          | Bedeutung                                                                                              |
+|------------------------------------------------------|--------------------------------------------------------------------------------------------------------|
+| `io.muenchendigital.digiwf.s3.bucketName`            | Name des S3 Buckets                                                                                    |
+| `io.muenchendigital.digiwf.s3.secretKey`             | Secret für den Zugriff auf den Bucket                                                                  |
+| `io.muenchendigital.digiwf.s3.accessKey`             | Access Key für den Zugriff auf den Bucket                                                              | 
+| `io.muenchendigital.digiwf.s3.url`                   | URL des S3 Servers                                                                                     |
+| `io.muenchendigital.digiwf.s3.initialConnectionTest` | Optionale Eigenschaft ('true', 'false') um den Verbindungstest zu S3 während des Starts durchzuführen. |
 
 ### S3 proxy
 

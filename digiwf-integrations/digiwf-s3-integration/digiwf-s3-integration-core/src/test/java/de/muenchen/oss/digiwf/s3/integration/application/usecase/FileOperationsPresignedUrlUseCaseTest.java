@@ -1,11 +1,9 @@
-package de.muenchen.oss.digiwf.s3.integration.application;
+package de.muenchen.oss.digiwf.s3.integration.application.usecase;
 
-import de.muenchen.oss.digiwf.s3.integration.adapter.out.persistence.File;
-import de.muenchen.oss.digiwf.s3.integration.adapter.out.persistence.FileRepository;
-import de.muenchen.oss.digiwf.s3.integration.adapter.out.s3.S3Repository;
-import de.muenchen.oss.digiwf.s3.integration.application.port.in.FileExistenceException;
+import de.muenchen.oss.digiwf.s3.integration.adapter.out.s3.S3Adapter;
 import de.muenchen.oss.digiwf.s3.integration.application.port.in.FileOperationsPresignedUrlInPort;
-import de.muenchen.oss.digiwf.s3.integration.application.port.in.FileSystemAccessException;
+import de.muenchen.oss.digiwf.s3.integration.domain.exception.FileExistenceException;
+import de.muenchen.oss.digiwf.s3.integration.domain.exception.FileSystemAccessException;
 import de.muenchen.oss.digiwf.s3.integration.domain.model.FileData;
 import de.muenchen.oss.digiwf.s3.integration.domain.model.PresignedUrl;
 import io.minio.http.Method;
@@ -19,10 +17,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 
-import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -32,18 +28,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 class FileOperationsPresignedUrlUseCaseTest {
 
     @Mock
-    private S3Repository s3Repository;
-
-    @Mock
-    private FileRepository fileRepository;
+    private S3Adapter s3Adapter;
 
     private FileOperationsPresignedUrlInPort fileOperations;
 
     @BeforeEach
     public void beforeEach() {
-        this.fileOperations = new FileOperationsPresignedUrlUseCase(this.s3Repository, this.fileRepository);
-        Mockito.reset(this.fileRepository);
-        Mockito.reset(this.s3Repository);
+        this.fileOperations = new FileOperationsPresignedUrlUseCase(this.s3Adapter);
+        Mockito.reset(this.s3Adapter);
     }
 
     @Test
@@ -56,7 +48,7 @@ class FileOperationsPresignedUrlUseCaseTest {
 
         actions.forEach(action -> {
             try {
-                Mockito.when(this.s3Repository.getPresignedUrl(pathToFile, action, expiresInMinutes)).thenReturn(examplePresignedUrl);
+                Mockito.when(this.s3Adapter.getPresignedUrl(pathToFile, action, expiresInMinutes)).thenReturn(examplePresignedUrl);
 
                 final PresignedUrl presignedUrl = fileOperations.getPresignedUrl(pathToFile, action, expiresInMinutes);
 
@@ -81,9 +73,9 @@ class FileOperationsPresignedUrlUseCaseTest {
         // GET, PUT, DELETE
         actions.forEach(action -> {
             try {
-                Mockito.when(this.s3Repository.fileExists(pathToFile)).thenReturn(true);
-                Mockito.when(this.s3Repository.getFilePathsFromFolder(pathToFile)).thenReturn(Set.of(pathToFile));
-                Mockito.when(this.s3Repository.getPresignedUrl(pathToFile, action, expiresInMinutes)).thenReturn(examplePresignedUrl);
+                Mockito.when(this.s3Adapter.fileExists(pathToFile)).thenReturn(true);
+                Mockito.when(this.s3Adapter.getFilePathsFromFolder(pathToFile)).thenReturn(Set.of(pathToFile));
+                Mockito.when(this.s3Adapter.getPresignedUrl(pathToFile, action, expiresInMinutes)).thenReturn(examplePresignedUrl);
 
                 final List<PresignedUrl> presignedUrls = this.fileOperations.getPresignedUrls(List.of(pathToFile), action, expiresInMinutes);
 
@@ -101,7 +93,7 @@ class FileOperationsPresignedUrlUseCaseTest {
 
         // POST
         // special case POST is converted to PUT
-        Mockito.when(this.s3Repository.getPresignedUrl(pathToFile, Method.PUT, expiresInMinutes)).thenReturn(examplePresignedUrl);
+        Mockito.when(this.s3Adapter.getPresignedUrl(pathToFile, Method.PUT, expiresInMinutes)).thenReturn(examplePresignedUrl);
 
         final List<PresignedUrl> presignedUrls = this.fileOperations.getPresignedUrls(List.of(pathToFile), Method.POST, expiresInMinutes);
 
@@ -125,9 +117,9 @@ class FileOperationsPresignedUrlUseCaseTest {
         // GET, PUT, DELETE
         actions.forEach(action -> {
             try {
-                Mockito.when(this.s3Repository.getFilePathsFromFolder(pathToDirectory)).thenReturn(files);
+                Mockito.when(this.s3Adapter.getFilePathsFromFolder(pathToDirectory)).thenReturn(files);
                 for (final String file : files) {
-                    Mockito.when(this.s3Repository.getPresignedUrl(file, action, expiresInMinutes)).thenReturn(examplePresignedUrl);
+                    Mockito.when(this.s3Adapter.getPresignedUrl(file, action, expiresInMinutes)).thenReturn(examplePresignedUrl);
                 }
 
                 final List<PresignedUrl> presignedUrls = this.fileOperations.getPresignedUrls(List.of(pathToDirectory), action, expiresInMinutes);
@@ -146,7 +138,7 @@ class FileOperationsPresignedUrlUseCaseTest {
 
         // POST
         // special case POST is converted to PUT
-        Mockito.when(this.s3Repository.getPresignedUrl(pathToDirectory, Method.PUT, expiresInMinutes)).thenReturn(examplePresignedUrl);
+        Mockito.when(this.s3Adapter.getPresignedUrl(pathToDirectory, Method.PUT, expiresInMinutes)).thenReturn(examplePresignedUrl);
 
         final List<PresignedUrl> presignedUrls = this.fileOperations.getPresignedUrls(List.of(pathToDirectory), Method.POST, expiresInMinutes);
 
@@ -170,8 +162,8 @@ class FileOperationsPresignedUrlUseCaseTest {
         actions.forEach(action -> {
             try {
                 for (String file : pathToFiles) {
-                    Mockito.when(this.s3Repository.getFilePathsFromFolder(file)).thenReturn(Set.of(file));
-                    Mockito.when(this.s3Repository.getPresignedUrl(file, action, expiresInMinutes)).thenReturn(examplePresignedUrl);
+                    Mockito.when(this.s3Adapter.getFilePathsFromFolder(file)).thenReturn(Set.of(file));
+                    Mockito.when(this.s3Adapter.getPresignedUrl(file, action, expiresInMinutes)).thenReturn(examplePresignedUrl);
                 }
 
                 final List<PresignedUrl> presignedUrls = this.fileOperations.getPresignedUrls(pathToFiles, action, expiresInMinutes);
@@ -190,7 +182,7 @@ class FileOperationsPresignedUrlUseCaseTest {
         // POST
         // special case POST is converted to PUT
         for (String file : pathToFiles) {
-            Mockito.when(this.s3Repository.getPresignedUrl(file, Method.PUT, expiresInMinutes)).thenReturn(examplePresignedUrl);
+            Mockito.when(this.s3Adapter.getPresignedUrl(file, Method.PUT, expiresInMinutes)).thenReturn(examplePresignedUrl);
         }
 
         final List<PresignedUrl> presignedUrls = this.fileOperations.getPresignedUrls(pathToFiles, Method.POST, expiresInMinutes);
@@ -208,7 +200,7 @@ class FileOperationsPresignedUrlUseCaseTest {
         final String pathToFile = "folder/test.txt";
         final String pathToFolder = "folder";
         final int expiresInMinutes = 5;
-        Mockito.when(this.s3Repository.getFilePathsFromFolder(pathToFolder)).thenReturn(new HashSet<>());
+        Mockito.when(this.s3Adapter.getFilePathsFromFolder(pathToFolder)).thenReturn(new HashSet<>());
         Assertions.assertThrows(FileExistenceException.class, () -> this.fileOperations.getFile(pathToFile, expiresInMinutes));
     }
 
@@ -219,9 +211,9 @@ class FileOperationsPresignedUrlUseCaseTest {
         final int expiresInMinutes = 5;
         final String presignedUrl = "THE_PRESIGNED_URL";
 
-        Mockito.when(this.s3Repository.fileExists(pathToFile)).thenReturn(true);
-        Mockito.when(this.s3Repository.getFilePathsFromFolder(pathToFolder)).thenReturn(new HashSet<>(List.of(pathToFile)));
-        Mockito.when(this.s3Repository.getPresignedUrl(pathToFile, Method.GET, expiresInMinutes)).thenReturn(presignedUrl);
+        Mockito.when(this.s3Adapter.fileExists(pathToFile)).thenReturn(true);
+        Mockito.when(this.s3Adapter.getFilePathsFromFolder(pathToFolder)).thenReturn(new HashSet<>(List.of(pathToFile)));
+        Mockito.when(this.s3Adapter.getPresignedUrl(pathToFile, Method.GET, expiresInMinutes)).thenReturn(presignedUrl);
 
         final PresignedUrl result = this.fileOperations.getFile(pathToFile, expiresInMinutes);
 
@@ -236,12 +228,11 @@ class FileOperationsPresignedUrlUseCaseTest {
         final String pathToFolder = "folder";
 
         final FileData fileData = new FileData();
-        fileData.setEndOfLife(LocalDate.of(2022, 1, 1));
         fileData.setPathToFile(pathToFile);
         fileData.setExpiresInMinutes(5);
 
-        Mockito.when(this.s3Repository.fileExists(pathToFile)).thenReturn(true);
-        Mockito.when(this.s3Repository.getFilePathsFromFolder(pathToFolder)).thenReturn(new HashSet<>(List.of(pathToFile)));
+        Mockito.when(this.s3Adapter.fileExists(pathToFile)).thenReturn(true);
+        Mockito.when(this.s3Adapter.getFilePathsFromFolder(pathToFolder)).thenReturn(new HashSet<>(List.of(pathToFile)));
         Assertions.assertThrows(FileExistenceException.class, () -> this.fileOperations.saveFile(fileData));
         // happy path is tested in updateFile
     }
@@ -251,74 +242,22 @@ class FileOperationsPresignedUrlUseCaseTest {
         final String pathToFile = "folder/test.txt";
 
         final FileData fileData = new FileData();
-        fileData.setEndOfLife(LocalDate.of(2022, 1, 1));
         fileData.setPathToFile(pathToFile);
         fileData.setExpiresInMinutes(5);
 
         // File not in Database
-        Mockito.when(this.fileRepository.findByPathToFile(pathToFile)).thenReturn(Optional.empty());
         this.fileOperations.updateFile(fileData);
-        final var fileToSave1 = new File();
-        fileToSave1.setPathToFile(pathToFile);
-        fileToSave1.setEndOfLife(fileData.getEndOfLife());
-        Mockito.verify(this.fileRepository, Mockito.times(1)).save(fileToSave1);
-        Mockito.verify(this.s3Repository, Mockito.times(1)).getPresignedUrl(pathToFile, Method.PUT, fileData.getExpiresInMinutes());
+        Mockito.verify(this.s3Adapter, Mockito.times(1)).getPresignedUrl(pathToFile, Method.PUT, fileData.getExpiresInMinutes());
 
         // File already in Database with older end of life
-        Mockito.reset(this.fileRepository);
-        Mockito.reset(this.s3Repository);
-        final var fileToFind1 = new File();
-        fileToFind1.setPathToFile(fileData.getPathToFile());
-        fileToFind1.setEndOfLife(fileData.getEndOfLife().minusYears(1));
-        Mockito.when(this.fileRepository.findByPathToFile(pathToFile)).thenReturn(Optional.of(fileToFind1));
+        Mockito.reset(this.s3Adapter);
         this.fileOperations.updateFile(fileData);
-        final var folderToSave2 = new File();
-        folderToSave2.setPathToFile(fileToFind1.getPathToFile());
-        folderToSave2.setEndOfLife(fileData.getEndOfLife());
-        Mockito.verify(this.fileRepository, Mockito.times(1)).save(folderToSave2);
-        Mockito.verify(this.s3Repository, Mockito.times(1)).getPresignedUrl(pathToFile, Method.PUT, fileData.getExpiresInMinutes());
+        Mockito.verify(this.s3Adapter, Mockito.times(1)).getPresignedUrl(pathToFile, Method.PUT, fileData.getExpiresInMinutes());
 
         // File already in Database with older and of life
-        Mockito.reset(this.fileRepository);
-        Mockito.reset(this.s3Repository);
-        final var folderToFind2 = new File();
-        folderToFind2.setPathToFile(fileData.getPathToFile());
-        folderToFind2.setEndOfLife(fileData.getEndOfLife().plusYears(1));
-        Mockito.when(this.fileRepository.findByPathToFile(pathToFile)).thenReturn(Optional.of(folderToFind2));
+        Mockito.reset(this.s3Adapter);
         this.fileOperations.updateFile(fileData);
-        final var folderToSave3 = new File();
-        folderToSave3.setPathToFile(folderToFind2.getPathToFile());
-        folderToSave3.setEndOfLife(fileData.getEndOfLife());
-        Mockito.verify(this.fileRepository, Mockito.times(1)).save(folderToSave3);
-        Mockito.verify(this.s3Repository, Mockito.times(1)).getPresignedUrl(pathToFile, Method.PUT, fileData.getExpiresInMinutes());
-    }
-
-    @Test
-    void updateEndOfLifeException() {
-        final String pathToFile = "folder/test.txt";
-        final LocalDate endOfLife = LocalDate.of(2022, 1, 1);
-
-        Mockito.when(this.fileRepository.findByPathToFile(pathToFile)).thenReturn(Optional.empty());
-        Assertions.assertThrows(FileExistenceException.class, () -> this.fileOperations.updateEndOfLife(pathToFile, endOfLife));
-    }
-
-    @Test
-    void updateEndOfLife() throws FileExistenceException {
-        final String pathToFile = "folder/test.txt";
-        final LocalDate endOfLife = LocalDate.of(2022, 1, 1);
-
-        final File fileToFind = new File();
-        fileToFind.setPathToFile(pathToFile);
-        fileToFind.setEndOfLife(null);
-        final Optional<File> fileOptional = Optional.of(fileToFind);
-
-        Mockito.when(this.fileRepository.findByPathToFile(pathToFile)).thenReturn(fileOptional);
-
-        final File fileToSave = new File();
-        fileToSave.setPathToFile(pathToFile);
-        fileToSave.setEndOfLife(endOfLife);
-        this.fileOperations.updateEndOfLife(pathToFile, endOfLife);
-        Mockito.verify(this.fileRepository, Mockito.times(1)).save(fileToSave);
+        Mockito.verify(this.s3Adapter, Mockito.times(1)).getPresignedUrl(pathToFile, Method.PUT, fileData.getExpiresInMinutes());
     }
 
     @Test
@@ -327,8 +266,8 @@ class FileOperationsPresignedUrlUseCaseTest {
         final String pathToFolder = "folder";
         final int expiresInMinutes = 5;
 
-        Mockito.reset(this.s3Repository);
-        Mockito.when(this.s3Repository.getFilePathsFromFolder(pathToFolder)).thenReturn(new HashSet<>());
+        Mockito.reset(this.s3Adapter);
+        Mockito.when(this.s3Adapter.getFilePathsFromFolder(pathToFolder)).thenReturn(new HashSet<>());
         Assertions.assertThrows(FileExistenceException.class, () -> this.fileOperations.deleteFile(pathToFile, expiresInMinutes));
     }
 
@@ -338,11 +277,11 @@ class FileOperationsPresignedUrlUseCaseTest {
         final String pathToFolder = "folder";
         final int expiresInMinutes = 5;
 
-        Mockito.reset(this.s3Repository);
-        Mockito.when(this.s3Repository.fileExists(pathToFile)).thenReturn(true);
+        Mockito.reset(this.s3Adapter);
+        Mockito.when(this.s3Adapter.fileExists(pathToFile)).thenReturn(true);
         this.fileOperations.deleteFile(pathToFile, expiresInMinutes);
-        Mockito.verify(this.s3Repository, Mockito.times(1)).getPresignedUrl(pathToFile, Method.DELETE, expiresInMinutes);
-        Mockito.verify(this.s3Repository, Mockito.times(1)).fileExists(pathToFile);
+        Mockito.verify(this.s3Adapter, Mockito.times(1)).getPresignedUrl(pathToFile, Method.DELETE, expiresInMinutes);
+        Mockito.verify(this.s3Adapter, Mockito.times(1)).fileExists(pathToFile);
     }
 
     @Test

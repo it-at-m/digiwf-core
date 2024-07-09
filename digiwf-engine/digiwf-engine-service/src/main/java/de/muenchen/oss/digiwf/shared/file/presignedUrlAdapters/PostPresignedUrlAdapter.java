@@ -1,6 +1,5 @@
 package de.muenchen.oss.digiwf.shared.file.presignedUrlAdapters;
 
-import de.muenchen.oss.digiwf.process.instance.process.properties.S3Properties;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.presignedurl.PresignedUrlRepository;
 import de.muenchen.oss.digiwf.shared.exception.ConflictingResourceException;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +23,7 @@ public class PostPresignedUrlAdapter implements PresignedUrlAdapter {
     @Override
     public String getPresignedUrl(final String documentStorageUrl, final String pathToFile, final int expireInMinutes) throws HttpServerErrorException {
         try {
-            return this.presignedUrlRepository.getPresignedUrlSaveFile(pathToFile, expireInMinutes, null, documentStorageUrl);
+            return this.presignedUrlRepository.getPresignedUrlSaveFile(pathToFile, expireInMinutes, documentStorageUrl);
         } catch (final Exception ex) {
             log.error("Getting presigned url for uploading file {} failed: {}", pathToFile, ex);
             if (ex.getMessage().contains(HttpStatus.CONFLICT.toString())) {

@@ -313,18 +313,6 @@ services:
     networks:
       - internal
 
-  postgres-s3:
-    image: postgres:13.2
-    container_name: digiwf-postgres-s3
-    environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: secret
-      POSTGRES_DB: s3db
-    ports:
-      - '25434:5432'
-    networks:
-      - internal
-
   postgres-keycloak:
     image: postgres:13.2
     container_name: digiwf-postgres-keycloak

@@ -1,22 +1,33 @@
 package de.muenchen.oss.digiwf.s3.integration.adapter.in.streaming;
 
+import de.muenchen.oss.digiwf.message.common.MessageConstants;
+import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
+import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import de.muenchen.oss.digiwf.s3.integration.adapter.in.rest.mapper.PresignedUrlMapper;
-import de.muenchen.oss.digiwf.s3.integration.application.port.in.*;
-import de.muenchen.oss.digiwf.s3.integration.application.port.out.IntegrationOutPort;
+import de.muenchen.oss.digiwf.s3.integration.application.port.in.CreatePresignedUrlsInPort;
+import de.muenchen.oss.digiwf.s3.integration.application.port.in.FileOperationsInPort;
+import de.muenchen.oss.digiwf.s3.integration.application.port.in.FolderOperationsInPort;
+import de.muenchen.oss.digiwf.s3.integration.domain.exception.FileExistenceException;
+import de.muenchen.oss.digiwf.s3.integration.domain.exception.FileSystemAccessException;
+import de.muenchen.oss.digiwf.s3.integration.domain.model.CreatePresignedUrlEvent;
 import jakarta.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
+import org.springframework.lang.NonNull;
 import org.springframework.messaging.Message;
+import org.springframework.messaging.MessageHeaders;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 @Slf4j
 @RequiredArgsConstructor
-public class MessageProcessor {
+public class StreamingAdapter {
     /**
      * Key in the result map.
      */
@@ -24,10 +35,12 @@ public class MessageProcessor {
     private static final String VALIDATION_ERROR_CODE = "VALIDATION_ERROR";
     private static final String FILE_DOES_NOT_EXIST_ERROR_CODE = "FILE_DOES_NOT_EXIST_ERROR";
 
+    private final ProcessApi processApi;
+    private final ErrorApi errorApi;
+
     private final CreatePresignedUrlsInPort createPresignedUrlsInPort;
     private final FolderOperationsInPort folderOperationsInPort;
     private final FileOperationsInPort fileOperationsInPort;
-    private final IntegrationOutPort integration;
     private final PresignedUrlMapper presignedUrlMapper;
 
     /**
@@ -42,14 +55,13 @@ public class MessageProcessor {
             try {
                 val presignedUrls = createPresignedUrlsInPort.createPresignedUrls(message.getPayload());
                 Map<String, Object> result = Map.of(RESULT_PRESIGNED_URLS, this.presignedUrlMapper.models2Dtos(presignedUrls));
-                integration.correlateProcessMessage(headers, result);
-
+                this.correlateProcessMessage(headers, result);
             } catch (ConstraintViolationException cve) {
-                integration.handleBpmnError(headers, new BpmnError(VALIDATION_ERROR_CODE, cve.getMessage()));
+                errorApi.handleBpmnError(headers, new BpmnError(VALIDATION_ERROR_CODE, cve.getMessage()));
             } catch (FileExistenceException fee) {
-                integration.handleBpmnError(headers, new BpmnError(FILE_DOES_NOT_EXIST_ERROR_CODE, fee.getMessage()));
+                errorApi.handleBpmnError(headers, new BpmnError(FILE_DOES_NOT_EXIST_ERROR_CODE, fee.getMessage()));
             } catch (FileSystemAccessException sae) {
-                integration.handleIncident(headers, new IncidentError(sae.getMessage()));
+                errorApi.handleIncident(headers, new IncidentError(sae.getMessage()));
             }
         };
     }
@@ -67,14 +79,24 @@ public class MessageProcessor {
                         this.fileOperationsInPort.deleteFile(fullPath);
                     }
                 }
-                integration.correlateProcessMessage(message.getHeaders(), Map.of());
+                this.correlateProcessMessage(message.getHeaders(), Map.of());
             } catch (ConstraintViolationException cve) {
-                integration.handleBpmnError(message.getHeaders(), new BpmnError(VALIDATION_ERROR_CODE, cve.getMessage()));
+                errorApi.handleBpmnError(message.getHeaders(), new BpmnError(VALIDATION_ERROR_CODE, cve.getMessage()));
             } catch (FileExistenceException fee) {
-                integration.handleBpmnError(message.getHeaders(), new BpmnError(FILE_DOES_NOT_EXIST_ERROR_CODE, fee.getMessage()));
+                errorApi.handleBpmnError(message.getHeaders(), new BpmnError(FILE_DOES_NOT_EXIST_ERROR_CODE, fee.getMessage()));
             } catch (FileSystemAccessException sae) {
-                integration.handleIncident(message.getHeaders(), new IncidentError(sae.getMessage()));
+                errorApi.handleIncident(message.getHeaders(), new IncidentError(sae.getMessage()));
             }
         };
+    }
+
+    public void correlateProcessMessage(@NonNull MessageHeaders headers, Map<String, Object> payload) {
+        final String processInstanceId = Objects.requireNonNull(headers.get(MessageConstants.DIGIWF_PROCESS_INSTANCE_ID)).toString();
+        final String integrationName = Objects.requireNonNull(headers.get(MessageConstants.DIGIWF_INTEGRATION_NAME)).toString();
+        final String type = Objects.requireNonNull(headers.get(MessageConstants.TYPE)).toString();
+        if (payload == null) {
+            payload = new HashMap<>();
+        }
+        this.processApi.correlateMessage(processInstanceId, type, integrationName, payload);
     }
 }

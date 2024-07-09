@@ -1,8 +1,8 @@
-package de.muenchen.oss.digiwf.s3.integration.application;
+package de.muenchen.oss.digiwf.s3.integration.application.usecase;
 
-import de.muenchen.oss.digiwf.s3.integration.adapter.in.streaming.CreatePresignedUrlEvent;
 import de.muenchen.oss.digiwf.s3.integration.application.port.in.CreatePresignedUrlsInPort;
-import de.muenchen.oss.digiwf.s3.integration.application.port.in.FileSystemAccessException;
+import de.muenchen.oss.digiwf.s3.integration.domain.exception.FileSystemAccessException;
+import de.muenchen.oss.digiwf.s3.integration.domain.model.CreatePresignedUrlEvent;
 import de.muenchen.oss.digiwf.s3.integration.domain.model.PresignedUrl;
 import io.minio.http.Method;
 import jakarta.validation.Valid;
@@ -24,7 +24,6 @@ public class CreatePresignedUrlsUseCase implements CreatePresignedUrlsInPort {
     @Override
     @NonNull
     public List<PresignedUrl> createPresignedUrls(@Valid CreatePresignedUrlEvent event) throws FileSystemAccessException {
-        // No end of life is set for files to be saved
         return this.fileHandlingService.getPresignedUrls(
                 List.of(event.getPath().split(";")),
                 Method.valueOf(event.getAction()),

@@ -6,23 +6,6 @@ info:
 spring:
   application:
     name: ${info.application.name}
-  # Spring JPA
-  datasource:
-    url: '${S3INTEGRATION_DATASOURCE_URL}'
-    username: '${S3INTEGRATION_DATASOURCE_USER}'
-    password: '${S3INTEGRATION_DATASOURCE_PASSWORD}'
-    driver-class-name: '${S3INTEGRATION_DATASOURCE_DRIVERCLASSNAME}'
-  flyway:
-    enabled: true
-    locations: "classpath:db/migration/{vendor}"
-  jpa:
-    database-platform: '${S3INTEGRATION_DATABASE_PLATFORM}'
-    hibernate:
-      naming:
-        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-      ddl-auto: validate
-    open-in-view: true
-
   cloud:
     stream:
       bindings:
@@ -74,8 +57,4 @@ digiwf:
     url: ${S3_URL:http://localhost:9000}
     secret-key: ${S3_SECRETKEY}
     proxy-url: "${S3_PROXY_HOST}:${S3_PROXY_PORT}"
-    cronjob:
-      cleanup:
-        unused-files: 0 15 10 16 * ?
-        expired-files: 0 15 10 15 * ?
     proxy-enabled: 'false'

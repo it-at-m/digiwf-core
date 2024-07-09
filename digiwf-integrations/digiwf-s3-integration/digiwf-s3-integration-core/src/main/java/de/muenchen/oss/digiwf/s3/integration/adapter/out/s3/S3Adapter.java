@@ -1,6 +1,7 @@
 package de.muenchen.oss.digiwf.s3.integration.adapter.out.s3;
 
-import de.muenchen.oss.digiwf.s3.integration.application.port.in.FileSystemAccessException;
+import de.muenchen.oss.digiwf.s3.integration.application.port.out.S3OutPort;
+import de.muenchen.oss.digiwf.s3.integration.domain.exception.FileSystemAccessException;
 import io.minio.*;
 import io.minio.errors.*;
 import io.minio.http.Method;
@@ -15,9 +16,11 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
-public class S3Repository {
+public class S3Adapter implements S3OutPort {
 
-    /** Response code from S3 storage when an object cannot be found. */
+    /**
+     * Response code from S3 storage when an object cannot be found.
+     */
     private static final String RESPONSE_CODE_NO_SUCH_KEY = "NoSuchKey";
 
     private final String bucketName;
@@ -33,7 +36,7 @@ public class S3Repository {
      * @param s3InitialConnectionTest to enable initial connection test to the s3 storage when true.
      * @throws FileSystemAccessException if the initial connection test fails.
      */
-    public S3Repository(
+    public S3Adapter(
             final String bucketName,
             final String s3Url,
             final MinioClient client,
@@ -56,15 +59,18 @@ public class S3Repository {
      * @return true if the file exists, false otherwise
      * @throws FileSystemAccessException if there is an exception while accessing the file system
      */
+    @Override
     public boolean fileExists(final String path) throws FileSystemAccessException {
         try {
             client.statObject(StatObjectArgs.builder()
                     .bucket(bucketName).object(path).build());
         } catch (final ErrorResponseException errorResponseException) {
             if (RESPONSE_CODE_NO_SUCH_KEY.equals(errorResponseException.errorResponse().code())) return false;
-            else throw new FileSystemAccessException(errorResponseException.errorResponse().code(), errorResponseException);
-        } catch (InsufficientDataException | InternalException | InvalidKeyException | InvalidResponseException | IOException |
-                NoSuchAlgorithmException | ServerException | XmlParserException exception) {
+            else
+                throw new FileSystemAccessException(errorResponseException.errorResponse().code(), errorResponseException);
+        } catch (InsufficientDataException | InternalException | InvalidKeyException | InvalidResponseException |
+                 IOException |
+                 NoSuchAlgorithmException | ServerException | XmlParserException exception) {
             final String message = String.format("Failed to request metadata for file %s.", path);
             log.error(message, exception);
             throw new FileSystemAccessException(message, exception);
@@ -80,6 +86,7 @@ public class S3Repository {
      * @return the paths to the files in a given folder. Also returns the paths to the files in subfolders.
      * @throws FileSystemAccessException if the paths cannot be downloaded.
      */
+    @Override
     public Set<String> getFilePathsFromFolder(final String folder) throws FileSystemAccessException {
         try {
             final ListObjectsArgs listObjectsArgs = ListObjectsArgs.builder()
@@ -94,7 +101,7 @@ public class S3Repository {
             }
             return filepathesFromFolder;
         } catch (final MinioException | InvalidKeyException | NoSuchAlgorithmException | IllegalArgumentException |
-                IOException exception) {
+                       IOException exception) {
             final String message = String.format("Failed to extract file paths from folder %s.", folder);
             log.error(message, exception);
             throw new FileSystemAccessException(message, exception);
@@ -108,6 +115,7 @@ public class S3Repository {
      * @return a map where the keys are file paths and the values are the corresponding file sizes in bytes.
      * @throws FileSystemAccessException if the file sizes cannot be retrieved.
      */
+    @Override
     public Map<String, Long> getFileSizesFromFolder(final String folder) throws FileSystemAccessException {
         try {
             final ListObjectsArgs listObjectsArgs = ListObjectsArgs.builder()
@@ -122,7 +130,7 @@ public class S3Repository {
             }
             return filePathsFromFolder;
         } catch (final MinioException | InvalidKeyException | NoSuchAlgorithmException | IllegalArgumentException |
-                IOException exception) {
+                       IOException exception) {
             final String message = String.format("Failed to extract file paths from folder %s.", folder);
             log.error(message, exception);
             throw new FileSystemAccessException(message, exception);
@@ -136,6 +144,7 @@ public class S3Repository {
      * @return the size of the file in bytes.
      * @throws FileSystemAccessException if the file size cannot be retrieved.
      */
+    @Override
     public long getFileSize(final String pathToFile) throws FileSystemAccessException {
         try {
             return client.statObject(StatObjectArgs.builder()
@@ -143,8 +152,9 @@ public class S3Repository {
                             .object(pathToFile)
                             .build())
                     .size();
-        } catch (ErrorResponseException | InsufficientDataException | InternalException | InvalidKeyException | InvalidResponseException | IOException |
-                NoSuchAlgorithmException | ServerException | XmlParserException exception) {
+        } catch (ErrorResponseException | InsufficientDataException | InternalException | InvalidKeyException |
+                 InvalidResponseException | IOException |
+                 NoSuchAlgorithmException | ServerException | XmlParserException exception) {
             final String message = String.format("Failed to request size of file %s.", pathToFile);
             log.error(message, exception);
             throw new FileSystemAccessException(message, exception);
@@ -158,6 +168,7 @@ public class S3Repository {
      *                   "BUCKET/outerFolder/innerFolder/thefile.csv" Specification in parameter: "outerFolder/innerFolder/thefile.csv"
      * @throws FileSystemAccessException if the file cannot be deleted.
      */
+    @Override
     public void deleteFile(final String pathToFile) throws FileSystemAccessException {
         try {
             final RemoveObjectArgs removeObjectArgs = RemoveObjectArgs.builder()
@@ -166,8 +177,8 @@ public class S3Repository {
                     .build();
             this.client.removeObject(removeObjectArgs);
         } catch (final InvalidKeyException | ErrorResponseException | InsufficientDataException | InternalException
-                | InvalidResponseException | NoSuchAlgorithmException | ServerException | XmlParserException
-                | IllegalArgumentException | IOException exception) {
+                       | InvalidResponseException | NoSuchAlgorithmException | ServerException | XmlParserException
+                       | IllegalArgumentException | IOException exception) {
             final String message = String.format("Failed to delete file %s.", pathToFile);
             log.error(message, exception);
             throw new FileSystemAccessException(message, exception);
@@ -187,6 +198,7 @@ public class S3Repository {
      * @return the presigned URL for a file.
      * @throws FileSystemAccessException if the presigned URL cannot be created.
      */
+    @Override
     public String getPresignedUrl(final String pathToFile, final Method action, final int expiresInMinutes) throws FileSystemAccessException {
         try {
             final GetPresignedObjectUrlArgs presignedUrlArgs = GetPresignedObjectUrlArgs.builder()
@@ -199,8 +211,8 @@ public class S3Repository {
             // use proxy if enabled
             return this.s3ProxyUrl.map(proxy -> presignedUrl.replaceFirst(this.s3Url, proxy)).orElse(presignedUrl);
         } catch (final InvalidKeyException | ErrorResponseException | InsufficientDataException | InternalException
-                | InvalidResponseException | NoSuchAlgorithmException | ServerException | XmlParserException
-                | IllegalArgumentException | IOException exception) {
+                       | InvalidResponseException | NoSuchAlgorithmException | ServerException | XmlParserException
+                       | IllegalArgumentException | IOException exception) {
             final String message = String.format("Failed to create presigned url for file %s. in mode %s", pathToFile, action);
             log.error(message, exception);
             throw new FileSystemAccessException(message, exception);
@@ -223,7 +235,7 @@ public class S3Repository {
                 throw new FileSystemAccessException(message);
             }
         } catch (final MinioException | InvalidKeyException | NoSuchAlgorithmException | IllegalArgumentException |
-                IOException exception) {
+                       IOException exception) {
             final String message = "S3 initialization failed.";
             log.error(message, exception);
             throw new FileSystemAccessException(message, exception);
