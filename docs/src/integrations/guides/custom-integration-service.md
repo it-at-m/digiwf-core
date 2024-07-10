@@ -191,7 +191,7 @@ werden, wenn schwerwiegendere technische Fehler auftreten, die nicht automatisch
 
 ## Anwendung konfigurieren
 
-Wie bereits in der Dokumentation der [digiwf-message](../../documentation/libs/digiwf-message#konfiguration) Bibliothek beschrieben ist,
+Wie bereits in der Dokumentation der [digiwf-message](../../documentation/libs/digiwf-message/README.md#konfiguration) Bibliothek beschrieben ist,
 muss die Anwendung konfiguriert werden, damit die Integration mit dem Event Broker verbunden werden kann.
 
 Zu großen Teilen kann untenstehende Konfiguration als `application.yml` übernommen werden. Es müssen jedoch noch die

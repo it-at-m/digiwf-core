@@ -1267,7 +1267,7 @@ Die Antwort lautet wie folgt:
 |--------------------------------|--------------------------------------------------------------------------|-----------------------------------------------------------------------------------------|------------------------------------------------------------------------------------|
 | `ADDRESS_SERVICE_CLIENT_ERROR` | Die Fehlermeldung des Stadt München Address Services wird weitergegeben. | Beim Aufrufen des Address Services ist ein Client Fehler aufgetreten (HTTP Status 4xx). | Analysieren Sie die Fehlermeldung und versuchen Sie, den Request erneut zu senden. | 
 
-## Konfigurationen
+## Konfiguration
 
 Allgemeine Konfigurationen für DigiWF-Integrationen sind unter
 [Eigene Integration erstellen](/integrations/guides/custom-integration-service.html#anwendung-konfigurieren)
