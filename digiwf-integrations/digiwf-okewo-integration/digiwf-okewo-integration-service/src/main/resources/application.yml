@@ -45,12 +45,7 @@ io:
         bpmnErrorDestination: "dwf-connector-bpmnerror-${DIGIWF_ENV}"
         correlateMessageDestination: "dwf-connector-${DIGIWF_ENV}"
         deadLetterQueueDestination: "dwf-connector-incident-${DIGIWF_ENV}"
-        typeMappings:
-          getPerson: "getPerson"
-          searchPerson: "searchPerson"
-          getPersonErweitert: "getPersonErweitert"
-          searchPersonErweitert: "searchPersonErweitert"
-# TODO: move to io.muenchendigital
+
 de:
   muenchen:
     oss:

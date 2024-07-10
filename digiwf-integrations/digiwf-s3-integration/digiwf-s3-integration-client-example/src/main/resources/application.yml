@@ -49,13 +49,6 @@ spring:
             client-id: ${SSO_S3_CLIENT_ID}
             client-secret: ${SSO_S3_CLIENT_SECRET}
             scope: email, profile, openid  # needed for userInfo endpoint
-
-io:
-  muenchendigital:
-    digiwf:
-      streaming:
-        typeMappings:
-          correlatemessagev01: correlatemessagev01
 logging:
   level:
     org.springframework: info
