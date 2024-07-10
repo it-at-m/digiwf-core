@@ -48,6 +48,7 @@ public class StreamingAdapter {
      * Pre-signed urls are created for all files inside a directory if the path is a directory.
      * The result is streamed to the digiwf-engine with a correlateMessage event.
      */
+    @Deprecated
     public Consumer<Message<CreatePresignedUrlEvent>> createPresignedUrl() {
         return message -> {
 
