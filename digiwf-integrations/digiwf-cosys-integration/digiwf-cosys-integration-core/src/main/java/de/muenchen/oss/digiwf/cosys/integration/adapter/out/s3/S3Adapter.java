@@ -9,6 +9,7 @@ import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageSer
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFileRepository;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.transfer.S3FileTransferRepository;
 import de.muenchen.oss.digiwf.s3.integration.client.service.FileService;
+import de.muenchen.oss.digiwf.s3.integration.client.service.S3StorageUrlProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -25,6 +26,7 @@ public class S3Adapter implements SaveFileToStorageOutPort {
     private final S3FileTransferRepository s3FileTransferRepository;
     private final DocumentStorageFileRepository documentStorageFileRepository;
     private final FileService fileService;
+    private final S3StorageUrlProvider s3DomainService;
 
     @Override
     public void saveDocumentInStorage(
@@ -55,10 +57,11 @@ public class S3Adapter implements SaveFileToStorageOutPort {
             final String filePath,
             final byte[] data
     ) {
+        final String s3Storage = s3DomainService.getDefaultDocumentStorageUrl();
         val fullFilePath = String.format("%s/%s", fileContext, filePath).replace("//", "/");
         try {
             validateFileSize(data);
-            documentStorageFileRepository.saveFile(fullFilePath, data, 1, null);
+            documentStorageFileRepository.saveFile(fullFilePath, data, 1, s3Storage);
         } catch (DocumentStorageException | DocumentStorageClientErrorException |
                  DocumentStorageServerErrorException e) {
             log.debug("Document could not be saved.", e);
