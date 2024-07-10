@@ -125,17 +125,14 @@ io:
         technicalErrorDestination: "digiwf-example-integration-technical-error"
         correlateMessageDestination: "digiwf-example-integration-correlate-message"
         startProcessDestination: "digiwf-message-scs-example-start-process"
-        typeMappings:
-          messageType: "consumer"
 ```
 
-|                                                               |                                                                                   |
-|---------------------------------------------------------------|-----------------------------------------------------------------------------------|
+| Property                                                   | Description                                                                       |
+|------------------------------------------------------------|-----------------------------------------------------------------------------------|
 | de.muenchen.oss.digiwf.message.incidentDestination         | Destination to redirect incidents to (e.g. Kafka Topic)                           |
 | de.muenchen.oss.digiwf.message.technicalErrorDestination   | Destination to redirect technical errors a.k.a. bpmn errors to (e.g. Kafka Topic) |
 | de.muenchen.oss.digiwf.message.correlateMessageDestination | Destination to send correlate messages to (e.g. Kafka Topic)                      |
 | de.muenchen.oss.digiwf.message.startProcessDestination     | Destination to send start process messages to (e.g. Kafka Topic)                  |
-| de.muenchen.oss.digiwf.message.typeMappings                | Mapping of message types to consumer function names                               |
 
 
 
