@@ -36,6 +36,22 @@ spring:
             fallback: true
           starttls:
             enable: true
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            issuer-uri: ${SSO_ISSUER_URL}
+            user-info-uri: ${SSO_BASE_URL}/realms/${SSO_REALM}/protocol/openid-connect/userinfo
+            jwk-set-uri: ${SSO_BASE_URL}/realms/${SSO_REALM}/protocol/openid-connect/certs
+            user-name-attribute: user_name
+        registration:
+          s3:
+            provider: keycloak
+            authorization-grant-type: client_credentials
+            client-id: ${SSO_DMS_CLIENT_ID}
+            client-secret: ${SSO_DMS_CLIENT_SECRET}
+            scope: email, profile, openid  # needed for userInfo endpoint
 management:
   endpoints:
     web:
@@ -54,3 +70,8 @@ io:
         bpmnErrorDestination: "dwf-connector-bpmnerror-${DIGIWF_ENV}"
         correlateMessageDestination: "dwf-connector-${DIGIWF_ENV}"
         deadLetterQueueDestination: "dwf-connector-incident-${DIGIWF_ENV}"
+digiwf:
+  s3:
+    client:
+      enable-security: true
+      document-storage-url: "${DOCUMENT_STORAGE_HOST:http://localhost}:${DOCUMENT_STORAGE_PORT:8080}"

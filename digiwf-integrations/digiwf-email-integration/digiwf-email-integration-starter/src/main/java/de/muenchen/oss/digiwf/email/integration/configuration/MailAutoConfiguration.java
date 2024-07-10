@@ -17,6 +17,7 @@ import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFi
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFolderRepository;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.transfer.S3FileTransferRepository;
 import de.muenchen.oss.digiwf.s3.integration.client.service.FileService;
+import de.muenchen.oss.digiwf.s3.integration.client.service.S3StorageUrlProvider;
 import io.micrometer.core.instrument.MeterRegistry;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -59,8 +60,9 @@ public class MailAutoConfiguration {
     public LoadMailAttachmentOutPort getLoadMailAttachmentPort(final S3FileTransferRepository s3FileTransferRepository,
                                                                final DocumentStorageFileRepository documentStorageFileRepository,
                                                                final DocumentStorageFolderRepository documentStorageFolderRepository,
-                                                               final FileService fileService) {
-        return new S3Adapter(s3FileTransferRepository, documentStorageFileRepository, documentStorageFolderRepository, fileService);
+                                                               final FileService fileService,
+                                                               final S3StorageUrlProvider s3DomainService) {
+        return new S3Adapter(s3FileTransferRepository, documentStorageFileRepository, documentStorageFolderRepository, fileService, s3DomainService);
     }
 
     @Bean

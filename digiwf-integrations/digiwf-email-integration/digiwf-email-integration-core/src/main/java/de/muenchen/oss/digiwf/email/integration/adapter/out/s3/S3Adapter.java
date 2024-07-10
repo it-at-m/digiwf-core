@@ -11,6 +11,7 @@ import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFi
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFolderRepository;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.transfer.S3FileTransferRepository;
 import de.muenchen.oss.digiwf.s3.integration.client.service.FileService;
+import de.muenchen.oss.digiwf.s3.integration.client.service.S3StorageUrlProvider;
 import jakarta.mail.util.ByteArrayDataSource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +33,7 @@ public class S3Adapter implements LoadMailAttachmentOutPort {
     private final DocumentStorageFileRepository documentStorageFileRepository;
     private final DocumentStorageFolderRepository documentStorageFolderRepository;
     private final FileService fileService;
+    private final S3StorageUrlProvider s3DomainService;
 
     @Override
     public FileAttachment loadAttachment(final PresignedUrl attachment) throws BpmnError {
@@ -69,7 +71,7 @@ public class S3Adapter implements LoadMailAttachmentOutPort {
         try {
             final List<FileAttachment> contents = new ArrayList<>();
             final Set<String> filepath;
-            filepath = documentStorageFolderRepository.getAllFilesInFolderRecursively(folderPath, null).block();
+            filepath = documentStorageFolderRepository.getAllFilesInFolderRecursively(folderPath, s3DomainService.getDefaultDocumentStorageUrl()).block();
             if (Objects.isNull(filepath))
                 throw new BpmnError(LOAD_FOLDER_FAILED, "An folder could not be loaded from url: " + folderPath);
             filepath.forEach(file -> contents.add(getFile(file)));
@@ -83,7 +85,7 @@ public class S3Adapter implements LoadMailAttachmentOutPort {
     private FileAttachment getFile(final String filePath) {
         try {
             final byte[] bytes;
-            bytes = this.documentStorageFileRepository.getFile(filePath, 3, null);
+            bytes = this.documentStorageFileRepository.getFile(filePath, 3, s3DomainService.getDefaultDocumentStorageUrl());
             final String mimeType = fileService.detectFileType(bytes);
             final String filename = FilenameUtils.getBaseName(filePath);
             final ByteArrayDataSource file = new ByteArrayDataSource(bytes, mimeType);
