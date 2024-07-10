@@ -59,7 +59,7 @@ execution.setVariable('cosysData', S(JSON.stringify(meinjson)));</bpmn:script>
     <bpmn:callActivity id="Activity_0xjgh5j" name="Send Mail" camunda:modelerTemplate="de.muenchen.digitalwf.templates.send-mail-V02" camunda:modelerTemplateVersion="2" calledElement="StreamingTemplateV02">
       <bpmn:extensionElements>
         <camunda:in sourceExpression="emailIntegration" target="app_integration_name" />
-        <camunda:in sourceExpression="sendMailFromEventBus" target="app_type_name" />
+        <camunda:in sourceExpression="sendTextMailV2" target="app_type_name" />
         <camunda:in sourceExpression="${app_file_context}" target="fileContext" />
         <camunda:in sourceExpression="${FormField_Email}" target="receivers" />
         <camunda:in sourceExpression="${receiversCc}" target="receiversCc" />

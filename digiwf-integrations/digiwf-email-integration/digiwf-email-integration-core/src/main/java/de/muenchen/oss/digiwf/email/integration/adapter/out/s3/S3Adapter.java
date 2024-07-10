@@ -1,7 +1,7 @@
 package de.muenchen.oss.digiwf.email.integration.adapter.out.s3;
 
 import de.muenchen.oss.digiwf.email.integration.application.port.out.LoadMailAttachmentOutPort;
-import de.muenchen.oss.digiwf.email.integration.domain.model.PresignedUrl;
+import de.muenchen.oss.digiwf.email.integration.domain.model.presigned.PresignedUrl;
 import de.muenchen.oss.digiwf.email.model.FileAttachment;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageClientErrorException;
@@ -35,6 +35,7 @@ public class S3Adapter implements LoadMailAttachmentOutPort {
     private final FileService fileService;
     private final S3StorageUrlProvider s3DomainService;
 
+    @Deprecated
     @Override
     public FileAttachment loadAttachment(final PresignedUrl attachment) throws BpmnError {
         try {

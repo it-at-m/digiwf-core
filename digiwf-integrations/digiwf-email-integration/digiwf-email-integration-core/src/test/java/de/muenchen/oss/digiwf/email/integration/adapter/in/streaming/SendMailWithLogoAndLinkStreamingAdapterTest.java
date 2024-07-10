@@ -1,6 +1,6 @@
 package de.muenchen.oss.digiwf.email.integration.adapter.in.streaming;
 
-import de.muenchen.oss.digiwf.email.integration.domain.model.TemplateMail;
+import de.muenchen.oss.digiwf.email.integration.domain.model.presigned.TemplateMailPresigned;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import de.muenchen.oss.digiwf.message.process.api.error.IncidentError;
 import jakarta.validation.ValidationException;
@@ -21,14 +21,12 @@ import static org.mockito.Mockito.verify;
 
 class SendMailWithLogoAndLinkStreamingAdapterTest extends StreamingAdapterTestBase {
 
-    private final MailWithLogoAndLinkDto mailWithLogoAndLinkDto = new MailWithLogoAndLinkDto(
+    private final MailWithLogoAndLinkPresignedDto mailWithLogoAndLinkDto = new MailWithLogoAndLinkPresignedDto(
             "mailReceiver1@muenchen.de,mailReceiver2@muenchen.de",
             "receiverCC@muenchen.de",
             "receiverBCC@muenchen.de",
             "Test Mail",
             "digiwf@muenchen.de",
-            null,
-            null,
             null,
             "template",
             "text",
@@ -37,14 +35,14 @@ class SendMailWithLogoAndLinkStreamingAdapterTest extends StreamingAdapterTestBa
             "buttonLink"
     );
 
-    private Message<MailWithLogoAndLinkDto> message;
+    private Message<MailWithLogoAndLinkPresignedDto> message;
 
     @BeforeEach
     void setup() {
         setupBase();
-        this.message = new Message<MailWithLogoAndLinkDto>() {
+        this.message = new Message<MailWithLogoAndLinkPresignedDto>() {
             @Override
-            public MailWithLogoAndLinkDto getPayload() {
+            public MailWithLogoAndLinkPresignedDto getPayload() {
                 return mailWithLogoAndLinkDto;
             }
 
@@ -57,26 +55,24 @@ class SendMailWithLogoAndLinkStreamingAdapterTest extends StreamingAdapterTestBa
 
     @Test
     void testEmailIntegrationSendsMailSuccessfully() {
-        TemplateMail templateMail = new TemplateMail(
+        TemplateMailPresigned templateMail = new TemplateMailPresigned(
                 "mailReceiver1@muenchen.de,mailReceiver2@muenchen.de",
                 "receiverCC@muenchen.de",
                 "receiverBCC@muenchen.de",
                 "Test Mail",
                 "digiwf@muenchen.de",
                 null,
-                null,
-                null,
                 "template",
                 Map.of("mail", mailWithLogoAndLinkDto)
         );
         streamingAdapter.sendMailWithLogoAndLink().accept(this.message);
         verify(monitoringServiceMock, times(1)).sendMailSucceeded();
-        verify(sendMailInPortMock, times(1)).sendMailWithTemplate(templateMail);
+        verify(sendMailPresignedInPortMock, times(1)).sendMailWithTemplate(templateMail);
     }
 
     @Test
     void testEmailIntegrationHandlesValidationException() {
-        Mockito.doThrow(new ValidationException("Test ValidationException")).when(sendMailInPortMock).sendMailWithTemplate(any());
+        Mockito.doThrow(new ValidationException("Test ValidationException")).when(sendMailPresignedInPortMock).sendMailWithTemplate(any());
         streamingAdapter.sendMailWithLogoAndLink().accept(this.message);
         verify(monitoringServiceMock, times(1)).sendMailFailed();
         final ArgumentCaptor<Map> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
@@ -89,7 +85,7 @@ class SendMailWithLogoAndLinkStreamingAdapterTest extends StreamingAdapterTestBa
 
     @Test
     void testEmailIntegrationHandlesBpmnError() {
-        Mockito.doThrow(new BpmnError("errorCode", "errorMessage")).when(sendMailInPortMock).sendMailWithTemplate(any());
+        Mockito.doThrow(new BpmnError("errorCode", "errorMessage")).when(sendMailPresignedInPortMock).sendMailWithTemplate(any());
         streamingAdapter.sendMailWithLogoAndLink().accept(this.message);
         verify(monitoringServiceMock, times(1)).sendMailFailed();
         final ArgumentCaptor<Map> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);
@@ -102,7 +98,7 @@ class SendMailWithLogoAndLinkStreamingAdapterTest extends StreamingAdapterTestBa
 
     @Test
     void testEmailIntegrationHandlesIncidentError() {
-        Mockito.doThrow(new IncidentError("Error Message")).when(sendMailInPortMock).sendMailWithTemplate(any());
+        Mockito.doThrow(new IncidentError("Error Message")).when(sendMailPresignedInPortMock).sendMailWithTemplate(any());
         streamingAdapter.sendMailWithLogoAndLink().accept(this.message);
         verify(monitoringServiceMock, times(1)).sendMailFailed();
         final ArgumentCaptor<Map> messageHeaderArgumentCaptor = ArgumentCaptor.forClass(Map.class);

@@ -1,12 +1,12 @@
 package de.muenchen.oss.digiwf.email.integration.application.usecase;
 
-import de.muenchen.oss.digiwf.email.integration.adapter.in.streaming.MailWithLogoAndLinkDto;
-import de.muenchen.oss.digiwf.email.integration.application.port.in.SendMailInPort;
+import de.muenchen.oss.digiwf.email.integration.adapter.in.streaming.MailWithLogoAndLinkPresignedDto;
+import de.muenchen.oss.digiwf.email.integration.application.port.in.SendMailPresignedInPort;
 import de.muenchen.oss.digiwf.email.integration.application.port.out.LoadMailAttachmentOutPort;
 import de.muenchen.oss.digiwf.email.integration.application.port.out.MailOutPort;
-import de.muenchen.oss.digiwf.email.integration.domain.model.PresignedUrl;
-import de.muenchen.oss.digiwf.email.integration.domain.model.TemplateMail;
-import de.muenchen.oss.digiwf.email.integration.domain.model.TextMail;
+import de.muenchen.oss.digiwf.email.integration.domain.model.presigned.PresignedUrl;
+import de.muenchen.oss.digiwf.email.integration.domain.model.presigned.TemplateMailPresigned;
+import de.muenchen.oss.digiwf.email.integration.domain.model.presigned.TextMailPresigned;
 import de.muenchen.oss.digiwf.email.model.FileAttachment;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import freemarker.template.TemplateException;
@@ -22,29 +22,25 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class SendMailUseCaseTest {
+class SendMailPresignedUseCaseTest {
 
     private final LoadMailAttachmentOutPort loadMailAttachmentOutPort = mock(LoadMailAttachmentOutPort.class);
     private final MailOutPort mailOutPort = mock(MailOutPort.class);
-    private final TextMail mail = new TextMail(
+    private final TextMailPresigned mail = new TextMailPresigned(
             "mailReceiver1@muenchen.de,mailReceiver2@muenchen.de",
             "receiverCC@muenchen.de",
             "receiverBCC@muenchen.de",
             "Test Mail",
             "This is a test mail",
             "digiwf@muenchen.de",
-            null,
-            null,
             null
     );
-    private final MailWithLogoAndLinkDto mailWithLogoAndLinkDto = new MailWithLogoAndLinkDto(
+    private final MailWithLogoAndLinkPresignedDto mailWithLogoAndLinkDto = new MailWithLogoAndLinkPresignedDto(
             "mailReceiver1@muenchen.de,mailReceiver2@muenchen.de",
             "receiverCC@muenchen.de",
             "receiverBCC@muenchen.de",
             "Test Mail",
             "digiwf@muenchen.de",
-            null,
-            null,
             null,
             "template",
             "text",
@@ -52,14 +48,12 @@ class SendMailUseCaseTest {
             "buttonText",
             "buttonLink"
     );
-    private final TemplateMail templateMail = new TemplateMail(
+    private final TemplateMailPresigned templateMail = new TemplateMailPresigned(
             "mailReceiver1@muenchen.de,mailReceiver2@muenchen.de",
             "receiverCC@muenchen.de",
             "receiverBCC@muenchen.de",
             "Test Mail",
             "digiwf@muenchen.de",
-            null,
-            null,
             null,
             "template",
             Map.of("mail", mailWithLogoAndLinkDto)
@@ -67,16 +61,16 @@ class SendMailUseCaseTest {
     private final String processInstanceId = "processInstanceId";
     private final String integrationName = "emailIntegration";
     private final String type = "type";
-    private SendMailInPort sendMailInPort;
+    private SendMailPresignedInPort sendMailPresignedInPort;
 
     @BeforeEach
     void setUp() {
-        this.sendMailInPort = new SendMailUseCase(loadMailAttachmentOutPort, mailOutPort);
+        this.sendMailPresignedInPort = new SendMailPresignedPresignedUseCase(loadMailAttachmentOutPort, mailOutPort);
     }
 
     @Test
     void sendMail() throws MessagingException {
-        sendMailInPort.sendMailWithText(mail);
+        sendMailPresignedInPort.sendMailWithText(mail);
         final de.muenchen.oss.digiwf.email.model.Mail mailOutModel = de.muenchen.oss.digiwf.email.model.Mail.builder()
                 .receivers(mail.getReceivers())
                 .subject(mail.getSubject())
@@ -97,7 +91,7 @@ class SendMailUseCaseTest {
         final FileAttachment fileAttachment = new FileAttachment("test.txt", new ByteArrayDataSource("Anhang Inhalt".getBytes(), "text/plain"));
         when(loadMailAttachmentOutPort.loadAttachment(presignedUrl)).thenReturn(fileAttachment);
 
-        sendMailInPort.sendMailWithText(mail);
+        sendMailPresignedInPort.sendMailWithText(mail);
         final de.muenchen.oss.digiwf.email.model.Mail mailOutModel = de.muenchen.oss.digiwf.email.model.Mail.builder()
                 .receivers(mail.getReceivers())
                 .subject(mail.getSubject())
@@ -113,13 +107,13 @@ class SendMailUseCaseTest {
     @Test
     void sendMailThrowsBpmnError() throws MessagingException {
         doThrow(new MessagingException("Test Exception")).when(mailOutPort).sendMail(any(), any());
-        assertThatThrownBy(() -> sendMailInPort.sendMailWithText(mail)).isInstanceOf(BpmnError.class);
+        assertThatThrownBy(() -> sendMailPresignedInPort.sendMailWithText(mail)).isInstanceOf(BpmnError.class);
     }
 
     @Test
     void sendMailWithTemplate() throws MessagingException, TemplateException, IOException {
         when(mailOutPort.getBodyFromTemplate(anyString(), anyMap())).thenReturn("generated body");
-        sendMailInPort.sendMailWithTemplate(templateMail);
+        sendMailPresignedInPort.sendMailWithTemplate(templateMail);
         final de.muenchen.oss.digiwf.email.model.Mail mailOutModel = de.muenchen.oss.digiwf.email.model.Mail.builder()
                 .receivers(mail.getReceivers())
                 .subject(mail.getSubject())
@@ -136,7 +130,7 @@ class SendMailUseCaseTest {
     @Test
     void sendMailWithTemplateThrowsIOException() throws TemplateException, IOException {
         doThrow(new IOException("IO Exception")).when(mailOutPort).getBodyFromTemplate(anyString(), anyMap());
-        BpmnError bpmnError = catchThrowableOfType(() -> sendMailInPort.sendMailWithTemplate(templateMail), BpmnError.class);
+        BpmnError bpmnError = catchThrowableOfType(() -> sendMailPresignedInPort.sendMailWithTemplate(templateMail), BpmnError.class);
 
         String expectedMessage = "The template " + templateMail.getTemplate() + " could not be loaded";
         String actualMessage = bpmnError.getErrorMessage();
@@ -151,7 +145,7 @@ class SendMailUseCaseTest {
         TemplateException templateException = mock(TemplateException.class);
         when(templateException.getMessage()).thenReturn("Template Exception Message");
         doThrow(templateException).when(mailOutPort).getBodyFromTemplate(anyString(), anyMap());
-        BpmnError bpmnError = catchThrowableOfType(() -> sendMailInPort.sendMailWithTemplate(templateMail), BpmnError.class);
+        BpmnError bpmnError = catchThrowableOfType(() -> sendMailPresignedInPort.sendMailWithTemplate(templateMail), BpmnError.class);
 
         String expectedMessage = "Template Exception Message";
         String actualMessage = bpmnError.getErrorMessage();
