@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.validation.annotation.Validated;
 
 import java.io.IOException;
@@ -67,8 +68,13 @@ public class SendMailUseCase implements SendMailInPort {
 
     private de.muenchen.oss.digiwf.email.model.Mail createMail(BasicMail mail) {
         // load Attachments
-        final List<FileAttachment> attachments = new ArrayList<>();
-        if (CollectionUtils.isNotEmpty(mail.getAttachments())) {
+        List<FileAttachment> attachments = new ArrayList<>();
+        // new via paths
+        if (StringUtils.isNotBlank(mail.getFileContext()) && StringUtils.isNotBlank(mail.getFilePaths())) {
+            attachments = this.loadAttachmentOutPort.loadAttachments(mail.getFileContext(), mail.parseFilePaths());
+        }
+        // deprecated via input presigned urls
+        else if (CollectionUtils.isNotEmpty(mail.getAttachments())) {
             for (val attachment : mail.getAttachments()) {
                 attachments.add(this.loadAttachmentOutPort.loadAttachment(attachment));
             }

@@ -21,8 +21,8 @@ public class TextMail extends BasicMail {
     @NotBlank(message = "No body given")
     private String body;
 
-    public TextMail(String receivers, String receiversCc, String receiversBcc, String subject, String body, String replyTo, List<PresignedUrl> attachments) {
-        super(receivers, receiversCc, receiversBcc, subject, replyTo, attachments);
+    public TextMail(String receivers, String receiversCc, String receiversBcc, String subject, String body, String replyTo, List<PresignedUrl> attachments, String fileContext, String filePaths) {
+        super(receivers, receiversCc, receiversBcc, subject, replyTo, attachments, fileContext, filePaths);
         this.body = body;
     }
 

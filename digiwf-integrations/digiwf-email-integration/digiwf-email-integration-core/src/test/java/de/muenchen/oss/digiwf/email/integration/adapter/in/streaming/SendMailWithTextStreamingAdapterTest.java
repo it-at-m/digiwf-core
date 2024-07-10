@@ -27,6 +27,8 @@ class SendMailWithTextStreamingAdapterTest extends StreamingAdapterTestBase {
             "Test Mail",
             "This is a test mail",
             "digiwf@muenchen.de",
+            null,
+            null,
             null
     );
 

@@ -13,6 +13,8 @@ import de.muenchen.oss.digiwf.email.integration.domain.model.TextMail;
 import de.muenchen.oss.digiwf.email.integration.infrastructure.MonitoringService;
 import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
 import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
+import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFileRepository;
+import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFolderRepository;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.transfer.S3FileTransferRepository;
 import de.muenchen.oss.digiwf.s3.integration.client.service.FileService;
 import io.micrometer.core.instrument.MeterRegistry;
@@ -54,8 +56,11 @@ public class MailAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public LoadMailAttachmentOutPort getLoadMailAttachmentPort(final S3FileTransferRepository s3FileTransferRepository, final FileService fileService) {
-        return new S3Adapter(s3FileTransferRepository, fileService);
+    public LoadMailAttachmentOutPort getLoadMailAttachmentPort(final S3FileTransferRepository s3FileTransferRepository,
+                                                               final DocumentStorageFileRepository documentStorageFileRepository,
+                                                               final DocumentStorageFolderRepository documentStorageFolderRepository,
+                                                               final FileService fileService) {
+        return new S3Adapter(s3FileTransferRepository, documentStorageFileRepository, documentStorageFolderRepository, fileService);
     }
 
     @Bean

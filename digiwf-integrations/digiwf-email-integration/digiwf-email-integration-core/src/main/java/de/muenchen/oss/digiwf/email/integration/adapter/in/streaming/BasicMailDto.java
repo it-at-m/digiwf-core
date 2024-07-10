@@ -44,6 +44,9 @@ public class BasicMailDto {
     private String replyTo;
 
     @Valid
+    @Deprecated
     private List<PresignedUrl> attachments;
 
+    private String fileContext;
+    private String filePaths;
 }

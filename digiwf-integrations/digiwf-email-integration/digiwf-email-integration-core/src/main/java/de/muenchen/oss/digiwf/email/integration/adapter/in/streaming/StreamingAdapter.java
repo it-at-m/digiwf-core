@@ -80,6 +80,8 @@ public class StreamingAdapter {
                 basicMail.getSubject(),
                 basicMail.getReplyTo(),
                 basicMail.getAttachments(),
+                basicMail.getFileContext(),
+                basicMail.getFilePaths(),
                 template,
                 content);
     }

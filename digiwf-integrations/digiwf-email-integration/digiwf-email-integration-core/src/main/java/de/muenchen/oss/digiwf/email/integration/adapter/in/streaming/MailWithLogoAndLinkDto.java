@@ -43,8 +43,8 @@ public class MailWithLogoAndLinkDto extends BasicMailDto {
      */
     private String buttonLink;
 
-    public MailWithLogoAndLinkDto(String receivers, String receiversCc, String receiversBcc, String subject, String replyTo, List<PresignedUrl> attachments, String template, String text, String bottomBody, String buttonText, String buttonLink) {
-        super(receivers, receiversCc, receiversBcc, subject, replyTo, attachments);
+    public MailWithLogoAndLinkDto(String receivers, String receiversCc, String receiversBcc, String subject, String replyTo, List<PresignedUrl> attachments, String fileContext, String filePaths, String template, String text, String bottomBody, String buttonText, String buttonLink) {
+        super(receivers, receiversCc, receiversBcc, subject, replyTo, attachments, fileContext, filePaths);
         this.template = template;
         this.text = text;
         this.bottomBody = bottomBody;

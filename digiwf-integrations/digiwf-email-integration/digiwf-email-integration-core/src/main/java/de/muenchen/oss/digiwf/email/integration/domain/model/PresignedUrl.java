@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 /**
  * Attachment File you want to get from the S3 storage.
  */
+@Deprecated
 @Data
 @RequiredArgsConstructor
 @AllArgsConstructor

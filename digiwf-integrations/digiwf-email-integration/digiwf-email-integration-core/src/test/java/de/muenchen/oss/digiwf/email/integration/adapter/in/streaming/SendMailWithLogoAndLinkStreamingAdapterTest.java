@@ -28,6 +28,8 @@ class SendMailWithLogoAndLinkStreamingAdapterTest extends StreamingAdapterTestBa
             "Test Mail",
             "digiwf@muenchen.de",
             null,
+            null,
+            null,
             "template",
             "text",
             "bottomBody",
@@ -61,6 +63,8 @@ class SendMailWithLogoAndLinkStreamingAdapterTest extends StreamingAdapterTestBa
                 "receiverBCC@muenchen.de",
                 "Test Mail",
                 "digiwf@muenchen.de",
+                null,
+                null,
                 null,
                 "template",
                 Map.of("mail", mailWithLogoAndLinkDto)

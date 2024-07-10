@@ -33,6 +33,8 @@ class SendMailUseCaseTest {
             "Test Mail",
             "This is a test mail",
             "digiwf@muenchen.de",
+            null,
+            null,
             null
     );
     private final MailWithLogoAndLinkDto mailWithLogoAndLinkDto = new MailWithLogoAndLinkDto(
@@ -41,6 +43,8 @@ class SendMailUseCaseTest {
             "receiverBCC@muenchen.de",
             "Test Mail",
             "digiwf@muenchen.de",
+            null,
+            null,
             null,
             "template",
             "text",
@@ -54,6 +58,8 @@ class SendMailUseCaseTest {
             "receiverBCC@muenchen.de",
             "Test Mail",
             "digiwf@muenchen.de",
+            null,
+            null,
             null,
             "template",
             Map.of("mail", mailWithLogoAndLinkDto)

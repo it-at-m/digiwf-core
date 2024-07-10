@@ -43,4 +43,11 @@ public class BasicMail {
     @Valid
     private List<PresignedUrl> attachments;
 
+    private String fileContext;
+    private String filePaths;
+
+    public List<String> parseFilePaths() {
+        return List.of(this.filePaths.split("[,;]"));
+    }
+
 }
