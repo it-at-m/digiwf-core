@@ -13,7 +13,7 @@ Die Address Integration bietet drei verschiedene APIs an, um Adressen und Straß
 
 Die Adressdienstanfragen müssen über das in `addressServiceIntegration.json` definierte Element-Template gemacht werden.
 Der Dienst und die Vorlage bieten acht Arten von Anfragen. Der Anfragetyp kann über das Dropdown-Menü der Elementvorlage
-im Feld `Event Type` festgelegt werden.
+im Feld `Type Header` festgelegt werden.
 
 * `searchAdressenBundesweit`
 * `checkAdresseMuenchen`
@@ -1263,36 +1263,14 @@ Die Antwort lautet wie folgt:
 
 ### Fehlerbehandlung
 
-| Error Code         | Error Message                                                            | Beschreibung                                                                            | Handlungsempfehlung                                                             | 
-|--------------------|--------------------------------------------------------------------------|-----------------------------------------------------------------------------------------|---------------------------------------------------------------------------------|
+| Error Code                     | Error Message                                                            | Beschreibung                                                                            | Handlungsempfehlung                                                                | 
+|--------------------------------|--------------------------------------------------------------------------|-----------------------------------------------------------------------------------------|------------------------------------------------------------------------------------|
 | `ADDRESS_SERVICE_CLIENT_ERROR` | Die Fehlermeldung des Stadt München Address Services wird weitergegeben. | Beim Aufrufen des Address Services ist ein Client Fehler aufgetreten (HTTP Status 4xx). | Analysieren Sie die Fehlermeldung und versuchen Sie, den Request erneut zu senden. | 
-
-## DigiWF Address Integration anpassen
-
-Die Integration wurde in einer hexagonalen Architektur implementiert, um Anpassbarkeit und Erweiterbarkeit zu
-gewährleisten.
-Um die Funktionen der Integration zu erweitern bzw. zu ersetzen, müssen lediglich die Port-Interfaces überschrieben und
-als `@Bean`
-bereitgestellt werden. Dadurch wird unsere Standardimplementierung durch die eigene Implementierung ersetzt.
-
-Die Port-Definitionen finden Sie unter dem Pfad: [digiwf-address-integration-core/src/main/java/de/muenchen/oss/digiwf/address/integration/application/port](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-address-integration/digiwf-address-integration-core/src/main/java/de/muenchen/oss/digiwf/address/integration/application/port)
-
-### Address-Client anpassen
-
-Der Address-Client ist für die Kommunikation mit dem Address-Service der Stadt München zuständig.
-Der Client wurde in einem eigenen Maven-Modul als Bibliothek implementiert, um die Abhängigkeiten zu kapseln.
-Die Implementierung des Clients kann ebenfalls erweitert bzw. ersetzt werden durch die Implementierung der
-API-Interfaces `AddressGermanyApi`, `AddressMunichApi` und `StreetsMunichApi`.
-Die Implementierung dieser Interfaces muss ebenfalls als `@Bean` bereitgestellt werden.
-
-Die API-Interfaces finden Sie unter dem Pfad: [digiwf-address-integration-client/src/main/java/de/muenchen/oss/digiwf/address/integration/client/api](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-address-integration/digiwf-address-integration-client/src/main/java/de/muenchen/oss/digiwf/address/integration/client/api)
 
 ## Konfigurationen
 
-Zusätzlich zu den allgemeinen Konfigurationen für DigiWF-Integrationen, die unter
-[Eigene Integration erstellen](/integrations/guides/custom-integration-service.html#anwendung-konfigurieren) beschrieben
-sind, können Sie die folgenden Konfigurationen für die DigiWF Address Integration verwenden:
+Allgemeine Konfigurationen für DigiWF-Integrationen sind unter
+[Eigene Integration erstellen](/integrations/guides/custom-integration-service.html#anwendung-konfigurieren)
+beschrieben.
 
-| Eigenschaft                                  | Bedeutung                |
-|----------------------------------------------|--------------------------|
-| `de.muenchen.oss.digiwf.address.service.url` | URL des Address-Services |
+Die Konfiguration der Address Integration ist in der [README.md](https://github.com/it-at-m/digiwf-core/blob/dev/digiwf-integrations/digiwf-address-integration/README.md) beschrieben.
