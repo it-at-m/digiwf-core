@@ -8,6 +8,7 @@ import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageSer
 import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFileRepository;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.transfer.S3FileTransferRepository;
 import de.muenchen.oss.digiwf.s3.integration.client.service.FileService;
+import de.muenchen.oss.digiwf.s3.integration.client.service.S3StorageUrlProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.util.unit.DataSize;
@@ -28,12 +29,13 @@ class S3AdapterTest {
 
     private final S3FileTransferRepository s3FileTransferRepository = mock(S3FileTransferRepository.class);
     private final DocumentStorageFileRepository documentStorageFileRepository = mock(DocumentStorageFileRepository.class);
+    private final S3StorageUrlProvider s3DomainService = mock(S3StorageUrlProvider.class);
     private final FileService fileService = new FileService(null, ALLOWED_FILE_SIZE, ALLOWED_BATCH_SIZE);
     private S3Adapter s3Adapter;
 
     @BeforeEach
     void setup() {
-        s3Adapter = new S3Adapter(s3FileTransferRepository, documentStorageFileRepository, fileService);
+        s3Adapter = new S3Adapter(s3FileTransferRepository, documentStorageFileRepository, fileService, s3DomainService);
     }
 
     @Test
