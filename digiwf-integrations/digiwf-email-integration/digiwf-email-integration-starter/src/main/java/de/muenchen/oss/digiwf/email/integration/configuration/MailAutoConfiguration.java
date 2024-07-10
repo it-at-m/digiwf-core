@@ -11,7 +11,7 @@ import de.muenchen.oss.digiwf.email.integration.application.port.in.SendMailPres
 import de.muenchen.oss.digiwf.email.integration.application.port.out.LoadMailAttachmentOutPort;
 import de.muenchen.oss.digiwf.email.integration.application.port.out.MailOutPort;
 import de.muenchen.oss.digiwf.email.integration.application.usecase.SendMailPathsUseCase;
-import de.muenchen.oss.digiwf.email.integration.application.usecase.SendMailPresignedPresignedUseCase;
+import de.muenchen.oss.digiwf.email.integration.application.usecase.SendMailPresignedUseCase;
 import de.muenchen.oss.digiwf.email.integration.domain.model.paths.TextMailPaths;
 import de.muenchen.oss.digiwf.email.integration.domain.model.presigned.TextMailPresigned;
 import de.muenchen.oss.digiwf.email.integration.infrastructure.MonitoringService;
@@ -50,7 +50,7 @@ public class MailAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public SendMailPresignedInPort getSendMailPresignedInPort(final LoadMailAttachmentOutPort loadAttachmentPort, final MailOutPort mailOutPort) {
-        return new SendMailPresignedPresignedUseCase(loadAttachmentPort, mailOutPort);
+        return new SendMailPresignedUseCase(loadAttachmentPort, mailOutPort);
     }
 
     @Bean

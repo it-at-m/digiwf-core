@@ -27,7 +27,7 @@ import java.util.Map;
 @Slf4j
 @RequiredArgsConstructor
 @Validated
-public class SendMailPresignedPresignedUseCase implements SendMailPresignedInPort {
+public class SendMailPresignedUseCase implements SendMailPresignedInPort {
 
     private final LoadMailAttachmentOutPort loadAttachmentOutPort;
     private final MailOutPort mailOutPort;
