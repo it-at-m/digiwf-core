@@ -28,7 +28,8 @@ Die Destinations für die unterschiedlichen Aktionen können über die `applicat
 siehe [Konfiguration](#konfiguration)).
 
 > Usage Examples finden Sie
-> im [Example-Module in Github](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-libs/digiwf-message/digiwf-message-example/).
+>
+im [Example-Module in Github](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-libs/digiwf-message/digiwf-message-example/).
 
 ### MessageApi
 
@@ -155,10 +156,11 @@ unter `spring.cloud.function.definition` die Funktion `sendMessage` zu definiere
 ### Nachrichten empfangen
 
 Neben dem Versenden von Nachrichten über die Event Emitter können auch Nachrichten empfangen
-werden. DigiWF-Message baut auf der [Konvention](https://github.com/it-at-m/digiwf-core/blob/dev/digiwf-libs/digiwf-message/digiwf-message-starter/src/main/resources/digiwf-message-application.yml#L5) 
+werden. DigiWF-Message baut auf
+der [Konvention](https://github.com/it-at-m/digiwf-core/blob/dev/digiwf-libs/digiwf-message/digiwf-message-starter/src/main/resources/digiwf-message-application.yml#L5)
 auf, dass die Consumer-Methode anhand eines `type` - Headers
 in der Nachricht bestimmt wird. Somit ist es wichtig, dass die zugehörige Spring-Bean genauso benannt ist
-wie der Wert im Type-Header. Nur dann können die Nachrichten von Spring Cloud Stream richtig geroutet werden. 
+wie der Wert im Type-Header. Nur dann können die Nachrichten von Spring Cloud Stream richtig geroutet werden.
 ([Mehr Informationen dazu bei Spring Cloud Stream](https://docs.spring.io/spring-cloud-stream/reference/spring-cloud-stream/event-routing.html#routing-to-consumer))
 
 ## Konfiguration
@@ -169,19 +171,19 @@ io:
     digiwf:
       message:
         incidentDestination: "digiwf-example-integration-incident"
-        technicalErrorDestination: "digiwf-example-integration-technical-error"
+        bpmnErrorDestination: "digiwf-example-integration-technical-error"
         correlateMessageDestination: "digiwf-example-integration-correlate-message"
         startProcessDestination: "digiwf-message-scs-example-start-process"
-        deadLetterQueueDestination: "dwf-connector-incident-${DIGIWF_ENV}"
+        deadLetterQueueDestination: "digiwf-example-integration-incident"
 ```
 
-|                                                            |                                                                                   |
-|------------------------------------------------------------|-----------------------------------------------------------------------------------|
-| de.muenchen.oss.digiwf.message.incidentDestination         | Destination to redirect incidents to (e.g. Kafka Topic)                           |
-| de.muenchen.oss.digiwf.message.technicalErrorDestination   | Destination to redirect technical errors a.k.a. bpmn errors to (e.g. Kafka Topic) |
-| de.muenchen.oss.digiwf.message.correlateMessageDestination | Destination to send correlate messages to (e.g. Kafka Topic)                      |
-| de.muenchen.oss.digiwf.message.startProcessDestination     | Destination to send start process messages to (e.g. Kafka Topic)                  |
-| de.muenchen.oss.digiwf.message.deadLetterQueueDestination  | Destination to send failing messages events to (e.g. Kafka Topic)                 |
+| Property                                                      | Description                                                                       |
+|---------------------------------------------------------------|-----------------------------------------------------------------------------------|
+| io.muenchendigital.digiwf.message.incidentDestination         | Destination to redirect incidents to (e.g. Kafka Topic)                           |
+| io.muenchendigital.digiwf.message.bpmnErrorDestination        | Destination to redirect technical errors a.k.a. bpmn errors to (e.g. Kafka Topic) |
+| io.muenchendigital.digiwf.message.correlateMessageDestination | Destination to send correlate messages to (e.g. Kafka Topic)                      |
+| io.muenchendigital.digiwf.message.startProcessDestination     | Destination to send start process messages to (e.g. Kafka Topic)                  |
+| io.muenchendigital.digiwf.message.deadLetterQueueDestination  | Destination to send failing messages events to (e.g. Kafka Topic)                 |
 
 ## Anpassbarkeit
 
