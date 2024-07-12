@@ -1,0 +1,14 @@
+{
+  "key": "feature-s3-integration-presigned",
+  "statusDokument": "",
+  "configs": [
+    {
+      "key": "app_file_paths_readonly",
+      "value": ""
+    },
+    {
+      "key": "app_file_paths",
+      "value": "test"
+    }
+  ]
+}

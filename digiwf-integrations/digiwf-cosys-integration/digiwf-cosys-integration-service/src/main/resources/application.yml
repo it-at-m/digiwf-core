@@ -1,6 +1,22 @@
 spring:
   application:
     name: '@project.artifactId@'
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            issuer-uri: ${SSO_ISSUER_URL}
+            user-info-uri: ${SSO_BASE_URL}/realms/${SSO_REALM}/protocol/openid-connect/userinfo
+            jwk-set-uri: ${SSO_BASE_URL}/realms/${SSO_REALM}/protocol/openid-connect/certs
+            user-name-attribute: user_name
+        registration:
+          s3:
+            provider: keycloak
+            authorization-grant-type: client_credentials
+            client-id: ${SSO_S3_CLIENT_ID}
+            client-secret: ${SSO_S3_CLIENT_SECRET}
+            scope: email, profile, openid  # needed for userInfo endpoint
 
 io:
   muenchendigital:
@@ -20,6 +36,7 @@ digiwf:
     client:
       document-storage-url: '${DIGIWF_S3_HTTPAPI:http://localhost:8086}'
       max-file-size: ${S3_MAX_FILE_SIZE:100MB}
+      enable-security: true
 
 management:
   endpoint:

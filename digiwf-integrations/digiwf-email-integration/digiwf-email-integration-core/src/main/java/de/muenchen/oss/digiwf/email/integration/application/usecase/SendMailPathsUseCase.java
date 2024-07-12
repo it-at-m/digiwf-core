@@ -1,11 +1,11 @@
 package de.muenchen.oss.digiwf.email.integration.application.usecase;
 
-import de.muenchen.oss.digiwf.email.integration.application.port.in.SendMailInPort;
+import de.muenchen.oss.digiwf.email.integration.application.port.in.SendMailPathsInPort;
 import de.muenchen.oss.digiwf.email.integration.application.port.out.LoadMailAttachmentOutPort;
 import de.muenchen.oss.digiwf.email.integration.application.port.out.MailOutPort;
-import de.muenchen.oss.digiwf.email.integration.domain.model.BasicMail;
-import de.muenchen.oss.digiwf.email.integration.domain.model.TemplateMail;
-import de.muenchen.oss.digiwf.email.integration.domain.model.TextMail;
+import de.muenchen.oss.digiwf.email.integration.domain.model.paths.BasicMailPaths;
+import de.muenchen.oss.digiwf.email.integration.domain.model.paths.TemplateMailPaths;
+import de.muenchen.oss.digiwf.email.integration.domain.model.paths.TextMailPaths;
 import de.muenchen.oss.digiwf.email.model.FileAttachment;
 import de.muenchen.oss.digiwf.message.process.api.error.BpmnError;
 import freemarker.template.TemplateException;
@@ -13,12 +13,9 @@ import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import lombok.val;
-import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.validation.annotation.Validated;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +23,7 @@ import java.util.Map;
 @Slf4j
 @RequiredArgsConstructor
 @Validated
-public class SendMailUseCase implements SendMailInPort {
+public class SendMailPathsUseCase implements SendMailPathsInPort {
 
     private final LoadMailAttachmentOutPort loadAttachmentOutPort;
     private final MailOutPort mailOutPort;
@@ -37,7 +34,7 @@ public class SendMailUseCase implements SendMailInPort {
      * @param mail mail that is sent
      */
     @Override
-    public void sendMailWithText(@Valid final TextMail mail) throws BpmnError {
+    public void sendMailWithText(@Valid final TextMailPaths mail) throws BpmnError {
         de.muenchen.oss.digiwf.email.model.Mail mailModel = createMail(mail);
         mailModel.setBody(mail.getBody());
 
@@ -45,7 +42,7 @@ public class SendMailUseCase implements SendMailInPort {
     }
 
     @Override
-    public void sendMailWithTemplate(@Valid final TemplateMail mail) throws BpmnError {
+    public void sendMailWithTemplate(@Valid final TemplateMailPaths mail) throws BpmnError {
         // get body from template
         try {
             Map<String, Object> content = new HashMap<>(mail.getContent());
@@ -65,14 +62,10 @@ public class SendMailUseCase implements SendMailInPort {
         }
     }
 
-    private de.muenchen.oss.digiwf.email.model.Mail createMail(BasicMail mail) {
+    private de.muenchen.oss.digiwf.email.model.Mail createMail(BasicMailPaths mail) {
         // load Attachments
-        final List<FileAttachment> attachments = new ArrayList<>();
-        if (CollectionUtils.isNotEmpty(mail.getAttachments())) {
-            for (val attachment : mail.getAttachments()) {
-                attachments.add(this.loadAttachmentOutPort.loadAttachment(attachment));
-            }
-        }
+        List<FileAttachment> attachments = loadAttachmentOutPort.loadAttachments(mail.getFileContext(), mail.parseFilePaths());
+
         // send mail
         return de.muenchen.oss.digiwf.email.model.Mail.builder()
                 .receivers(mail.getReceivers())

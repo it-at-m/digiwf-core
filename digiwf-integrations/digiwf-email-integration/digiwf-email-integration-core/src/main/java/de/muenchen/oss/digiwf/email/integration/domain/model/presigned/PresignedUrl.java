@@ -1,4 +1,4 @@
-package de.muenchen.oss.digiwf.email.integration.domain.model;
+package de.muenchen.oss.digiwf.email.integration.domain.model.presigned;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 /**
  * Attachment File you want to get from the S3 storage.
  */
+@Deprecated
 @Data
 @RequiredArgsConstructor
 @AllArgsConstructor

@@ -1,6 +1,7 @@
 package de.muenchen.oss.digiwf.email.integration.adapter.in.streaming;
 
-import de.muenchen.oss.digiwf.email.integration.application.port.in.SendMailInPort;
+import de.muenchen.oss.digiwf.email.integration.application.port.in.SendMailPathsInPort;
+import de.muenchen.oss.digiwf.email.integration.application.port.in.SendMailPresignedInPort;
 import de.muenchen.oss.digiwf.email.integration.infrastructure.MonitoringService;
 import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
 import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
@@ -15,7 +16,8 @@ public class StreamingAdapterTestBase {
 
     protected final ProcessApi processApi = Mockito.mock(ProcessApi.class);
     protected final ErrorApi errorApiMock = Mockito.mock(ErrorApi.class);
-    protected final SendMailInPort sendMailInPortMock = Mockito.mock(SendMailInPort.class);
+    protected final SendMailPresignedInPort sendMailPresignedInPortMock = Mockito.mock(SendMailPresignedInPort.class);
+    protected final SendMailPathsInPort sendMailPathsInPortMock = Mockito.mock(SendMailPathsInPort.class);
     protected final MonitoringService monitoringServiceMock = Mockito.mock(MonitoringService.class);
 
     // dummy data
@@ -28,7 +30,8 @@ public class StreamingAdapterTestBase {
         this.streamingAdapter = new StreamingAdapter(
                 processApi,
                 errorApiMock,
-                sendMailInPortMock,
+                sendMailPresignedInPortMock,
+                sendMailPathsInPortMock,
                 monitoringServiceMock);
     }
 

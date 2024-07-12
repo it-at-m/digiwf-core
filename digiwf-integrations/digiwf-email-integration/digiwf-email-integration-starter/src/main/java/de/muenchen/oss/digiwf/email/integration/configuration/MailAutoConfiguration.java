@@ -1,20 +1,27 @@
 package de.muenchen.oss.digiwf.email.integration.configuration;
 
 import de.muenchen.oss.digiwf.email.api.DigiwfEmailApi;
-import de.muenchen.oss.digiwf.email.integration.adapter.in.streaming.MailWithLogoAndLinkDto;
+import de.muenchen.oss.digiwf.email.integration.adapter.in.streaming.MailWithLogoAndLinkPathsDto;
+import de.muenchen.oss.digiwf.email.integration.adapter.in.streaming.MailWithLogoAndLinkPresignedDto;
 import de.muenchen.oss.digiwf.email.integration.adapter.in.streaming.StreamingAdapter;
 import de.muenchen.oss.digiwf.email.integration.adapter.out.mail.MailAdapter;
 import de.muenchen.oss.digiwf.email.integration.adapter.out.s3.S3Adapter;
-import de.muenchen.oss.digiwf.email.integration.application.port.in.SendMailInPort;
+import de.muenchen.oss.digiwf.email.integration.application.port.in.SendMailPathsInPort;
+import de.muenchen.oss.digiwf.email.integration.application.port.in.SendMailPresignedInPort;
 import de.muenchen.oss.digiwf.email.integration.application.port.out.LoadMailAttachmentOutPort;
 import de.muenchen.oss.digiwf.email.integration.application.port.out.MailOutPort;
-import de.muenchen.oss.digiwf.email.integration.application.usecase.SendMailUseCase;
-import de.muenchen.oss.digiwf.email.integration.domain.model.TextMail;
+import de.muenchen.oss.digiwf.email.integration.application.usecase.SendMailPathsUseCase;
+import de.muenchen.oss.digiwf.email.integration.application.usecase.SendMailPresignedUseCase;
+import de.muenchen.oss.digiwf.email.integration.domain.model.paths.TextMailPaths;
+import de.muenchen.oss.digiwf.email.integration.domain.model.presigned.TextMailPresigned;
 import de.muenchen.oss.digiwf.email.integration.infrastructure.MonitoringService;
 import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
 import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
+import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFileRepository;
+import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFolderRepository;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.transfer.S3FileTransferRepository;
 import de.muenchen.oss.digiwf.s3.integration.client.service.FileService;
+import de.muenchen.oss.digiwf.s3.integration.client.service.S3StorageUrlProvider;
 import io.micrometer.core.instrument.MeterRegistry;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -34,7 +41,7 @@ public class MailAutoConfiguration {
     private final MetricsProperties metricsProperties;
 
     /**
-     * Configures the {@link SendMailInPort} use case.
+     * Configures the {@link SendMailPresignedInPort} use case.
      *
      * @param loadAttachmentPort LoadMailAttachmentPort
      * @param mailOutPort        MailPort
@@ -42,8 +49,14 @@ public class MailAutoConfiguration {
      */
     @Bean
     @ConditionalOnMissingBean
-    public SendMailInPort getSendMailUseCase(final LoadMailAttachmentOutPort loadAttachmentPort, final MailOutPort mailOutPort) {
-        return new SendMailUseCase(loadAttachmentPort, mailOutPort);
+    public SendMailPresignedInPort getSendMailPresignedInPort(final LoadMailAttachmentOutPort loadAttachmentPort, final MailOutPort mailOutPort) {
+        return new SendMailPresignedUseCase(loadAttachmentPort, mailOutPort);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public SendMailPathsInPort getSendMailPathsInPort(final LoadMailAttachmentOutPort loadAttachmentPort, final MailOutPort mailOutPort) {
+        return new SendMailPathsUseCase(loadAttachmentPort, mailOutPort);
     }
 
     @Bean
@@ -54,8 +67,12 @@ public class MailAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public LoadMailAttachmentOutPort getLoadMailAttachmentPort(final S3FileTransferRepository s3FileTransferRepository, final FileService fileService) {
-        return new S3Adapter(s3FileTransferRepository, fileService);
+    public LoadMailAttachmentOutPort getLoadMailAttachmentPort(final S3FileTransferRepository s3FileTransferRepository,
+                                                               final DocumentStorageFileRepository documentStorageFileRepository,
+                                                               final DocumentStorageFolderRepository documentStorageFolderRepository,
+                                                               final FileService fileService,
+                                                               final S3StorageUrlProvider s3DomainService) {
+        return new S3Adapter(s3FileTransferRepository, documentStorageFileRepository, documentStorageFolderRepository, fileService, s3DomainService);
     }
 
     @Bean
@@ -65,13 +82,23 @@ public class MailAutoConfiguration {
     }
 
     @Bean
-    public Consumer<Message<TextMail>> sendMailFromEventBus(final StreamingAdapter streamingAdapter) {
+    public Consumer<Message<TextMailPresigned>> sendMailFromEventBus(final StreamingAdapter streamingAdapter) {
         return streamingAdapter.emailIntegration();
     }
 
     @Bean
-    public Consumer<Message<MailWithLogoAndLinkDto>> sendMailWithLogoAndLink(final StreamingAdapter streamingAdapter) {
+    public Consumer<Message<MailWithLogoAndLinkPresignedDto>> sendMailWithLogoAndLink(final StreamingAdapter streamingAdapter) {
         return streamingAdapter.sendMailWithLogoAndLink();
+    }
+
+    @Bean
+    public Consumer<Message<TextMailPaths>> sendTextMailV2(final StreamingAdapter streamingAdapter) {
+        return streamingAdapter.sendTextMailV2();
+    }
+
+    @Bean
+    public Consumer<Message<MailWithLogoAndLinkPathsDto>> sendMailWithLogoAndLinkV2(final StreamingAdapter streamingAdapter) {
+        return streamingAdapter.sendMailWithLogoAndLinkV2();
     }
 
     @ConditionalOnMissingBean
@@ -80,12 +107,14 @@ public class MailAutoConfiguration {
             final ProcessApi processApi,
             final ErrorApi errorApi,
             final MonitoringService monitoringService,
-            final SendMailInPort mailUseCase
+            final SendMailPresignedInPort sendMailPresignedInPort,
+            final SendMailPathsInPort sendMailPathsInPort
     ) {
         return new StreamingAdapter(
                 processApi,
                 errorApi,
-                mailUseCase,
+                sendMailPresignedInPort,
+                sendMailPathsInPort,
                 monitoringService);
     }
 

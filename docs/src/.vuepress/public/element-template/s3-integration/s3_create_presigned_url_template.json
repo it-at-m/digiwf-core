@@ -1,5 +1,5 @@
 {
-  "name": "S3: Presigned Url erstellen V02",
+  "name": "S3: Presigned Url erstellen V02 (Deprecated)",
   "id": "de.muenchen.digitalwf.templates.S3CreatePresignedUrlTemplateV02",
   "appliesTo": [
     "bpmn:CallActivity"
