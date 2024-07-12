@@ -2,7 +2,65 @@
 
 Provides integration to ALW (Ausländerwesen) service for retrieval of responsible employees.
 
-## Configuration
+## Usage of the Spring Boot Starter
+
+The DigiWF ALW integration is provided as a Spring Boot Starter project. It was implemented in a hexagonal
+architecture to ensure adaptability and extensibility. To customize the ALW integration to your
+needs, you can use the starter module and override the provided `@Beans` as well as add your own `@Beans`.
+
+You can integrate the `digiwf-cosys-integration-starter` into your project as follows:
+
+With Maven:
+
+``` xml
+   <dependency>
+        <groupId>de.muenchen.oss.digiwf</groupId>
+        <artifactId>digiwf-alw-integration-starter</artifactId>
+        <version>${digiwf.version}</version>
+   </dependency>
+```
+
+With Gradle:
+
+``` groovy
+implementation group: 'de.muenchen.oss.digiwf', name: 'digiwf-alw-integration-starter', version: '${digiwf.version}'
+```
+
+To extend or replace the functions of the integration, you only need to override the port interfaces and provide them
+as `@Bean`. This will replace our standard implementation with your custom implementation.
+
+You can find the port definitions at the
+path: [digiwf-alw-integration-core/src/main/java/de/muenchen/oss/digiwf/alw/integration/application/port](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-alw-integration/digiwf-alw-integration-core/src/main/java/de/muenchen/oss/digiwf/alw/integration/application/port).
+
+You can use the following configurations for the DigiWF ALW Integration:
+
+| Property                                             | Description                                                                   |
+|------------------------------------------------------|-------------------------------------------------------------------------------|
+| `digiwf.alw.personeninfo.base-url`                   | Host url of the alw service                                                   |
+| `digiwf.alw.personeninfo.rest-endpoint`              | endpoint url of the alw service                                               |
+| `digiwf.alw.personeninfo.timeout`                    | Timeout of the request to the alw endpoint (default is 1500)                  |
+| `digiwf.alw.personeninfo.username`                   | username                                                                      |
+| `digiwf.alw.personeninfo.password`                   | password                                                                      |
+| `digiwf.alw.personeninfo.functional-ping.enabled`    | Enables functional pinging on startup (default is `true`)                     |
+| `digiwf.alw.personeninfo.functional-ping.azr-number` | AZR number used in functional pinging on startup (default is an empty string) |
+
+To use the streaming adapter, you need to set the properties as described in
+the [DigiWF Message library](https://github.com/it-at-m/digiwf-core/blob/dev/digiwf-libs/digiwf-message/README.md#configuration).
+
+The authorization is outsourced to the digiwf-spring-security-starter. You also need to set the properties as described
+in:
+the [DigiWF Spring Security library](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-libs/digiwf-spring-security/README.md).
+
+You will also have to define a map as a named resource bean (see **BEAN_ALW_SACHBEARBEITUNG**
+of <i>[SachbearbeitungMapperResourceConfig](https://github.com/it-at-m/digiwf-core/blob/dev/digiwf-integrations/digiwf-alw-integration/digiwf-alw-integration-service/src/main/java/de/muenchen/oss/digiwf/alw/integration/configuration/SachbearbeitungMapperResourceConfig.java) </i> )
+to support mapping of the ALW System responses to directory-ous.
+
+## Run the DigiWF ALW Integration Service
+
+To run the service i.e. in Open Shift you can set the environment variables below or run the service locally as
+described in the [Getting Started](#getting-started) section.
+
+### Service Configuration with environment variables
 
 Set following environment variables to configure the service.
 
@@ -19,7 +77,7 @@ Set following environment variables to configure the service.
 | `DIGIWF_ENV`                    | Environment in which the service runs                                                              |
 | `ALW_INTEGRATION_SERVER_PORT`   | Port of the application                                                                            |
 | `KAFKA_SECURITY_PROTOCOL`       | Security protocol of kafka (default is PLAINTEXT)                                                  |
-| `KAFKA_BOOTSTRAP_SERVER`        | Kafka server address (default is localhost)                                                        |
+| `KAFKA_BOOTSTRAP_SERVER`        | Kafka server alw (default is localhost)                                                            |
 | `KAFKA_BOOTSTRAP_SERVER_PORT`   | Kafka server port (default is 29092)                                                               |
 | `SSO_ISSUER_URL`                | Issuer url used for authenticating incoming requests i.e. `${SSO_BASE_URL}/realms/${SSO_REALM}`    |
 | `SSO_BASE_URL`                  | Base url used for sso connection.                                                                  |
@@ -27,23 +85,23 @@ Set following environment variables to configure the service.
 | `DIGIWF_SECURITY_CLIENT-ID`     | SSO client id used for sso connection.                                                             |
 | `DIGIWF_SECURITY_CLIENT-SECRET` | SSO secret id used for sso connection.                                                             |
 
-## Getting started
+### Getting started
 
 1. Build it with `mvn clean install`
 2. Run Stack using `docker-compose`
 
-## Request
+### Request
 
 For the valid request an AZR number must be provided. This number must contain 12-digits. If the AZR number
 is missing or has a wrong format a VALIDATION_ERROR is thrown.
 
-## Manual Test outside of München Network
+### Manual Test outside of München Network
 
 1. Start the `docker-compose` setup
 2. Start application with profiles `local` and `alw-emulation`
 3. Use `digiwf-alw-integration-service/rest-api-client/example.http`
 
-## Manual Test inside of München Network
+### Manual Test inside of München Network
 
 1. Set Spring Properties:
     ```
@@ -74,80 +132,3 @@ is missing or has a wrong format a VALIDATION_ERROR is thrown.
         - Add Environment values from `stack/local-docker.env`
 3. Test the functionality with the
    process [alw-integration](../../digiwf-engine/digiwf-engine-service/src/main/resources/prozesse/example/alw-integration)
-
-## Set up for use of digiwf-alw-integration-starter
-
-Follow these steps to use the starter in your application:
-
-1. Use the Spring Initializr and create a Spring Boot application with `Spring Web`
-   dependencies. [https://start.spring.io](https://start.spring.io)
-2. Add the digiwf-alw-integration-starter dependency.
-
-With Maven:
-
-``` xml
-   <dependency>
-        <groupId>de.muenchen.oss.digiwf</groupId>
-        <artifactId>digiwf-alw-integration-starter</artifactId>
-        <version>${digiwf.version}</version>
-   </dependency>
-```
-
-With Gradle:
-
-``` groovy
-implementation group: 'de.muenchen.oss.digiwf', name: 'digiwf-alw-integration-starter', version: '${digiwf.version}'
-```
-
-3. Add your preferred binder (see [Spring Cloud Stream](https://spring.io/projects/spring-cloud-stream)). In this
-   example, we use Kafka.
-
-Maven:
-
- ``` xml
-<dependency>
-   <groupId>org.springframework.cloud</groupId>
-   <artifactId>spring-cloud-stream-binder-kafka</artifactId>
-</dependency>
-```
-
-Gradle:
-
-``` groovy
-implementation group: 'org.springframework.cloud', name: 'spring-cloud-stream-binder-kafka'
-```
-
-4. Configure your binder.<br>
-   For an example on how to configure your binder,
-   see [DigiWF Spring Cloudstream Utils](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-libs/digiwf-spring-cloudstream-utils#getting-started)
-   Note that you DO have to
-   configure ```spring.cloud.function.definition=functionRouter;sendMessage;sendCorrelateMessage;```, but you don't need
-   typeMappings. These are configured for you by the digiwf-alw-integration-starter. You also have to configure the
-   topics you want to read/send messages from/to.
-
-5. Configure these items for your event bus:
-
-``` properties
-spring.cloud.stream.bindings.sendMessage-out-0.destination: <YOUR CUSTOM REQUEST TOPIC>
-spring.cloud.stream.bindings.sendCorrelateMessage-out-0.destination: <YOUR CUSTOM RESPONSE TOPIC>
-spring.cloud.stream.bindings.functionRouter-in-0.group: <YOUR GROUP>
-spring.cloud.stream.bindings.functionRouter-in-0.destination: <YOUR CUSTOM REQUEST TOPIC> # For a roundtrip use the same value as in "spring.cloud.stream.bindings.sendMessage-out-0.destination" 
-```
-
-6. Configure details of your ALW System:
-
-``` yaml
-digiwf.alw.personeninfo:
-  base-url: <YOUR ALW SYSTEM URL>
-  rest-endpoint: <YOUR PERSONENINFO ENDPOINT>
-  timeout: <YOUR CONNECTION TIMEOUT>
-  username: <YOUR BASIC AUTH USER>
-  password: <YOUR BASIC AUTH PASSWORD>
-  functional-ping:
-    enabled: true
-    azr-number: <YOUR SAMPLE AZR NUMBER>
-```
-
-7. Define a map as a named resource bean (see **BEAN_ALW_SACHBEARBEITUNG**
-   of <i>[SachbearbeitungMapperConfig](https://github.com/it-at-m/digiwf-core/blob/dev/digiwf-integrations/digiwf-alw-integration/digiwf-alw-integration-core/src/main/java/io/muenchendigital/digiwf/alw/integration/configuration/SachbearbeitungMapperConfig.java) </i> )
-   to support mapping of the ALW System responses to directory-ous.

@@ -44,7 +44,7 @@ server:
     whitelabel:
       enabled: false
 
-# Config for spring actuator endpoints
+# Monitoring Setup
 management:
   server.port: ${server.port}
   endpoints:
