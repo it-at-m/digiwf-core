@@ -1,13 +1,16 @@
 # DigiWF Message
 
-The **DigiWF Message** library is an abstraction layer that simplifies communication between different components and reduces technical complexity.
+The **DigiWF Message** library is an abstraction layer that simplifies communication between different components and
+reduces technical complexity.
 
-The idea behind the **DigiWF Message** library is to solve the recurring Spring Cloud Stream configurations in a central location and provide an API to use them.
-This way, an integration developer no longer needs to delve into the depths of Spring Cloud Stream configurations and can focus on implementing the integration.
+The idea behind the **DigiWF Message** library is to solve the recurring Spring Cloud Stream configurations in a central
+location and provide an API to use them.
+This way, an integration developer no longer needs to delve into the depths of Spring Cloud Stream configurations and
+can focus on implementing the integration.
 
 The library provides its own APIs for sending messages that send messages to a message broker.
-In addition, the library also provides a Spring Cloud Stream `RoutingCallback` for consuming and forwarding messages (function routing).
-
+In addition, the library also provides a Spring Cloud Stream `RoutingCallback` for consuming and forwarding messages (
+function routing).
 
 ## Usage
 
@@ -16,10 +19,13 @@ The **DigiWF Message** library provides the MessageApi, which is used to send me
 In addition, APIs are provided for recurring messages that build on the MessageApi.
 For this purpose, we have created the ProcessApi and the ErrorApi.
 The ProcessApi can be used to start processes in DigiWF, correlate messages to processes, and perform error handling.
-The ErrorApi provides the exceptions `BpmnError` for business errors and `IncidentError` for technical errors, which can be thrown and caught in the application.
-In addition, methods are provided, as with the ProcessApi, to send messages to the corresponding destinations (target topics).
+The ErrorApi provides the exceptions `BpmnError` for business errors and `IncidentError` for technical errors, which can
+be thrown and caught in the application.
+In addition, methods are provided, as with the ProcessApi, to send messages to the corresponding destinations (target
+topics).
 
-The destinations for the different actions can be configured via `application.yml` (see [Configuration](#configuration)).
+The destinations for the different actions can be configured via `application.yml` (
+see [Configuration](#configuration)).
 
 > Usage examples can be found in the [Example Module](digiwf-message-example).
 
@@ -27,13 +33,17 @@ The destinations for the different actions can be configured via `application.ym
 
 The MessageApi provides the `sendMessage` method, which can be used to send a message to a specific *destination*.
 A message consists of a `payload` and `headers`.
-The payload contains the data to be transmitted. The headers are a key, value pair that contains additional information about the message.
+The payload contains the data to be transmitted. The headers are a key, value pair that contains additional information
+about the message.
 
 > At DigiWF, we use Spring Cloud Stream to send messages to Kafka (message broker).
-> The payload is the event that is sent to Kafka. The headers contain important information such as the process instance id, the type of event, etc.
+> The payload is the event that is sent to Kafka. The headers contain important information such as the process instance
+> id, the type of event, etc.
 
 **Usage Example**
+
 ```java
+
 @RequiredArgsConstructor
 public class MessageServiceExample {
     private final MessageApi sendMessageApi;
@@ -60,7 +70,9 @@ In the background, the ProcessAPI uses the MessageApi to send messages to the ap
 The destinations for different actions can be configured via the `application.yml`.
 
 **Usage Example**
+
 ```java
+
 @RequiredArgsConstructor
 public class ProcessService {
     private final ProcessApi processApi;
@@ -78,28 +90,31 @@ public class ProcessService {
 }
 ```
 
-
 ## Spring Cloud Stream Components
 
-The DigiWF Message library provides Spring Cloud Stream components that can be used to send and receive messages to Kafka.
+The DigiWF Message library provides Spring Cloud Stream components that can be used to send and receive messages to
+Kafka.
 For this purpose, event emitters (`Sinks`) and a function router (`RoutingCallback`) are provided.
 
 ### Event Emitter
 
 An event emitter `sendMessage` is provided, which is used to send messages to the corresponding destinations.
-Internally, the MessageApi uses the `spring.cloud.stream.sendto.destination` header, which automatically sends outgoing messages to the topic specified as the destination.
+Internally, the MessageApi uses the `spring.cloud.stream.sendto.destination` header, which automatically sends outgoing
+messages to the topic specified as the destination.
 
 However, in order for Spring Cloud Stream to send messages, an outgoing channel must be configured.
-For this purpose, it is recommended to set the `spring.cloud.stream.bindings.sendMessage-out-0.destination` property and define the function `sendMessage` under `spring.cloud.function.definition`.
+For this purpose, it is recommended to set the `spring.cloud.stream.bindings.sendMessage-out-0.destination` property and
+define the function `sendMessage` under `spring.cloud.function.definition`.
 
 ### Function Router
 
 In addition to sending messages via the event emitter, messages can also be received via the function router.
-For this purpose, we provide a `RoutingCallback` that routes incoming messages to the application's consumers based on the `type` header.
-The mapping between the `type` header, which is read from the incoming messages, and the consumer functions is configured in the `application.yml` via the `de.muenchen.oss.digiwf.message.typeMappings` property.
+For this purpose, we provide a `RoutingCallback` that routes incoming messages to the application's consumers based on
+the `type` header.
+The mapping between the `type` header, which is read from the incoming messages, and the consumer functions is
+configured in the `application.yml` via the `de.muenchen.oss.digiwf.message.typeMappings` property.
 
-
-## Konfiguration
+## Configuration
 
 ```yaml
 spring:
@@ -122,23 +137,23 @@ io:
     digiwf:
       message:
         incidentDestination: "digiwf-example-integration-incident"
-        technicalErrorDestination: "digiwf-example-integration-technical-error"
+        bpmnErrorDestination: "digiwf-example-integration-technical-error"
         correlateMessageDestination: "digiwf-example-integration-correlate-message"
         startProcessDestination: "digiwf-message-scs-example-start-process"
+        deadLetterQueueDestination: "digiwf-example-integration-incident"
 ```
 
-| Property                                                   | Description                                                                       |
-|------------------------------------------------------------|-----------------------------------------------------------------------------------|
-| de.muenchen.oss.digiwf.message.incidentDestination         | Destination to redirect incidents to (e.g. Kafka Topic)                           |
-| de.muenchen.oss.digiwf.message.technicalErrorDestination   | Destination to redirect technical errors a.k.a. bpmn errors to (e.g. Kafka Topic) |
-| de.muenchen.oss.digiwf.message.correlateMessageDestination | Destination to send correlate messages to (e.g. Kafka Topic)                      |
-| de.muenchen.oss.digiwf.message.startProcessDestination     | Destination to send start process messages to (e.g. Kafka Topic)                  |
-
-
+| Property                                                      | Description                                                                       |
+|---------------------------------------------------------------|-----------------------------------------------------------------------------------|
+| io.muenchendigital.digiwf.message.incidentDestination         | Destination to redirect incidents to (e.g. Kafka Topic)                           |
+| io.muenchendigital.digiwf.message.bpmnErrorDestination        | Destination to redirect technical errors a.k.a. bpmn errors to (e.g. Kafka Topic) |
+| io.muenchendigital.digiwf.message.correlateMessageDestination | Destination to send correlate messages to (e.g. Kafka Topic)                      |
+| io.muenchendigital.digiwf.message.startProcessDestination     | Destination to send start process messages to (e.g. Kafka Topic)                  |
+| io.muenchendigital.digiwf.message.deadLetterQueueDestination  | Destination to send failing messages events to (e.g. Kafka Topic)                 |
 
 ## Customizability
 
 For the ErrorApi, ProcessApi, and MessageApi, we provide a default implementation based on Spring Cloud Stream.
-If you want to change this implementation, you can implement the corresponding interfaces and provide them as beans.
+If you want to change this implementation, you can implement the corresponding interfaces and provide them as `@Beans`.
 
 An example of a MessageApi implementation that only logs messages can be found in our Example.
