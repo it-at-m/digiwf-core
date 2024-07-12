@@ -9,7 +9,7 @@ io:
           keepFields: unresolved-ref
         ssoTokenClientId: digitalwf
         #ssoTokenRequestUrl:
-        #url:
+        url: http://cosysk007.srv.muenchen.de/cosys-eai/rest
 
 digiwf:
   s3:
