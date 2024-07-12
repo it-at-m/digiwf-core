@@ -303,54 +303,10 @@ Nachfolgend sind die BPMN Errors aufgeführt, die von der DMS-Integration geworf
 | `AKTE_BEREITS_ZA`                            | Akte / Vorgang ist schon z.A. geschrieben                                                                                                                                                                                     | Die Akte oder der Vorgang ist bereits z.A. gesetzt                                | Bei Bedarf sicherstellen, warum schon z.A. gesetzt. Eventuell kein Handlungsbedarf                                |  
 | `ROLLE_NICHT_IDENTIFIZIERBAR`                | Rolle nicht identifizierbar                                                                                                                                                                                                   | Übergebene Rolle liegt nicht in der eAkte vor.                                    | Stellen Sie sicher, dass genutzte Rollen auch in der eAkte angelegt sind.                                         | 
 
-## DigiWF DMS-Integration anpassen
+## Konfiguration
 
-Die DigiWF DMS-Integration wird als Spring-Boot-Starter-Projekt bereitgestellt. Um die Integration an Ihre Bedürfnisse
-anzupassen, können Sie das Starter-Modul verwenden und die bereitgestellten `@Bean`s überschreiben oder eigene `@Bean`s
-hinzufügen.
+Allgemeine Konfigurationen für DigiWF-Integrationen sind unter
+[Eigene Integration erstellen](/integrations/guides/custom-integration-service.html#anwendung-konfigurieren)
+beschrieben.
 
-Sie können den `digiwf-dms-integration-starter` in Ihr Projekt wie folgt einbinden:
-
-**Mit Maven**
-
-```xml
-
-<dependency>
-    <groupId>de.muenchen.oss.digiwf</groupId>
-    <artifactId>digiwf-dms-integration-starter</artifactId>
-    <version>${digiwf.version}</version>
-</dependency>
-```
-
-**Mit Gradle**
-
-```gradle
-implementation group: 'de.muenchen.oss.digiwf', name: 'digiwf-dms-integration-starter', version: '${digiwf.version}'
-```
-
-Machen Sie sich mit
-dem [`digiwf-dms-integration-core`](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-dms-integration/digiwf-dms-integration-core)-
-und dem [`digiwf-dms-integration-starter`](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-dms-integration/digiwf-dms-integration-starter)
-Modul vertraut und fügen Sie Ihre eigenen `@Bean`s hinzu oder überschreiben Sie die bereitgestellten `@Bean`s.
-
-## Konfigurationen
-
-Zusätzlich zu den allgemeinen Konfigurationen für DigiWF Integrationen, die unter
-[Eigene Integration erstellen](/integrations/guides/custom-integration-service.html#anwendung-konfigurieren) beschrieben
-sind, können Sie die folgenden Konfigurationen für die DigiWF Dms Integration verwenden:
-
-### Dms Konfigurationen
-
-| Environment Variable             | Description                                                   |
-|----------------------------------|---------------------------------------------------------------|
-| MUCS_DMS_INTEGRATION_SERVER_PORT | Port of the MUCS DMS Application                              |
-| ALW_DMS_INTEGRATION_SERVER_PORT  | Port of the ALW DMS Application                               |
-| DIGIWF_ENV                       | Environment in which the services runs                        |
-| KAFKA_SECURITY_PROTOCOL          | Security protocol of kafka (default is PLAINTEXT)             |
-| KAFKA_BOOTSTRAP_SERVER           | kafka server address (default is localhost)                   |
-| KAFKA_BOOTSTRAP_SERVER_PORT      | kafka server port (default is 29092)                          |
-| FABASOFT_DMS_USERNAME            | technical fabasoft dms user                                   |
-| FABASOFT_DMS_PASSWORD            | technical fabasoft dms password                               |
-| FABASOFT_DMS_HOST                | fabasoft url                                                  |
-| FABASOFT_DMS_PORT                | fabasoft port                                                 |
-| FABASOFT_ENABLE_MTOM             | Enables MTOM default is true. Should be disabled with mocking |
+Die Konfiguration der CoSys Integration ist in der [README.md](https://github.com/it-at-m/digiwf-core/blob/dev/digiwf-integrations/digiwf-dms-integration/README.md) beschrieben.
