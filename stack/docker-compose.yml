@@ -14,7 +14,7 @@ services:
     env_file:
       - local-docker.env
     extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - "host.containers.internal:host-gateway"
     environment:
       JAVA_OPTS: '-Xms1g -Xmx1g -XX:MaxMetaspaceSize=256m'
       OPTIMIZE_ELASTICSEARCH_HOST: 'elasticsearch'
@@ -71,6 +71,7 @@ services:
 
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
+    container_name: zookeeper
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
@@ -84,8 +85,10 @@ services:
       retries: 10
     networks:
       - internal
+
   kafka:
     image: confluentinc/cp-kafka:latest
+    container_name: kafka
     depends_on:
       zookeeper:
         condition: service_healthy
@@ -118,9 +121,9 @@ services:
     networks:
       - internal
 
-
   init-kafka:
     image: confluentinc/cp-kafka:latest
+    container_name: init-kafka
     depends_on:
       - kafka
     env_file:
@@ -163,8 +166,10 @@ services:
       kafka-topics --bootstrap-server kafka:9092 --list
       "
 
+
   minio:
     image: quay.io/minio/minio:latest
+    container_name: minio
     command: server /data --console-address ":9001"
     environment:
       MINIO_ROOT_USER: minio
@@ -179,6 +184,7 @@ services:
 
   init-minio:
     image: minio/mc
+    container_name: init-minio
     depends_on:
       - minio
     entrypoint: >
@@ -214,7 +220,7 @@ services:
       #
       SPRING_PROFILES_ACTIVE: "local, docker" #possible values: local or  (local, docker) # add profile 'docker' if you want to run the engine and frontend in docker, add local when you want to run the engine and frontend outside of docker
     extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - "host.containers.internal:host-gateway"
     networks:
       - internal
 
@@ -236,13 +242,8 @@ services:
       - webcomponent
     networks:
       - internal
-  #
-  # Local keycloak. To work properly, you need to change your local hosts file and add an alias to your
-  # `127.0.0.1 localhost` line to look like this: `127.0.0.1 localhost keycloak`.
-  # On Mac/Linux it is located in `/etc/hosts` on Win `C:\Windows\System32\Drivers\etc\hosts`
-  #
+
   keycloak:
-    container_name: digiwf-keycloak
     image: ${KEYCLOAK_IMAGE:-quay.io/keycloak/keycloak:20.0.3}
     depends_on:
       - postgres-keycloak
@@ -250,8 +251,6 @@ services:
       - '8080:8080'
     command: 'start-dev --http-relative-path /auth'
     environment:
-      KC_HOSTNAME: keycloak # this hostname must be resolved to 127.0.0.1 locally. Add it to your hosts file.
-      KC_HOSTNAME_STRICT: 'false'
       KC_DB: postgres
       KC_DB_URL: jdbc:postgresql://postgres-keycloak:5432/keycloak
       KC_DB_USERNAME: keycloak-user
@@ -259,7 +258,6 @@ services:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
     networks:
-      - local-keycloak
       - internal
 
   init-keycloak:
@@ -271,13 +269,13 @@ services:
     environment:
       ADMIN_USER: admin
       ADMIN_PASSWORD: admin
-      BASEURL: http://keycloak:8080/auth # uses internal docker network to access the keycloak via its back channel port
+      BASEURL: http://keycloak:8080/auth
       WAIT_FOR_KEYCLOAK: 'true'
       KEYCLOAK_CHANGELOG: /migration/keycloak-changelog.yml
     volumes:
       - './keycloak:/migration'
     networks:
-      - local-keycloak
+      - internal
 
   pgadmin:
     image: dpage/pgadmin4:8.2
@@ -321,7 +319,7 @@ services:
       POSTGRES_USER: keycloak-user
       POSTGRES_PASSWORD: keycloak-secret
     networks:
-      - local-keycloak
+      - internal
 
   # enable the cocreation deployment with --profile cocreation if you don't want to run it locally
   digiwf-cocreation-deployment:
@@ -337,15 +335,14 @@ services:
       - './local-docker.env'
     environment:
       SPRING_PROFILES_ACTIVE: "local"
-      ENGINE_HOST: "http://host.docker.internal"
+      ENGINE_HOST: "http://host.containers.internal"
       #      ENGINE_SERVER_PORT: "39146" # already defined in local-docker.env
-      SSO_BASE_URL: "http://host.docker.internal:8080/auth"
+      SSO_BASE_URL: "http://host.containers.internal:8080/auth"
     extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - "host.containers.internal:host-gateway"
     networks:
       - internal
 
 networks:
-  local-keycloak:
   optimize:
   internal:
