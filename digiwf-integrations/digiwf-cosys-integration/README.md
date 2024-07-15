@@ -6,7 +6,7 @@ and subsequently saving them in S3 storage.
 ## Usage of the Spring Boot Starter
 
 The DigiWF CoSys integration is provided as a Spring Boot Starter project. It was implemented in a hexagonal
-architecture to ensure adaptability and extensibility. To customize the Cosys integration to your
+architecture to ensure adaptability and extensibility. To customize the CoSys integration to your
 needs, you can use the starter module and override the provided `@Beans` as well as add your own `@Beans`.
 
 You can integrate the `digiwf-cosys-integration-starter` into your project as follows:
@@ -33,7 +33,7 @@ the [`digiwf-cosys-integration-core`](https://github.com/it-at-m/digiwf-core/tre
 and [`digiwf-cosys-integration-starter`](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-cosys-integration/digiwf-cosys-integration-starter)
 modules and add your own `@Beans` or override the provided `@Beans`.
 
-You can use the following configurations for the DigiWF Cosys integration:
+You can use the following configurations for the DigiWF CoSys integration:
 
 | Property                                               | Description                                                            |
 |--------------------------------------------------------|------------------------------------------------------------------------|
@@ -120,7 +120,7 @@ The following steps are needed to run the integration locally.
 
 ### Testing functionality
 
-1. Start DigiwfCosysExampleApplication
+1. Start DigiwfCoSysExampleApplication
     - Activate Spring profile `local,streaming`
     - Add Environment values from `stack/local-docker.env`
 
@@ -141,9 +141,9 @@ The following steps are needed to run the integration locally.
     4. TaskListApplication
         - Activate Spring profile `local,no-ldap,streaming`
         - Add Environment values from `stack/local-docker.env`
-    5. DigiwfCosysApplication
+    5. DigiwfCoSysApplication
         - Activate Spring profile `local,streaming`
         - Add Environment values from `stack/local-docker.env`
 2. Test the functionality with
-   process [Example Cosys GenerateDocument (Streaming)](../../digiwf-engine/digiwf-engine-service/src/main/resources/prozesse/example/cosys-integration)
+   process [Example CoSys GenerateDocument (Streaming)](../../digiwf-engine/digiwf-engine-service/src/main/resources/prozesse/example/cosys-integration)
 
