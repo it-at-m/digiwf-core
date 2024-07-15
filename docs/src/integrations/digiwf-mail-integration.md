@@ -113,97 +113,10 @@ Nachfolgend sind die BPMN-Errors aufgeführt, die von der E-Mail-Integration gew
 | `LOAD_TEMPLATE_FAILED`    | The template *template* could not be loaded                      | Das Template konnte nicht geladen werden.                                                                                                  | Überprüfen Sie ob der Templatename richtig ist und versuchen Sie es erneut.                                                    | 
 | `TEMPLATE_MERGING_FAILED` | Fehlermeldung der auftretenden `TemplateException`               | Das Template konnte nicht mit den übergebenen Daten befüllt werden.                                                                        | Überprüfen Sie die übergebenen Daten und versuchen Sie es erneut.                                                              | 
 
-### Ressourcen
+## Konfiguration
 
-Um die Prozessentwicklung zu beschleunigen, können Sie die Element-Templates [sendMailV02.json](/element-template/email-integration/sendMailV02.json), [sendMailWithLogo.json](/element-template/email-integration/sendMailWithLogo.json)
-und [sendMailWithLogoAndLink.json](/element-template/email-integration/sendMailWithLogoAndLink.json) verwenden.
+Allgemeine Konfigurationen für DigiWF-Integrationen sind unter
+[Eigene Integration erstellen](/integrations/guides/custom-integration-service.html#anwendung-konfigurieren)
+beschrieben.
 
-## DigiWF Mail Integration anpassen
-
-Die DigiWF E-Mail-Integration wird als Spring Boot Starter-Projekt bereitgestellt. Um die E-Mail-Integration an Ihre
-Bedürfnisse anzupassen, können Sie das Starter-Modul verwenden und die bereitgestellten `@Bean`s überschreiben sowie
-eigene `@Bean`s hinzufügen.
-
-![Mail Architecture](~@source/images/platform/integrations/mail/architecture.png)
-
-Den `digiwf-email-integration-starter` können Sie wie folgt in Ihr Projekt einbinden:
-
-**Mit Maven**
-
-```xml
-
-<dependency>
-    <groupId>de.muenchen.oss.digiwf</groupId>
-    <artifactId>digiwf-email-integration-starter</artifactId>
-    <version>${digiwf.version}</version>
-</dependency>
-```
-
-**Mit Gradle**
-
-```gradle
-implementation group: 'de.muenchen.oss.digiwf', name: 'digiwf-email-integration-starter', version: '${digiwf.version}'
-```
-
-Machen Sie sich mit
-dem [`digiwf-email-integration-core`](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-email-integration/digiwf-email-integration-core)
-und [`digiwf-email-integration-starter`](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-email-integration/digiwf-email-integration-starter)
-Modul vertraut und fügen Sie Ihre eigenen `@Bean`s hinzu oder überschreiben Sie die bereitgestellten `@Bean`s.
-
-## Konfigurationen
-
-Zusätzlich zu den allgemeinen Konfigurationen für DigiWF Integrationen, die unter
-[Eigene Integration erstellen](/integrations/guides/custom-integration-service.html#anwendung-konfigurieren) beschrieben
-sind, können Sie die folgenden Konfigurationen für die DigiWF E-Mail-Integration verwenden:
-
-|                                                               |                                                                                                                   |
-|---------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------|
-| `io.muenchendigital.digiwf.mail.fromAddress`                  | Die Absenderadresse, die für alle E-Mails verwendet wird, die über die DigiWF E-Mail-Integration gesendet werden. |
-| `io.muenchendigital.digiwf.mail.defaultReplyToAddress`        | Eine Standard-Reply-To-E-Mail-Adresse für technische E-Mails, auf die nicht geantwortet werden soll.              |
-| `io.muenchendigital.digiwf.mail.metrics.totalMailCounterName` | Der Name des Micrometer-Counters, der die Anzahl der gesendeten E-Mails zählt.                                    |
-| `io.muenchendigital.digiwf.mail.metrics.failureCounterName`   | Der Name des Micrometer-Counters, der die Anzahl der fehlgeschlagenen E-Mails zählt.                              |
-
-```yaml
-# Konfigurationen für die DigiWF E-Mail-Integration
-io:
-  muenchendigital:
-    digiwf:
-      mail:
-        fromAddress: ${MAIL_USERNAME:digiwf@muenchen.de}
-        defaultReplyToAddress: ${MAIL_NO-REPLY:noreply@muenchen.de}
-        metrics:
-          totalMailCounterName: "digiwf.email.integration.send_mail.total"
-          failureCounterName: "digiwf.email.integration.send_mail.failure"
-# allgemeine Konfigurationen für Spring Mail
-spring:
-  mail:
-  port: ${MAIL_PORT:1025}
-  host: ${MAIL_HOST:localhost}
-  username: ${MAIL_USERNAME:digiwf@muenchen.de}
-  password: ${MAIL_PASSWORD:test}
-  properties:
-    mail:
-      debug: false
-      tls: true
-      transport:
-        protocol: smtp
-      smtp:
-        port: ${MAIL_PORT:1025}
-        host: ${MAIL_HOST:localhost}
-        connectiontimeout: '10000'
-        timeout: '10000'
-        auth: true
-        ssl:
-          trust: '*'
-          checkserveridentity: false
-        socketFactory:
-          fallback: true
-        starttls:
-          enable: true
-# Management Konfigurationen für Spring Actuator und Prometheus (Micrometer) Metriken
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health,info,prometheus
-```
+Die Konfiguration der CoSys Integration ist in der [README.md](https://github.com/it-at-m/digiwf-core/blob/dev/digiwf-integrations/digiwf-mail-integration/README.md) beschrieben.
