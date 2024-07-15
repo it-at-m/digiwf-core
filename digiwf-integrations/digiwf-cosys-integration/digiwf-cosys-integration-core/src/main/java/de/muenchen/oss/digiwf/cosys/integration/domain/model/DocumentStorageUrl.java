@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
+@Deprecated
 @Data
 @Builder
 @RequiredArgsConstructor

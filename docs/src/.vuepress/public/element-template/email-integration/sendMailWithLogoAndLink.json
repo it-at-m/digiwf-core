@@ -1,6 +1,7 @@
 {
   "name": "Mail: E-Mail aus Vorlage mit Logo und Link senden",
   "id": "de.muenchen.digitalwf.templates.send-email-with-logo-and-link",
+  "version": 2,
   "appliesTo": [
     "bpmn:CallActivity"
   ],
@@ -34,12 +35,27 @@
       "label": "Type Header",
       "type": "String",
       "editable": false,
-      "value": "sendMailWithLogoAndLink",
+      "value": "sendMailWithLogoAndLinkV2",
       "binding": {
         "type": "camunda:in",
         "expression": true,
         "name": "app_type_name",
         "target": "app_type_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "File Context",
+      "type": "String",
+      "editable": false,
+      "value": "${app_file_context}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "fileContext",
+        "target": "fileContext"
       },
       "constraints": {
         "notEmpty": true
@@ -231,15 +247,14 @@
       }
     },
     {
-      "label": "Attachment Paths (S3)",
+      "label": "Pfad(e) im S3",
       "type": "String",
       "value": "",
-      "description": "Array of presigned urls created with s3 integration",
       "binding": {
         "type": "camunda:inputParameter",
         "expression": true,
-        "name": "attachments",
-        "target": "attachments"
+        "name": "filePaths",
+        "target": "filePaths"
       },
       "constraints": {
         "notEmpty": false
@@ -247,11 +262,11 @@
     },
     {
       "type": "Hidden",
-      "value": "${attachments}",
+      "value": "${filePaths}",
       "binding": {
         "type": "camunda:in",
         "expression": true,
-        "target": "attachments"
+        "target": "filePaths"
       },
       "constraints": {
         "notEmpty": true

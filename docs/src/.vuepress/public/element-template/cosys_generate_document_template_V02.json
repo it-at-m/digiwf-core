@@ -1,6 +1,7 @@
 {
   "name": "Cosys: Dokument erstellen (alle Daten) (V02)",
   "id": "de.muenchen.digitalwf.templates.GenerateDocumentWithAllVariablesV02",
+  "version": 3,
   "appliesTo": [
     "bpmn:CallActivity"
   ],
@@ -38,6 +39,21 @@
         "type": "camunda:in",
         "expression": true,
         "target": "app_type_name"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "File Context",
+      "type": "String",
+      "editable": false,
+      "value": "${app_file_context}",
+      "binding": {
+        "type": "camunda:in",
+        "expression": true,
+        "name": "fileContext",
+        "target": "fileContext"
       },
       "constraints": {
         "notEmpty": true

@@ -16,7 +16,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
-import java.time.LocalDate;
 
 @Slf4j
 @RestController
@@ -29,7 +28,7 @@ public class ClientFileUsageController {
     private static final String PATH_TO_FILE = ClientFolderUsageController.FOLDER + "/" + FILENAME;
 
     private final DocumentStorageFileRepository documentStorageFileRepository;
-    
+
     private final S3StorageUrlProvider s3StorageUrlProvider;
 
     @GetMapping
@@ -68,7 +67,6 @@ public class ClientFileUsageController {
                 PATH_TO_FILE,
                 binaryFile,
                 3,
-                LocalDate.now().plusMonths(1),
                 s3StorageUrlProvider.getDefaultDocumentStorageUrl()
         );
         log.info("File saved.");
@@ -83,7 +81,6 @@ public class ClientFileUsageController {
                     PATH_TO_FILE,
                     inputStream,
                     3,
-                    LocalDate.now().plusMonths(1),
                     s3StorageUrlProvider.getDefaultDocumentStorageUrl()
             );
             log.info("File InputStream saved.");
@@ -100,7 +97,6 @@ public class ClientFileUsageController {
                 PATH_TO_FILE,
                 binaryFile,
                 3,
-                LocalDate.now().plusMonths(2),
                 s3StorageUrlProvider.getDefaultDocumentStorageUrl()
         );
         log.info("File updated.");
@@ -116,22 +112,10 @@ public class ClientFileUsageController {
                     PATH_TO_FILE,
                     inputStream,
                     3,
-                    LocalDate.now().plusMonths(2),
                     s3StorageUrlProvider.getDefaultDocumentStorageUrl()
             );
             log.info("File InputStream updated.");
         }
-    }
-
-    @PatchMapping
-    @ResponseStatus(HttpStatus.OK)
-    public void updateEndOfLife() throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
-        this.documentStorageFileRepository.updateEndOfLife(
-                PATH_TO_FILE,
-                LocalDate.now().plusMonths(999),
-                s3StorageUrlProvider.getDefaultDocumentStorageUrl()
-        );
-        log.info("End of life for file updated.");
     }
 
     @DeleteMapping

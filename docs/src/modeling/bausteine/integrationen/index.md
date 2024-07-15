@@ -1,19 +1,21 @@
 # Integrationen
 
-Integrationen können über eine Call Activity aufgerufen werden. Für die von der Plattform bereitgestellten Integrationen werden Element-Templates angeboten, die die Modellierung vereinfachen.
+Integrationen können über eine Call Activity aufgerufen werden. Für die von der Plattform bereitgestellten Integrationen
+werden Element-Templates angeboten, die die Modellierung vereinfachen.
 Eine vollständige Liste der verfügbaren Integrationen finden Sie unter [DigiWF Integrationen](/integrations/).
 
 ## Übergreifend
 
-Alle Integrationen nutzen Basisinformationen aus dem Prozess und werden über ihren Namen im Connector identifiziert. Dazu werden von DigiWF
-autom. mit den jeweiligen Element-Templates folgende Properties gesetzt. 
+Alle Integrationen nutzen Basisinformationen aus dem Prozess und werden über ihren Namen im Connector identifiziert.
+Dazu werden von DigiWF
+autom. mit den jeweiligen Element-Templates folgende Properties gesetzt.
 
 ### Allgemeine Properties
 
-| Properties         | Typ    | Beschreibung               | Erforderlich |
-|---------------|--------|----------------------------|--------------|
-| `type`        | Header | Der Typ des Events.        | Ja           |
-| `integration` | Header | Der Name der Integration.  | Ja           |
+| Properties    | Typ    | Beschreibung              | Erforderlich |
+|---------------|--------|---------------------------|--------------|
+| `type`        | Header | Der Typ des Events.       | Ja           |
+| `integration` | Header | Der Name der Integration. | Ja           |
 
 ## CoSys
 
@@ -26,14 +28,16 @@ Es werden alle Daten der Prozessinstanz an CoSys übergeben.
 
 **Properties**
 
-| Property                   | Beschreibung                                                                            | Beispiel                             |
-|----------------------------|-----------------------------------------------------------------------------------------|--------------------------------------|
-| Event Topic                | Das Topic der CoSys-Integration                                                         | dwf-cosys-demo                       |
-| Client                     | Der Name des CoSys-Clients                                                              | 9001                                 |
-| Role                       | Der Name der CoSys-Role                                                                 | TESTER, SB                           |
-| Document Storage Urls (S3) | Zuvor generierte signierte URLs des S3-Service für die Ablage des generierten Dokumtens | ${presignedUrls}                     |
-| GUID                       | Eindeutiger Bezeichner der CoSys-Vorlage                                                | 519650b7-87c2-41a6-8527-7b095675b13f |
-| Daten                      | Daten als JSON-Objekt, die in das Dokument eingemischt werden sollten                   | ${data}                              |
+| Property                                    | Beschreibung                                                                            | Beispiel                             |
+|---------------------------------------------|-----------------------------------------------------------------------------------------|--------------------------------------|
+| Event Topic                                 | Das Topic der CoSys-Integration                                                         | dwf-cosys-demo                       |
+| Client                                      | Der Name des CoSys-Clients                                                              | 9001                                 |
+| Role                                        | Der Name der CoSys-Role                                                                 | TESTER, SB                           |
+| ~~Document Storage Urls (S3)~~ (Deprecated) | Zuvor generierte signierte URLs des S3-Service für die Ablage des generierten Dokumtens | ${presignedUrls}                     |
+| File Context                                | File-Context des Prozesses. Wird als Prefix für die folgenden Pfade verwendet.          | `${app_file_context}`                |
+| Pfad im S3                                  | Dateipfad, an dem das generierte Dokument abgelegt werden soll.                         | `test2/datei.pdf`                    |
+| GUID                                        | Eindeutiger Bezeichner der CoSys-Vorlage                                                | 519650b7-87c2-41a6-8527-7b095675b13f |
+| Daten                                       | Daten als JSON-Objekt, die in das Dokument eingemischt werden sollten                   | ${data}                              |
 
 ### CoSys: Dokument erstellen
 
@@ -41,14 +45,16 @@ Die Daten, die an CoSys übergeben werden, müssen zuvor definiert werden.
 
 **Properties**
 
-| Property                   | Beschreibung                                                                            | Beispiel                             |
-|----------------------------|-----------------------------------------------------------------------------------------|--------------------------------------|
-| Event Topic                | Das Topic der CoSys-Integration                                                         | dwf-cosys-demo                       |
-| Client                     | Der Name des CoSys-Clients                                                              | 9001                                 |
-| Role                       | Der Name der CoSys-Role                                                                 | TESTER                               |
-| Document Storage Urls (S3) | Zuvor generierte signierte URLs des S3-Service für die Ablage des generierten Dokumtens | ${presignedUrls}                     |
-| GUID                       | Eindeutiger Bezeichner der CoSys-Vorlage                                                | 519650b7-87c2-41a6-8527-7b095675b13f |
-| Daten                      | Daten als JSON-Objekt, die in das Dokument eingemischt werden sollten                   | ${data}                              |
+| Property                                    | Beschreibung                                                                            | Beispiel                             |
+|---------------------------------------------|-----------------------------------------------------------------------------------------|--------------------------------------|
+| Event Topic                                 | Das Topic der CoSys-Integration                                                         | dwf-cosys-demo                       |
+| Client                                      | Der Name des CoSys-Clients                                                              | 9001                                 |
+| Role                                        | Der Name der CoSys-Role                                                                 | TESTER                               |
+| ~~Document Storage Urls (S3)~~ (Deprecated) | Zuvor generierte signierte URLs des S3-Service für die Ablage des generierten Dokumtens | ${presignedUrls}                     |
+| File Context                                | File-Context des Prozesses. Wird als Prefix für die folgenden Pfade verwendet.          | `${app_file_context}`                |
+| Pfad im S3                                  | Dateipfad, an dem das generierte Dokument abgelegt werden soll.                         | `test2/datei.pdf`                    |
+| GUID                                        | Eindeutiger Bezeichner der CoSys-Vorlage                                                | 519650b7-87c2-41a6-8527-7b095675b13f |
+| Daten                                       | Daten als JSON-Objekt, die in das Dokument eingemischt werden sollten                   | ${data}                              |
 
 ## E-Mail
 
@@ -61,16 +67,17 @@ Um eine einfache E-Mail zu versenden, wird das Element Template `Mail: E-Mail se
 
 **Properties**
 
-| Property              | Beschreibung                                                                       | Beispiel                   |
-|-----------------------|------------------------------------------------------------------------------------|----------------------------|
-| Receiver              | E-Mail Adressen der Empfänger (Kommasepariert)                                     | max.mustermann@example.com |
-| Subject               | Betreff                                                                            | Test E-Mail                |
-| Body                  | E-Mail-Text                                                                        | Das ist ein Test           |
-| Reply-To Address      | E-Mail-Adresse, an die geantwortet werden soll                                     | test@example.com           |
-| Receiver (CC)         | Empfänger CC (Kommasepariert)                                                      | max.mustermann@example.com |
-| Receiver (BCC)        | Empfänger BCC (Kommasepariert)                                                     | max.mustermann@example.com |
-| Attachment Paths (S3) | Von der S3-Integration generierte Presigned-URLs für das Herunterladen von Dateien |                            |
-
+| Property                               | Beschreibung                                                                       | Beispiel                   |
+|----------------------------------------|------------------------------------------------------------------------------------|----------------------------|
+| Receiver                               | E-Mail Adressen der Empfänger (Kommasepariert)                                     | max.mustermann@example.com |
+| Subject                                | Betreff                                                                            | Test E-Mail                |
+| Body                                   | E-Mail-Text                                                                        | Das ist ein Test           |
+| Reply-To Address                       | E-Mail-Adresse, an die geantwortet werden soll                                     | test@example.com           |
+| Receiver (CC)                          | Empfänger CC (Kommasepariert)                                                      | max.mustermann@example.com |
+| Receiver (BCC)                         | Empfänger BCC (Kommasepariert)                                                     | max.mustermann@example.com |
+| ~~Attachment Paths (S3)~~ (Deprecated) | Von der S3-Integration generierte Presigned-URLs für das Herunterladen von Dateien |                            |
+| File Context                           | File-Context des Prozesses. Wird als Prefix für die folgenden Pfade verwendet.     | `${app_file_context}`      |
+| Pfad(e) im S3                          | Semikolon separierte Liste an Datei- und Ordner-Pfaden.                            | `test/;test2/datei.pdf`    |
 
 ### E-Mail mit Logo versenden
 
@@ -82,16 +89,18 @@ zugestellten E-Mail korrekt angezeigt werden.
 
 **Properties**
 
-| Property              | Beschreibung                                                                       | Beispiel                   |
-|-----------------------|------------------------------------------------------------------------------------|----------------------------|
-| Receiver              | E-Mail Adressen der Empfänger (Kommasepariert)                                     | max.mustermann@example.com |
-| Subject               | Betreff                                                                            | Test E-Mail                |
-| E-Mail Text           | E-Mail Text                                                                        | Das ist ein Test           |
-| E-Mail Gruß           | E-Mail Gruß                                                                        | Mit freundlichen Grüßen    |
-| Reply-To Address      | E-Mail Adresse, an die geantwortet werden soll                                     | test@example.com           |
-| Receiver (CC)         | Empfänger CC (Kommasepariert)                                                      | max.mustermann@example.com |
-| Receiver (BCC)        | Empfänger BCC (Kommasepariert)                                                     | max.mustermann@example.com |
-| Attachment Paths (S3) | Von der S3 Integration generierte Presigned Urls für das herunterladen von Dateien |                            |
+| Property                               | Beschreibung                                                                       | Beispiel                   |
+|----------------------------------------|------------------------------------------------------------------------------------|----------------------------|
+| Receiver                               | E-Mail Adressen der Empfänger (Kommasepariert)                                     | max.mustermann@example.com |
+| Subject                                | Betreff                                                                            | Test E-Mail                |
+| E-Mail Text                            | E-Mail Text                                                                        | Das ist ein Test           |
+| E-Mail Gruß                            | E-Mail Gruß                                                                        | Mit freundlichen Grüßen    |
+| Reply-To Address                       | E-Mail Adresse, an die geantwortet werden soll                                     | test@example.com           |
+| Receiver (CC)                          | Empfänger CC (Kommasepariert)                                                      | max.mustermann@example.com |
+| Receiver (BCC)                         | Empfänger BCC (Kommasepariert)                                                     | max.mustermann@example.com |
+| ~~Attachment Paths (S3)~~ (Deprecated) | Von der S3-Integration generierte Presigned-URLs für das Herunterladen von Dateien |                            |
+| File Context                           | File-Context des Prozesses. Wird als Prefix für die folgenden Pfade verwendet.     | `${app_file_context}`      |
+| Pfad(e) im S3                          | Semikolon separierte Liste an Datei- und Ordner-Pfaden.                            | `test/;test2/datei.pdf`    |
 
 ### E-Mail mit Logo und Link versenden
 
@@ -103,24 +112,26 @@ HTML zugestellten E-Mail korrekt angezeigt werden.
 
 **Properties**
 
-| Property              | Beschreibung                                                                       | Beispiel                   |
-|-----------------------|------------------------------------------------------------------------------------|----------------------------|
-| Receiver              | E-Mail Adressen der Empfänger (Kommasepariert)                                     | max.mustermann@example.com |
-| Subject               | Betreff                                                                            | Test E-Mail                |
-| E-Mail Text           | E-Mail Text                                                                        | Das ist ein Test           |
-| E-Mail Gruß           | E-Mail Gruß                                                                        | Mit freundlichen Grüßen    |
-| Link Bezeichnung      | Bezeichung, die auf dem Button angezeigt wird                                      | Beispielseite öffnen       |
-| Link URL              | Link, auf den der Button verlinkt                                                  | example.com                |
-| Reply-To Address      | E-Mail Adresse, an die geantwortet werden soll                                     | test@example.com           |
-| Receiver (CC)         | Empfänger CC (Kommasepariert)                                                      | max.mustermann@example.com |
-| Receiver (BCC)        | Empfänger BCC (Kommasepariert)                                                     | max.mustermann@example.com |
-| Attachment Paths (S3) | Von der S3-Integration generierte Presigned-URLs für das Herunterladen von Dateien |                            |
+| Property                               | Beschreibung                                                                       | Beispiel                   |
+|----------------------------------------|------------------------------------------------------------------------------------|----------------------------|
+| Receiver                               | E-Mail Adressen der Empfänger (Kommasepariert)                                     | max.mustermann@example.com |
+| Subject                                | Betreff                                                                            | Test E-Mail                |
+| E-Mail Text                            | E-Mail Text                                                                        | Das ist ein Test           |
+| E-Mail Gruß                            | E-Mail Gruß                                                                        | Mit freundlichen Grüßen    |
+| Link Bezeichnung                       | Bezeichung, die auf dem Button angezeigt wird                                      | Beispielseite öffnen       |
+| Link URL                               | Link, auf den der Button verlinkt                                                  | example.com                |
+| Reply-To Address                       | E-Mail Adresse, an die geantwortet werden soll                                     | test@example.com           |
+| Receiver (CC)                          | Empfänger CC (Kommasepariert)                                                      | max.mustermann@example.com |
+| Receiver (BCC)                         | Empfänger BCC (Kommasepariert)                                                     | max.mustermann@example.com |
+| ~~Attachment Paths (S3)~~ (Deprecated) | Von der S3-Integration generierte Presigned-URLs für das Herunterladen von Dateien |                            |
+| File Context                           | File-Context des Prozesses. Wird als Prefix für die folgenden Pfade verwendet.     | `${app_file_context}`      |
+| Pfad(e) im S3                          | Semikolon separierte Liste an Datei- und Ordner-Pfaden.                            | `test/;test2/datei.pdf`    |
 
 ## S3
 
 Für die Interaktion mit dem S3-Dienst stehen verschiedene Templates zur Verfügung.
 
-### S3: Presigned URL erstellen
+### S3: Presigned URL erstellen (Deprecated)
 
 **Properties**
 
@@ -284,9 +295,9 @@ Um eine einfache Chat-Anfrage durchzuführen, müssen die folgenden Daten an die
 
 #### Properties
 
-| Properties         | Typ    | Beschreibung                                                  | Erforderlich |
-|---------------|--------|---------------------------------------------------------------|--------------|
-| `prompt`      | String | Generische Anfrage an das Sprachmodell.                       | Ja           |
+| Properties | Typ    | Beschreibung                            | Erforderlich |
+|------------|--------|-----------------------------------------|--------------|
+| `prompt`   | String | Generische Anfrage an das Sprachmodell. | Ja           |
 
 ### Übersetzung
 
@@ -294,10 +305,10 @@ Um einen Text übersetzen zu lassen, müssen Sie die folgenden Daten an die Open
 
 #### Properties
 
-| Properties         | Typ    | Beschreibung                                                  | Erforderlich |
-|---------------|--------|---------------------------------------------------------------|--------------|
-| `text`        | String | Der zu übersetzende Text.                                     | Ja           |
-| `language`    | String | Sprache, in die übersetzt werden soll.                        | Ja           |
+| Properties | Typ    | Beschreibung                           | Erforderlich |
+|------------|--------|----------------------------------------|--------------|
+| `text`     | String | Der zu übersetzende Text.              | Ja           |
+| `language` | String | Sprache, in die übersetzt werden soll. | Ja           |
 
 ### Zusammenfassung
 
@@ -305,41 +316,44 @@ Um einen Text zusammenfassen zu lassen, müssen Sie die folgenden Daten an die O
 
 #### Properties
 
-| Properties         | Typ    | Beschreibung                                                  | Erforderlich |
-|---------------|--------|---------------------------------------------------------------|--------------|
-| `text`        | String | Der zu verkürzende Text.                                      | Ja           |
-| `length`      | Int    | Ungefähre Länge des neuen Textes.                             | Ja           |
+| Properties | Typ    | Beschreibung                      | Erforderlich |
+|------------|--------|-----------------------------------|--------------|
+| `text`     | String | Der zu verkürzende Text.          | Ja           |
+| `length`   | Int    | Ungefähre Länge des neuen Textes. | Ja           |
 
 ### Mail generieren
 
-Um Mail-Texte in beliebigen Sprachen generieren zu lassen, müssen die folgenden Daten an die OpenAI-Integration übergeben werden:
+Um Mail-Texte in beliebigen Sprachen generieren zu lassen, müssen die folgenden Daten an die OpenAI-Integration
+übergeben werden:
 
 #### Properties
 
-| Properties         | Typ    | Beschreibung                                                  | Erforderlich |
-|---------------|--------|---------------------------------------------------------------|--------------|
-| `json`        | json   | Daten für das Template.                                       | Ja           |
-| `language`    | String | Sprache des Mail-Textes.                                      | Ja           |
-| `template`    | String | Vorlage für den Mail-Text.                                    | Ja           |
+| Properties | Typ    | Beschreibung               | Erforderlich |
+|------------|--------|----------------------------|--------------|
+| `json`     | json   | Daten für das Template.    | Ja           |
+| `language` | String | Sprache des Mail-Textes.   | Ja           |
+| `template` | String | Vorlage für den Mail-Text. | Ja           |
 
 ### Daten extrahieren
 
-Um Daten aus einem Text oder JSON extrahieren zu lassen, müssen die folgenden Daten an die OpenAI-Integration übergeben werden:
+Um Daten aus einem Text oder JSON extrahieren zu lassen, müssen die folgenden Daten an die OpenAI-Integration übergeben
+werden:
 
 #### Properties
 
-| Properties         | Typ    | Beschreibung                                                  | Erforderlich |
-|---------------|--------|---------------------------------------------------------------|--------------|
-| `json`        | String | Unstrukturierter Text oder unpassende JSON-Daten.             | Ja           |
-| `fields`      | String | Zu extrahierende Informationen als JSON-Felder getrennt.      | Ja           |
+| Properties | Typ    | Beschreibung                                             | Erforderlich |
+|------------|--------|----------------------------------------------------------|--------------|
+| `json`     | String | Unstrukturierter Text oder unpassende JSON-Daten.        | Ja           |
+| `fields`   | String | Zu extrahierende Informationen als JSON-Felder getrennt. | Ja           |
 
 ### Klassifizierung
 
-Um auf Basis von Daten einfache (Vor-)Entscheidungen zu treffen, müssen die folgenden Daten an die OpenAI-Integration übergeben werden:
+Um auf Basis von Daten einfache (Vor-)Entscheidungen zu treffen, müssen die folgenden Daten an die OpenAI-Integration
+übergeben werden:
 
 #### Properties
 
-| Properties         | Typ    | Beschreibung                                                  | Erforderlich |
-|---------------|--------|---------------------------------------------------------------|--------------|
-| `json`        | String | Unstrukturierter Text oder JSON-Daten als Basis.              | Ja           |
-| `options`     | String | Mögliche Ergebnisse für die Klassifizierung.                  | Ja           |
+| Properties | Typ    | Beschreibung                                     | Erforderlich |
+|------------|--------|--------------------------------------------------|--------------|
+| `json`     | String | Unstrukturierter Text oder JSON-Daten als Basis. | Ja           |
+| `options`  | String | Mögliche Ergebnisse für die Klassifizierung.     | Ja           |

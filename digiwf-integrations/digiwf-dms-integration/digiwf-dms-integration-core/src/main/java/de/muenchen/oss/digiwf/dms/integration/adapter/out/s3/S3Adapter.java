@@ -156,7 +156,7 @@ public class S3Adapter implements LoadFileOutPort, TransferContentOutPort {
         for (val file : content) {
             try {
                 val fullFilePath = (fullPath + "/" + file.getName() + "." + file.getExtension()).replace("//", "/");
-                this.documentStorageFileRepository.saveFile(fullFilePath, file.getContent(), 1, null,
+                this.documentStorageFileRepository.saveFile(fullFilePath, file.getContent(), 1,
                         s3Storage);
             } catch (Exception e) {
                 throw new BpmnError("SAVE_FILE_FAILED", "An file could not be saved to path: " + fullPath);

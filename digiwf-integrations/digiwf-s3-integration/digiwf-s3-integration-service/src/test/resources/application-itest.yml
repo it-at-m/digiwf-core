@@ -1,21 +1,6 @@
-refarch.gracefulshutdown.pre-wait-seconds: 0
-
 DIGIWF_ENV: itest
 
 spring:
-  datasource:
-    url: jdbc:h2:mem:testdb;mode=postgresql
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
-  flyway:
-    locations: "classpath:db/migration/postgresql"
-  jpa:
-    database: H2
-    show-sql: false
-    properties:
-      hibernate:
-        format_sql: true
   cloud:
     stream:
       kafka:
@@ -28,7 +13,6 @@ spring:
           destination: dwf-connector-itest
 
 digiwf.s3:
-  cleanupcronjob: "0 15 10 15 * ?"
   url: s3k.muenchen.de
   bucketName: int-dwfk-documentstoragelocal
   accessKey: itest-dummy-access

@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.muenchen.oss.digiwf.cosys.integration.api.GenerationApi;
 import de.muenchen.oss.digiwf.cosys.integration.configuration.CosysConfiguration;
-import de.muenchen.oss.digiwf.cosys.integration.domain.model.DocumentStorageUrl;
 import de.muenchen.oss.digiwf.cosys.integration.domain.model.GenerateDocument;
 import lombok.val;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,7 +14,6 @@ import reactor.core.publisher.Mono;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
@@ -81,8 +79,7 @@ class CosysAdapterTest {
                     "client",
                     "role",
                     "guid",
-                    new ObjectMapper().readTree("{\"name\":\"John\", \"age\":30}"),
-                    List.of(DocumentStorageUrl.builder().url("").build())
+                    new ObjectMapper().readTree("{\"name\":\"John\", \"age\":30}")
             );
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);

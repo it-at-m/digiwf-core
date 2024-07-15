@@ -1,8 +1,8 @@
 package de.muenchen.oss.digiwf.s3.integration;
 
-import de.muenchen.oss.digiwf.s3.integration.adapter.in.streaming.CreatePresignedUrlEvent;
 import de.muenchen.oss.digiwf.s3.integration.application.port.in.CreatePresignedUrlsInPort;
 import de.muenchen.oss.digiwf.s3.integration.configuration.S3IntegrationAutoConfiguration;
+import de.muenchen.oss.digiwf.s3.integration.domain.model.CreatePresignedUrlEvent;
 import de.muenchen.oss.digiwf.spring.security.authentication.UserAuthenticationProvider;
 import de.muenchen.oss.digiwf.spring.security.autoconfiguration.SpringSecurityAutoConfiguration;
 import org.junit.jupiter.api.Test;

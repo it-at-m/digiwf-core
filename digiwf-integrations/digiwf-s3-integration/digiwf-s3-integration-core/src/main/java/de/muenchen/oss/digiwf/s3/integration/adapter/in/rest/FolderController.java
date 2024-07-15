@@ -9,18 +9,13 @@ import de.muenchen.oss.digiwf.s3.integration.domain.model.FileSizesInFolder;
 import de.muenchen.oss.digiwf.s3.integration.domain.model.FilesInFolder;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
-import jakarta.validation.constraints.NotEmpty;
 
 @Slf4j
 @RestController
@@ -35,7 +30,7 @@ public class FolderController {
     private final FileSizesInFolderMapper fileSizesInFolderMapper;
 
     @DeleteMapping
-    @Operation(description = "Deletes the folder specified in the parameter together with the corresponding database entry")
+    @Operation(description = "Deletes the folder specified in the parameter")
     public ResponseEntity<Void> delete(@RequestParam @NotEmpty final String pathToFolder) {
         try {
             log.info("Received a request for deletion of a certain folder.");

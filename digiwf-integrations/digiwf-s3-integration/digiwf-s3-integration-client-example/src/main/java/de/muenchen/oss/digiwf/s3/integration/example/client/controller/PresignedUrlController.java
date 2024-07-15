@@ -1,10 +1,10 @@
 package de.muenchen.oss.digiwf.s3.integration.example.client.controller;
 
+import de.muenchen.oss.digiwf.message.core.api.MessageApi;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageClientErrorException;
+import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageException;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageServerErrorException;
 import de.muenchen.oss.digiwf.s3.integration.client.exception.PropertyNotSetException;
-import de.muenchen.oss.digiwf.message.core.api.MessageApi;
-import de.muenchen.oss.digiwf.s3.integration.client.exception.DocumentStorageException;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.presignedurl.PresignedUrlRepository;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.transfer.S3FileTransferRepository;
 import de.muenchen.oss.digiwf.s3.integration.client.service.S3StorageUrlProvider;
@@ -35,74 +35,74 @@ import java.util.UUID;
 @RequestMapping("/presignedurl")
 public class PresignedUrlController {
 
-  private final MessageApi messageApi;
-  private final S3FileTransferRepository s3FileTransferRepository;
-  private final PresignedUrlRepository presignedUrlRepository;
-  private final S3StorageUrlProvider s3StorageUrlProvider;
+    private final MessageApi messageApi;
+    private final S3FileTransferRepository s3FileTransferRepository;
+    private final PresignedUrlRepository presignedUrlRepository;
+    private final S3StorageUrlProvider s3StorageUrlProvider;
 
-  /**
-   * Create a presigned url by sending a {@link CreatePresignedUrlEvent} to the event bus
-   *
-   * @param presignedUrlDto
-   */
-  @PostMapping()
-  @ResponseStatus(HttpStatus.OK)
-  public void createPresignedUrl(@RequestBody final PresignedUrlDto presignedUrlDto) {
-    final CreatePresignedUrlEvent createPresignedUrlEvent = new CreatePresignedUrlEvent(presignedUrlDto.getAction(), presignedUrlDto.getPath());
-    this.messageApi.sendMessage(createPresignedUrlEvent, "createPresignedUrl");
-  }
-
-  /**
-   * Use a valid presigned url to perform change, get or create the file
-   *
-   * @param fileActionDto
-   * @throws IOException
-   * @throws DocumentStorageException
-   * @throws DocumentStorageClientErrorException
-   * @throws DocumentStorageServerErrorException
-   */
-  @PostMapping("/use")
-  @ResponseStatus(HttpStatus.OK)
-  public void usePresignedUrls(@RequestBody final FileActionDto fileActionDto) throws IOException, DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
-    if (fileActionDto.getAction().equalsIgnoreCase("DELETE")) {
-      this.s3FileTransferRepository.deleteFile(fileActionDto.getPresignedUrl());
-      return;
-    } else if (fileActionDto.getAction().equalsIgnoreCase("GET")) {
-      this.s3FileTransferRepository.getFile(fileActionDto.getPresignedUrl());
-      return;
+    /**
+     * Create a presigned url by sending a {@link CreatePresignedUrlEvent} to the event bus
+     *
+     * @param presignedUrlDto
+     */
+    @PostMapping()
+    @ResponseStatus(HttpStatus.OK)
+    public void createPresignedUrl(@RequestBody final PresignedUrlDto presignedUrlDto) {
+        final CreatePresignedUrlEvent createPresignedUrlEvent = new CreatePresignedUrlEvent(presignedUrlDto.getAction(), presignedUrlDto.getPath());
+        this.messageApi.sendMessage(createPresignedUrlEvent, "createPresignedUrl");
     }
 
-    final File file = ResourceUtils.getFile("classpath:files/" + fileActionDto.getFile());
-    final byte[] binaryFile = Files.readAllBytes(file.toPath());
+    /**
+     * Use a valid presigned url to perform change, get or create the file
+     *
+     * @param fileActionDto
+     * @throws IOException
+     * @throws DocumentStorageException
+     * @throws DocumentStorageClientErrorException
+     * @throws DocumentStorageServerErrorException
+     */
+    @PostMapping("/use")
+    @ResponseStatus(HttpStatus.OK)
+    public void usePresignedUrls(@RequestBody final FileActionDto fileActionDto) throws IOException, DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
+        if (fileActionDto.getAction().equalsIgnoreCase("DELETE")) {
+            this.s3FileTransferRepository.deleteFile(fileActionDto.getPresignedUrl());
+            return;
+        } else if (fileActionDto.getAction().equalsIgnoreCase("GET")) {
+            this.s3FileTransferRepository.getFile(fileActionDto.getPresignedUrl());
+            return;
+        }
 
-    if (fileActionDto.getAction().equalsIgnoreCase("POST")) {
-      this.s3FileTransferRepository.saveFile(fileActionDto.getPresignedUrl(), binaryFile);
-    } else if (fileActionDto.getAction().equalsIgnoreCase("PUT")) {
-      this.s3FileTransferRepository.updateFile(fileActionDto.getPresignedUrl(), binaryFile);
+        final File file = ResourceUtils.getFile("classpath:files/" + fileActionDto.getFile());
+        final byte[] binaryFile = Files.readAllBytes(file.toPath());
+
+        if (fileActionDto.getAction().equalsIgnoreCase("POST")) {
+            this.s3FileTransferRepository.saveFile(fileActionDto.getPresignedUrl(), binaryFile);
+        } else if (fileActionDto.getAction().equalsIgnoreCase("PUT")) {
+            this.s3FileTransferRepository.updateFile(fileActionDto.getPresignedUrl(), binaryFile);
+        }
     }
-  }
 
-  /**
-   * Example on how to use the sync api to upload a file
-   *
-   * @throws IOException
-   * @throws DocumentStorageException
-   * @throws PropertyNotSetException
-   * @throws DocumentStorageClientErrorException
-   * @throws DocumentStorageServerErrorException
-   */
-  @GetMapping("/sync")
-  @ResponseStatus(HttpStatus.OK)
-  public void uploadFileSync() throws IOException, DocumentStorageException, PropertyNotSetException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
-    final String pathToFile = "s3-sync-test/" + UUID.randomUUID().toString() + "/cat.jpg";
+    /**
+     * Example on how to use the sync api to upload a file
+     *
+     * @throws IOException
+     * @throws DocumentStorageException
+     * @throws PropertyNotSetException
+     * @throws DocumentStorageClientErrorException
+     * @throws DocumentStorageServerErrorException
+     */
+    @GetMapping("/sync")
+    @ResponseStatus(HttpStatus.OK)
+    public void uploadFileSync() throws IOException, DocumentStorageException, PropertyNotSetException, DocumentStorageClientErrorException, DocumentStorageServerErrorException {
+        final String pathToFile = "s3-sync-test/" + UUID.randomUUID() + "/cat.jpg";
 
-    final File file = ResourceUtils.getFile("classpath:files/cat.jpg");
-    final InputStream inputStream = new FileInputStream(file);
+        final File file = ResourceUtils.getFile("classpath:files/cat.jpg");
+        final InputStream inputStream = new FileInputStream(file);
 
-    final String presignedUrl = this.presignedUrlRepository.getPresignedUrlSaveFile(pathToFile, 5, null, s3StorageUrlProvider.getDefaultDocumentStorageUrl());
-    // Example on how to use a custom s3 integration
-    // final String presignedUrl = this.presignedUrlRepository.getPresignedUrlSaveFile(pathToFile, 5, null, "http://your-s3-integration");
-    this.s3FileTransferRepository.saveFileInputStream(presignedUrl, inputStream);
-  }
+        final String presignedUrl = this.presignedUrlRepository.getPresignedUrlSaveFile(pathToFile, 5, s3StorageUrlProvider.getDefaultDocumentStorageUrl());
+        // Example on how to use a custom s3 integration
+        // final String presignedUrl = this.presignedUrlRepository.getPresignedUrlSaveFile(pathToFile, 5, null, "http://your-s3-integration");
+        this.s3FileTransferRepository.saveFileInputStream(presignedUrl, inputStream);
+    }
 
 }

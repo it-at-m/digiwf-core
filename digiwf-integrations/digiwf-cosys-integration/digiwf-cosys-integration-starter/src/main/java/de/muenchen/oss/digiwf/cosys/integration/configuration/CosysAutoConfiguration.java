@@ -3,6 +3,8 @@ package de.muenchen.oss.digiwf.cosys.integration.configuration;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.muenchen.oss.digiwf.cosys.integration.ApiClient;
+import de.muenchen.oss.digiwf.cosys.integration.adapter.in.streaming.GenerateDocumentDTO;
+import de.muenchen.oss.digiwf.cosys.integration.adapter.in.streaming.GenerateDocumentPresignedUrlsDTO;
 import de.muenchen.oss.digiwf.cosys.integration.adapter.in.streaming.StreamingAdapter;
 import de.muenchen.oss.digiwf.cosys.integration.adapter.out.cosys.CosysAdapter;
 import de.muenchen.oss.digiwf.cosys.integration.adapter.out.s3.S3Adapter;
@@ -11,12 +13,13 @@ import de.muenchen.oss.digiwf.cosys.integration.application.port.in.CreateDocume
 import de.muenchen.oss.digiwf.cosys.integration.application.port.out.GenerateDocumentOutPort;
 import de.muenchen.oss.digiwf.cosys.integration.application.port.out.SaveFileToStorageOutPort;
 import de.muenchen.oss.digiwf.cosys.integration.application.usecase.CreateDocumentUseCase;
-import de.muenchen.oss.digiwf.cosys.integration.domain.model.GenerateDocument;
 import de.muenchen.oss.digiwf.message.process.api.ErrorApi;
 import de.muenchen.oss.digiwf.message.process.api.ProcessApi;
 import de.muenchen.oss.digiwf.s3.integration.client.configuration.S3IntegrationClientAutoConfiguration;
+import de.muenchen.oss.digiwf.s3.integration.client.repository.DocumentStorageFileRepository;
 import de.muenchen.oss.digiwf.s3.integration.client.repository.transfer.S3FileTransferRepository;
 import de.muenchen.oss.digiwf.s3.integration.client.service.FileService;
+import de.muenchen.oss.digiwf.s3.integration.client.service.S3StorageUrlProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -106,8 +109,12 @@ public class CosysAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public SaveFileToStorageOutPort getSaveFileToStorageOutPort(final S3FileTransferRepository s3FileTransferRepository, final FileService fileService) {
-        return new S3Adapter(s3FileTransferRepository, fileService);
+    public SaveFileToStorageOutPort getSaveFileToStorageOutPort(
+            final S3FileTransferRepository s3FileTransferRepository,
+            final DocumentStorageFileRepository documentStorageFileRepository,
+            final FileService fileService,
+            final S3StorageUrlProvider s3DomainService) {
+        return new S3Adapter(s3FileTransferRepository, documentStorageFileRepository, fileService, s3DomainService);
     }
 
     @Bean
@@ -123,7 +130,12 @@ public class CosysAutoConfiguration {
     }
 
     @Bean
-    public Consumer<Message<GenerateDocument>> createCosysDocument(final StreamingAdapter streamingAdapter) {
+    public Consumer<Message<GenerateDocumentPresignedUrlsDTO>> createCosysDocument(final StreamingAdapter streamingAdapter) {
         return streamingAdapter.createCosysDocument();
+    }
+
+    @Bean
+    public Consumer<Message<GenerateDocumentDTO>> createCosysDocumentV2(final StreamingAdapter streamingAdapter) {
+        return streamingAdapter.createCosysDocumentV2();
     }
 }

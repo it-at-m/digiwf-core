@@ -18,43 +18,39 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class AllEndpointsUsageController {
 
-  private static final String LOG_DIVIDER = "------------";
+    private static final String LOG_DIVIDER = "------------";
 
-  private final ClientFileUsageController clientFileUsageController;
+    private final ClientFileUsageController clientFileUsageController;
 
-  private final ClientFolderUsageController clientFolderUsageController;
+    private final ClientFolderUsageController clientFolderUsageController;
 
-  @GetMapping("/all")
-  @ResponseStatus(HttpStatus.OK)
-  public void getFile() throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException, IOException, PropertyNotSetException {
+    @GetMapping("/all")
+    @ResponseStatus(HttpStatus.OK)
+    public void getFile() throws DocumentStorageException, DocumentStorageClientErrorException, DocumentStorageServerErrorException, IOException, PropertyNotSetException {
 
-    System.err.println("FILE usage");
-    this.clientFileUsageController.saveFile();
-    System.err.println(LOG_DIVIDER);
-    this.clientFileUsageController.updateFile();
-    System.err.println(LOG_DIVIDER);
-    this.clientFileUsageController.getFile();
-    System.err.println(LOG_DIVIDER);
-    this.clientFileUsageController.updateEndOfLife();
-    System.err.println(LOG_DIVIDER);
-    this.clientFileUsageController.deleteFile();
+        System.err.println("FILE usage");
+        this.clientFileUsageController.saveFile();
+        System.err.println(LOG_DIVIDER);
+        this.clientFileUsageController.updateFile();
+        System.err.println(LOG_DIVIDER);
+        this.clientFileUsageController.getFile();
+        System.err.println(LOG_DIVIDER);
+        this.clientFileUsageController.deleteFile();
 
-    System.err.println("FILE INPUTSTREAM usage");
-    this.clientFileUsageController.saveFileInputStream();
-    System.err.println(LOG_DIVIDER);
-    this.clientFileUsageController.updateFileInputStream();
-    System.err.println(LOG_DIVIDER);
-    this.clientFileUsageController.getFileInputStream();
-    System.err.println(LOG_DIVIDER);
-    this.clientFileUsageController.updateEndOfLife();
-    System.err.println(LOG_DIVIDER);
-    this.clientFileUsageController.deleteFile();
+        System.err.println("FILE INPUTSTREAM usage");
+        this.clientFileUsageController.saveFileInputStream();
+        System.err.println(LOG_DIVIDER);
+        this.clientFileUsageController.updateFileInputStream();
+        System.err.println(LOG_DIVIDER);
+        this.clientFileUsageController.getFileInputStream();
+        System.err.println(LOG_DIVIDER);
+        this.clientFileUsageController.deleteFile();
 
-    System.err.println("FOLDER usage");
-    this.clientFileUsageController.saveFile();
-    System.err.println(LOG_DIVIDER);
-    this.clientFolderUsageController.getAllFilesInFolderRecursively();
-    System.err.println(LOG_DIVIDER);
-    this.clientFolderUsageController.deleteFolder();
-  }
+        System.err.println("FOLDER usage");
+        this.clientFileUsageController.saveFile();
+        System.err.println(LOG_DIVIDER);
+        this.clientFolderUsageController.getAllFilesInFolderRecursively();
+        System.err.println(LOG_DIVIDER);
+        this.clientFolderUsageController.deleteFolder();
+    }
 }
