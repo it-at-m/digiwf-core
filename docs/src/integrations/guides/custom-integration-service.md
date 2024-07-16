@@ -199,7 +199,7 @@ Topics, die Streaming Group und die TypeMapping angepasst werden.
 
 > In nachfolgender Beispiel Konfiguration werden das Topic der digiwf-engine und des digiwf-connectors über Umgebungsvariablen definiert.
 > Diese Variablen können entweder gesetzt werden oder sie müssen durch den Wert ersetzt werden.
-> Es empfielt sich neben den bereits definierten Umgebungsvariablen auch eigene Variablen zu definieren und zu verwenden.
+> Es empfiehlt sich neben den bereits definierten Umgebungsvariablen auch eigene Variablen zu definieren und zu verwenden.
 
 ```yaml
 spring:

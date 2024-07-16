@@ -16,13 +16,11 @@ function routing).
 
 The **DigiWF Message** library provides the MessageApi, which is used to send messages.
 
-In addition, APIs are provided for recurring messages that build on the MessageApi.
+In addition, APIs are provided for recurring messages to the corresponding destinations that build on the MessageApi.
 For this purpose, we have created the ProcessApi and the ErrorApi.
 The ProcessApi can be used to start processes in DigiWF, correlate messages to processes, and perform error handling.
 The ErrorApi provides the exceptions `BpmnError` for business errors and `IncidentError` for technical errors, which can
 be thrown and caught in the application.
-In addition, methods are provided, as with the ProcessApi, to send messages to the corresponding destinations (target
-topics).
 
 The destinations for the different actions can be configured via `application.yml` (
 see [Configuration](#configuration)).
