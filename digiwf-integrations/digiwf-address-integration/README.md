@@ -5,7 +5,8 @@ about addresses and streets to be retrieved.
 
 ## Usage of the Spring Boot Starter
 
-The common description of all starters can be found in the common [README](https://github.com/it-at-m/digiwf-core/blob/dev/digiwf-integrations/README.md#spring-boot-starter).
+The common description of all starters can be found in the
+common [README](https://github.com/it-at-m/digiwf-core/blob/dev/digiwf-integrations/README.md#spring-boot-starter).
 
 The Address Client is responsible for communication with the City of Munich's Address Service. The client was
 implemented as a library in its own Maven module to encapsulate dependencies. The implementation of the client can also
@@ -31,7 +32,8 @@ described in the [Getting Started](#getting-started) section.
 
 ### Service Configuration with environment variables
 
-Set following environment variables to configure the service.
+Set following environment variables to configure the service. Those are abbreviations of the properties above to shorten
+the configuration in an environment like docker.
 
 | Environment variable              | Description                                                       |
 |-----------------------------------|-------------------------------------------------------------------|

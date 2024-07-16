@@ -5,7 +5,8 @@ integration to incorporate email communication into their BPMN processes.
 
 ## Usage of the Spring Boot Starter
 
-The common description of all starters can be found in the common [README](https://github.com/it-at-m/digiwf-core/blob/dev/digiwf-integrations/README.md#spring-boot-starter).
+The common description of all starters can be found in the
+common [README](https://github.com/it-at-m/digiwf-core/blob/dev/digiwf-integrations/README.md#spring-boot-starter).
 
 You can use the following configurations for the DigiWF E-Mail integration:
 
@@ -53,7 +54,8 @@ described in the [Getting Started](#getting-started) section.
 
 ### Configuration with environment variables
 
-Set following environment variables to configure the service.
+Set following environment variables to configure the service. Those are abbreviations of the properties above to shorten
+the configuration in an environment like docker.
 
 | Environment Variable                         | Description                                                                                     |
 |----------------------------------------------|-------------------------------------------------------------------------------------------------|

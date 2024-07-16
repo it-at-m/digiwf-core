@@ -36,7 +36,8 @@ described in the [Getting Started](#getting-started) section.
 
 ### Service Configuration with environment variables
 
-Set following environment variables to configure the service.
+Set following environment variables to configure the service. Those are abbreviations of the properties above to shorten
+the configuration in an environment like docker.
 
 | Environment Variable            | Description                                                                                        |
 |---------------------------------|----------------------------------------------------------------------------------------------------|
