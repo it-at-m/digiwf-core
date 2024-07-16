@@ -87,8 +87,8 @@ public class ProcessService {
     }
 }
 ```
-
-## Spring Cloud Stream Components
+##TODO Löschen
+## Spring Cloud Stream Event Routing
 
 The DigiWF Message library provides Spring Cloud Stream components that can be used to send and receive messages to
 Kafka.

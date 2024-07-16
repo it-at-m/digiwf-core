@@ -5,33 +5,7 @@ about addresses and streets to be retrieved.
 
 ## Usage of the Spring Boot Starter
 
-The DigiWF Address Integration is provided as a Spring Boot Starter project. It was implemented in a hexagonal
-architecture to ensure adaptability and extensibility.
-
-You can integrate the `digiwf-address-integration-starter` into your project as follows:
-
-**With Maven**
-
-```xml
-
-<dependency>
-    <groupId>de.muenchen.oss.digiwf</groupId>
-    <artifactId>digiwf-address-integration-starter</artifactId>
-    <version>${digiwf.version}</version>
-</dependency>
-```
-
-**With Gradle**
-
-```gradle
-implementation group: 'de.muenchen.oss.digiwf', name: 'digiwf-address-integration-starter', version: '${digiwf.version}'
-```
-
-To extend or replace the functions of the integration, you only need to override the port interfaces and provide them
-as `@Bean`. This will replace our standard implementation with your custom implementation.
-
-You can find the port definitions at the
-path: [digiwf-address-integration-core/src/main/java/de/muenchen/oss/digiwf/address/integration/application/port](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-address-integration/digiwf-address-integration-core/src/main/java/de/muenchen/oss/digiwf/address/integration/application/port).
+The common description of all starters can be found in the common [README](https://github.com/it-at-m/digiwf-core/blob/dev/digiwf-integrations/README.md#spring-boot-starter).
 
 The Address Client is responsible for communication with the City of Munich's Address Service. The client was
 implemented as a library in its own Maven module to encapsulate dependencies. The implementation of the client can also

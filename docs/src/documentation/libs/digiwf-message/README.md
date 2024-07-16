@@ -137,31 +137,9 @@ public class Example {
 }
 ```
 
-## Spring Cloud Stream Komponenten
+## Spring Cloud Stream Event Routing
 
-Die DigiWF Message Bibliothek stellt Spring Cloud Stream Komponenten bereit, die verwendet werden können, um Nachrichten
-an Kafka zu senden und zu empfangen. Hierfür werden Event Emitter (`Sinks`) und ein Function Router (`RoutingCallback`)
-bereitgestellt.
-
-### Nachrichten senden
-
-Es wird ein Event Emitter `sendMessage` bereitgestellt. Dieser wird verwendet, um Nachrichten an die entsprechenden
-Destinations zu senden. Intern verwendet die MessageApi den `spring.cloud.stream.sendto.destination` Header, der
-ausgehende Nachrichten automatisch an das Topic sendet, das als Destination angegeben wurde.
-
-Jedoch muss, damit Spring Cloud Stream Nachrichten versenden kann, ein ausgehender Channel konfiguriert werden. Hierfür
-empfiehlt es sich, die `spring.cloud.stream.bindings.sendMessage-out-0.destination` Property zu setzen und
-unter `spring.cloud.function.definition` die Funktion `sendMessage` zu definieren.
-
-### Nachrichten empfangen
-
-Neben dem Versenden von Nachrichten über die Event Emitter können auch Nachrichten empfangen
-werden. DigiWF-Message baut auf
-der [Konvention](https://github.com/it-at-m/digiwf-core/blob/dev/digiwf-libs/digiwf-message/digiwf-message-starter/src/main/resources/digiwf-message-application.yml#L5)
-auf, dass die Consumer-Methode anhand eines `type` - Headers
-in der Nachricht bestimmt wird. Somit ist es wichtig, dass die zugehörige Spring-Bean genauso benannt ist
-wie der Wert im Type-Header. Nur dann können die Nachrichten von Spring Cloud Stream richtig geroutet werden.
-([Mehr Informationen dazu bei Spring Cloud Stream](https://docs.spring.io/spring-cloud-stream/reference/spring-cloud-stream/event-routing.html#routing-to-consumer))
+Die DigiWF Message Bibliothek konfiguriert auch die Properties für das Event Routing von Spring Cloud Stream. Mit dem Event Routing 
 
 ## Konfiguration
 

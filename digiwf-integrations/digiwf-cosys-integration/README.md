@@ -5,33 +5,7 @@ and subsequently saving them in S3 storage.
 
 ## Usage of the Spring Boot Starter
 
-The DigiWF CoSys integration is provided as a Spring Boot Starter project. It was implemented in a hexagonal
-architecture to ensure adaptability and extensibility. To customize the CoSys integration to your
-needs, you can use the starter module and override the provided `@Beans` as well as add your own `@Beans`.
-
-You can integrate the `digiwf-cosys-integration-starter` into your project as follows:
-
-**With Maven**
-
-```xml
-
-<dependency>
-    <groupId>de.muenchen.oss.digiwf</groupId>
-    <artifactId>digiwf-cosys-integration-starter</artifactId>
-    <version>${digiwf.version}</version>
-</dependency>
-```
-
-**With Gradle**
-
-```gradle
-implementation group: 'de.muenchen.oss.digiwf', name: 'digiwf-cosys-integration-starter', version: '${digiwf.version}'
-```
-
-Familiarize yourself with
-the [`digiwf-cosys-integration-core`](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-cosys-integration/digiwf-cosys-integration-core)
-and [`digiwf-cosys-integration-starter`](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-cosys-integration/digiwf-cosys-integration-starter)
-modules and add your own `@Beans` or override the provided `@Beans`.
+The common description of all starters can be found in the common [README](https://github.com/it-at-m/digiwf-core/blob/dev/digiwf-integrations/README.md#spring-boot-starter).
 
 You can use the following configurations for the DigiWF CoSys integration:
 

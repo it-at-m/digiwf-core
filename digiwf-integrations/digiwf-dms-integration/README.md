@@ -5,33 +5,7 @@ of documents to and from S3 storage.
 
 ## Usage of the Spring Boot Starter
 
-The DigiWF DMS integration is provided as a Spring Boot Starter project. It was implemented in a hexagonal
-architecture to ensure adaptability and extensibility. To customize the Cosys integration to your
-needs, you can use the starter module and override the provided `@Beans` as well as add your own `@Beans`.
-
-You can integrate the `digiwf-dms-integration-starter` into your project as follows:
-
-**With Maven**
-
-```xml
-
-<dependency>
-    <groupId>de.muenchen.oss.digiwf</groupId>
-    <artifactId>digiwf-dms-integration-starter</artifactId>
-    <version>${digiwf.version}</version>
-</dependency>
-```
-
-**With Gradle**
-
-```gradle
-implementation group: 'de.muenchen.oss.digiwf', name: 'digiwf-dms-integration-starter', version: '${digiwf.version}'
-```
-
-Familiarize yourself with
-the [`digiwf-dms-integration-core`](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-dms-integration/digiwf-dms-integration-core)
-and [`digiwf-dms-integration-starter`](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-dms-integration/digiwf-dms-integration-starter)
-modules and add your own `@Beans` or override the provided `@Beans`.
+The common description of all starters can be found in the common [README](https://github.com/it-at-m/digiwf-core/blob/dev/digiwf-integrations/README.md#spring-boot-starter).
 
 You can use the following configurations for the DigiWF Cosys integration:
 
@@ -54,7 +28,7 @@ To use the streaming adapter, you need to set the properties as described in
 the [DigiWF Message library](https://github.com/it-at-m/digiwf-core/blob/dev/digiwf-libs/digiwf-message/README.md#configuration).
 
 The authorization is outsourced to the digiwf-spring-security-starter. You also need to set the properties as described
-in:
+in
 the [DigiWF Spring Security library](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-libs/digiwf-spring-security/README.md).
 
 ## Run the Digiwf DMS Integration Service

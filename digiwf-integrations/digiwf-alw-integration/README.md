@@ -4,34 +4,8 @@ Provides integration to ALW (Ausländerwesen) service for retrieval of responsib
 
 ## Usage of the Spring Boot Starter
 
-The DigiWF ALW integration is provided as a Spring Boot Starter project. It was implemented in a hexagonal
-architecture to ensure adaptability and extensibility. To customize the ALW integration to your
-needs, you can use the starter module and override the provided `@Beans` as well as add your own `@Beans`.
-
-You can integrate the `digiwf-cosys-integration-starter` into your project as follows:
-
-With Maven:
-
-``` xml
-   <dependency>
-        <groupId>de.muenchen.oss.digiwf</groupId>
-        <artifactId>digiwf-alw-integration-starter</artifactId>
-        <version>${digiwf.version}</version>
-   </dependency>
-```
-
-With Gradle:
-
-``` groovy
-implementation group: 'de.muenchen.oss.digiwf', name: 'digiwf-alw-integration-starter', version: '${digiwf.version}'
-```
-
-To extend or replace the functions of the integration, you only need to override the port interfaces and provide them
-as `@Bean`. This will replace our standard implementation with your custom implementation.
-
-You can find the port definitions at the
-path: [digiwf-alw-integration-core/src/main/java/de/muenchen/oss/digiwf/alw/integration/application/port](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-alw-integration/digiwf-alw-integration-core/src/main/java/de/muenchen/oss/digiwf/alw/integration/application/port).
-
+The common description of all starters can be found in the
+common [README](https://github.com/it-at-m/digiwf-core/blob/dev/digiwf-integrations/README.md#spring-boot-starter).
 You can use the following configurations for the DigiWF ALW Integration:
 
 | Property                                             | Description                                                                   |
@@ -48,7 +22,7 @@ To use the streaming adapter, you need to set the properties as described in
 the [DigiWF Message library](https://github.com/it-at-m/digiwf-core/blob/dev/digiwf-libs/digiwf-message/README.md#configuration).
 
 The authorization is outsourced to the digiwf-spring-security-starter. You also need to set the properties as described
-in:
+in
 the [DigiWF Spring Security library](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-libs/digiwf-spring-security/README.md).
 
 You will also have to define a map as a named resource bean (see **BEAN_ALW_SACHBEARBEITUNG**

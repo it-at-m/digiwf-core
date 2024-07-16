@@ -5,33 +5,7 @@ integration to incorporate email communication into their BPMN processes.
 
 ## Usage of the Spring Boot Starter
 
-The DigiWF E-Mail integration is provided as a Spring Boot Starter project. It was implemented in a hexagonal
-architecture to ensure adaptability and extensibility. To customize the email integration to your
-needs, you can use the starter module and override the provided `@Beans` as well as add your own `@Beans`.
-
-You can integrate the `digiwf-email-integration-starter` into your project as follows:
-
-**With Maven**
-
-```xml
-
-<dependency>
-    <groupId>de.muenchen.oss.digiwf</groupId>
-    <artifactId>digiwf-email-integration-starter</artifactId>
-    <version>${digiwf.version}</version>
-</dependency>
-```
-
-**With Gradle**
-
-```gradle
-implementation group: 'de.muenchen.oss.digiwf', name: 'digiwf-email-integration-starter', version: '${digiwf.version}'
-```
-
-Familiarize yourself with
-the [`digiwf-email-integration-core`](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-email-integration/digiwf-email-integration-core)
-and [`digiwf-email-integration-starter`](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-email-integration/digiwf-email-integration-starter)
-modules and add your own `@Beans` or override the provided `@Beans`.
+The common description of all starters can be found in the common [README](https://github.com/it-at-m/digiwf-core/blob/dev/digiwf-integrations/README.md#spring-boot-starter).
 
 You can use the following configurations for the DigiWF E-Mail integration:
 
