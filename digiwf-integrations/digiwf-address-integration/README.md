@@ -49,11 +49,25 @@ the configuration in an environment like docker.
 The following steps are needed to run the integration locally.
 
 1. Build it with `mvn clean install`
-2. Execute the e2e
-   test [AddressIntegrationE2eTest.java](digiwf-address-integration-service/src/test/java/de/muenchen/oss/digiwf/address/integration/AddressIntegrationE2eTest.java)
+2. Run Stack using `docker-compose`
 
-### Testing functionality
+### Manual Test inside of München Network
 
-The [AddressIntegrationE2eTest.java](digiwf-address-integration-service/src/test/java/de/muenchen/oss/digiwf/address/integration/AddressIntegrationE2eTest.java)
-is a test of the integrations functionality using an embedded kafka instance and wiremock to mock the api to the
-Address-Service.
+1. Start the applications in the following order:
+   1. EngineServiceApplication
+      - Activate Spring profile `local,no-ldap,streaming`
+      - Add Environment values from `stack/local-docker.env`
+   2. DigiWFConnectorApplication
+      - Activate Spring profile `local,streaming`
+      - Add Environment values from `stack/local-docker.env`
+   3. S3IntegrationApplication
+      - Activate Spring profile `local,no-security`
+      - Add Environment values from `stack/local-docker.env`
+   4. TaskListApplication
+      - Activate Spring profile `local,no-ldap,streaming`
+      - Add Environment values from `stack/local-docker.env`
+   5. DigiwfEmailIntegrationApplication
+      - Activate Spring profile `local`
+      - Add Environment values from `stack/local-docker.env`
+2. Test the functionality with the
+   process [example-email-V02](../../digiwf-engine/digiwf-engine-service/src/main/resources/prozesse/example/address-integration)

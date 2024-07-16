@@ -105,6 +105,7 @@ the configuration in an environment like docker.
         - Activate Spring profile `local,no-ldap,streaming`
         - Add Environment values from `stack/local-docker.env`
     5. DigiwfEmailIntegrationApplication
+        - Activate Spring profile `local`
         - Add Environment values from `stack/local-docker.env`
 2. Test the functionality with the
    process [example-email-V02](../../digiwf-engine/digiwf-engine-service/src/main/resources/prozesse/example/email-integration/email-example-V02)
