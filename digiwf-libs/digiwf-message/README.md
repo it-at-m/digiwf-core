@@ -8,7 +8,7 @@ location and provide an API to use them.
 This way, an integration developer no longer needs to dive into the depths of Spring Cloud Stream configurations and
 can focus on implementing the integration.
 
-The library provides its own APIs for sending messages that send messages to a message broker.
+The library provides its own APIs for sending messages to a message broker.
 Additionally, the library also configures event routing, where messages can be assigned to a `Consumer` simply by
 matching the name of the header type and the consumer.
 
