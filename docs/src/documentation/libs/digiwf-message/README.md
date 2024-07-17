@@ -11,8 +11,8 @@ nicht mehr in die Tiefe der Spring Cloud Stream Konfigurationen einsteigen und k
 Integration fokussieren.
 
 Die Bibliothek stellt eigene APIs für das Versenden von Nachrichten bereit, die Nachrichten an einen Message Broker
-senden. Zusätzlich konfiguriert die Bibliothek auch das Event Routing, wobei Nachrichten einem `Consumer` einfach durch
-Namensgleichheit von Header `type` und Consumer zugeordnet werden können.
+senden. Zusätzlich konfiguriert die Bibliothek Event Routing, wobei Nachrichten einem `Consumer` durch
+Namensgleichheit von Header `type` und Consumer zugeordnet werden.
 
 ## Verwendung
 
@@ -171,9 +171,9 @@ io:
 
 | Property                                                        | Description                                                                                              |
 |-----------------------------------------------------------------|----------------------------------------------------------------------------------------------------------|
-| `spring.cloud.stream.bindings.functionRouter-in-0.group`        | group name for the consumer(s) bound to the functionRouter-in-0 input binding                            |
-| `spring.cloud.stream.bindings.functionRouter-in-0.destination`  | destination (or kafak topic) to which the `functionRouter-in-0` input binding should listen for messages |
-| `spring.cloud.stream.bindings.sendMessage-out-0.destination`    | destination to which the `sendMessage-out-0` output binding should send messages                         |
+| `spring.cloud.stream.bindings.functionRouter-in-0.group`        | Group name for the consumer(s) bound to the functionRouter-in-0 input binding                            |
+| `spring.cloud.stream.bindings.functionRouter-in-0.destination`  | Destination (or kafak topic) to which the `functionRouter-in-0` input binding should listen for messages |
+| `spring.cloud.stream.bindings.sendMessage-out-0.destination`    | Destination to which the `sendMessage-out-0` output binding should send messages                         |
 | `io.muenchendigital.digiwf.message.incidentDestination`         | Destination to redirect incidents to (e.g. Kafka Topic)                                                  |
 | `io.muenchendigital.digiwf.message.bpmnErrorDestination`        | Destination to redirect technical errors a.k.a. bpmn errors to (e.g. Kafka Topic)                        |
 | `io.muenchendigital.digiwf.message.correlateMessageDestination` | Destination to send correlate messages to (e.g. Kafka Topic)                                             |
