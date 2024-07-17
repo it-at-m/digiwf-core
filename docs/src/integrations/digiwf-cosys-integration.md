@@ -78,54 +78,10 @@ Nachfolgend sind die BPMN-Errors aufgeführt, die von der Cosys-Integration gewo
 | `S3_FILE_SIZE_ERROR`             | The following files exceed the maximum size of `<maximal Größe von Dateien>` MB:`<Liste von Dateien mit Größen>` | Einige Dateien haben die maximal zulässige Größe überschritten                                                                                                     | Stellen Sie sicher, dass nur Dateien mit der zulässigen Maximalgröße in den S3 Bucket geladen werden. | 
 | `COSYS_DOCUMENT_CREATION_FAILED` | Document could not be created.                                                                                   | Das Dokument konnte nicht erstellt werden. Es kann sein, dass ein technischer Fehler aufgetreten ist.                                                              | Analysieren Sie die Fehlermeldung und versuchen es erneut.                                            |
 
-## DigiWF Cosys Integration anpassen
+## Konfiguration
 
-Die DigiWF Cosys Integration wird als Spring Boot Starter Projekt bereitgestellt.
-Um die Cosys Integration an Ihre Bedürfnisse anzupassen, können Sie das Starter-Modul verwenden und die
-bereitgestellten `@Bean`s überschreiben sowie eigene `@Bean`s hinzufügen.
+Allgemeine Konfigurationen für DigiWF-Integrationen sind unter
+[Eigene Integration erstellen](/integrations/guides/custom-integration-service.html#anwendung-konfigurieren)
+beschrieben.
 
-Den `digiwf-cosyc-integration-starter` können Sie wie folgt in Ihr Projekt einbinden:
-
-**Mit Maven**
-
-```xml
-
-<dependency>
-    <groupId>de.muenchen.oss.digiwf</groupId>
-    <artifactId>digiwf-cosys-integration-starter</artifactId>
-    <version>${digiwf.version}</version>
-</dependency>
-```
-
-**Mit Gradle**
-
-```gradle
-implementation group: 'de.muenchen.oss.digiwf', name: 'digiwf-cosys-integration-starter', version: '${digiwf.version}'
-```
-
-Machen Sie sich mit
-dem [`digiwf-cosys-integration-core`](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-cosys-integration/digiwf-cosys-integration-core)
-und [`digiwf-cosys-integration-starter`](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-integrations/digiwf-cosys-integration/digiwf-cosys-integration-starter)
-Modul vertraut und fügen Sie Ihre eigenen `@Bean`s hinzu oder überschreiben Sie die bereitgestellten `@Bean`s.
-
-## Konfigurationen
-
-Zusätzlich zu den allgemeinen Konfigurationen für DigiWF Integrationen, die unter
-[Eigene Integration erstellen](/integrations/guides/custom-integration-service.html#anwendung-konfigurieren) beschrieben
-sind, können Sie die folgenden Konfigurationen für die DigiWF Cosys Integration verwenden:
-
-### CoSys Konfiguration
-
-| Eigenschaft                                            | Bedeutung             |
-|--------------------------------------------------------|-----------------------|
-| `io.muenchendigital.digiwf.cosys.url`                  | URL des CoSys-Servers |
-| `io.muenchendigital.digiwf.cosys.merge.datafile`       |                       |
-| `io.muenchendigital.digiwf.cosys.merge.inputLanguage`  | Sprache Eingabe       |
-| `io.muenchendigital.digiwf.cosys.merge.outputLanguage` | Sprache Ausgabe       |
-| `io.muenchendigital.digiwf.cosys.merge.keepFields`     |                       |
-
-### S3 Konfiguration
-
-| Eigenschaft                             | Bedeutung            |
-|-----------------------------------------|----------------------|
-| `digiwf.s3.client.document-storage-url` | Document Storage URL |
+Die Konfiguration der CoSys Integration ist in der [README.md](https://github.com/it-at-m/digiwf-core/blob/dev/digiwf-integrations/digiwf-cosys-integration/README.md) beschrieben.

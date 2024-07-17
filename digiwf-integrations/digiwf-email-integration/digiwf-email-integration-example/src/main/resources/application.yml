@@ -75,5 +75,3 @@ io:
         incidentDestination: "dwf-connector-incident-${DIGIWF_ENV}"
         bpmnErrorDestination: "dwf-connector-bpmnerror-${DIGIWF_ENV}"
         correlateMessageDestination: "dwf-digiwf-engine-${DIGIWF_ENV}"
-        typeMappings:
-          sendMailFromEventBus: "emailMessageProcessor"

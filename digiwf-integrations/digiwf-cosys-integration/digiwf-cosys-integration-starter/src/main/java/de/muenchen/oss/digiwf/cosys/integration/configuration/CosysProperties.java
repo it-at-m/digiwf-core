@@ -20,12 +20,6 @@ public class CosysProperties {
     @NotBlank
     private String url;
 
-    @NotBlank
-    private String messageTopic;
-
-    @NotBlank
-    private String incidentTopic;
-
     @Getter
     @Setter
     public static class MergeProperties {

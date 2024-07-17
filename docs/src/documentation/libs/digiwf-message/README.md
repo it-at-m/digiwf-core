@@ -11,24 +11,25 @@ nicht mehr in die Tiefe der Spring Cloud Stream Konfigurationen einsteigen und k
 Integration fokussieren.
 
 Die Bibliothek stellt eigene APIs für das Versenden von Nachrichten bereit, die Nachrichten an einen Message Broker
-senden. Zusätzlich stellt die Bibliothek auch einen Spring Cloud Stream `RoutingCallback` für das Konsumieren und
-Weiterleiten von Nachrichten bereit (Function Routing).
+senden. Zusätzlich konfiguriert die Bibliothek Event Routing, wobei Nachrichten einem `Consumer` durch
+Namensgleichheit von Header `type` und Consumer zugeordnet werden.
 
 ## Verwendung
 
-Die **DigiWF Message** Bibliothek stellt die MessageApi bereit, die verwendet wird, um Nachrichten zu versenden.
-Zusätzlich werden APIs für wiederkehrende Nachrichten bereitgestellt, die wiederum auf der MessageApi aufbauen. Hierfür
+Die **DigiWF Message** Bibliothek stellt die MessageApi bereit, die verwendet wird, um Nachrichten an die entsprechenden
+Destinations (Zieltopics) zu versenden.
+Zusätzlich werden APIs für wiederkehrende Nachrichtentypen bereitgestellt, die wiederum auf der MessageApi aufbauen. Hierfür
 haben wir die ProcessApi und die ErrorApi geschaffen. Die ProcessApi kann verwendet werden, um in DigiWF Prozesse zu
 starten, Messages an Prozesse zu korrelieren und Fehlerbehandlung durchzuführen. Die ErrorApi stellt die
 Exceptions `BpmnError` für fachliche Fehler und `IncidentError` für technische Fehler bereit, die geworfen und in der
-Anwendung abgefangen werden können. Zusätzlich werden wie auch bei der ProcessApi Methoden bereitgestellt, um
-Nachrichten an die entsprechenden Destinations (Zieltopics) zu senden.
+Anwendung abgefangen werden können.
 
 Die Destinations für die unterschiedlichen Aktionen können über die `application.yml` konfiguriert werden (
 siehe [Konfiguration](#konfiguration)).
 
 > Usage Examples finden Sie
-> im [Example-Module in Github](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-libs/digiwf-message/digiwf-message-example/).
+>
+im [Example-Module in Github](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-libs/digiwf-message/digiwf-message-example/).
 
 ### MessageApi
 
@@ -136,52 +137,48 @@ public class Example {
 }
 ```
 
-## Spring Cloud Stream Komponenten
+## Spring Cloud Stream Event Routing
 
-Die DigiWF Message Bibliothek stellt Spring Cloud Stream Komponenten bereit, die verwendet werden können, um Nachrichten
-an Kafka zu senden und zu empfangen. Hierfür werden Event Emitter (`Sinks`) und ein Function Router (`RoutingCallback`)
-bereitgestellt.
-
-### Nachrichten senden
-
-Es wird ein Event Emitter `sendMessage` bereitgestellt. Dieser wird verwendet, um Nachrichten an die entsprechenden
-Destinations zu senden. Intern verwendet die MessageApi den `spring.cloud.stream.sendto.destination` Header, der
-ausgehende Nachrichten automatisch an das Topic sendet, das als Destination angegeben wurde.
-
-Jedoch muss, damit Spring Cloud Stream Nachrichten versenden kann, ein ausgehender Channel konfiguriert werden. Hierfür
-empfiehlt es sich, die `spring.cloud.stream.bindings.sendMessage-out-0.destination` Property zu setzen und
-unter `spring.cloud.function.definition` die Funktion `sendMessage` zu definieren.
-
-### Nachrichten empfangen
-
-Neben dem Versenden von Nachrichten über die Event Emitter können auch Nachrichten empfangen
-werden. DigiWF-Message baut auf der [Konvention](https://github.com/it-at-m/digiwf-core/blob/dev/digiwf-libs/digiwf-message/digiwf-message-starter/src/main/resources/digiwf-message-application.yml#L5) 
-auf, dass die Consumer-Methode anhand eines `type` - Headers
-in der Nachricht bestimmt wird. Somit ist es wichtig, dass die zugehörige Spring-Bean genauso benannt ist
-wie der Wert im Type-Header. Nur dann können die Nachrichten von Spring Cloud Stream richtig geroutet werden. 
-([Mehr Informationen dazu bei Spring Cloud Stream](https://docs.spring.io/spring-cloud-stream/reference/spring-cloud-stream/event-routing.html#routing-to-consumer))
+Die DigiWF Message Bibliothek konfiguriert auch die Properties für das Event Routing von Spring Cloud Stream. Mit dem
+Event Routing können Nachrichten einem `Consumer` zugeordnet werden, wenn der Name des Consumers und der Header `type`
+übereinstimmen. (Siehe
+[https://docs.spring.io/spring-cloud-stream/reference/spring-cloud-stream/event-routing.html](https://docs.spring.io/spring-cloud-stream/reference/spring-cloud-stream/event-routing.html).)
+Nutzer der Bibliothek müssen nur noch folgende Properties setzen.
 
 ## Konfiguration
 
 ```yaml
+spring:
+  cloud:
+    stream:
+      bindings:
+        functionRouter-in-0:
+          group: "dwf-digiwf-example-integration-local-01"
+          destination: "digiwf-example-integration-local-01"
+        sendMessage-out-0:
+          destination: "digiwf-example-integration-local-01"
+  [ ... ]
 io:
   muenchendigital:
     digiwf:
       message:
         incidentDestination: "digiwf-example-integration-incident"
-        technicalErrorDestination: "digiwf-example-integration-technical-error"
+        bpmnErrorDestination: "digiwf-example-integration-technical-error"
         correlateMessageDestination: "digiwf-example-integration-correlate-message"
         startProcessDestination: "digiwf-message-scs-example-start-process"
-        deadLetterQueueDestination: "dwf-connector-incident-${DIGIWF_ENV}"
+        deadLetterQueueDestination: "digiwf-example-integration-incident"
 ```
 
-|                                                            |                                                                                   |
-|------------------------------------------------------------|-----------------------------------------------------------------------------------|
-| de.muenchen.oss.digiwf.message.incidentDestination         | Destination to redirect incidents to (e.g. Kafka Topic)                           |
-| de.muenchen.oss.digiwf.message.technicalErrorDestination   | Destination to redirect technical errors a.k.a. bpmn errors to (e.g. Kafka Topic) |
-| de.muenchen.oss.digiwf.message.correlateMessageDestination | Destination to send correlate messages to (e.g. Kafka Topic)                      |
-| de.muenchen.oss.digiwf.message.startProcessDestination     | Destination to send start process messages to (e.g. Kafka Topic)                  |
-| de.muenchen.oss.digiwf.message.deadLetterQueueDestination  | Destination to send failing messages events to (e.g. Kafka Topic)                 |
+| Property                                                        | Description                                                                                              |
+|-----------------------------------------------------------------|----------------------------------------------------------------------------------------------------------|
+| `spring.cloud.stream.bindings.functionRouter-in-0.group`        | Group name for the consumer(s) bound to the functionRouter-in-0 input binding                            |
+| `spring.cloud.stream.bindings.functionRouter-in-0.destination`  | Destination (or kafak topic) to which the `functionRouter-in-0` input binding should listen for messages |
+| `spring.cloud.stream.bindings.sendMessage-out-0.destination`    | Destination to which the `sendMessage-out-0` output binding should send messages                         |
+| `io.muenchendigital.digiwf.message.incidentDestination`         | Destination to redirect incidents to (e.g. Kafka Topic)                                                  |
+| `io.muenchendigital.digiwf.message.bpmnErrorDestination`        | Destination to redirect technical errors a.k.a. bpmn errors to (e.g. Kafka Topic)                        |
+| `io.muenchendigital.digiwf.message.correlateMessageDestination` | Destination to send correlate messages to (e.g. Kafka Topic)                                             |
+| `io.muenchendigital.digiwf.message.startProcessDestination`     | Destination to send start process messages to (e.g. Kafka Topic)                                         |
+| `io.muenchendigital.digiwf.message.deadLetterQueueDestination`  | Destination to send failing messages events to (e.g. Kafka Topic)                                        |
 
 ## Anpassbarkeit
 
@@ -190,4 +187,5 @@ basiert. Möchte man diese Implementierung ändern, kann man die entsprechenden 
 bereitstellen.
 
 Ein Beispiel für eine MessageApi implementierung, die lediglich die Nachrichten loggt, findet
-man [in unserem Example](https://github.com/it-at-m/digiwf-core/tree/dev/digiwf-libs/digiwf-message/digiwf-message-example/src/main/java/io/muenchendigital/digiwf/message/example/adapter/NoStreamingMessageAdapter.java).
+man in
+unserem [Beispiel](https://github.com/it-at-m/digiwf-core/blob/dev/digiwf-libs/digiwf-message/digiwf-message-example/src/main/java/de/muenchen/oss/digiwf/message/example/adapter/NoStreamingMessageAdapter.java). 

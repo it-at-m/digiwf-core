@@ -191,7 +191,7 @@ werden, wenn schwerwiegendere technische Fehler auftreten, die nicht automatisch
 
 ## Anwendung konfigurieren
 
-Wie bereits in der Dokumentation der [digiwf-message](../../documentation/libs/digiwf-message#konfiguration) Bibliothek beschrieben ist,
+Wie bereits in der Dokumentation der [digiwf-message](../../documentation/libs/digiwf-message/README.md#konfiguration) Bibliothek beschrieben ist,
 muss die Anwendung konfiguriert werden, damit die Integration mit dem Event Broker verbunden werden kann.
 
 Zu großen Teilen kann untenstehende Konfiguration als `application.yml` übernommen werden. Es müssen jedoch noch die
@@ -199,7 +199,7 @@ Topics, die Streaming Group und die TypeMapping angepasst werden.
 
 > In nachfolgender Beispiel Konfiguration werden das Topic der digiwf-engine und des digiwf-connectors über Umgebungsvariablen definiert.
 > Diese Variablen können entweder gesetzt werden oder sie müssen durch den Wert ersetzt werden.
-> Es empfielt sich neben den bereits definierten Umgebungsvariablen auch eigene Variablen zu definieren und zu verwenden.
+> Es empfiehlt sich neben den bereits definierten Umgebungsvariablen auch eigene Variablen zu definieren und zu verwenden.
 
 ```yaml
 spring:

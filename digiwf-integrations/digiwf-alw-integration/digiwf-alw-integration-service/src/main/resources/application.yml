@@ -5,7 +5,7 @@ io:
       alw.personeninfo:
         base-url: ${ALW_REST_BASE_URL}
         rest-endpoint: ${ALW_REST_ENDPOINT}
-        timeout: 1500
+        timeout: ${ALW_TIMEOUT:1500}
         username: ${ALW_REST_USERNAME}
         password: ${ALW_REST_SECRET}
         sachbearbeitung-mapping-config-url: ${ALW_SACHBEARBEITUNG_CONFIG:/config/alw-sachbearbeitung.properties}
@@ -17,8 +17,6 @@ io:
         bpmnErrorDestination: "dwf-connector-bpmnerror-${DIGIWF_ENV}"
         correlateMessageDestination: "dwf-connector-${DIGIWF_ENV}"
         deadLetterQueueDestination: "dwf-connector-incident-${DIGIWF_ENV}"
-        typeMappings:
-          getAlwResponsibility: "getAlwResponsibility"
 
 info:
   application:
@@ -46,7 +44,7 @@ server:
     whitelabel:
       enabled: false
 
-# Config for spring actuator endpoints
+# Monitoring Setup
 management:
   server.port: ${server.port}
   endpoints:

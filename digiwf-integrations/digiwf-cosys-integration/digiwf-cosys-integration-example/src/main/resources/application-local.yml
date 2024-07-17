@@ -1,18 +1,19 @@
 logging:
   level:
-    io.muenchendigital: info
+    de.muenchen: info
     org.simpleframework: info
 
 io:
   muenchendigital:
     digiwf:
       cosys:
-        url:
-        messageTopic: "dwf-connector-${DIGIWF_ENV}"
-        incidentTopic: "dwf-connector-incident-${DIGIWF_ENV}"
+        url: http://cosysk007.srv.muenchen.de/cosys-eai/rest
         merge:
           datafile: //multi
           inputLanguage: Deutsch
           outputLanguage: Deutsch
           keepFields: unresolved-ref
 
+server:
+  shutdown: graceful
+  port: ${COSYS_INTEGRATION_SERVER_PORT:8093}

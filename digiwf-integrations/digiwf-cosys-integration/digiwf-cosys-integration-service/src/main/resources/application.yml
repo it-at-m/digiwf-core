@@ -23,8 +23,6 @@ io:
     digiwf:
       cosys:
         url:
-        messageTopic: "dwf-connector-${DIGIWF_ENV}"
-        incidentTopic: "dwf-connector-incident-${DIGIWF_ENV}"
         merge:
           datafile: /root/multi
           inputLanguage: Deutsch
