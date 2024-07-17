@@ -18,7 +18,7 @@ Namensgleichheit von Header `type` und Consumer zugeordnet werden können.
 
 Die **DigiWF Message** Bibliothek stellt die MessageApi bereit, die verwendet wird, um Nachrichten an die entsprechenden
 Destinations (Zieltopics) zu versenden.
-Zusätzlich werden APIs für wiederkehrende Nachrichten bereitgestellt, die wiederum auf der MessageApi aufbauen. Hierfür
+Zusätzlich werden APIs für wiederkehrende Nachrichtentypen bereitgestellt, die wiederum auf der MessageApi aufbauen. Hierfür
 haben wir die ProcessApi und die ErrorApi geschaffen. Die ProcessApi kann verwendet werden, um in DigiWF Prozesse zu
 starten, Messages an Prozesse zu korrelieren und Fehlerbehandlung durchzuführen. Die ErrorApi stellt die
 Exceptions `BpmnError` für fachliche Fehler und `IncidentError` für technische Fehler bereit, die geworfen und in der
