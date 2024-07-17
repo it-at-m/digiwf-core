@@ -11,8 +11,8 @@ nicht mehr in die Tiefe der Spring Cloud Stream Konfigurationen einsteigen und k
 Integration fokussieren.
 
 Die Bibliothek stellt eigene APIs für das Versenden von Nachrichten bereit, die Nachrichten an einen Message Broker
-senden. Zusätzlich konfiguriert die Bibliothek auch das Event Routing, wobei Nachrichten einem `Consumer` einfach durch
-Namensgleichheit von Header `type` und Consumer zugeordnet werden können.
+senden. Zusätzlich konfiguriert die Bibliothek Event Routing, wobei Nachrichten einem `Consumer` durch
+Namensgleichheit von Header `type` und Consumer zugeordnet werden.
 
 ## Verwendung
 
