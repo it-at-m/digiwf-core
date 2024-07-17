@@ -61,9 +61,11 @@ The goal of this library is to enable ticket service requests.
 
 ## Spring Boot Starter
 
-The all integrations are provided as a Spring Boot Starter project. It was implemented in a hexagonal
-architecture to ensure adaptability and extensibility. To customize an integration to your
-needs, you can use the starter module and override the provided `@Beans` as well as add your own `@Beans`.
+The all integrations are provided as a Spring Boot Starter project. In accordance with the Architecture Decision
+Records [adr003](https://digiwf.oss.muenchen.de/documentation/architecture/adr/adr003-use-hexagonal-architecture.html)
+and [adr004](https://digiwf.oss.muenchen.de/documentation/architecture/adr/adr004-hexagonal-architecture-packages.html)
+it was implemented in a hexagonal architecture to ensure adaptability and extensibility. To customize an integration to
+your needs, you can use the starter module and override the provided `@Beans` as well as add your own `@Beans`.
 
 You can integrate the `digiwf-<integration name>-integration-starter` into your project as follows:
 
