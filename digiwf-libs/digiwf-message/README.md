@@ -16,7 +16,7 @@ matching the name of the header type and the consumer.
 
 The **DigiWF Message** library provides the MessageApi, which is used to send messages.
 
-In addition, APIs are provided for recurring messages types that build on the MessageApi.
+In addition, APIs are provided for recurring message types that build on the MessageApi.
 For this purpose, we have created the ProcessApi and the ErrorApi.
 The ProcessApi can be used to start processes in DigiWF, correlate messages to processes, and perform error handling.
 The ErrorApi provides the exceptions `BpmnError` for business errors and `IncidentError` for technical errors, which can
