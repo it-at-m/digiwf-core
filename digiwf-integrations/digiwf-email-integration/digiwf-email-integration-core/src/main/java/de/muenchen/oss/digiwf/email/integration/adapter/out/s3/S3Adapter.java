@@ -88,7 +88,7 @@ public class S3Adapter implements LoadMailAttachmentOutPort {
             final byte[] bytes;
             bytes = this.documentStorageFileRepository.getFile(filePath, 3, s3DomainService.getDefaultDocumentStorageUrl());
             final String mimeType = fileService.detectFileType(bytes);
-            final String filename = FilenameUtils.getBaseName(filePath);
+            final String filename = FilenameUtils.getName(filePath);
             final ByteArrayDataSource file = new ByteArrayDataSource(bytes, mimeType);
 
             // check if mimeType exists
