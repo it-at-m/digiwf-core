@@ -16,7 +16,7 @@
 
         <camunda-platform-7-rest-client.version>7.20.1</camunda-platform-7-rest-client.version>
         <axon-framework.version>4.10.0</axon-framework.version>
-        <axon-extension-kafka.version>4.9.0</axon-extension-kafka.version>
+        <axon-extension-kafka.version>4.10.0</axon-extension-kafka.version>
 
         <spin.version>1.23.0</spin.version>
         <wiremock.version>3.9.1</wiremock.version>
