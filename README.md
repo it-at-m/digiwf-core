@@ -1,3 +1,5 @@
+## ⚠️DigiWF discontinued see https://github.com/it-at-m/digiwf-core/issues/1869
+
 # DigiWF
 
 __DigiWF__ is the central workflow automation and integration platform based on the free process
