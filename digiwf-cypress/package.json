@@ -17,8 +17,8 @@
   "license": "MIT",
   "devDependencies": {
     "@muenchen/prettier-codeformat": "^1.0.2",
-    "cypress": "^12.17.4",
-    "cypress-keycloak": "^2.0.1",
+    "cypress": "^13.14.2",
+    "cypress-keycloak": "^2.0.2",
     "dotenv": "^16.4.5",
     "typescript": "^5.4.5"
   }
