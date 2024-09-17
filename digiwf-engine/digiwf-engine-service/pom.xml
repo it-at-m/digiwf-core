@@ -26,7 +26,7 @@
         <cxf.version>3.6.2</cxf.version>
         <postgresql.version>42.7.0</postgresql.version>
         <jaxws.version>2.3.0</jaxws.version>
-        <graalvm.version>23.0.5</graalvm.version>
+        <graalvm.version>24.1.0</graalvm.version>
     </properties>
 
     <dependencies>
