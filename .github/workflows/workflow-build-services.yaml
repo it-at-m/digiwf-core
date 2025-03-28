@@ -218,7 +218,7 @@ jobs:
           tags: itatm/digiwf-openai-integration-service:${{ inputs.release-version }}
 
   build-services-camunda-ee:
-    if: false
+    if: false # disable ee build
     runs-on: ubuntu-latest
     steps:
       - name: Check out Git repository
