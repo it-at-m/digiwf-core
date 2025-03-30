@@ -1,0 +1,47 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: backend-dockerized
+          uri: http://host.containers.internal:${ENGINE_SERVER_PORT}/
+          predicates:
+            - Path=/api/digitalwf-backend-service/**
+          filters:
+            - RewritePath=/api/digitalwf-backend-service/(?<urlsegments>.*), /$\{urlsegments}
+            - RemoveResponseHeader=WWW-Authenticate
+
+        - id: backend-cockpit
+          uri: http://${ENGINE_SERVER_HOST:host.containers.internal}:${ENGINE_SERVER_PORT}
+          predicates:
+            - Path=/camunda/**
+
+        - id: tasklist-dockerized
+          uri: http://host.containers.internal:${TASKSERVICE_SERVER_PORT}/
+          predicates:
+            - Path=/api/digitalwf-tasklist-service/rest/**
+          filters:
+            - RewritePath=/api/digitalwf-tasklist-service/(?<urlsegments>.*), /$\{urlsegments}
+            - RemoveResponseHeader=WWW-Authenticate
+
+        - id: backend-cockpit
+          uri: http://host.containers.internal:${ENGINE_SERVER_PORT}
+          predicates:
+            - Path=/camunda/**
+
+        - id: webcomponent-dockerized
+          uri: http://digiwf-webcomponent:8080/
+          predicates:
+            - Path=/public/webcomponent/**
+
+        - id: optimize
+          uri: http://optimize:8090/
+          predicates:
+            - Path=/optimize/**
+          filters:
+            - RewritePath=/optimize/(?<urlsegments>.*), /$\{urlsegments}
+            - RemoveResponseHeader=WWW-Authenticate
+
+        - id: frontend-dockerized
+          uri: http://digiwf-tasklist:8080/
+          predicates:
+            - Path=/**
