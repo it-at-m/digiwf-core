@@ -29,7 +29,7 @@
     "luxon": "^1.25.0",
     "marked": "^4.1.1",
     "moment-timezone": "^0.5.43",
-    "vue": "^2.7.10",
+    "vue": "^3.0.0",
     "vue-axios": "^3.2.4",
     "vue-class-component": "^7.2.6",
     "vue-markdown": "npm:@adapttive/vue-markdown@^4.0.2",
